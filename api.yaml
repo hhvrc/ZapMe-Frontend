@@ -1,0 +1,752 @@
+openapi: 3.0.1
+info:
+  title: ZapMe
+  description: Open source application to control things
+  termsOfService: https://heavenvr.tech/tos
+  contact:
+    name: Contact me
+    url: https://heavenvr.tech/contact
+  version: v1
+paths:
+  /api/v1/account:
+    post:
+      tags:
+        - Account
+      summary: Create a new account
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Create'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Create'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+        '400':
+          description: ''
+    delete:
+      tags:
+        - Account
+      summary: Delete currently logged in account
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+        - name: reason
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+    get:
+      tags:
+        - Account
+      summary: ''
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+  '/api/v1/account/oauth/{providerName}':
+    post:
+      tags:
+        - Account
+      summary: Add a oauth connection to account
+      parameters:
+        - name: providerName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountOAuthAdd'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/AccountOAuthAdd'
+      responses:
+        '200':
+          description: Success
+        '409':
+          description: Conflict
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+    delete:
+      tags:
+        - Account
+      summary: Remove a oauth connection from account
+      parameters:
+        - name: providerName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  /api/v1/account/recover:
+    post:
+      tags:
+        - Account
+      summary: 'Request password recovery of a account, will send recovery secret to email'
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Recover'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Recover'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Recover'
+      responses:
+        '200':
+          description: ''
+  /api/v1/account/recover/complete:
+    post:
+      tags:
+        - Account
+      summary: Complete the recovery of a account using the received recovery secret
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecoverComplete'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/RecoverComplete'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/RecoverComplete'
+      responses:
+        '200':
+          description: ''
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  /api/v1/account/email:
+    put:
+      tags:
+        - Account
+      summary: Updates the account email
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateEmail'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/UpdateEmail'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+  /api/v1/account/password:
+    put:
+      tags:
+        - Account
+      summary: Updates the account password
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePassword'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/UpdatePassword'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+  /api/v1/account/username:
+    put:
+      tags:
+        - Account
+      summary: Updates the account username
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserName'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/UpdateUserName'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+  /api/v1/auth/signin:
+    post:
+      tags:
+        - Authentication
+      summary: ''
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthSignIn'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AuthSignIn'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AuthSignIn'
+      responses:
+        '200':
+          description: Returns users account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+        '400':
+          description: ''
+  /api/v1/auth/signin-oauth:
+    post:
+      tags:
+        - Authentication
+      summary: ''
+      parameters:
+        - name: provider
+          in: query
+          description: ''
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns users account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+        '401':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '403':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  /api/v1/auth/signout:
+    post:
+      tags:
+        - Authentication
+      summary: ''
+      responses:
+        '200':
+          description: ''
+  /api/v1/health:
+    get:
+      tags:
+        - Health
+      summary: ''
+      responses:
+        '200':
+          description: ''
+  '/api/v1/user/i/{userId}/friendrequest':
+    put:
+      tags:
+        - User
+      summary: Accept incoming friend request
+      parameters:
+        - name: userId
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '304':
+          description: Not Modified
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+    delete:
+      tags:
+        - User
+      summary: Delete outgoing/Reject incoming friend request
+      parameters:
+        - name: userId
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+    post:
+      tags:
+        - User
+      summary: Send friend request
+      parameters:
+        - name: userId
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success
+  /api/v1/user/friendrequests:
+    get:
+      tags:
+        - User
+      summary: List all incoming and outgoing friend requests
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FriendRequestList'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/FriendRequestList'
+  '/api/v1/user/i/{userId}':
+    get:
+      tags:
+        - User
+      summary: Get user
+      parameters:
+        - name: userId
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+  '/api/v1/user/u/{userName}':
+    get:
+      tags:
+        - User
+      summary: Look up user by name
+      parameters:
+        - name: userName
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: string
+      responses:
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+  '/api/v1/user/i/{userId}/report':
+    post:
+      tags:
+        - User
+      summary: Report a user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserReport'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/UserReport'
+      responses:
+        '200':
+          description: ''
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  /ws:
+    get:
+      tags:
+        - WebSocket
+      summary: "Websocket endpoint for pub/sub communication (e.g. chat, notifications, events)\r\n\r\nDocumentation:\r\nYes"
+      responses:
+        '200':
+          description: Connection closed
+        '400':
+          description: This endpoint is purely just a websocket endpoint
+components:
+  schemas:
+    AccountDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ''
+          format: uuid
+        username:
+          type: string
+          description: ''
+        email:
+          type: string
+          description: Obfuscated email of your account
+        email_verified:
+          type: boolean
+          description: True if email address has been verified
+        connected_accounts:
+          type: array
+          items:
+            type: string
+          description: OAuth2 providers this account is connected to
+        friends:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Id of friends this account has
+        created_at:
+          type: string
+          description: Date this account was created at
+          format: date-time
+      additionalProperties: false
+      description: 'Account object, this can only retrieved for the user you are logged in as'
+    AccountOAuthAdd:
+      type: object
+      properties:
+        oauth_code:
+          type: string
+      additionalProperties: false
+      description: Request sent to server to add a oauth connection to a account
+    AuthSignIn:
+      type: object
+      properties:
+        username:
+          maxLength: 32
+          minLength: 3
+          type: string
+          description: ''
+        password:
+          maxLength: 256
+          minLength: 10
+          type: string
+          description: ''
+      additionalProperties: false
+      description: Message sent to server to authenticate user using username and password
+    Create:
+      type: object
+      properties:
+        username:
+          maxLength: 32
+          minLength: 3
+          type: string
+          description: ''
+        password:
+          maxLength: 256
+          minLength: 10
+          type: string
+          description: ''
+        email:
+          type: string
+          description: ''
+          format: email
+        recaptcha_response:
+          type: string
+          description: Response from google recaptcha request
+      additionalProperties: false
+      description: Message sent to server to create a new account
+    FriendRequestList:
+      type: object
+      properties:
+        incoming:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: UserId's of users that has sent friend requests to this account
+        outgoing:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: UserId's of users that this account has sent friend requests to
+      additionalProperties: false
+      description: List of incoming and outgoing friendrequests
+    ProblemDetails:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+        title:
+          type: string
+          nullable: true
+        status:
+          type: integer
+          format: int32
+          nullable: true
+        detail:
+          type: string
+          nullable: true
+        instance:
+          type: string
+          nullable: true
+      additionalProperties: { }
+    Recover:
+      type: object
+      properties:
+        email:
+          type: string
+          description: Email of your account you want to recover
+          format: email
+        recaptcha_response:
+          type: string
+          description: Response from google recaptcha request
+      additionalProperties: false
+      description: Request sent to server to request a password recovery for account
+    RecoverComplete:
+      type: object
+      properties:
+        new_password:
+          maxLength: 256
+          minLength: 10
+          type: string
+          description: ''
+          nullable: true
+        recovery_secret:
+          type: string
+          description: The secret associated with this recovery request
+      additionalProperties: false
+      description: Request sent to server to complete a password recovery flow
+    UpdateEmail:
+      type: object
+      properties:
+        new_email:
+          type: string
+          description: ''
+          format: email
+        password:
+          type: string
+          description: ''
+      additionalProperties: false
+      description: Request sent to server to update account email address
+    UpdatePassword:
+      type: object
+      properties:
+        new:
+          maxLength: 256
+          minLength: 10
+          type: string
+          description: ''
+        old:
+          type: string
+          description: ''
+      additionalProperties: false
+      description: Request sent to server to update account password
+    UpdateUserName:
+      type: object
+      properties:
+        new_username:
+          maxLength: 32
+          minLength: 3
+          type: string
+          description: ''
+        password:
+          type: string
+          description: ''
+      additionalProperties: false
+      description: Request sent to server to update account username
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ''
+          format: uuid
+        username:
+          type: string
+          description: ''
+        last_online:
+          type: string
+          description: Last time this user was online
+          format: date-time
+        created_at:
+          type: string
+          description: Date this account was created at
+          format: date-time
+      additionalProperties: false
+      description: 'User object, this can be retrieved by anyone who is friends with the user'
+    UserReport:
+      type: object
+      properties:
+        title:
+          type: string
+          description: ''
+        explenation:
+          type: string
+          description: ''
+      additionalProperties: false
+      description: Message sent to server to report a user

@@ -21,11 +21,11 @@ interface IProps {
 }
 
 function LoginForm(props: IProps): JSX.Element {
-  const [username, setUsername] = React.useState<string>('');
-  const [password, setPassword] = React.useState<string>('');
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
   const [usernameError, setUsernameError] = React.useState<string|null>(null);
   const [passwordError, setPasswordError] = React.useState<string|null>(null);
-  const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   const handleUsername = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     let input = event.target.value;
