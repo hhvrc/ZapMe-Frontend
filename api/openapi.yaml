@@ -13,6 +13,7 @@ paths:
       tags:
         - Account
       summary: Create a new account
+      operationId: CreateAccount
       requestBody:
         description: ''
         content:
@@ -38,6 +39,7 @@ paths:
       tags:
         - Account
       summary: Delete currently logged in account
+      operationId: DeleteAccount
       parameters:
         - name: Authorization
           in: header
@@ -54,6 +56,7 @@ paths:
       tags:
         - Account
       summary: ''
+      operationId: GetAccount
       responses:
         '200':
           description: ''
@@ -69,6 +72,7 @@ paths:
       tags:
         - Account
       summary: Add a oauth connection to account
+      operationId: AddOAuthProvider
       parameters:
         - name: providerName
           in: path
@@ -114,6 +118,7 @@ paths:
       tags:
         - Account
       summary: Remove a oauth connection from account
+      operationId: RemoveOAuthProvider
       parameters:
         - name: providerName
           in: path
@@ -140,6 +145,7 @@ paths:
       tags:
         - Account
       summary: 'Request password recovery of a account, will send recovery secret to email'
+      operationId: AccountRecoveryInit
       requestBody:
         description: ''
         content:
@@ -160,6 +166,7 @@ paths:
       tags:
         - Account
       summary: Complete the recovery of a account using the received recovery secret
+      operationId: AccountRecoveryComplete
       requestBody:
         description: ''
         content:
@@ -192,6 +199,7 @@ paths:
       tags:
         - Account
       summary: Updates the account email
+      operationId: UpdateEmail
       requestBody:
         description: ''
         content:
@@ -216,6 +224,7 @@ paths:
       tags:
         - Account
       summary: Updates the account password
+      operationId: UpdatePassword
       requestBody:
         description: ''
         content:
@@ -240,6 +249,7 @@ paths:
       tags:
         - Account
       summary: Updates the account username
+      operationId: UpdateUserName
       requestBody:
         description: ''
         content:
@@ -264,6 +274,7 @@ paths:
       tags:
         - Authentication
       summary: ''
+      operationId: AuthSignIn
       requestBody:
         description: ''
         content:
@@ -293,6 +304,7 @@ paths:
       tags:
         - Authentication
       summary: ''
+      operationId: AuthSignInOAuth
       parameters:
         - name: provider
           in: query
@@ -332,6 +344,7 @@ paths:
       tags:
         - Authentication
       summary: ''
+      operationId: AuthSignOut
       responses:
         '200':
           description: ''
@@ -340,6 +353,7 @@ paths:
       tags:
         - Health
       summary: ''
+      operationId: GetHealth
       responses:
         '200':
           description: ''
@@ -348,6 +362,7 @@ paths:
       tags:
         - User
       summary: Accept incoming friend request
+      operationId: AcceptFriendRequest
       parameters:
         - name: userId
           in: path
@@ -381,6 +396,7 @@ paths:
       tags:
         - User
       summary: Delete outgoing/Reject incoming friend request
+      operationId: DenyFriendRequest
       parameters:
         - name: userId
           in: path
@@ -405,6 +421,7 @@ paths:
       tags:
         - User
       summary: Send friend request
+      operationId: SendFriendRequest
       parameters:
         - name: userId
           in: path
@@ -421,6 +438,7 @@ paths:
       tags:
         - User
       summary: List all incoming and outgoing friend requests
+      operationId: ListFriendRequests
       responses:
         '200':
           description: Success
@@ -436,6 +454,7 @@ paths:
       tags:
         - User
       summary: Get user
+      operationId: GetUser
       parameters:
         - name: userId
           in: path
@@ -468,6 +487,7 @@ paths:
       tags:
         - User
       summary: Look up user by name
+      operationId: LookUpUser
       parameters:
         - name: userName
           in: path
@@ -499,6 +519,7 @@ paths:
       tags:
         - User
       summary: Report a user
+      operationId: ReportUser
       parameters:
         - name: userId
           in: path
