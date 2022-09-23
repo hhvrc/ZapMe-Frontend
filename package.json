@@ -7,6 +7,7 @@
     "@emotion/styled": "^11.9.3",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.8.5",
+    "@openapitools/openapi-generator-cli": "^2.5.2",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
@@ -27,10 +28,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
     "build": "react-scripts build",
     "build:wasm": "cd wasm-lib && wasm-pack build --target bundler --out-dir pkg",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "generate:api": "openapi-generator-cli generate -i api/openapi.yaml -g typescript-axios -o src/Api/Generated"
   },
   "eslintConfig": {
     "extends": [

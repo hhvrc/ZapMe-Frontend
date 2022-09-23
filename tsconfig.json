@@ -18,10 +18,12 @@
         "resolveJsonModule": true,
         "isolatedModules": true,
         "noEmit": true,
-        "jsx": "react-jsx"
+        "jsx": "react-jsx",
+        "baseUrl": "src"
     },
     "include": [
         "src/*.ts",
+        "src/Api/*.ts",
         "src/svg/*.svg",
         "src/components/**/*.tsx", "src/components/LoadingText/component.tsx",
     ]

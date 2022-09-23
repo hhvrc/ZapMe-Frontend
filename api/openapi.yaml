@@ -613,6 +613,10 @@ components:
           type: string
           description: ''
           format: email
+        acceptedTosVersion:
+          type: integer
+          description: ''
+          format: int32
         recaptcha_response:
           type: string
           description: Response from google recaptcha request
