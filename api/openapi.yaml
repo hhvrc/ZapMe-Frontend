@@ -6,6 +6,9 @@ info:
   contact:
     name: Contact me
     url: https://heavenvr.tech/contact
+  license:
+    name: 'The Apache License, Version 2.0'
+    url: https://heavenvr.tech/license
   version: v1
 paths:
   /api/v1/account:
