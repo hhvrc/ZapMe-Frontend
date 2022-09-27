@@ -5,17 +5,22 @@ import { useCallback } from "react";
 import { Helmet } from "react-helmet-async";
 import GoogleIcon from '@mui/icons-material/Google';
 
-const AUTH_URL = "https://google.com/login/oauth/authorize";
+
+const BackendUrl = process.env.REACT_APP_BACKEND_URL as string;
+
+const GoogleClientId = process.env.REACT_APP_GOOGLE_CLIENTID as string;
+const GoogleScopes = process.env.REACT_APP_GITHUB_SCOPES as string;
+const GoogleRedirectUrl = BackendUrl + "signin-google";
+
+const AUTH_URL = `https://google.com/login/oauth/authorize?client_id=${GoogleClientId}&redirect_uri=${encodeURIComponent(GoogleRedirectUrl)}&state=`;
 
 interface IProps {
-  clientId: string;
-  redirectUri: string;
   onLoginStart?: () => void;
   onLoginSuccess?: (applicationId: string) => void;
   onLoginFailure?: (applicationId: string) => void;
 }
 
-function LoginGoogleSSO({ clientId, redirectUri, onLoginStart, onLoginSuccess, onLoginFailure }: IProps): JSX.Element {
+function GoogleSsoButton({ onLoginStart, onLoginSuccess, onLoginFailure }: IProps): JSX.Element {
   const [authState, setAuthState] = React.useState<string | null>(null);
   const [code, setCode] = React.useState<string | null>(null);
 
@@ -25,17 +30,15 @@ function LoginGoogleSSO({ clientId, redirectUri, onLoginStart, onLoginSuccess, o
 
     setAuthState(authState);
 
-    const url = `${AUTH_URL}?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${authState}`;
-
     // Open a new window to the auth URL
-    window.open(url, "_self");
+    window.open(AUTH_URL + authState, "_self");
   } , []);
 
   return(
     <>
       <Helmet>
-        <meta name="google-signin-scope" content="profile email" />
-        <meta name="google-signin-client_id" content={clientId} />
+        <meta name="google-signin-scope" content={GoogleScopes} />
+        <meta name="google-signin-client_id" content={GoogleClientId} />
         <script src="https://apis.google.com/js/platform.js" async defer></script>
       </Helmet>
       <Button>
@@ -46,4 +49,4 @@ function LoginGoogleSSO({ clientId, redirectUri, onLoginStart, onLoginSuccess, o
   );
 }
 
-export default LoginGoogleSSO;
+export default GoogleSsoButton;

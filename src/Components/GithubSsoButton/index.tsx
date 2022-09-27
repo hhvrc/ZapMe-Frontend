@@ -4,18 +4,22 @@ import { useCallback } from "react";
 import { Button } from "@mui/material";
 import GitHubIcon from '@mui/icons-material/GitHub';
 
-const AUTH_URL = "https://github.com/login/oauth/authorize";
+
+const BackendUrl = process.env.REACT_APP_BACKEND_URL as string;
+
+const GithubClientId = process.env.REACT_APP_GITHUB_CLIENTID as string;
+const GithubScopes = process.env.REACT_APP_GITHUB_SCOPES as string;
+const GithubRedirectUrl = BackendUrl + "signin-github";
+
+const AUTH_URL = `https://github.com/login/oauth/authorize?client_id=${GithubClientId}&redirect_uri=${encodeURIComponent(GithubRedirectUrl)}&scope=${encodeURIComponent(GithubScopes)}&state=`;
 
 interface IProps {
-  clientId: string;
-  redirectUri: string;
-  scopes: string;
   onLoginStart?: () => void;
   onLoginSuccess?: (applicationId: string) => void;
   onLoginFailure?: (applicationId: string) => void;
 }
 
-function LoginGithubSSO({ clientId, redirectUri, scopes, onLoginStart, onLoginSuccess, onLoginFailure }: IProps): JSX.Element {
+function GithubSsoButton({ onLoginStart, onLoginSuccess, onLoginFailure }: IProps): JSX.Element {
   const [authState, setAuthState] = React.useState<string | null>(null);
   const [code, setCode] = React.useState<string | null>(null);
 
@@ -29,10 +33,8 @@ function LoginGithubSSO({ clientId, redirectUri, scopes, onLoginStart, onLoginSu
 
     setAuthState(authState);
 
-    const url = `${AUTH_URL}?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scopes)}&state=${authState}`;
-
-    // Redirect to the auth URL
-    window.location.href = url;
+    // Open a new window to the auth URL
+    window.open(AUTH_URL + authState, "_self");
   } , []);
 
   return(
@@ -45,4 +47,4 @@ function LoginGithubSSO({ clientId, redirectUri, scopes, onLoginStart, onLoginSu
   );
 }
 
-export default LoginGithubSSO;
+export default GithubSsoButton;

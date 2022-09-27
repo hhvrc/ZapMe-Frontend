@@ -22,10 +22,8 @@
         "baseUrl": "src"
     },
     "include": [
-        "src/*.ts",
-        "src/Api/*.ts",
-        "src/svg/*.svg",
-        "src/components/**/*.tsx", "src/components/LoadingText/component.tsx",
+        "src/*.tsx",
+        "src/Tests/*.ts",
     ]
 }
   
