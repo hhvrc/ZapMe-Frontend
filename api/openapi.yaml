@@ -23,9 +23,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Create'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Create'
       responses:
         '200':
           description: ''
@@ -33,11 +30,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountDto'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/AccountDto'
         '400':
           description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
     delete:
       tags:
         - Account
@@ -67,9 +71,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountDto'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/AccountDto'
   '/api/v1/account/oauth/{providerName}':
     post:
       tags:
@@ -87,34 +88,19 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/AccountOAuthAdd'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/AccountOAuthAdd'
       responses:
         '200':
           description: Success
         '409':
           description: Conflict
           content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/ProblemDetails'
             application/json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetails'
-            text/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
         '404':
           description: Not Found
           content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/ProblemDetails'
             application/json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetails'
-            text/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
     delete:
@@ -209,17 +195,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/UpdateEmail'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/UpdateEmail'
       responses:
         '200':
           description: ''
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/AccountDto'
-            application/xml:
               schema:
                 $ref: '#/components/schemas/AccountDto'
   /api/v1/account/password:
@@ -234,17 +214,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/UpdatePassword'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/UpdatePassword'
       responses:
         '200':
           description: ''
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/AccountDto'
-            application/xml:
               schema:
                 $ref: '#/components/schemas/AccountDto'
   /api/v1/account/username:
@@ -259,17 +233,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/UpdateUserName'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/UpdateUserName'
       responses:
         '200':
           description: ''
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/AccountDto'
-            application/xml:
               schema:
                 $ref: '#/components/schemas/AccountDto'
   /api/v1/auth/signin:
@@ -297,9 +265,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountDto'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/AccountDto'
         '400':
           description: ''
   /api/v1/auth/signin-oauth:
@@ -321,25 +286,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountDto'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/AccountDto'
-        '401':
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetails'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/ProblemDetails'
         '403':
           description: ''
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-            application/xml:
+        '401':
+          description: ''
+          content:
+            application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
   /api/v1/auth/signout:
@@ -351,6 +307,41 @@ paths:
       responses:
         '200':
           description: ''
+  '/api/v1/errors/{errorId}':
+    get:
+      tags:
+        - Errors
+      summary: ''
+      operationId: GetErrorDetails
+      parameters:
+        - name: errorId
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetails'
+  /api/v1/errors:
+    get:
+      tags:
+        - Errors
+      summary: ''
+      operationId: ListErrorDetails
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/ErrorDetails'
   /api/v1/health:
     get:
       tags:
@@ -381,18 +372,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/ProblemDetails'
         '304':
           description: Not Modified
         '200':
           description: Success
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-            application/xml:
               schema:
                 $ref: '#/components/schemas/User'
     delete:
@@ -415,9 +400,6 @@ paths:
           description: Not Found
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetails'
-            application/xml:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
     post:
@@ -449,9 +431,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FriendRequestList'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/FriendRequestList'
   '/api/v1/user/i/{userId}':
     get:
       tags:
@@ -467,24 +446,18 @@ paths:
             type: string
             format: uuid
       responses:
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetails'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/ProblemDetails'
         '200':
           description: ''
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
-            application/xml:
+        '404':
+          description: Not Found
+          content:
+            application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/ProblemDetails'
   '/api/v1/user/u/{userName}':
     get:
       tags:
@@ -499,24 +472,18 @@ paths:
           schema:
             type: string
       responses:
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetails'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/ProblemDetails'
         '200':
           description: ''
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
-            application/xml:
+        '404':
+          description: Not Found
+          content:
+            application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/ProblemDetails'
   '/api/v1/user/i/{userId}/report':
     post:
       tags:
@@ -533,9 +500,6 @@ paths:
         description: ''
         content:
           application/json:
-            schema:
-              $ref: '#/components/schemas/UserReport'
-          application/xml:
             schema:
               $ref: '#/components/schemas/UserReport'
       responses:
@@ -620,6 +584,15 @@ components:
           description: ''
       additionalProperties: false
       description: Message sent to server to authenticate user using username and password
+    ClientAction:
+      enum:
+        - none
+        - retry
+        - logOut
+        - promptUserToContactSupport
+        - panic
+      type: string
+      description: ''
     Create:
       type: object
       properties:
@@ -646,6 +619,30 @@ components:
           description: Response from google recaptcha request
       additionalProperties: false
       description: Message sent to server to create a new account
+    ErrorDetails:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title for developer to understand what went wrong (not user friendly)
+        meaning:
+          type: string
+          description: More detailed description of what this error is about (not user friendly)
+        suggestion:
+          type: string
+          description: Suggestion to developer on how they might be able to midegate this problem
+        recommendedAction:
+          $ref: '#/components/schemas/ClientAction'
+        notification:
+          $ref: '#/components/schemas/SystemNotification'
+        link:
+          type: string
+          description: If applicable this can contain a link to more useful information for the developer
+        image:
+          type: string
+          description: 'Funny image, feel free to display to user :3'
+      additionalProperties: false
+      description: Details about the error
     FriendRequestList:
       type: object
       properties:
@@ -709,6 +706,25 @@ components:
           description: The secret associated with this recovery request
       additionalProperties: false
       description: Request sent to server to complete a password recovery flow
+    SeverityLevel:
+      enum:
+        - info
+        - warning
+        - error
+      type: string
+    SystemNotification:
+      type: object
+      properties:
+        severity:
+          $ref: '#/components/schemas/SeverityLevel'
+        title:
+          type: string
+          description: Message title to display to the user
+        description:
+          type: string
+          description: A user friendly description of this notification
+      additionalProperties: false
+      description: "System notification to be displayed to the user, do not confuse with user notifications\r\nThis is a hint and clients can choose to ignore it or implement notifications to be independent of this"
     UpdateEmail:
       type: object
       properties:
