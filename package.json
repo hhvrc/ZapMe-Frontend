@@ -30,7 +30,7 @@
     "eject": "react-scripts eject",
     "build": "react-scripts build",
     "build:wasm": "cd wasm-lib && wasm-pack build --target bundler --out-dir pkg",
-    "generate:api": "openapi-generator-cli generate -i api/openapi.yaml -g typescript-axios -o src/Api/Generated"
+    "generate:api": "openapi-generator-cli generate"
   },
   "eslintConfig": {
     "extends": [

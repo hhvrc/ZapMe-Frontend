@@ -23,23 +23,35 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Create'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Create'
       responses:
         '200':
-          description: ''
+          description: Created account
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountDto'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
         '400':
-          description: ''
+          description: Error details
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
         '409':
-          description: Conflict
+          description: Error details
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/xml:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
     delete:
@@ -58,7 +70,7 @@ paths:
             type: string
       responses:
         '200':
-          description: ''
+          description: Empty
     get:
       tags:
         - Account
@@ -66,11 +78,23 @@ paths:
       operationId: GetAccount
       responses:
         '200':
-          description: ''
+          description: Account
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountDto'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+        '404':
+          description: Error details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
   '/api/v1/account/oauth/{providerName}':
     post:
       tags:
@@ -88,6 +112,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/AccountOAuthAdd'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/AccountOAuthAdd'
       responses:
         '200':
           description: Success
@@ -97,10 +124,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
         '404':
           description: Not Found
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/xml:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
     delete:
@@ -134,22 +167,26 @@ paths:
       tags:
         - Account
       summary: 'Request password recovery of a account, will send recovery secret to email'
-      operationId: AccountRecoveryInit
+      operationId: RecoverAccountInit
       requestBody:
         description: ''
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Recover'
-          text/json:
-            schema:
-              $ref: '#/components/schemas/Recover'
-          application/*+json:
+          application/xml:
             schema:
               $ref: '#/components/schemas/Recover'
       responses:
         '200':
-          description: ''
+          description: Account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
   /api/v1/account/recover/complete:
     post:
       tags:
@@ -162,25 +199,19 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/RecoverComplete'
-          text/json:
-            schema:
-              $ref: '#/components/schemas/RecoverComplete'
-          application/*+json:
+          application/xml:
             schema:
               $ref: '#/components/schemas/RecoverComplete'
       responses:
         '200':
-          description: ''
+          description: Ok
         '404':
-          description: Not Found
+          description: Error details
           content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/ProblemDetails'
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-            text/json:
+            application/xml:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
   /api/v1/account/email:
@@ -195,13 +226,28 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/UpdateEmail'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/UpdateEmail'
       responses:
         '200':
-          description: ''
+          description: New email
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountDto'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+        '400':
+          description: Error details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
   /api/v1/account/password:
     put:
       tags:
@@ -214,13 +260,28 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/UpdatePassword'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/UpdatePassword'
       responses:
         '200':
-          description: ''
+          description: Ok
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountDto'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+        '400':
+          description: Error details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
   /api/v1/account/username:
     put:
       tags:
@@ -233,13 +294,28 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/UpdateUserName'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/UpdateUserName'
       responses:
         '200':
-          description: ''
+          description: New username
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountDto'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+        '400':
+          description: Error details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
   /api/v1/auth/signin:
     post:
       tags:
@@ -252,10 +328,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/AuthSignIn'
-          text/json:
-            schema:
-              $ref: '#/components/schemas/AuthSignIn'
-          application/*+json:
+          application/xml:
             schema:
               $ref: '#/components/schemas/AuthSignIn'
       responses:
@@ -265,8 +338,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountDto'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
         '400':
-          description: ''
+          description: Error details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Error details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
   /api/v1/auth/signin-oauth:
     post:
       tags:
@@ -286,16 +378,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountDto'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
         '403':
-          description: ''
+          description: Error details
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
         '401':
-          description: ''
+          description: Error details
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/xml:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
   /api/v1/auth/signout:
@@ -306,7 +407,7 @@ paths:
       operationId: AuthSignOut
       responses:
         '200':
-          description: ''
+          description: Ok
   '/api/v1/errors/{errorId}':
     get:
       tags:
@@ -327,6 +428,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDetails'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorDetails'
   /api/v1/errors:
     get:
       tags:
@@ -342,6 +446,11 @@ paths:
                 type: object
                 additionalProperties:
                   $ref: '#/components/schemas/ErrorDetails'
+            application/xml:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/ErrorDetails'
   /api/v1/health:
     get:
       tags:
@@ -350,7 +459,7 @@ paths:
       operationId: GetHealth
       responses:
         '200':
-          description: ''
+          description: Health status
   '/api/v1/user/i/{userId}/friendrequest':
     put:
       tags:
@@ -366,20 +475,33 @@ paths:
             type: string
             format: uuid
       responses:
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetails'
-        '304':
-          description: Not Modified
         '200':
-          description: Success
+          description: ''
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+        '304':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
     delete:
       tags:
         - User
@@ -395,11 +517,21 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Success
-        '404':
-          description: Not Found
+          description: ''
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/xml:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
     post:
@@ -417,7 +549,19 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Success
+          description: ''
+        '404':
+          description: ''
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
   /api/v1/user/friendrequests:
     get:
       tags:
@@ -426,9 +570,12 @@ paths:
       operationId: ListFriendRequests
       responses:
         '200':
-          description: Success
+          description: ''
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/FriendRequestList'
+            application/xml:
               schema:
                 $ref: '#/components/schemas/FriendRequestList'
   '/api/v1/user/i/{userId}':
@@ -452,10 +599,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
         '404':
-          description: Not Found
+          description: ''
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/xml:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
   '/api/v1/user/u/{userName}':
@@ -478,10 +631,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
         '404':
-          description: Not Found
+          description: ''
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/xml:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
   '/api/v1/user/i/{userId}/report':
@@ -502,11 +661,14 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/UserReport'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/UserReport'
       responses:
         '200':
           description: ''
         '404':
-          description: Not Found
+          description: ''
           content:
             text/plain:
               schema:
