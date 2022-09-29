@@ -4,6 +4,8 @@
 function validateUsername(value: string): string | null {
     if (value.length < 3) {
         return 'must be at least 3 characters';
+    } else if (value.length > 32) {
+        return 'must be less than 32 characters long';
     } else if (value.indexOf('\u200b') !== -1) {
       return 'no monkeybusiness here plz ;w;';
     }
