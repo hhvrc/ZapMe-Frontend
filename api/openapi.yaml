@@ -60,7 +60,7 @@ paths:
       summary: Delete currently logged in account
       operationId: DeleteAccount
       parameters:
-        - name: Authorization
+        - name: password
           in: header
           schema:
             type: string
@@ -71,6 +71,24 @@ paths:
       responses:
         '200':
           description: Empty
+        '400':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
     get:
       tags:
         - Account
@@ -180,13 +198,6 @@ paths:
       responses:
         '200':
           description: Account
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountDto'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/AccountDto'
   /api/v1/account/recover/complete:
     post:
       tags:
@@ -862,7 +873,6 @@ components:
           minLength: 10
           type: string
           description: ''
-          nullable: true
         recovery_secret:
           type: string
           description: The secret associated with this recovery request
