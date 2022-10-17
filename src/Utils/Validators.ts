@@ -13,6 +13,15 @@ function validateUsername(value: string): string | null {
     return null;
 }
 
+// Validate email (must be a valid email)
+function validateEmail(value: string): string | null {
+    if (!value.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+        return 'must be a valid email';
+    }
+
+    return null;
+}
+
 // Validate password (min length is 10, must have at least one: lowercase, uppercase, number, special character)
 function validatePassword(value: string): string | null {
     if (value.length < 10) {
@@ -39,4 +48,4 @@ function validateReCaptcha(value: string | null): string | null {
     return null;
 }
 
-export { validateUsername, validatePassword, validateReCaptcha };
+export { validateUsername, validateEmail, validatePassword, validateReCaptcha };

@@ -180,39 +180,21 @@ paths:
             text/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-  /api/v1/account/recover:
+  /api/v1/account/recover-confirm:
     post:
       tags:
         - Account
-      summary: 'Request password recovery of a account, will send recovery secret to email'
-      operationId: RecoverAccountInit
+      summary: Complete the password reset request using the token that was received in the users email
+      operationId: AccountRecoveryConfirm
       requestBody:
         description: ''
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Recover'
+              $ref: '#/components/schemas/RecoveryConfirm'
           application/xml:
             schema:
-              $ref: '#/components/schemas/Recover'
-      responses:
-        '200':
-          description: Account
-  /api/v1/account/recover/complete:
-    post:
-      tags:
-        - Account
-      summary: Complete the recovery of a account using the received recovery secret
-      operationId: AccountRecoveryComplete
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RecoverComplete'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/RecoverComplete'
+              $ref: '#/components/schemas/RecoveryConfirm'
       responses:
         '200':
           description: Ok
@@ -225,6 +207,24 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+  /api/v1/account/recover:
+    post:
+      tags:
+        - Account
+      summary: 'Request password recovery of a account, a recovery email will be sent to the user that makes a call to the /recovery-confirm endpoint'
+      operationId: AccountRecoveryRequest
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecoveryRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/RecoveryRequest'
+      responses:
+        '200':
+          description: Account
   /api/v1/account/email:
     put:
       tags:
@@ -853,7 +853,20 @@ components:
           type: string
           nullable: true
       additionalProperties: { }
-    Recover:
+    RecoveryConfirm:
+      type: object
+      properties:
+        new_password:
+          maxLength: 256
+          minLength: 10
+          type: string
+          description: The new password to set
+        token:
+          type: string
+          description: The token sent to the user's email address
+      additionalProperties: false
+      description: Request sent to server to commit a password reset
+    RecoveryRequest:
       type: object
       properties:
         email:
@@ -864,20 +877,7 @@ components:
           type: string
           description: Response from google recaptcha request
       additionalProperties: false
-      description: Request sent to server to request a password recovery for account
-    RecoverComplete:
-      type: object
-      properties:
-        new_password:
-          maxLength: 256
-          minLength: 10
-          type: string
-          description: ''
-        recovery_secret:
-          type: string
-          description: The secret associated with this recovery request
-      additionalProperties: false
-      description: Request sent to server to complete a password recovery flow
+      description: Request sent to server to request a password reset token
     SeverityLevel:
       enum:
         - info
