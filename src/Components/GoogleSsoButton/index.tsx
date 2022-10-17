@@ -10,7 +10,7 @@ const BackendUrl = process.env.REACT_APP_BACKEND_URL as string;
 
 const GoogleClientId = process.env.REACT_APP_GOOGLE_CLIENTID as string;
 const GoogleScopes = process.env.REACT_APP_GITHUB_SCOPES as string;
-const GoogleRedirectUrl = BackendUrl + "signin-google";
+const GoogleRedirectUrl = BackendUrl + "/signin-google";
 
 const AUTH_URL = `https://google.com/login/oauth/authorize?client_id=${GoogleClientId}&redirect_uri=${encodeURIComponent(GoogleRedirectUrl)}&state=`;
 

@@ -9,7 +9,7 @@ const BackendUrl = process.env.REACT_APP_BACKEND_URL as string;
 
 const GithubClientId = process.env.REACT_APP_GITHUB_CLIENTID as string;
 const GithubScopes = process.env.REACT_APP_GITHUB_SCOPES as string;
-const GithubRedirectUrl = BackendUrl + "signin-github";
+const GithubRedirectUrl = BackendUrl + "/signin-github";
 
 const AUTH_URL = `https://github.com/login/oauth/authorize?client_id=${GithubClientId}&redirect_uri=${encodeURIComponent(GithubRedirectUrl)}&scope=${encodeURIComponent(GithubScopes)}&state=`;
 

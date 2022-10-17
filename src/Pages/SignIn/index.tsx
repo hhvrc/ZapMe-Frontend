@@ -5,6 +5,11 @@ import { useCallback } from "react";
 import { Helmet } from "react-helmet-async";
 import { GithubSsoButton, GoogleSsoButton } from "Components";
 import { validateUsername, validatePassword } from "Utils/Validators";
+import { AuthenticationApi, Configuration } from 'Api/generated';
+
+const BackendUrl = process.env.REACT_APP_BACKEND_URL as string;
+
+const authenticationApi = new AuthenticationApi(new Configuration({ basePath: BackendUrl }));
 
 interface IState {
   username: string;
@@ -23,16 +28,19 @@ const initialState: IState = {
 
 // React.ChangeEvent<HTMLInputElement> reducer
 function reducer(state: IState, event: React.ChangeEvent<HTMLInputElement>): IState {
-  console.log(`Name: ${event.target.name}, Value: ${event.target.value}`);
   switch (event.target.name) {
     case 'uname':
-      state.username = event.target.value;
-      state.usernameError = validateUsername(state.username);
-      return state;
+      return {
+        ...state,
+        username: event.target.value,
+        usernameError: validateUsername(event.target.value),
+      };
     case 'passw':
-      state.password = event.target.value;
-      state.passwordError = validatePassword(state.password);
-      return state;
+      return {
+        ...state,
+        password: event.target.value,
+        passwordError: validatePassword(event.target.value),
+      };
     default:
       return state;
   }
@@ -45,9 +53,9 @@ function SignInPage(props: IProps): JSX.Element {
   const [{ username, password, usernameError, passwordError }, dispatch] = React.useReducer(reducer, initialState);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
-  let usernameHasError = usernameError != null;
-  let passwordHasError = passwordError != null;
-  let submitDisabled =  usernameHasError || passwordHasError || isSubmitting;
+  let usernameHasError = usernameError != null && usernameError !== '';
+  let passwordHasError = passwordError != null && passwordError !== '';
+  let submitDisabled =  !username || !password || isSubmitting;
 
   const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -57,7 +65,22 @@ function SignInPage(props: IProps): JSX.Element {
 
     setIsSubmitting(true);
 
-    console.log(`Submitting username: ${username} and password: ${password}`);
+    // TODO: implement TOS version acceptance
+    authenticationApi.authSignIn({ username: username, password: password })
+    .then(
+        (account) => {
+            console.log(account.data);
+        },
+        (error) => {
+            console.log(error.response);
+        }
+    )
+    .catch((error) => {
+        console.log(error);
+    })
+    .finally(() => {
+        setIsSubmitting(false);
+    });
   };
 
   return(
