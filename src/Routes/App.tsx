@@ -1,6 +1,5 @@
-import { NavLink, Routes, Route } from "react-router-dom";
-import { Toolbar, AppBar, Typography } from "@mui/material";
-import Header from "Layouts/Header";
+import { Routes, Route } from "react-router-dom";
+import { Header, Footer } from "Layouts";
 import { MainPage, SignInPage, SignUpPage, HomePage } from "Pages";
 import 'Assets/Styles/App.css';
 

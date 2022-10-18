@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { HelmetProvider } from "react-helmet-async";
 import { BrowserRouter } from "react-router-dom";
+import { SnackbarProvider } from "notistack";
 import App from 'Routes/App';
 import reportWebVitals from './reportWebVitals';
 
@@ -13,7 +14,9 @@ root.render(
   <React.StrictMode>
     <HelmetProvider>
       <BrowserRouter>
-        <App/>
+        <SnackbarProvider maxSnack={3}>
+          <App/>
+        </SnackbarProvider>
       </BrowserRouter>
     </HelmetProvider>
   </React.StrictMode>
