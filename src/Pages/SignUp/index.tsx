@@ -105,6 +105,7 @@ function SignUpPage(props: IProps): JSX.Element {
           // TODO: redirect to home page
         },
         (error) => {
+          // TODO: handle error
           enqueueSnackbar('Something went wrong, please try again later', { variant: 'error' });
         }
     )

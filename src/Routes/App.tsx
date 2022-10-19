@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { Header, Footer } from "Layouts";
-import { MainPage, SignInPage, SignUpPage, HomePage } from "Pages";
+import * as Pages from "Pages";
 import 'Assets/Styles/App.css';
 
 function App(): JSX.Element {
@@ -9,13 +9,15 @@ function App(): JSX.Element {
       <Header/>
       <div className="App-Body">
         <Routes>
-          <Route path="/" element={<MainPage/>}/>
-          <Route path="/tos" element={<SignInPage/>}/>
-          <Route path="/contact" element={<SignInPage/>}/>
-          <Route path="/signin" element={<SignInPage/>}/>
-          <Route path="/signup" element={<SignUpPage />}/>
-          <Route path="/recover" element={<SignInPage/>}/>
-          <Route path="/home" element={<HomePage/>}/>
+          <Route path="/" element={<Pages.MainPage/>}/>
+          <Route path="/tos" element={<Pages.TermsOfServicePage/>}/>
+          <Route path="/contact" element={<Pages.ContactPage/>}/>
+
+          <Route path="/signin" element={<Pages.SignInPage/>}/>
+          <Route path="/signup" element={<Pages.SignUpPage/>}/>
+          <Route path="/reset-password" element={<Pages.ResetPasswordPage/>}/>
+
+          <Route path="/home" element={<Pages.HomePage/>}/>
         </Routes>
       </div>
     </>

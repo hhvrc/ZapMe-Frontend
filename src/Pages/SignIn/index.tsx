@@ -3,6 +3,7 @@ import * as React from "react";
 import { Helmet } from "react-helmet-async";
 import { GithubSsoButton, GoogleSsoButton } from "Components";
 import { AuthenticationApi, Configuration } from 'Api/generated';
+import { useSnackbar } from 'notistack';
 
 const BackendUrl = process.env.REACT_APP_BACKEND_URL as string;
 
@@ -43,6 +44,7 @@ interface IProps {
 }
 
 function SignInPage(props: IProps): JSX.Element {
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [{ username, usernameError, password, passwordError, submitting }, dispatch] = React.useReducer(reducer, initialState);
 
   let buttonLabel = submitting ? 'Signing in...' : 'Sign in';
@@ -65,18 +67,18 @@ function SignInPage(props: IProps): JSX.Element {
     // TODO: implement TOS version acceptance
     authenticationApi.authSignIn({ username: 's', password: password })
     .then(
-        (account) => {
-            console.log(account.data);
-        },
-        (error) => {
-            console.log(error.response);
-        }
+      (account) => {
+        console.log(account.data);
+      },
+      (error) => {
+        enqueueSnackbar('Something went wrong, please try again later', { variant: 'error' });
+      }
     )
     .catch((error) => {
-        console.log(error);
+      enqueueSnackbar('Something went wrong, please try again later', { variant: 'error' });
     })
     .finally(() => {
-        dispatch({ type: 'submitting', data: false });
+      dispatch({ type: 'submitting', data: false });
     });
   };
 
