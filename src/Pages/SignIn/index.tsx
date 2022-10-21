@@ -65,7 +65,7 @@ function SignInPage(props: IProps): JSX.Element {
     dispatch({ type: 'submitting', data: true });
 
     // TODO: implement TOS version acceptance
-    authenticationApi.authSignIn({ username: 's', password: password })
+    authenticationApi.authSignIn({ username: username, password: password })
     .then(
       (account) => {
         console.log(account.data);
