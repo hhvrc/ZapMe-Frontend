@@ -41,19 +41,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
             application/xml:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
         '409':
           description: Error details
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
             application/xml:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
     delete:
       tags:
         - Account
@@ -76,19 +76,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
             application/xml:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
         '500':
           description: ''
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
             application/xml:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
     get:
       tags:
         - Account
@@ -109,10 +109,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
             application/xml:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
   '/api/v1/account/oauth/{providerName}':
     post:
       tags:
@@ -141,19 +141,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
             application/xml:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
         '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
             application/xml:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
     delete:
       tags:
         - Account
@@ -173,13 +173,13 @@ paths:
           content:
             text/plain:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
             text/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
   /api/v1/account/recover-confirm:
     post:
       tags:
@@ -203,10 +203,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
             application/xml:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
   /api/v1/account/recover:
     post:
       tags:
@@ -255,10 +255,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
             application/xml:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
   /api/v1/account/password:
     put:
       tags:
@@ -289,10 +289,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
             application/xml:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
   /api/v1/account/username:
     put:
       tags:
@@ -323,10 +323,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
             application/xml:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
   /api/v1/auth/signin:
     post:
       tags:
@@ -357,19 +357,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
             application/xml:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
         '500':
           description: Error details
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
             application/xml:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
   /api/v1/auth/signin-oauth:
     post:
       tags:
@@ -397,19 +397,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
             application/xml:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
         '401':
           description: Error details
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
             application/xml:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
   /api/v1/auth/signout:
     post:
       tags:
@@ -419,22 +419,24 @@ paths:
       responses:
         '200':
           description: Ok
-  '/api/v1/errors/{errorId}':
+  /api/v1/config:
     get:
       tags:
-        - Errors
+        - Config
       summary: ''
-      operationId: GetErrorDetails
-      parameters:
-        - name: errorId
-          in: path
-          description: ''
-          required: true
-          schema:
-            type: string
+      operationId: GetConfig
       responses:
         '200':
-          description: ''
+          description: Returns users account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Config'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Config'
+        '400':
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -442,26 +444,15 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/ErrorDetails'
-  /api/v1/errors:
-    get:
-      tags:
-        - Errors
-      summary: ''
-      operationId: ListErrorDetails
-      responses:
-        '200':
-          description: ''
+        '500':
+          description: Error details
           content:
             application/json:
               schema:
-                type: object
-                additionalProperties:
-                  $ref: '#/components/schemas/ErrorDetails'
+                $ref: '#/components/schemas/ErrorDetails'
             application/xml:
               schema:
-                type: object
-                additionalProperties:
-                  $ref: '#/components/schemas/ErrorDetails'
+                $ref: '#/components/schemas/ErrorDetails'
   /api/v1/health:
     get:
       tags:
@@ -500,19 +491,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
             application/xml:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
         '404':
           description: ''
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
             application/xml:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
     delete:
       tags:
         - User
@@ -541,10 +532,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
             application/xml:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
     post:
       tags:
         - User
@@ -618,10 +609,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
             application/xml:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
   '/api/v1/user/u/{userName}':
     get:
       tags:
@@ -650,10 +641,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
             application/xml:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
   '/api/v1/user/i/{userId}/report':
     post:
       tags:
@@ -683,13 +674,13 @@ paths:
           content:
             text/plain:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
             text/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/ErrorDetails'
   /ws:
     get:
       tags:
@@ -757,15 +748,9 @@ components:
           description: ''
       additionalProperties: false
       description: Message sent to server to authenticate user using username and password
-    ClientAction:
-      enum:
-        - none
-        - retry
-        - logOut
-        - promptUserToContactSupport
-        - panic
-      type: string
-      description: ''
+    Config:
+      type: object
+      additionalProperties: false
     Create:
       type: object
       properties:
@@ -798,22 +783,24 @@ components:
         title:
           type: string
           description: Title for developer to understand what went wrong (not user friendly)
-        meaning:
+        detail:
           type: string
           description: More detailed description of what this error is about (not user friendly)
+        traceId:
+          type: string
+          description: ''
         suggestion:
           type: string
-          description: Suggestion to developer on how they might be able to midegate this problem
-        recommendedAction:
-          $ref: '#/components/schemas/ClientAction'
+          description: Suggestion to developer on how they might be able to midegate this error
+          nullable: true
+        fields:
+          type: object
+          additionalProperties:
+            type: string
+          description: ''
+          nullable: true
         notification:
-          $ref: '#/components/schemas/SystemNotification'
-        link:
-          type: string
-          description: If applicable this can contain a link to more useful information for the developer
-        image:
-          type: string
-          description: 'Funny image, feel free to display to user :3'
+          $ref: '#/components/schemas/UserNotification'
       additionalProperties: false
       description: Details about the error
     FriendRequestList:
@@ -884,19 +871,6 @@ components:
         - warning
         - error
       type: string
-    SystemNotification:
-      type: object
-      properties:
-        severity:
-          $ref: '#/components/schemas/SeverityLevel'
-        title:
-          type: string
-          description: Message title to display to the user
-        description:
-          type: string
-          description: A user friendly description of this notification
-      additionalProperties: false
-      description: "System notification to be displayed to the user, do not confuse with user notifications\r\nThis is a hint and clients can choose to ignore it or implement notifications to be independent of this"
     UpdateEmail:
       type: object
       properties:
@@ -955,6 +929,20 @@ components:
           format: date-time
       additionalProperties: false
       description: 'User object, this can be retrieved by anyone who is friends with the user'
+    UserNotification:
+      type: object
+      properties:
+        severity:
+          $ref: '#/components/schemas/SeverityLevel'
+        title:
+          type: string
+          description: Message title to display to the user
+        detail:
+          type: string
+          description: User friendly details about this notification
+          nullable: true
+      additionalProperties: false
+      description: "System notification to be displayed to the user, do not confuse with user notifications\r\nThis is a hint and clients can choose to ignore it or implement notifications to be independent of this"
     UserReport:
       type: object
       properties:
