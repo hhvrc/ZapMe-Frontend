@@ -645,18 +645,12 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/ErrorDetails'
-  '/api/v1/user/i/{userId}/report':
+  /api/v1/user/report:
     post:
       tags:
         - User
       summary: Report a user
       operationId: ReportUser
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
       requestBody:
         description: ''
         content:
@@ -737,13 +731,9 @@ components:
       type: object
       properties:
         username:
-          maxLength: 32
-          minLength: 3
           type: string
           description: ''
         password:
-          maxLength: 256
-          minLength: 10
           type: string
           description: ''
       additionalProperties: false
@@ -755,19 +745,14 @@ components:
       type: object
       properties:
         username:
-          maxLength: 32
-          minLength: 3
           type: string
           description: ''
         password:
-          maxLength: 256
-          minLength: 10
           type: string
           description: ''
         email:
           type: string
           description: ''
-          format: email
         acceptedTosVersion:
           type: integer
           description: ''
@@ -796,8 +781,11 @@ components:
         fields:
           type: object
           additionalProperties:
-            type: string
-          description: ''
+            type: array
+            items:
+              type: string
+            nullable: true
+          description: Errors for specific fields in the request
           nullable: true
         notification:
           $ref: '#/components/schemas/UserNotification'
@@ -844,8 +832,6 @@ components:
       type: object
       properties:
         new_password:
-          maxLength: 256
-          minLength: 10
           type: string
           description: The new password to set
         token:
@@ -859,7 +845,6 @@ components:
         email:
           type: string
           description: Email of your account you want to recover
-          format: email
         recaptcha_response:
           type: string
           description: Response from google recaptcha request
@@ -877,7 +862,6 @@ components:
         new_email:
           type: string
           description: ''
-          format: email
         password:
           type: string
           description: ''
@@ -887,8 +871,6 @@ components:
       type: object
       properties:
         new:
-          maxLength: 256
-          minLength: 10
           type: string
           description: ''
         old:
@@ -900,8 +882,6 @@ components:
       type: object
       properties:
         new_username:
-          maxLength: 32
-          minLength: 3
           type: string
           description: ''
         password:
@@ -946,6 +926,9 @@ components:
     UserReport:
       type: object
       properties:
+        user_id:
+          type: string
+          format: uuid
         title:
           type: string
           description: ''
