@@ -745,14 +745,20 @@ components:
       type: object
       properties:
         username:
+          maxLength: 32
+          minLength: 3
+          pattern: '^[^\s].*[^\s]$'
           type: string
           description: ''
         password:
+          maxLength: 256
+          minLength: 10
           type: string
           description: ''
         email:
           type: string
           description: ''
+          format: email
         acceptedTosVersion:
           type: integer
           description: ''
@@ -832,6 +838,8 @@ components:
       type: object
       properties:
         new_password:
+          maxLength: 256
+          minLength: 10
           type: string
           description: The new password to set
         token:
@@ -862,6 +870,7 @@ components:
         new_email:
           type: string
           description: ''
+          format: email
         password:
           type: string
           description: ''
@@ -871,6 +880,8 @@ components:
       type: object
       properties:
         new:
+          maxLength: 256
+          minLength: 10
           type: string
           description: ''
         old:
@@ -882,6 +893,9 @@ components:
       type: object
       properties:
         new_username:
+          maxLength: 32
+          minLength: 3
+          pattern: '^[^\s].*[^\s]$'
           type: string
           description: ''
         password:
