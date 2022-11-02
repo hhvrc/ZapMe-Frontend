@@ -11,6 +11,10 @@
 # production
 /build
 
+# Visual Studio Generated Files
+*.user
+/obj
+
 # misc
 .DS_Store
 .env.local
