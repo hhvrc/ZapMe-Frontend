@@ -9,5 +9,6 @@
     <ProductionBuildCommand>npm run build</ProductionBuildCommand>
     <!-- Folder where production build objects will be placed -->
     <BuildOutputFolder>$(MSBuildProjectDirectory)\build</BuildOutputFolder>
+    <StartupCommand>npm run start</StartupCommand>
   </PropertyGroup>
 </Project>
