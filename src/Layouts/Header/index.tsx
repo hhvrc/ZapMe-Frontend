@@ -17,7 +17,7 @@ function Header(): JSX.Element {
           <Button
             color="inherit"
             component={NavLink}
-            to="/signin"
+            to="/sign-in"
             sx={{ fontSize: 20, fontWeight: 'bold', textTransform: 'none' }}
           >
             Login

@@ -26,14 +26,8 @@ function validateEmail(value: string): string | null {
 function validatePassword(value: string): string | null {
     if (value.length < 10) {
         return 'must be at least 10 characters long';
-    } else if (!value.match(/[a-z]/)) {
-        return 'must contain at least one lowercase letter';
-    } else if (!value.match(/[A-Z]/)) {
-        return 'must contain at least one uppercase letter';
-    } else if (!value.match(/[0-9]/)) {
-        return 'must contain at least one number';
-    } else if (!value.match(/[*.!@#$%^&(){}[\]:";'<>,.?/~`_+\-=|\\]/)) {
-        return 'must contain at least one special character';
+    } else if (value.length > 256) {
+        return `Dude... ${value.length} characters? That\'s a bit much...`;
     }
 
     return null;

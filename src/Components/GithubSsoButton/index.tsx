@@ -41,7 +41,6 @@ function GithubSsoButton({ onLoginStart, onLoginSuccess, onLoginFailure }: IProp
     <>
       <Button onClick={handleLogin}>
         <GitHubIcon sx={{mr:1}}/>
-        Login using Github
       </Button>
     </>
   );
