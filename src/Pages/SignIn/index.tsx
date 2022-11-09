@@ -56,6 +56,7 @@ function SignInPage(props: IProps): JSX.Element {
   function handleInput(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
     dispatch({ type: name, data: value });
+    dispatch({ type: name + 'Error', data: null });
   }
 
   const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -73,7 +74,40 @@ function SignInPage(props: IProps): JSX.Element {
         console.log(account.data);
       },
       (error) => {
-        enqueueSnackbar('Something went wrong, please try again later', { variant: 'error' });
+        if (!error.response) {
+          enqueueSnackbar('Unable to connect to the server', { variant: 'error', preventDuplicate: true });
+          return;
+        }
+
+        // Check if response is a 5xx error
+        if (error.response.status >= 500) {
+          enqueueSnackbar('Server error', { variant: 'error', preventDuplicate: true });
+          return;
+        }
+
+        if (!error.response.data) {
+          enqueueSnackbar('Unknown error', { variant: 'error' });
+          return;
+        }
+
+        let { fields, notification } = error.response.data;
+
+        if (fields) {
+          for (const [key, value] of Object.entries(fields)) {
+            dispatch({ type: key + 'Error', data: value });
+          }
+        }
+
+        if (notification) {
+          let { severity, title, message } = notification;
+          enqueueSnackbar(title + ': ' + message, { variant: severity, preventDuplicate: true });
+        }
+
+        if (error.response.data.errors) {
+          error.response.data.errors.forEach((error: any) => {
+            enqueueSnackbar(error.message, { variant: 'error' });
+          });
+        }
       }
     )
     .catch((error) => {
