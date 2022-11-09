@@ -13,9 +13,9 @@ function App(): JSX.Element {
           <Route path="/tos" element={<Pages.TermsOfServicePage/>}/>
           <Route path="/contact" element={<Pages.ContactPage/>}/>
 
-          <Route path="/signin" element={<Pages.SignInPage/>}/>
-          <Route path="/signup" element={<Pages.SignUpPage/>}/>
-          <Route path="/reset-password" element={<Pages.ResetPasswordPage/>}/>
+          <Route path="/sign-in" element={<Pages.SignInPage/>}/>
+          <Route path="/sign-up" element={<Pages.SignUpPage/>}/>
+          <Route path="/forgot-password" element={<Pages.ForgotPasswordPage/>}/>
 
           <Route path="/home" element={<Pages.HomePage/>}/>
         </Routes>

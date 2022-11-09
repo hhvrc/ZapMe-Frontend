@@ -1,9 +1,11 @@
-import { Button, ButtonGroup, Paper, TextField, CircularProgress } from "@mui/material";
+import { Button, ButtonGroup, Paper, TextField, CircularProgress, Typography } from "@mui/material";
 import * as React from "react";
 import { Helmet } from "react-helmet-async";
 import { GithubSsoButton, GoogleSsoButton } from "Components";
 import { AuthenticationApi, Configuration } from 'Api/generated';
 import { useSnackbar } from 'notistack';
+import { NavLink } from "react-router-dom";
+import { Link } from "@mui/icons-material";
 
 const BackendUrl = process.env.REACT_APP_BACKEND_URL as string;
 
@@ -83,18 +85,37 @@ function SignInPage(props: IProps): JSX.Element {
   };
 
   return(
+    <>
+      <Helmet>
+        <title>{windowTitle}</title>
+      </Helmet>
       <Paper elevation={3} sx={{ p:2, display:'inline-flex', flexDirection:'column'}}>
-        <Helmet>
-          <title>{windowTitle}</title>
-        </Helmet>
-        <ButtonGroup variant="outlined" size="medium" disabled={submitting} orientation="vertical" sx={{mb:2}} >
+        <Typography variant="h1" sx={{ mb:2, textAlign:'center', fontSize: 40, fontWeight: 'bold', textTransform: 'none', color: '#2196f3' }}>
+          Sign In
+        </Typography>
+        <TextField name="username" label="Username" variant="standard" disabled={submitting} error={!!usernameError} helperText={usernameError} onChange={handleInput} sx={{mb:2}} />
+        <TextField name="password" label="Password" variant="standard" disabled={submitting} error={!!passwordError} helperText={passwordError} onChange={handleInput} type="password" sx={{mb:0}}/>
+        <NavLink to="/forgot-password" style={{ textDecoration:'none' }}>
+          <Button color="primary" variant="text" disabled={submitting} sx={{ fontSize:'10px' }}>Forgot password?</Button>
+        </NavLink>
+        <Button color="primary" startIcon={submitting ? <CircularProgress/> : false} variant="contained" disabled={submitButtonDisabled} onClick={handleSubmit} type="submit" sx={{ mt:1, mb:1 }}>{buttonLabel}</Button>
+        <div style={{ display:'flex', alignItems:'center', justifyContent:'center' }}>
+          <div style={{ width:'100%', borderBottom:'1px solid #ccc' }}></div>
+          <div style={{ width:'auto', padding:'0 10px', color:'#ccc' }}>or</div>
+          <div style={{ width:'100%', borderBottom:'1px solid #ccc' }}></div>
+        </div>
+        <ButtonGroup variant="outlined" size="medium" disabled={submitting} orientation="horizontal" sx={{ mt:1, mb: 3 }}>
           <GithubSsoButton />
           <GoogleSsoButton />
         </ButtonGroup>
-        <TextField name="username" label="Username" variant="standard" disabled={submitting} error={!!usernameError} helperText={usernameError} onChange={handleInput} sx={{mb:2}} />
-        <TextField name="password" label="Password" variant="standard" disabled={submitting} error={!!passwordError} helperText={passwordError} onChange={handleInput} type="password" sx={{mb:2}}/>
-        <Button color="primary" startIcon={submitting ? <CircularProgress/> : false} variant="contained" disabled={submitButtonDisabled} onClick={handleSubmit} type="submit" sx={{mt:2}}>{buttonLabel}</Button>
+        <div style={{ display:'flex', alignItems:'center', justifyContent:'center' }}>
+          <div style={{ fontSize:'13px' }}>Don't have an account?</div>
+          <NavLink to="/sign-up" style={{ textDecoration:'none' }}>
+            <Button color="primary" variant="text" disabled={submitting} sx={{ fontSize:'10px' }}>Sign Up</Button>
+          </NavLink>
+        </div>
       </Paper>
+    </>
   );
 }
 

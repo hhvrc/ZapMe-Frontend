@@ -1,10 +1,11 @@
-import { Button, Paper, TextField, CircularProgress } from "@mui/material";
+import { Button, Paper, TextField, CircularProgress, Typography } from "@mui/material";
 import * as React from "react";
 import { Helmet } from "react-helmet-async";
 import { validateUsername, validateEmail, validatePassword } from "Utils/Validators";
 import { AccountApi, Configuration } from 'Api/generated';
 import { useSnackbar } from 'notistack';
 import ReCAPTCHA from "react-google-recaptcha";
+import { NavLink } from "react-router-dom";
 
 const BackendUrl = process.env.REACT_APP_BACKEND_URL as string;
 const RecaptchaSiteKey = process.env.REACT_APP_RECAPTCHA_SITEKEY as string;
@@ -122,11 +123,20 @@ function SignUpPage(props: IProps): JSX.Element {
         <Helmet>
           <title>{windowTitle}</title>
         </Helmet>
+        <Typography variant="h1" sx={{ mb:2, textAlign:'center', fontSize: 40, fontWeight: 'bold', textTransform: 'none', color: '#2196f3' }}>
+          Sign Up
+        </Typography>
         <TextField name="username" label="Username" variant="standard" disabled={submitting} error={!!usernameError} helperText={usernameError} onChange={handleInput} sx={{mb:2}} />
         <TextField name="email" label="Email" variant="standard" disabled={submitting} error={!!emailError} helperText={emailError} onChange={handleInput} sx={{mb:2}}/>
         <TextField name="password" label="Password" variant="standard" disabled={submitting} error={!!passwordError} helperText={passwordError} onChange={handleInput} type="password" sx={{mb:2}}/>
         <ReCAPTCHA sitekey={RecaptchaSiteKey} onChange={handleRecaptcha} onExpired={handleRecaptcha} />
-        <Button color="primary" startIcon={submitting ? <CircularProgress/> : false} variant="contained" disabled={submitButtonDisabled} onClick={handleSubmit} type="submit" sx={{mt:2}}>{buttonLabel}</Button>
+        <Button color="primary" startIcon={submitting ? <CircularProgress/> : false} variant="contained" disabled={submitButtonDisabled} onClick={handleSubmit} type="submit" sx={{mt:2, mb:3}}>{buttonLabel}</Button>
+        <div style={{ display:'flex', alignItems:'center', justifyContent:'center' }}>
+          <div style={{ fontSize:'13px' }}>Already have an account?</div>
+          <NavLink to="/sign-in" style={{ textDecoration:'none' }}>
+            <Button color="primary" variant="text" disabled={submitting} sx={{ fontSize:'10px' }}>Sign In</Button>
+          </NavLink>
+        </div>
       </Paper>
   );
 }

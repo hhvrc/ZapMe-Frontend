@@ -43,7 +43,6 @@ function GoogleSsoButton({ onLoginStart, onLoginSuccess, onLoginFailure }: IProp
       </Helmet>
       <Button>
         <GoogleIcon sx={{mr:1}}/>
-        Login using Google
       </Button>
     </>
   );
