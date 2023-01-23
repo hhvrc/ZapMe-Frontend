@@ -5,10 +5,10 @@
     "version": "6.1.0",
     "generators": {
       "v1": {
-        "inputSpec": "./api/openapi.yaml",
+        "inputSpec": "Api/openapi.yaml",
         "generatorName": "typescript-axios",
-        "output": "./src/api/generated",
-        "additionalProperties":{
+        "output": "src/Api/generated",
+        "additionalProperties": {
           "supportsES6": true,
           "withInterfaces": true,
           "enumPropertyNaming": "camelCase",
