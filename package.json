@@ -22,7 +22,7 @@
     "@openapitools/openapi-generator-cli": "^2.5.2",
     "@rgossiaux/svelte-headlessui": "^1.0.2",
     "@roxi/routify": "^3.0.0-next.1",
-    "@sveltejs/vite-plugin-svelte": "^1.0.0-next.13",
+    "@sveltejs/vite-plugin-svelte": "^2.0.2",
     "@tsconfig/svelte": "^3.0.0",
     "cross-env": "^7.0.3",
     "crypto-random-string": "^5.0.0",
@@ -30,11 +30,11 @@
     "rimraf": "^4.1.2",
     "rollup-plugin-visualizer": "^5.9.0",
     "svelte": "^3.55.1",
-    "svelte-check": "^2.10.3",
+    "svelte-check": "^3.0.3",
     "svelte-i18n": "^3.6.0",
     "tslib": "^2.5.0",
     "typescript": "^4.9.5",
-    "vite": "^3.0.3",
+    "vite": "^4.1.1",
     "wasm": "file:wasm/pkg"
   },
   "browserslist": {
