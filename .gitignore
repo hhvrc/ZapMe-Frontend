@@ -23,6 +23,3 @@ dist
 *.njsproj
 *.sln
 *.sw?
-
-# Build reports
-stats.html
