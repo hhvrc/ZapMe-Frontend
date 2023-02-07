@@ -21,27 +21,24 @@
 </div>
 
 <script lang="ts">
+    import { goto } from '@roxi/routify';
+    import { AuthenticationApi } from '$api/index';
+
+    const accountApi = new AuthenticationApi();
+
     let title = 'Login';
     let username = '';
     let password = '';
 
     async function signIn() {
-        const response = await fetch('/api/auth/sign-in', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                username,
-                password,
-            }),
+        accountApi.authSignIn({username, password})
+        .then((response) => {
+            console.log(response);
+            $goto('/home');
+        })
+        .catch((error) => {
+            console.log(error);
         });
-
-        if (response.status === 200) {
-            const { token } = await response.json();
-            localStorage.setItem('token', token);
-            window.location.href = '/';
-        }
     }
 </script>
 

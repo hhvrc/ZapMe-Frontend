@@ -2,6 +2,11 @@
   "extends": "@tsconfig/svelte/tsconfig.json",
 
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "$api/*": ["src/api/generated/*"]
+    },
+
     "target": "ESNext",
     "useDefineForClassFields": true,
 

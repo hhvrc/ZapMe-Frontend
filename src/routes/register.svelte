@@ -25,12 +25,10 @@
 </div>
 
 <script lang="ts">
-    import {
-        RadioGroup,
-        RadioGroupLabel,
-        RadioGroupOption,
-        RadioGroupDescription,
-    } from "@rgossiaux/svelte-headlessui";
+    import { goto } from '@roxi/routify';
+    import { AccountApi } from '$api/index';
+
+    const accountApi = new AccountApi();
 
     let title = 'Register';
     let username = '';
@@ -38,22 +36,14 @@
     let password = '';
 
     async function register() {
-        const response = await fetch('/api/auth/sign-in', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                username,
-                password,
-            }),
+        accountApi.createAccount({username, email, password})
+        .then((response) => {
+            console.log(response);
+            $goto('/home');
+        })
+        .catch((error) => {
+            console.log(error);
         });
-
-        if (response.status === 200) {
-            const { token } = await response.json();
-            localStorage.setItem('token', token);
-            window.location.href = '/';
-        }
     }
 </script>
 

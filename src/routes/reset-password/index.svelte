@@ -17,22 +17,23 @@
 </div>
 
 <script lang="ts">
+    import { goto } from '@roxi/routify';
+    import { AccountApi } from '$api/index';
+
+    const accountApi = new AccountApi();
+
     let email = '';
+    let recaptcha_response = '';
 
     async function signIn() {
-        const response = await fetch('/api/auth/reset-password', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email,
-            }),
+        accountApi.accountRecoveryRequest({email, recaptcha_response})
+        .then((response) => {
+            console.log(response);
+            $goto('/sign-in');
+        })
+        .catch((error) => {
+            console.log(error);
         });
-
-        if (response.status === 200) {
-            window.location.href = '/login';
-        }
     }
 </script>
 
