@@ -4,6 +4,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "$cmp/*": ["src/components/*"],
       "$api/*": ["src/api/generated/*"]
     },
 

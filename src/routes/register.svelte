@@ -1,6 +1,7 @@
 <script lang="ts">
     import { goto } from '@roxi/routify';
     import { AccountApi } from '$api/index';
+  import CenteredRect from '$cmp/CenteredRect.svelte';
 
     const accountApi = new AccountApi();
 
@@ -25,7 +26,7 @@
     <title>ZapMe - {title}</title>
 </svelte:head>
 
-<div>
+<CenteredRect>
     Sign In
 
     <form on:submit|preventDefault={register}>
@@ -45,7 +46,7 @@
     </form>
 
     <a href="/login">Login</a>
-</div>
+</CenteredRect>
 
 <style>
 </style>

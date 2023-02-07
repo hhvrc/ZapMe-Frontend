@@ -1,6 +1,7 @@
 <script lang="ts">
     import { goto } from '@roxi/routify';
     import { AuthenticationApi } from '$api/index';
+    import CenteredRect from '$cmp/CenteredRect.svelte';
 
     const accountApi = new AuthenticationApi();
 
@@ -18,13 +19,16 @@
             console.log(error);
         });
     }
+    function validateForm(username:string, password:string) {
+        return username.length > 0 && password.length > 0;
+    }
 </script>
 
 <svelte:head>
     <title>ZapMe - {title}</title>
 </svelte:head>
 
-<div>
+<CenteredRect>
     Sign In
 
     <form on:submit|preventDefault={submitForm}>
@@ -33,14 +37,15 @@
 
         <label for="password">Password</label>
         <input type="password" name="password" bind:value={password} />
-
+        <br>
         <a href="/reset-password">Forgot Password?</a>
-
-        <button type="submit">Login</button>
+        <br>
+        <br>
+        <button type="submit" disabled='{!validateForm(username, password)}'>Login</button>
     </form>
 
     <a href="/register">Register</a>
-</div>
+</CenteredRect>
 
 <style>
 </style>
