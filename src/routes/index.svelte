@@ -1,3 +1,6 @@
+<script lang="ts">
+</script>
+
 <svelte:head>
     <title>ZapMe</title>
 </svelte:head>
@@ -8,9 +11,6 @@
     <a href="/login">Login</a>
     <a href="/register">Register</a>
 </div>
-
-<script lang="ts">
-</script>
 
 <style>
 </style>

@@ -1,3 +1,26 @@
+<script lang="ts">
+    import { goto } from '@roxi/routify';
+    import { AccountApi } from '$api/index';
+
+    const accountApi = new AccountApi();
+
+    let title = 'Register';
+    let username = '';
+    let email = '';
+    let password = '';
+
+    async function register() {
+        accountApi.createAccount({username, email, password})
+        .then((response) => {
+            console.log(response);
+            $goto('/home');
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
+</script>
+
 <svelte:head>
     <title>ZapMe - {title}</title>
 </svelte:head>
@@ -23,29 +46,6 @@
 
     <a href="/login">Login</a>
 </div>
-
-<script lang="ts">
-    import { goto } from '@roxi/routify';
-    import { AccountApi } from '$api/index';
-
-    const accountApi = new AccountApi();
-
-    let title = 'Register';
-    let username = '';
-    let email = '';
-    let password = '';
-
-    async function register() {
-        accountApi.createAccount({username, email, password})
-        .then((response) => {
-            console.log(response);
-            $goto('/home');
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-    }
-</script>
 
 <style>
 </style>
