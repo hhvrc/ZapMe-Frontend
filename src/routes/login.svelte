@@ -12,16 +12,16 @@
         <label for="password">Password</label>
         <input type="password" name="password" bind:value={password} />
 
-        <a href="/forgot-password">Forgot Password?</a>
+        <a href="/reset-password">Forgot Password?</a>
 
-        <button type="submit">Sign In</button>
+        <button type="submit">Login</button>
     </form>
 
-    <a href="/sign-up">Sign Up</a>
+    <a href="/register">Register</a>
 </div>
 
 <script lang="ts">
-    let title = 'Sign In';
+    let title = 'Login';
     let username = '';
     let password = '';
 

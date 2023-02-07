@@ -5,27 +5,39 @@
 <div>
     Sign In
 
-    <form on:submit|preventDefault={signIn}>
+    <form on:submit|preventDefault={register}>
         <label for="username">Username</label>
         <input type="username" name="username" bind:value={username} />
+
+        <label for="email">Email</label>
+        <input type="email" name="email" bind:value={email} />
 
         <label for="password">Password</label>
         <input type="password" name="password" bind:value={password} />
 
-        <a href="/forgot-password">Forgot Password?</a>
+        <label for="password">Confirm Password</label>
+        <input type="password" name="password" bind:value={password} />
 
-        <button type="submit">Sign Up</button>
+        <button type="submit">Register</button>
     </form>
 
-    <a href="/sign-in">Sign In</a>
+    <a href="/login">Login</a>
 </div>
 
 <script lang="ts">
-    let title = 'Sign Up';
+    import {
+        RadioGroup,
+        RadioGroupLabel,
+        RadioGroupOption,
+        RadioGroupDescription,
+    } from "@rgossiaux/svelte-headlessui";
+
+    let title = 'Register';
     let username = '';
+    let email = '';
     let password = '';
 
-    async function signIn() {
+    async function register() {
         const response = await fetch('/api/auth/sign-in', {
             method: 'POST',
             headers: {
