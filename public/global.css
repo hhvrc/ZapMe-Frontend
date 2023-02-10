@@ -1,20 +1,38 @@
+:root {
+  --bg-col: #222;
+  --scrollbar-width: 14px;
+}
+
 html,
 body {
   position: relative;
   width: 100%;
   height: 100%;
+  box-sizing: border-box;
 }
 
 body {
   color: #bbb;
-  background: #222;
+  background: var(--bg-col);
   margin: 0;
-  padding: 0;
-  box-sizing: border-box;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto 1fr auto;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: var(--scrollbar-width);
+}
+::-webkit-scrollbar-track {
+  visibility: hidden;
+}
+::-webkit-scrollbar-thumb {
+  background: #88888888;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #bbbbbbbb;
 }
