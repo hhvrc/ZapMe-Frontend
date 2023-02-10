@@ -1,25 +1,40 @@
+<script lang="ts">
+</script>
+
+<svelte:head>
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:300,400,600,700&amp;lang=en" />
+</svelte:head>
+
 <footer>
-  <h3>
-    <a href="/">
-      ZapMe
-    </a>
-  </h3>
+  <div class="l">
+    Made with <span style="color: #e25555;">&#9829;</span> by HentaiHeavenVR
+  </div>
+  <div class="c">
+    @2023 ZapMe | All Rights Reserved
+  </div>
+  <div class="r">
+      <a href="/privacy">
+        Privacy Policy
+      </a>
+      <a href="/tos">
+        Terms of Service
+      </a>
+  </div>
 </footer>
 
 <style>
   footer {
-    padding: 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
   }
-  h3 {
-    margin: 0;
-    color: #fff;
+  a {
+    color: inherit;
+    text-decoration: none;
 
     font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
-    font-size: 24px;
     text-align: center;
     text-transform: uppercase;
-    letter-spacing: 4px;
+    text-decoration: none;
 
     user-select: none;
     -ms-user-select: none;
@@ -27,9 +42,19 @@
     -khtml-user-select: none;
     -webkit-user-select: none;
     -webkit-touch-callout: none;
+    
+    font-weight: 400;
+    font-size: 18px;
   }
-  a {
-    color: inherit;
-    text-decoration: none;
+
+  .l {
+    padding: 24px;
+  }
+  .c {
+    padding: 24px;
+    text-align: center;
+  }
+  .r {
+    padding: 24px;
   }
 </style>

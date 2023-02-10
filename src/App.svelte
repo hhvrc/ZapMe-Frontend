@@ -8,16 +8,19 @@
 <Header/>
 <main>
   <Router {routes}/>
+  <Footer/>
   <div class="scroll-cover"/>
 </main>
-<Footer/>
 
 <style>
   main {
     height: 100%;
     width: auto;
-    overflow-y: auto;
+    overflow-y: scroll;
     padding-left: var(--scrollbar-width);
+
+    display: grid;
+    grid-template-rows: 1fr auto;
   }
   .scroll-cover {
     position: absolute;

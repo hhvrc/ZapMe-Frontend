@@ -27,22 +27,24 @@
     <title>ZapMe - {title}</title>
 </svelte:head>
 
-<form on:submit|preventDefault={handleSubmit}>
-    <h3>Sign In</h3>
+<div>
+  <form on:submit|preventDefault={handleSubmit}>
+      <h3>Sign In</h3>
 
-    <label for="username">Username</label>
-    <input type="username" placeholder="Username" name="username" bind:value={username}>
+      <label for="username">Username</label>
+      <input type="username" placeholder="Username" name="username" bind:value={username}>
 
-    <label for="password">Password</label>
-    <input type="password" placeholder="Password" name="password" bind:value={password}>
+      <label for="password">Password</label>
+      <input type="password" placeholder="Password" name="password" bind:value={password}>
 
-    <button type="submit" disabled='{!validateForm(username, password)}'>Sign In</button>
+      <button type="submit" disabled='{!validateForm(username, password)}'>Sign In</button>
 
-    <div class="social">
-        <button><img src="/icons/logo_google.svg" alt="Google Icon" />Google</button>
-        <button><img src="/icons/logo_twitter.svg" alt="Google Icon" />Twitter</button>
-    </div>
-</form>
+      <div class="social">
+          <button><img src="/icons/logo_google.svg" alt="Google Icon" />Google</button>
+          <button><img src="/icons/logo_twitter.svg" alt="Google Icon" />Twitter</button>
+      </div>
+  </form>
+</div>
 
 <style>
     *,

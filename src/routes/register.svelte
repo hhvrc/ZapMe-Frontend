@@ -30,25 +30,27 @@
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </svelte:head>
 
-<form on:submit|preventDefault={handleSubmit}>
-    <h3>Register</h3>
+<div>
+  <form on:submit|preventDefault={handleSubmit}>
+      <h3>Register</h3>
 
-    <label for="username">Username</label>
-    <input type="username" placeholder="Username" name="username" bind:value={username}>
+      <label for="username">Username</label>
+      <input type="username" placeholder="Username" name="username" bind:value={username}>
 
-    <label for="email">Email</label>
-    <input type="email" placeholder="Email" name="email" bind:value={email}>
+      <label for="email">Email</label>
+      <input type="email" placeholder="Email" name="email" bind:value={email}>
 
-    <label for="password">Password</label>
-    <input type="password" placeholder="Password" name="password" bind:value={password}>
+      <label for="password">Password</label>
+      <input type="password" placeholder="Password" name="password" bind:value={password}>
 
-    <label for="password">Confirm Password</label>
-    <input type="password" placeholder="Password" name="password" bind:value={confirmedPassword}>
+      <label for="password">Confirm Password</label>
+      <input type="password" placeholder="Password" name="password" bind:value={confirmedPassword}>
 
-    <div class="g-recaptcha" data-sitekey="{import.meta.env.VITE_RECAPTCHA_SITEKEY}"></div>
+      <div class="g-recaptcha" data-sitekey="{import.meta.env.VITE_RECAPTCHA_SITEKEY}"></div>
 
-    <button type="submit" disabled='{!validateForm(username, password, email, confirmedPassword)}'>Register</button>
-</form>
+      <button type="submit" disabled='{!validateForm(username, password, email, confirmedPassword)}'>Register</button>
+  </form>
+</div>
 
 <style>
     *,
