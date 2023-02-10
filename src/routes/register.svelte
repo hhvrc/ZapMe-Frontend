@@ -50,8 +50,6 @@
     <button type="submit" disabled='{!validateForm(username, password, email, confirmedPassword)}'>Register</button>
 </form>
 
-<a href="/sign-in">Sign In</a>
-
 <style>
     *,
     *:before,

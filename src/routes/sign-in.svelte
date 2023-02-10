@@ -44,8 +44,6 @@
     </div>
 </form>
 
-<a href="/register">Register</a>
-
 <style>
     *,
     *:before,
