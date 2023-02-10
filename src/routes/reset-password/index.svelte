@@ -1,20 +1,14 @@
 <script lang="ts">
     import { goto } from '@roxi/routify';
-    import { AccountApi } from '$api/index';
-
-    const accountApi = new AccountApi();
+    import { requestPasswordReset } from '$api/account';
 
     let email = '';
     let recaptcha_response = '';
 
     async function submitForm() {
-        accountApi.accountRecoveryRequest({email, recaptcha_response})
-        .then((response) => {
-            console.log(response);
+        requestPasswordReset(email, recaptcha_response)
+        .finally(() => {
             $goto('/sign-in');
-        })
-        .catch((error) => {
-            console.log(error);
         });
     }
 </script>

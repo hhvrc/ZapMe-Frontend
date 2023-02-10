@@ -1,28 +1,63 @@
 <script lang="ts">
-    import { goto } from '@roxi/routify';
-    import { AccountApi } from '$api/index';
+  import { goto } from '@roxi/routify';
+  import { registerAccount } from '$api/account';
+  import type { ErrorDetails } from '$api/generated/api';
 
-    const accountApi = new AccountApi();
+  let title = 'Register';
+  let username = '';
+  let usernameError: string | null = null;
+  let email = '';
+  let emailError: string | null = null;
+  let password = '';
+  let passwordError: string | null = null;
+  let confirmedPassword = '';
+  let confirmedPasswordError: string | null = null;
+  let acceptedTosVersion = -1;
+  let recaptchaResponse = '';
 
-    let title = 'Register';
-    let username = '';
-    let email = '';
-    let password = '';
-    let confirmedPassword = '';
+  async function handleSubmit() {
+    const response = await registerAccount(username, password, email, acceptedTosVersion, recaptchaResponse);
 
-    async function handleSubmit() {
-        accountApi.createAccount({username, email, password})
-        .then((response) => {
-            console.log(response);
-            $goto('/home');
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+    if (response.ok) {
+      $goto('/home');
+      return;
     }
-    function validateForm(username:string, password:string, email:string, confirmedPassword:string) {
-        return username.length > 0 && password.length > 0 && email.length > 0 && password === confirmedPassword;
+
+    if (!response.error) {
+      window.alert('An unknown error occurred.');
+      return;
     }
+
+    const error = response.error as ErrorDetails;
+
+    if (error.notification) {
+      window.alert(error.notification.title + ': ' + error.notification.message);
+    }
+
+    if (error.fields) {
+      for (const [key, value] of Object.entries(error.fields)) {
+        switch (key) {
+          case 'username':
+            usernameError = value[0];
+            break;
+          case 'email':
+            emailError = value[0];
+            break;
+          case 'password':
+            passwordError = value[0];
+            break;
+          case 'confirmedPassword':
+            confirmedPasswordError = value[0];
+            break;
+          default:
+            break;
+        }
+      }
+    }
+  }
+  function validateForm(username:string, password:string, email:string, confirmedPassword:string) {
+      return username.length > 0 && password.length > 0 && email.length > 0 && password === confirmedPassword;
+  }
 </script>
 
 <svelte:head>
@@ -36,15 +71,27 @@
 
       <label for="username">Username</label>
       <input type="username" placeholder="Username" name="username" bind:value={username}>
+      {#if !!usernameError}
+        <p class="error">{usernameError}</p>
+      {/if}
 
       <label for="email">Email</label>
       <input type="email" placeholder="Email" name="email" bind:value={email}>
+      {#if !!emailError}
+        <p class="error">{emailError}</p>
+      {/if}
 
       <label for="password">Password</label>
       <input type="password" placeholder="Password" name="password" bind:value={password}>
+      {#if !!passwordError}
+        <p class="error">{passwordError}</p>
+      {/if}
 
       <label for="password">Confirm Password</label>
       <input type="password" placeholder="Password" name="password" bind:value={confirmedPassword}>
+      {#if !!confirmedPasswordError}
+        <p class="error">{confirmedPasswordError}</p>
+      {/if}
 
       <div class="g-recaptcha" data-sitekey="{import.meta.env.VITE_RECAPTCHA_SITEKEY}"></div>
 
@@ -127,5 +174,12 @@
         font-weight: 600;
         border-radius: 5px;
         cursor: pointer;
+    }
+
+    .error{
+        color: red;
+        font-size: 12px;
+        font-weight: 300;
+        margin-top: 5px;
     }
 </style>

@@ -58,13 +58,13 @@
     <label for="username">Username</label>
     <input type="username" placeholder="Username" name="username" bind:value={username}>
     {#if !!usernameError}
-      <p style="color: red">{usernameError}</p>
+      <p class="error">{usernameError}</p>
     {/if}
 
     <label for="password">Password</label>
     <input type="password" placeholder="Password" name="password" bind:value={password}>
     {#if !!passwordError}
-      <p style="color: red">{usernameError}</p>
+      <p class="error">{usernameError}</p>
     {/if}
 
     <!-- RememberMe checkbox -->
@@ -149,6 +149,10 @@
     font-weight: 600;
     border-radius: 5px;
     cursor: pointer;
+  }
+
+  .error{
+    color: red;
   }
 
   .social{
