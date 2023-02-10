@@ -39,8 +39,8 @@
     <button type="submit" disabled='{!validateForm(username, password)}'>Sign In</button>
 
     <div class="social">
-        <button><i></i>Google</button>
-        <button><i></i>Twitter</button>
+        <button><img src="/icons/logo_google.svg" alt="Google Icon" />Google</button>
+        <button><img src="/icons/logo_twitter.svg" alt="Google Icon" />Twitter</button>
     </div>
 </form>
 
@@ -134,7 +134,9 @@
     .social button:hover{
         background-color: rgba(255,255,255,0.47);
     }
-    .social i{
+    .social img{
+        height: 25px;
+        width: 25px;
         margin-right: 4px;
     }
 </style>
