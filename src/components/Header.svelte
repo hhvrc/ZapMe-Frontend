@@ -7,49 +7,51 @@
 </svelte:head>
 
 <header>
-  <div class="l">
-  </div>
-  <div class="c">
-    <a href="/">
-      <h3>
-        ZapMe
-      </h3>
+  <a href="/" style="display: flex; align-items: center; gap: 8px;">
+    <img src="/logo-128.png" alt="ZapMe Logo"/>
+    <h3>
+      ZapMe
+    </h3>
+  </a>
+  <div style="flex-grow: 1;"/>
+  {#if $IsAuthenticatedStore}
+    <a href="/sign-out">
+      <h4>
+        Sign Out
+      </h4>
     </a>
-  </div>
-  <div class="r">
-    {#if $IsAuthenticatedStore}
-      <a href="/sign-out">
-        <h4>
-          Sign Out
-        </h4>
-      </a>
-    {:else}
-      {#if window.location.pathname !== '/sign-in'}
-      <a href="/sign-in">
-        <h4>
-          Sign In
-        </h4>
-      </a>
-      {/if}
-      {#if window.location.pathname !== '/register'}
-      <a href="/register">
-        <h4>
-          Register
-        </h4>
-      </a>
-      {/if}
+  {:else}
+    {#if window.location.pathname !== '/sign-in'}
+    <a href="/sign-in">
+      <h4>
+        Sign In
+      </h4>
+    </a>
     {/if}
-  </div>
+    {#if window.location.pathname !== '/register'}
+    <a href="/register">
+      <h4>
+        Register
+      </h4>
+    </a>
+    {/if}
+  {/if}
 </header>
 
 <style>
   header {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 24px;
   }
   a {
     color: inherit;
     text-decoration: none;
+  }
+  img {
+     height: 32px;
+     width: auto;
   }
   h3,h4 {
     margin: 0;
@@ -75,24 +77,5 @@
   h4 {
     font-weight: 400;
     font-size: 18px;
-  }
-
-  .l {
-    padding: 24px;
-  }
-  .c {
-    padding: 24px;
-  }
-  .r {
-    padding: 8px 24px 16px 24px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 8px;
-  }
-  .r a {
-    background-color: rgba(255,255,255,0.13);
-    border-radius: 4px;
-    padding: 8px 16px;
   }
 </style>

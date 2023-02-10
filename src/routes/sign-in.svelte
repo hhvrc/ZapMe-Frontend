@@ -1,142 +1,176 @@
 <script lang="ts">
-    import { goto } from '@roxi/routify';
-    import { AuthenticationApi } from '$api/index';
+  import { goto } from '@roxi/routify';
+  import { authLogin } from '$api/authentication';
+  import { SessionStore } from '../stores';
 
-    const accountApi = new AuthenticationApi();
+  let title = 'Login';
+  let username = '';
+  let usernameError: string | null = null;
+  let password = '';
+  let passwordError: string | null = null;
+  let rememberMe = false;
 
-    let title = 'Login';
-    let username = '';
-    let password = '';
+  async function handleSubmit() {
+    // TODO: set loading
+    const { sessionInfo, error } = await authLogin(username, password, rememberMe).finally(() => {
+      // TODO: remove loading
+    });
 
-    async function handleSubmit() {
-        accountApi.authSignIn({username, password})
-        .then((response) => {
-            console.log(response);
-            $goto('/home');
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+    if (sessionInfo) {
+      console.log(sessionInfo);
+      SessionStore.set(sessionInfo);
+      $goto('/home');
+      return;
     }
-    function validateForm(username:string, password:string) {
-        return username.length > 0 && password.length > 0;
+
+    if (error?.fields) {
+      for (const [key, value] of Object.entries(error.fields)) {
+        switch (key) {
+          case 'username':
+            usernameError = value[0];
+            break;
+          case 'password':
+            passwordError = value[0];
+            break;
+          default:
+            break;
+        }
+      }
     }
+
+    if (error?.notification) {
+      window.alert(error.notification.title + ': ' + error.notification.message);
+    }
+  }
+  function validateForm(username:string, password:string) {
+    return username.length > 0 && password.length > 0;
+  }
 </script>
 
 <svelte:head>
-    <title>ZapMe - {title}</title>
+  <title>ZapMe - {title}</title>
 </svelte:head>
 
 <div>
   <form on:submit|preventDefault={handleSubmit}>
-      <h3>Sign In</h3>
+    <h3>Sign In</h3>
 
-      <label for="username">Username</label>
-      <input type="username" placeholder="Username" name="username" bind:value={username}>
+    <label for="username">Username</label>
+    <input type="username" placeholder="Username" name="username" bind:value={username}>
+    {#if !!usernameError}
+      <p style="color: red">{usernameError}</p>
+    {/if}
 
-      <label for="password">Password</label>
-      <input type="password" placeholder="Password" name="password" bind:value={password}>
+    <label for="password">Password</label>
+    <input type="password" placeholder="Password" name="password" bind:value={password}>
+    {#if !!passwordError}
+      <p style="color: red">{usernameError}</p>
+    {/if}
 
-      <button type="submit" disabled='{!validateForm(username, password)}'>Sign In</button>
+    <!-- RememberMe checkbox -->
+    <label for="rememberMe">Remember Me</label>
+    <input type="checkbox" name="rememberMe" id="rememberMe" bind:checked={rememberMe}>
 
-      <div class="social">
-          <button><img src="/icons/logo_google.svg" alt="Google Icon" />Google</button>
-          <button><img src="/icons/logo_twitter.svg" alt="Google Icon" />Twitter</button>
-      </div>
+    <button type="submit" disabled='{!validateForm(username, password)}'>Sign In</button>
+
+    <div class="social">
+      <button><img src="/icons/logo_google.svg" alt="Google Icon" />Google</button>
+      <button><img src="/icons/logo_twitter.svg" alt="Google Icon" />Twitter</button>
+    </div>
   </form>
 </div>
 
 <style>
-    *,
-    *:before,
-    *:after{
-        padding: 0;
-        margin: 0;
-        box-sizing: border-box;
-    }
-    form{
-        height: fit-content;
-        width: fit-content;
-        min-width: 500px;
-        background-color: rgba(255,255,255,0.13);
-        position: absolute;
-        transform: translate(-50%,-50%);
-        top: 50%;
-        left: 50%;
-        border-radius: 10px;
-        border: 2px solid rgba(255,255,255,0.1);
-        box-shadow: 0 0 40px rgba(8,7,16,0.6);
-        padding: 50px 35px;
-    }
-    form *{
-        font-family: 'Poppins',sans-serif;
-        color: #ffffff;
-        letter-spacing: 0.5px;
-        outline: none;
-        border: none;
-    }
-    form h3{
-        font-size: 42px;
-        font-weight: 500;
-        line-height: 42px;
-        text-align: center;
-    }
+  *,
+  *:before,
+  *:after{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  form{
+    height: fit-content;
+    width: fit-content;
+    min-width: 500px;
+    background-color: rgba(255,255,255,0.13);
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    border-radius: 10px;
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: 0 0 40px rgba(8,7,16,0.6);
+    padding: 50px 35px;
+  }
+  form *{
+    font-family: 'Poppins',sans-serif;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    outline: none;
+    border: none;
+  }
+  form h3{
+    font-size: 42px;
+    font-weight: 500;
+    line-height: 42px;
+    text-align: center;
+  }
 
-    form label{
-        display: block;
-        margin-top: 30px;
-        font-size: 16px;
-        font-weight: 500;
-    }
-    form input{
-        display: block;
-        height: 50px;
-        width: 100%;
-        background-color: rgba(255,255,255,0.07);
-        border-radius: 3px;
-        padding: 0 10px;
-        margin-top: 8px;
-        font-size: 14px;
-        font-weight: 300;
-    }
-    ::placeholder{
-        color: #e5e5e5;
-    }
-    form div {
-        margin-top: 30px;
-    }
-    form button{
-        margin-top: 30px;
-        width: 100%;
-        background-color: #ffffff;
-        color: #080710;
-        padding: 15px 0;
-        font-size: 18px;
-        font-weight: 600;
-        border-radius: 5px;
-        cursor: pointer;
-    }
+  form label{
+    display: block;
+    margin-top: 30px;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  form input{
+    display: block;
+    height: 50px;
+    width: 100%;
+    background-color: rgba(255,255,255,0.07);
+    border-radius: 3px;
+    padding: 0 10px;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 300;
+  }
+  ::placeholder{
+    color: #e5e5e5;
+  }
+  form div {
+    margin-top: 30px;
+  }
+  form button{
+    margin-top: 30px;
+    width: 100%;
+    background-color: #ffffff;
+    color: #080710;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+  }
 
-    .social{
-        display: flex;
-        gap: 10px;
-    }
-    .social button{
-        margin-top: 20px;
-        background: red;
-        width: 150px;
-        border-radius: 3px;
-        padding: 5px 10px 10px 5px;
-        background-color: rgba(255,255,255,0.27);
-        color: #eaf0fb;
-        text-align: center;
-    }
-    .social button:hover{
-        background-color: rgba(255,255,255,0.47);
-    }
-    .social img{
-        height: 25px;
-        width: 25px;
-        margin-right: 4px;
-    }
+  .social{
+    display: flex;
+    gap: 10px;
+  }
+  .social button{
+    margin-top: 20px;
+    background: red;
+    width: 150px;
+    border-radius: 3px;
+    padding: 5px 10px 10px 5px;
+    background-color: rgba(255,255,255,0.27);
+    color: #eaf0fb;
+    text-align: center;
+  }
+  .social button:hover{
+    background-color: rgba(255,255,255,0.47);
+  }
+  .social img{
+    height: 25px;
+    width: 25px;
+    margin-right: 4px;
+  }
 </style>

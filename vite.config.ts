@@ -10,8 +10,8 @@ export default defineConfig({
 
   resolve: {
     alias: {
+      $api: resolve('./src/api'),
       $cmp: resolve('./src/components'),
-      $api: resolve('./src/api/generated'),
     },
   },
 

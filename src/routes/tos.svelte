@@ -42,31 +42,7 @@
     <br>
 </div>
 
-
 <style>
-    *,
-    *:before,
-    *:after{
-        padding: 0;
-        margin: 0;
-        box-sizing: border-box;
-    }
-    div{
-        height: fit-content;
-        width: fit-content;
-        min-width: 500px;
-	    background: #444;
-        position: absolute;
-        transform: translate(-50%,-50%);
-        top: 50%;
-        left: 50%;
-        width: 90%;
-        height: 90%;
-        border-radius: 10px;
-        border: 2px solid rgba(255,255,255,0.1);
-        box-shadow: 0 0 40px rgba(8,7,16,0.6);
-        padding: 50px 35px;
-    }
     h1,h2,p {
         color: #eee;
     }

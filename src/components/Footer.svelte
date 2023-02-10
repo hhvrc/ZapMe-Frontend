@@ -1,4 +1,5 @@
 <script lang="ts">
+  const year = new Date().getFullYear();
 </script>
 
 <svelte:head>
@@ -10,10 +11,10 @@
     Made with <span style="color: #e25555;">&#9829;</span> by HentaiHeavenVR
   </div>
   <div class="c">
-    @2023 ZapMe | All Rights Reserved
+    Copyright @{year} | All Rights Reserved
   </div>
   <div class="r">
-      <a href="/privacy">
+      <a href="/privacy-policy">
         Privacy Policy
       </a>
       <a href="/tos">
@@ -56,5 +57,9 @@
   }
   .r {
     padding: 24px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 32px;
   }
 </style>
