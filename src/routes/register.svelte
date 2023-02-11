@@ -3,6 +3,7 @@
   import { registerAccount } from '$api/account';
   import type { ErrorDetails } from '$api/generated/api';
   import NamedInput from '$cmp/NamedInput.svelte';
+  import ReCaptcha from '$cmp//ReCaptcha.svelte';
 
   let title = 'Register';
   let username = '';
@@ -63,7 +64,6 @@
 
 <svelte:head>
     <title>ZapMe - {title}</title>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </svelte:head>
 
 <div>
@@ -75,7 +75,7 @@
       <NamedInput type='password' displayname="Password" bind:value={password} error={passwordError} />
       <NamedInput type='password' displayname="Confirm Password" placeholder="Password" bind:value={confirmedPassword} error={confirmedPasswordError} />
 
-      <div class="g-recaptcha" data-sitekey="{import.meta.env.VITE_RECAPTCHA_SITEKEY}"></div>
+      <ReCaptcha bind:response={recaptchaResponse} />
 
       <button type="submit" disabled='{!validateForm(username, password, email, confirmedPassword)}'>Register</button>
   </form>
@@ -116,36 +116,6 @@
         line-height: 42px;
         text-align: center;
     }
-
-    form label{
-        display: block;
-        margin-top: 30px;
-        font-size: 16px;
-        font-weight: 500;
-    }
-    form input{
-        display: block;
-        height: 50px;
-        width: 100%;
-        background-color: rgba(255,255,255,0.07);
-        border-radius: 3px;
-        padding: 0 10px;
-        margin-top: 8px;
-        font-size: 14px;
-        font-weight: 300;
-    }
-    ::placeholder{
-        color: #e5e5e5;
-    }
-    form div {
-        margin-top: 30px;
-    }
-    form .g-recaptcha{
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        width: 304px;
-    }
     form button{
         margin-top: 30px;
         width: 100%;
@@ -156,12 +126,5 @@
         font-weight: 600;
         border-radius: 5px;
         cursor: pointer;
-    }
-
-    .error{
-        color: red;
-        font-size: 12px;
-        font-weight: 300;
-        margin-top: 5px;
     }
 </style>
