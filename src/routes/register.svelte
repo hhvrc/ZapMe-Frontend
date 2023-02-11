@@ -2,6 +2,7 @@
   import { goto } from '@roxi/routify';
   import { registerAccount } from '$api/account';
   import type { ErrorDetails } from '$api/generated/api';
+  import NamedInput from '$cmp/NamedInput.svelte';
 
   let title = 'Register';
   let username = '';
@@ -69,29 +70,10 @@
   <form on:submit|preventDefault={handleSubmit}>
       <h3>Register</h3>
 
-      <label for="username">Username</label>
-      <input type="username" placeholder="Username" name="username" bind:value={username}>
-      {#if !!usernameError}
-        <p class="error">{usernameError}</p>
-      {/if}
-
-      <label for="email">Email</label>
-      <input type="email" placeholder="Email" name="email" bind:value={email}>
-      {#if !!emailError}
-        <p class="error">{emailError}</p>
-      {/if}
-
-      <label for="password">Password</label>
-      <input type="password" placeholder="Password" name="password" bind:value={password}>
-      {#if !!passwordError}
-        <p class="error">{passwordError}</p>
-      {/if}
-
-      <label for="password">Confirm Password</label>
-      <input type="password" placeholder="Password" name="password" bind:value={confirmedPassword}>
-      {#if !!confirmedPasswordError}
-        <p class="error">{confirmedPasswordError}</p>
-      {/if}
+      <NamedInput type='text' displayname="Username" bind:value={username} error={usernameError} />
+      <NamedInput type='email' displayname="Email" bind:value={email} error={emailError} />
+      <NamedInput type='password' displayname="Password" bind:value={password} error={passwordError} />
+      <NamedInput type='password' displayname="Confirm Password" placeholder="Password" bind:value={confirmedPassword} error={confirmedPasswordError} />
 
       <div class="g-recaptcha" data-sitekey="{import.meta.env.VITE_RECAPTCHA_SITEKEY}"></div>
 

@@ -42,6 +42,17 @@ export async function registerAccount(
     };
   }
 }
-export async function requestPasswordReset(email: string, recaptchaResponse: string): Promise<void> {
-  await accountApi.accountRecoveryRequest({email, recaptcha_response: recaptchaResponse});
+export async function requestPasswordReset(email: string, recaptchaResponse: string): Promise<ErrorDetails | null> {
+  try {
+    await accountApi.accountRecoveryRequest({email, recaptcha_response: recaptchaResponse});
+  }
+  catch (error: any) {
+    const response = error?.response;
+
+    if (!response?.data) {
+      throw error;
+    }
+
+    return response.data as ErrorDetails;
+  }
 }

@@ -2,6 +2,8 @@
   import { goto } from '@roxi/routify';
   import { authLogin } from '$api/authentication';
   import { SessionStore } from '../stores';
+  import NamedInput from '$cmp/NamedInput.svelte';
+  import NamedCheckBox from '$cmp/NamedCheckBox.svelte';
 
   let title = 'Login';
   let username = '';
@@ -55,21 +57,9 @@
   <form on:submit|preventDefault={handleSubmit}>
     <h3>Sign In</h3>
 
-    <label for="username">Username</label>
-    <input type="username" placeholder="Username" name="username" bind:value={username}>
-    {#if !!usernameError}
-      <p class="error">{usernameError}</p>
-    {/if}
-
-    <label for="password">Password</label>
-    <input type="password" placeholder="Password" name="password" bind:value={password}>
-    {#if !!passwordError}
-      <p class="error">{usernameError}</p>
-    {/if}
-
-    <!-- RememberMe checkbox -->
-    <label for="rememberMe">Remember Me</label>
-    <input type="checkbox" name="rememberMe" id="rememberMe" bind:checked={rememberMe}>
+    <NamedInput type='text' displayname="Username" bind:value={username} error={usernameError} />
+    <NamedInput type='password' displayname="Password" bind:value={password} error={passwordError} />
+    <NamedCheckBox displayname="Remember Me" bind:checked={rememberMe} />
 
     <button type="submit" disabled='{!validateForm(username, password)}'>Sign In</button>
 
@@ -84,8 +74,8 @@
   *,
   *:before,
   *:after{
-    padding: 0;
     margin: 0;
+    padding: 0;
     box-sizing: border-box;
   }
   form{
@@ -109,30 +99,13 @@
     outline: none;
     border: none;
   }
-  form h3{
+  h3{
     font-size: 42px;
     font-weight: 500;
     line-height: 42px;
     text-align: center;
   }
 
-  form label{
-    display: block;
-    margin-top: 30px;
-    font-size: 16px;
-    font-weight: 500;
-  }
-  form input{
-    display: block;
-    height: 50px;
-    width: 100%;
-    background-color: rgba(255,255,255,0.07);
-    border-radius: 3px;
-    padding: 0 10px;
-    margin-top: 8px;
-    font-size: 14px;
-    font-weight: 300;
-  }
   ::placeholder{
     color: #e5e5e5;
   }
@@ -149,10 +122,6 @@
     font-weight: 600;
     border-radius: 5px;
     cursor: pointer;
-  }
-
-  .error{
-    color: red;
   }
 
   .social{
