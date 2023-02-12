@@ -1,10 +1,6 @@
 <script lang="ts">
-  import { IsMenuOpenStore } from '../stores';
+  import { IsMenuOpenStore, IsAuthenticatedStore } from '../stores';
 </script>
-
-<svelte:head>
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:300,400,600,700&amp;lang=en" />
-</svelte:head>
 
 <header>
   <button class="menu-btn" on:click={() => IsMenuOpenStore.update(b => !b)}>
@@ -18,6 +14,29 @@
     <img src="/logo-128.png" alt="ZapMe Logo"/>
     <h1>ZapMe</h1>
   </a>
+  <div style="flex: 1;"/>
+  {#if $IsAuthenticatedStore}
+    <a href="/sign-out">
+      <h4>
+        Sign Out
+      </h4>
+    </a>
+  {:else}
+    {#if window.location.pathname !== '/sign-in'}
+    <a href="/sign-in">
+      <h4>
+        Sign In
+      </h4>
+    </a>
+    {/if}
+    {#if window.location.pathname !== '/register'}
+    <a href="/register">
+      <h4>
+        Register
+      </h4>
+    </a>
+    {/if}
+  {/if}
 </header>
 
 <style>
@@ -26,6 +45,10 @@
     display: flex;
     align-items: center;
     gap: 24px;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
   }
   .menu-btn {
     width: 32px;
@@ -60,5 +83,21 @@
   .logo img {
      height: 32px;
      width: auto;
+  }
+  h4 {
+    color: #fff;
+
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+
+    text-transform: uppercase;
+
+    user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
   }
 </style>
