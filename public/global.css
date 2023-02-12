@@ -36,3 +36,32 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #bbbbbbbb;
 }
+
+h1, h2, h3,
+h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+
+  text-align: center;
+}
+h1,h2 {
+  color: #fff;
+}
+h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+h2 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 42px;
+  letter-spacing: 0.5px;
+  line-height: 42px;
+}
+h3 {
+  font-size: 24px;
+  font-weight: 600;
+}

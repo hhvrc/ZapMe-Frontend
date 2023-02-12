@@ -3,6 +3,7 @@
 	import routes from '../.routify/routes.default.js';
   import Header from '$cmp/Header.svelte';
   import Footer from '$cmp/Footer.svelte';
+  import SideBar from '$cmp/SideBar.svelte';
 </script>
 
 <Header/>
@@ -11,6 +12,7 @@
   <Footer/>
   <div class="scroll-cover"/>
 </main>
+<SideBar/>
 
 <style>
   main {

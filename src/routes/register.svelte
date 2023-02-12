@@ -68,7 +68,7 @@
 
 <div>
   <form on:submit|preventDefault={handleSubmit}>
-      <h3>Register</h3>
+      <h2>Register</h2>
 
       <NamedInput type='text' displayname="Username" bind:value={username} error={usernameError} />
       <NamedInput type='email' displayname="Email" bind:value={email} error={emailError} />
@@ -103,23 +103,15 @@
     box-shadow: 0 0 40px rgba(8,7,16,0.6);
     padding: 50px 35px;
   }
-  form h3,button{
+  form button{
     font-family: 'Poppins',sans-serif;
-    color: #ffffff;
-    letter-spacing: 0.5px;
     outline: none;
     border: none;
-  }
-  h3{
-    font-size: 42px;
-    font-weight: 500;
-    line-height: 42px;
-    text-align: center;
   }
   button{
     margin-top: 30px;
     width: 100%;
-    background-color: #ffffff;
+    background-color: #fff;
     color: #080710;
     padding: 15px 0;
     font-size: 18px;

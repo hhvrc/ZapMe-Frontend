@@ -8,11 +8,11 @@
 
 {#if !$params.token}
 
-<h1>Token Not Supplied</h1>
+<h2>Token Not Supplied</h2>
 
 {:else}
 
-<h1>Reset Password</h1>
+<h2>Reset Password</h2>
 
 {/if}
 

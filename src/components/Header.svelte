@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { IsAuthenticatedStore } from '../stores';
+  import { IsMenuOpenStore } from '../stores';
 </script>
 
 <svelte:head>
@@ -7,60 +7,48 @@
 </svelte:head>
 
 <header>
-  <a href="/" style="display: flex; align-items: center; gap: 8px;">
+  <button class="menu-btn" on:click={() => IsMenuOpenStore.update(b => !b)}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </button>
+  <a href="/" class="logo">
     <img src="/logo-128.png" alt="ZapMe Logo"/>
-    <h3>
-      ZapMe
-    </h3>
+    <h1>ZapMe</h1>
   </a>
-  <div style="flex-grow: 1;"/>
-  {#if $IsAuthenticatedStore}
-    <a href="/sign-out">
-      <h4>
-        Sign Out
-      </h4>
-    </a>
-  {:else}
-    {#if window.location.pathname !== '/sign-in'}
-    <a href="/sign-in">
-      <h4>
-        Sign In
-      </h4>
-    </a>
-    {/if}
-    {#if window.location.pathname !== '/register'}
-    <a href="/register">
-      <h4>
-        Register
-      </h4>
-    </a>
-    {/if}
-  {/if}
 </header>
 
 <style>
   header {
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  .menu-btn {
+    width: 32px;
+    height: 32px;
+    margin: 0;
+    padding: 0;
+
+    border: none;
+    outline: none;
+    background: none;
+
+    cursor: pointer;  
+  }
+  .menu-btn svg {
+    stroke: #fff;
+  }
+  .logo {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 24px;
-  }
-  a {
+    
     color: inherit;
     text-decoration: none;
-  }
-  img {
-     height: 32px;
-     width: auto;
-  }
-  h3,h4 {
-    margin: 0;
-    padding: 0;
-    color: #fff;
-
-    font-family: 'Montserrat', sans-serif;
-    text-align: center;
-    text-transform: uppercase;
 
     user-select: none;
     -ms-user-select: none;
@@ -69,13 +57,8 @@
     -webkit-user-select: none;
     -webkit-touch-callout: none;
   }
-  h3 {
-    font-weight: 700;
-    font-size: 24px;
-    letter-spacing: 4px;
-  }
-  h4 {
-    font-weight: 400;
-    font-size: 18px;
+  .logo img {
+     height: 32px;
+     width: auto;
   }
 </style>
