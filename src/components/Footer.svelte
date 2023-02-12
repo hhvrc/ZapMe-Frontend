@@ -8,7 +8,7 @@
 
 <footer>
   <div class="l">
-    Made with <span style="color: #e25555;">&#9829;</span> by HentaiHeavenVR
+    Made with <span style="color: #e25555;">&#9829;</span> by HentaiHeaven#0001
   </div>
   <div class="c">
     Copyright @{year} | All Rights Reserved
