@@ -92,7 +92,7 @@
     box-shadow: 0 0 40px rgba(8,7,16,0.6);
     padding: 50px 35px;
   }
-  form *{
+  form h3,button{
     font-family: 'Poppins',sans-serif;
     color: #ffffff;
     letter-spacing: 0.5px;
@@ -105,14 +105,7 @@
     line-height: 42px;
     text-align: center;
   }
-
-  ::placeholder{
-    color: #e5e5e5;
-  }
-  form div {
-    margin-top: 30px;
-  }
-  form button{
+  button{
     margin-top: 30px;
     width: 100%;
     background-color: #ffffff;
@@ -125,6 +118,7 @@
   }
 
   .social{
+    margin-top: 30px;
     display: flex;
     gap: 10px;
   }
