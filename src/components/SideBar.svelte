@@ -2,6 +2,7 @@
   import { IsAuthenticatedStore, IsMenuOpenStore } from '../stores.js';
 
   let entries: { name: string, icon?: string, href: string }[] = [];
+  let socials: { name: string, icon?: string, href: string }[] = [];
 
   if ($IsAuthenticatedStore) {
     entries.push({name: 'Home', icon: 'home', href: '/home'});
@@ -18,6 +19,10 @@
     entries.push({name: 'Terms of Service', icon: 'gavel', href: '/tos'});
     entries.push({name: 'Contact', icon: 'contact_support', href: '/contact'});
   }
+
+  socials.push({name: 'GitHub', icon: '/icons/logo_github_white.svg', href: 'https://github.com/hhvrc'});
+  socials.push({name: 'Twitter', icon: '/icons/logo_twitter.svg', href: 'https://twitter.com/hhvrc'});
+  socials.push({name: 'Discord', icon: '/icons/logo_discord_clyde_blurple.svg', href: 'https://discord.gg/XXXXXX'});
 </script>
 
 {#if $IsMenuOpenStore}
@@ -28,6 +33,21 @@
         <span class="material-symbols-outlined">
           {icon}
         </span>
+      {/if}
+      <h3 style="margin-left: 8px">
+        {name}
+      </h3>
+    </a>
+  {/each}
+  <div style="flex: 1"/>
+  {#each socials as { name, icon, href }}
+    <a class="usn" href={href}>
+      {#if !icon}
+        <span class="material-symbols-outlined">
+          link
+        </span>
+      {:else}
+        <img src={icon} alt={name} style="width: 24px; height: 24px;"/>
       {/if}
       <h3 style="margin-left: 8px">
         {name}
@@ -58,6 +78,7 @@
     gap: 16px;
   }
   a {
+    width: 100%;
     color: inherit;
     text-decoration: none;
   }
