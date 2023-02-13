@@ -55,13 +55,13 @@
 
 <div>
   <form on:submit|preventDefault={handleSubmit}>
-    <h2>Sign In</h2>
+    <h2 class="usn">Sign In</h2>
 
-    <NamedInput type='text' displayname="Username" bind:value={username} error={usernameError} />
-    <NamedInput type='password' displayname="Password" bind:value={password} error={passwordError} />
+    <NamedInput type="text" icon="badge" displayname="Username" bind:value={username} error={usernameError} />
+    <NamedInput type="password" displayname="Password" bind:value={password} error={passwordError} />
     <NamedCheckBox displayname="Remember Me" bind:checked={rememberMe} />
 
-    <button type="submit" disabled='{!validateForm(username, password)}'>Sign In</button>
+    <button type="submit" class="usn" disabled='{!validateForm(username, password)}'>Sign In</button>
 
     <div class="social">
       <button><img src="/icons/logo_google.svg" alt="Google Icon" />Google</button>
@@ -91,6 +91,14 @@
     border: 2px solid rgba(255,255,255,0.1);
     box-shadow: 0 0 40px rgba(8,7,16,0.6);
     padding: 50px 35px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+  form h2{
+    margin-bottom: 10px;
   }
   form button{
     font-family: 'Poppins',sans-serif;
@@ -98,7 +106,6 @@
     border: none;
   }
   button {
-    margin-top: 30px;
     width: 100%;
     background-color: #fff;
     color: #080710;
@@ -110,12 +117,10 @@
   }
 
   .social{
-    margin-top: 30px;
     display: flex;
     gap: 10px;
   }
   .social button{
-    margin-top: 20px;
     background: red;
     width: 150px;
     border-radius: 3px;

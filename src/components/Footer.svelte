@@ -14,10 +14,10 @@
     Copyright @{year} | All Rights Reserved
   </div>
   <div class="r">
-      <a href="/privacy-policy">
+      <a class="usn" href="/privacy-policy">
         Privacy Policy
       </a>
-      <a href="/tos">
+      <a class="usn" href="/tos">
         Terms of Service
       </a>
   </div>
@@ -36,13 +36,6 @@
     text-align: center;
     text-transform: uppercase;
     text-decoration: none;
-
-    user-select: none;
-    -ms-user-select: none;
-    -moz-user-select: none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
     
     font-weight: 400;
     font-size: 18px;

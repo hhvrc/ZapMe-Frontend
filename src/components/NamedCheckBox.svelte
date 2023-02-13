@@ -7,7 +7,7 @@
   export let error: string | null = null;
 </script>
 
-<div> 
+<div style="width: 100%;"> 
   <label for={id}>
     <input type="checkbox" id={id} name={id} bind:checked={checked}>
     <span class="cbx">
@@ -15,11 +15,11 @@
         <polyline points="1 6.29411765 4.5 10 11 1"></polyline>
       </svg>
     </span>
-    <p>{displayname}</p>
+    <p class="usn">{displayname}</p>
   </label>
 </div>
 {#if !!error}
-  <p class="error">{error}</p>
+  <p class="error usn">{error}</p>
 {/if}
 
 <style>
@@ -29,16 +29,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  }
-  div {
-    margin-top: 30px;
-    
-    user-select: none;
-    -ms-user-select: none;
-    -moz-user-select: none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
   }
   span {
     position: relative;

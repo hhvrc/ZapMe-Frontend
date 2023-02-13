@@ -1,5 +1,14 @@
 <script lang="ts">
   import { IsMenuOpenStore, IsAuthenticatedStore } from '../stores';
+
+  let entries: { name: string, href: string }[] = [];
+
+  if ($IsAuthenticatedStore) {;
+    entries.push({name: 'Sign Out', href: '/sign-out'});
+  } else {
+    entries.push({name: 'Sign In', href: '/sign-in'});
+    entries.push({name: 'Register', href: '/register'});
+  }
 </script>
 
 <header>
@@ -10,33 +19,18 @@
       <line x1="3" y1="18" x2="21" y2="18"></line>
     </svg>
   </button>
-  <a href="/" class="logo">
+  <a href="/" class="logo usn">
     <img src="/logo-128.png" alt="ZapMe Logo"/>
     <h1>ZapMe</h1>
   </a>
   <div style="flex: 1;"/>
-  {#if $IsAuthenticatedStore}
-    <a href="/sign-out">
-      <h4>
-        Sign Out
+  {#each entries as { name, href }}
+    <a class="usn" href={href}>
+      <h4 class="usn">
+        {name}
       </h4>
     </a>
-  {:else}
-    {#if window.location.pathname !== '/sign-in'}
-    <a href="/sign-in">
-      <h4>
-        Sign In
-      </h4>
-    </a>
-    {/if}
-    {#if window.location.pathname !== '/register'}
-    <a href="/register">
-      <h4>
-        Register
-      </h4>
-    </a>
-    {/if}
-  {/if}
+  {/each}
 </header>
 
 <style>
@@ -72,13 +66,6 @@
     
     color: inherit;
     text-decoration: none;
-
-    user-select: none;
-    -ms-user-select: none;
-    -moz-user-select: none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
   }
   .logo img {
      height: 32px;
@@ -92,12 +79,5 @@
     font-size: 18px;
 
     text-transform: uppercase;
-
-    user-select: none;
-    -ms-user-select: none;
-    -moz-user-select: none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
   }
 </style>

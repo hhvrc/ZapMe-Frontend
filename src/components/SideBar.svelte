@@ -23,7 +23,7 @@
 {#if $IsMenuOpenStore}
 <div class="menu">
   {#each entries as { name, icon, href }}
-    <a href={href}>
+    <a class="usn" href={href}>
       {#if !!icon}
         <span class="material-symbols-outlined">
           {icon}

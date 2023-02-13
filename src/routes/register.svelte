@@ -68,12 +68,12 @@
 
 <div>
   <form on:submit|preventDefault={handleSubmit}>
-      <h2>Register</h2>
+      <h2 class="usn">Register</h2>
 
-      <NamedInput type='text' displayname="Username" bind:value={username} error={usernameError} />
-      <NamedInput type='email' displayname="Email" bind:value={email} error={emailError} />
-      <NamedInput type='password' displayname="Password" bind:value={password} error={passwordError} />
-      <NamedInput type='password' displayname="Confirm Password" placeholder="Password" bind:value={confirmedPassword} error={confirmedPasswordError} />
+      <NamedInput type="text" icon="badge" displayname="Username" bind:value={username} error={usernameError} />
+      <NamedInput type="email" displayname="Email" bind:value={email} error={emailError} />
+      <NamedInput type="password" displayname="Password" bind:value={password} error={passwordError} />
+      <NamedInput type="password" displayname="Confirm Password" placeholder="Password" bind:value={confirmedPassword} error={confirmedPasswordError} />
 
       <ReCaptcha bind:response={recaptchaResponse} />
 
@@ -102,6 +102,14 @@
     border: 2px solid rgba(255,255,255,0.1);
     box-shadow: 0 0 40px rgba(8,7,16,0.6);
     padding: 50px 35px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+  form h2{
+    margin-bottom: 10px;
   }
   form button{
     font-family: 'Poppins',sans-serif;
@@ -109,7 +117,6 @@
     border: none;
   }
   button{
-    margin-top: 30px;
     width: 100%;
     background-color: #fff;
     color: #080710;
