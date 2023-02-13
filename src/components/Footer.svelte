@@ -14,7 +14,7 @@
     Copyright @{year} | All Rights Reserved
   </div>
   <div class="r">
-      <a class="usn" href="/privacy-policy">
+      <a class="usn" href="/privacy">
         Privacy Policy
       </a>
       <a class="usn" href="/tos">

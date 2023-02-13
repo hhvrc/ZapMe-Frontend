@@ -14,8 +14,8 @@
     entries.push({name: 'Sign In', icon: 'login', href: '/sign-in'});
     entries.push({name: 'Register', icon: 'person_add', href: '/register'});
     entries.push({name: 'Reset Password', icon: 'lock', href: '/reset-password'});
-    entries.push({name: 'Privacy Policy', icon: 'privacy_tip', href: '/privacy-policy'});
-    entries.push({name: 'Terms of Service', icon: 'gavel', href: '/terms-of-service'});
+    entries.push({name: 'Privacy Policy', icon: 'privacy_tip', href: '/privacy'});
+    entries.push({name: 'Terms of Service', icon: 'gavel', href: '/tos'});
     entries.push({name: 'Contact', icon: 'contact_support', href: '/contact'});
   }
 </script>
