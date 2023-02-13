@@ -45,8 +45,8 @@
 </div>
 
 <style>
-  h2,h3,p {
-    color: #eee;
+  h2,h3,h4,p {
+    color: var(--theme-litext);
   }
   h2,h3,a,p {
     font-family: 'Inter', sans-serif;

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { IsMenuOpenStore, IsAuthenticatedStore } from '../stores';
+  import ThemeSwitch from '$cmp/ThemeSwitch.svelte'
 
   let entries: { name: string, href: string }[] = [];
 
@@ -31,6 +32,7 @@
       </h4>
     </a>
   {/each}
+  <ThemeSwitch/>
 </header>
 
 <style>
@@ -57,7 +59,7 @@
     cursor: pointer;  
   }
   .menu-btn svg {
-    stroke: #fff;
+    stroke: var(--theme-fg);
   }
   .logo {
     display: flex;
@@ -72,8 +74,6 @@
      width: auto;
   }
   h4 {
-    color: #fff;
-
     font-family: 'Montserrat', sans-serif;
     font-weight: 500;
     font-size: 18px;

@@ -107,8 +107,8 @@
   }
   button {
     width: 100%;
-    background-color: #fff;
-    color: #080710;
+    background-color: var(--theme-text);
+    color: var(--theme-inv);
     padding: 15px 0;
     font-size: 18px;
     font-weight: 600;

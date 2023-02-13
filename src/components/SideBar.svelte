@@ -67,7 +67,7 @@
     min-width: 200px;
     padding: 24px;
 
-    background-color: var(--bg-col);
+    background-color: var(--theme-bg);
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
     z-index: 1000;
 
