@@ -46,8 +46,6 @@
     border: none;
     outline: none;
     box-sizing: border-box;
-    
-    color: #fff;
 
     letter-spacing: 0.5px;
   }
@@ -68,13 +66,9 @@
   input{
     height: 50px;
     width: 100%;
-    background-color: rgba(255,255,255,0.07);
     border-radius: 3px;
     padding: 0 10px;
     margin-top: 4px;
-  }
-  ::placeholder{
-    color: #cecece;
   }
   p {
     margin-top: 3px;

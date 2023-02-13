@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { SetTheme } from "../ThemeContext";
+  import { SetThemeByName } from "../ThemeContext";
 
   let enabled = false;
   function setEnabled() {
-    SetTheme(enabled ? "light": "dark");
+    SetThemeByName(enabled ? "light": "dark");
   }
 </script>
 
@@ -50,7 +50,7 @@
     height: 32px;
     width: 64px;
     border-radius: 25px;
-    background-color: darkgray;
+    background-color: var(--thm-swiBg);
     transition: background-color 0.15s ease-in;
   }
   label span:after {
@@ -61,11 +61,11 @@
     width: 22px;
     height: 22px;
     border-radius: 11px;
-    background: white;
+    background: var(--thm-swiBtn);
     transition: left 0.15s ease-in;
   }
   label input:checked ~ span {
-    background-color: dodgerblue;
+    background-color: var(--thm-swiBgSel);
   }
   label input:checked ~ span:after {
     left: 37px;

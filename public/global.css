@@ -11,8 +11,8 @@ body {
 }
 
 body {
-  color: var(--theme-fg);
-  background: var(--theme-bg);
+  color: var(--thm-txtPri);
+  background: var(--thm-bg);
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
@@ -41,7 +41,8 @@ h4, h5, h6 {
   margin: 0;
   padding: 0;
 
-  color: var(--theme-text);
+  color: var(--thm-txtPri);
+
   text-align: center;
 }
 h1 {
@@ -61,6 +62,38 @@ h2 {
 h3 {
   font-size: 24px;
   font-weight: 600;
+}
+
+input {
+  color: var(--thm-inputText);
+  background-color: var(--thm-inputBg);
+}
+input:hover {
+  background-color: var(--thm-inputHovBg);
+}
+input:selected {
+  background-color: var(--thm-inputSelBg);
+}
+input:disabled {
+  background-color: var(--thm-inputDisBg);
+}
+input::placeholder {
+  color: var(--thm-inputPlaceholder);
+}
+
+button {
+  color: var(--thm-btn);
+  background-color: var(--thm-btnBg);
+  cursor: pointer;
+}
+button:hover {
+  color: var(--thm-btnHov);
+  background-color: var(--thm-btnHovBg);
+}
+button:disabled {
+  color: var(--thm-btnDis);
+  background-color: var(--thm-btnDisBg);
+  cursor: default;
 }
 
 /* User Select None (usn) */

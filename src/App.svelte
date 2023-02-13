@@ -1,15 +1,13 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { DefaultThemes, CurrentTheme } from './ThemeContext.js';
+  import { InitializeTheme } from './ThemeContext';
 	import {Router} from '@roxi/routify';
 	import routes from '../.routify/routes.default.js';
   import Header from '$cmp/Header.svelte';
   import Footer from '$cmp/Footer.svelte';
   import SideBar from '$cmp/SideBar.svelte';
 
-  onMount(() => {
-    CurrentTheme.set(DefaultThemes[0]);
-  });
+  onMount(InitializeTheme);
 </script>
 
 <Header/>
@@ -32,7 +30,7 @@
   }
   .scroll-cover {
     position: absolute;
-    background: var(--theme-bg);
+    background: var(--thm-bg);
     height: 100%;  
     top: 0;
     right: 0;

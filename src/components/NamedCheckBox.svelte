@@ -40,8 +40,8 @@
     margin-top: 3px;
     border-radius: 4px;
 
-    background-color: #606062;
-    background-image: linear-gradient(#474749, #606062);
+    background-color: var(--thm-chkBox);
+    background-image: linear-gradient(var(--thm-chkBoxTo), var(--thm-chkBox));
     box-shadow: inset 0 1px 1px rgba(255,255,255,0.15), inset 0 -1px 1px rgba(0,0,0,0.15);
     transition: all 0.15s ease;
     
@@ -54,7 +54,7 @@
     fill: none;
     stroke-linecap: round;
     stroke-linejoin: round;
-    stroke: #fff;
+    stroke: var(--thm-chkBoxStroke);
     stroke-width: 2;
     stroke-dasharray: 17;
     stroke-dashoffset: 17;
@@ -69,8 +69,8 @@
     visibility: hidden;
   }
   input:checked + span {
-    background-color: #606062;
-    background-image: linear-gradient(#255cd2, #1d52c1);
+    background-color: var(--thm-chkBox);
+    background-image: linear-gradient(var(--thm-chkBoxSelTo), var(--thm-chkBoxSel));
   }
   input:checked + span svg {
     stroke-dashoffset: 0;

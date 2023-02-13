@@ -77,53 +77,51 @@
 
       <ReCaptcha bind:response={recaptchaResponse} />
 
-      <button type="submit" disabled='{!validateForm(username, password, email, confirmedPassword)}'>Register</button>
+      <button type="submit" class="usn submit-btn" disabled='{!validateForm(username, password, email, confirmedPassword)}'>Register</button>
   </form>
 </div>
 
 <style>
-  *,
-  *:before,
-  *:after{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
   form{
-    height: fit-content;
-    width: fit-content;
-    min-width: 500px;
-    background-color: rgba(255,255,255,0.13);
     position: absolute;
-    transform: translate(-50%,-50%);
     top: 50%;
     left: 50%;
-    border-radius: 10px;
-    border: 2px solid rgba(255,255,255,0.1);
-    box-shadow: 0 0 40px rgba(8,7,16,0.6);
+
+    box-sizing: border-box;
+    min-width: 500px;
+    transform: translate(-50%,-50%);
+
     padding: 50px 35px;
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    box-shadow: 0 0 40px rgba(8,7,16,0.6);
+
+    background-color: var(--thm-paper);
 
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 30px;
   }
-  form h2{
+  h2{
     margin-bottom: 10px;
   }
-  form button{
-    font-family: 'Poppins',sans-serif;
+  button {
+    width: 100%;
+    border-radius: 5px;
+
     outline: none;
     border: none;
-  }
-  button{
-    width: 100%;
-    background-color: #fff;
-    color: #080710;
-    padding: 15px 0;
+    
+    font-family: 'Poppins',sans-serif;
     font-size: 18px;
     font-weight: 600;
-    border-radius: 5px;
+
     cursor: pointer;
+  }
+  .submit-btn {
+    background-color: var(--thm-bg);
+    color: var(--theme-inv);
+    padding: 15px 0;
   }
 </style>

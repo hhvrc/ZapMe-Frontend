@@ -59,7 +59,7 @@
     cursor: pointer;  
   }
   .menu-btn svg {
-    stroke: var(--theme-fg);
+    stroke: var(--thm-txtPri);
   }
   .logo {
     display: flex;

@@ -61,7 +61,7 @@
     <NamedInput type="password" displayname="Password" bind:value={password} error={passwordError} />
     <NamedCheckBox displayname="Remember Me" bind:checked={rememberMe} />
 
-    <button type="submit" class="usn" disabled='{!validateForm(username, password)}'>Sign In</button>
+    <button type="submit" class="usn submit-btn" disabled='{!validateForm(username, password)}'>Sign In</button>
 
     <div class="social">
       <button><img src="/icons/logo_google.svg" alt="Google Icon" />Google</button>
@@ -71,66 +71,52 @@
 </div>
 
 <style>
-  *,
-  *:before,
-  *:after{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
   form{
-    height: fit-content;
-    width: fit-content;
-    min-width: 500px;
-    background-color: rgba(255,255,255,0.13);
     position: absolute;
-    transform: translate(-50%,-50%);
     top: 50%;
     left: 50%;
-    border-radius: 10px;
-    border: 2px solid rgba(255,255,255,0.1);
-    box-shadow: 0 0 40px rgba(8,7,16,0.6);
+
+    box-sizing: border-box;
+    min-width: 500px;
+    transform: translate(-50%,-50%);
+
     padding: 50px 35px;
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    box-shadow: 0 0 40px rgba(8,7,16,0.6);
+
+    background-color: var(--thm-paper);
 
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 30px;
   }
-  form h2{
+  h2{
     margin-bottom: 10px;
-  }
-  form button{
-    font-family: 'Poppins',sans-serif;
-    outline: none;
-    border: none;
   }
   button {
     width: 100%;
-    background-color: var(--theme-text);
-    color: var(--theme-inv);
-    padding: 15px 0;
+    border-radius: 5px;
+
+    outline: none;
+    border: none;
+    
+    font-family: 'Poppins',sans-serif;
     font-size: 18px;
     font-weight: 600;
-    border-radius: 5px;
-    cursor: pointer;
   }
-
+  .submit-btn {
+    padding: 15px 0;
+  }
   .social{
     display: flex;
     gap: 10px;
   }
   .social button{
-    background: red;
     width: 150px;
-    border-radius: 3px;
     padding: 5px 10px 10px 5px;
-    background-color: rgba(255,255,255,0.27);
-    color: #eaf0fb;
     text-align: center;
-  }
-  .social button:hover{
-    background-color: rgba(255,255,255,0.47);
   }
   .social img{
     height: 25px;
