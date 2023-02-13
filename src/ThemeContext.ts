@@ -25,11 +25,11 @@ export const DefaultThemes: Theme[] = [
   {
     name: 'light',
     colors: {
-      fg: '#222',
-      bg: '#fff',
+      fg: '#444',
+      bg: '#ddd',
       inv: '#fff',
       text: '#000',
-      litext: '#333'
+      litext: '#111'
     },
   }
 ];
