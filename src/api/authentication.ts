@@ -1,5 +1,4 @@
 import type SessionInfo from "src/models/SessionInfo";
-import { getBrowserName } from "../utils/browserUtils";
 import { AuthenticationApiFactory, type ErrorDetails } from "./generated/api";
 
 const authApi = AuthenticationApiFactory(
@@ -21,8 +20,7 @@ export async function authLogin(
     const response = await authApi.authSignIn({
       username,
       password,
-      rememberMe,
-      sessionName: getBrowserName(),
+      rememberMe
     });
 
     const data = response.data;
