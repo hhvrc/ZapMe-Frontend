@@ -433,6 +433,33 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/ErrorDetails'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetails'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorDetails'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetails'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorDetails'
+        '413':
+          description: Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetails'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorDetails'
         '500':
           description: Error details
           content:
@@ -872,6 +899,7 @@ components:
           minLength: 1
           type: string
           description: "Session name to remember this sign in by, e.g. \"My home computer\"\r\nThis is for the users to be able to see which devices they have logged in their user settings"
+          nullable: true
         rememberMe:
           type: boolean
           description: Make this login persist for a longer period of time

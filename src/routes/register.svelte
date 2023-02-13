@@ -1,0 +1,127 @@
+<script lang="ts">
+  import { goto } from '@roxi/routify';
+  import { registerAccount } from '$api/account';
+  import type { ErrorDetails } from '$api/generated/api';
+  import NamedInput from '$cmp/NamedInput.svelte';
+  import ReCaptcha from '$cmp//ReCaptcha.svelte';
+
+  let title = 'Register';
+  let username = '';
+  let usernameError: string | null = null;
+  let email = '';
+  let emailError: string | null = null;
+  let password = '';
+  let passwordError: string | null = null;
+  let confirmedPassword = '';
+  let confirmedPasswordError: string | null = null;
+  let acceptedTosVersion = -1;
+  let recaptchaResponse = '';
+
+  async function handleSubmit() {
+    const response = await registerAccount(username, password, email, acceptedTosVersion, recaptchaResponse);
+
+    if (response.ok) {
+      $goto('/home');
+      return;
+    }
+
+    if (!response.error) {
+      window.alert('An unknown error occurred.');
+      return;
+    }
+
+    const error = response.error as ErrorDetails;
+
+    if (error.notification) {
+      window.alert(error.notification.title + ': ' + error.notification.message);
+    }
+
+    if (error.fields) {
+      for (const [key, value] of Object.entries(error.fields)) {
+        switch (key) {
+          case 'username':
+            usernameError = value[0];
+            break;
+          case 'email':
+            emailError = value[0];
+            break;
+          case 'password':
+            passwordError = value[0];
+            break;
+          case 'confirmedPassword':
+            confirmedPasswordError = value[0];
+            break;
+          default:
+            break;
+        }
+      }
+    }
+  }
+  function validateForm(username:string, password:string, email:string, confirmedPassword:string) {
+      return username.length > 0 && password.length > 0 && email.length > 0 && password === confirmedPassword;
+  }
+</script>
+
+<svelte:head>
+    <title>ZapMe - {title}</title>
+</svelte:head>
+
+<div>
+  <form on:submit|preventDefault={handleSubmit}>
+      <h2 class="usn">Register</h2>
+
+      <NamedInput type="text" icon="badge" displayname="Username" bind:value={username} error={usernameError} />
+      <NamedInput type="email" displayname="Email" bind:value={email} error={emailError} />
+      <NamedInput type="password" displayname="Password" bind:value={password} error={passwordError} />
+      <NamedInput type="password" displayname="Confirm Password" placeholder="Password" bind:value={confirmedPassword} error={confirmedPasswordError} />
+
+      <ReCaptcha bind:response={recaptchaResponse} />
+
+      <button type="submit" class="usn submit-btn" disabled='{!validateForm(username, password, email, confirmedPassword)}'>Register</button>
+  </form>
+</div>
+
+<style>
+  form{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    box-sizing: border-box;
+    min-width: 500px;
+    transform: translate(-50%,-50%);
+
+    padding: 50px 35px;
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    box-shadow: 0 0 40px rgba(8,7,16,0.6);
+
+    background-color: var(--thm-paper);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+  h2{
+    margin-bottom: 10px;
+  }
+  button {
+    width: 100%;
+    border-radius: 5px;
+
+    outline: none;
+    border: none;
+    
+    font-family: 'Poppins',sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+
+    cursor: pointer;
+  }
+  .submit-btn {
+    background-color: var(--thm-bg);
+    color: var(--theme-inv);
+    padding: 15px 0;
+  }
+</style>
