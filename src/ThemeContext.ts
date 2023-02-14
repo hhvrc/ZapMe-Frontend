@@ -1,4 +1,6 @@
-import { persistentStore } from './persistentWritable';
+import { get } from 'svelte/store';
+import { persisted } from 'svelte-local-storage-store';
+import { StringSerializer } from './serializers';
 
 /* Base colors, the UI will fade from background to foreground using shades, these must be hex */
 export type BaseColors = {
@@ -159,7 +161,6 @@ export const defaultThemeConfig: ThemeConfig = {
   customs: [ darkTheme, lightTheme ]
 };
 
-let initialThemes: CustomTheme[] = [];
 function AddAlpha(hex: string, alpha: number): string {
   if (alpha >= 1) return hex;
   if (alpha <= 0) return 'transparent';
@@ -204,12 +205,8 @@ function ApplyThemeToDOM(selectedTheme: CustomTheme) {
     document.documentElement.style.setProperty('--thm-' + prop, color);
   }
 }
-function OnFetchThemes(val: CustomTheme[]): CustomTheme[] {
-  initialThemes = val;
-  return val;
-}
 function OnFetchOrUpdateTheme(val: string): string {
-  let theme = initialThemes.find(t => t.name === val);
+  let theme = get(additonalThemes).find(t => t.name === val);
 
   if (!theme) {
     switch (val) {
@@ -232,6 +229,6 @@ function OnFetchOrUpdateTheme(val: string): string {
   return val;
 }
 
-export const additonalThemes = persistentStore<CustomTheme[]>('additionalThemes', [], OnFetchThemes);
-export const selectedTheme = persistentStore<string>('selectedTheme', 'dark', OnFetchOrUpdateTheme);
+export const additonalThemes = persisted<CustomTheme[]>('themeAdditionals', []);
+export const selectedTheme = persisted<string>('themeSelected', 'dark', { serializer: StringSerializer });
 selectedTheme.subscribe(OnFetchOrUpdateTheme);
