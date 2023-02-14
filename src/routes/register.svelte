@@ -116,12 +116,8 @@
     font-family: 'Poppins',sans-serif;
     font-size: 18px;
     font-weight: 600;
-
-    cursor: pointer;
   }
   .submit-btn {
-    background-color: var(--thm-bg);
-    color: var(--theme-inv);
     padding: 15px 0;
   }
 </style>
