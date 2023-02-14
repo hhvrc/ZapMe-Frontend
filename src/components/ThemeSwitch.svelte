@@ -1,20 +1,31 @@
 <script lang="ts">
-  import { SetThemeByName } from "../ThemeContext";
+  import { selectedTheme } from "../ThemeContext";
 
-  let enabled = false;
   function setEnabled() {
-    SetThemeByName(enabled ? "light": "dark");
+    selectedTheme.update((theme) => {
+      if (theme === "dark") {
+        return "light";
+      } else {
+        return "dark";
+      }
+    });
   }
+
+  let isLight = false, isDark = false;
+  $: isLight = $selectedTheme === "light";
+  $: isDark = $selectedTheme === "dark";
 </script>
 
 <div class="chechbox">
-  {#if enabled}
+  {#if isLight}
     <span class="usn material-symbols-outlined">dark_mode</span>
-  {:else}
+  {:else if isDark}
     <span class="usn material-symbols-outlined">light_mode</span>
+  {:else}
+    <span class="usn material-symbols-outlined">magic_button</span>
   {/if}
   <label class="usn">
-    <input type="checkbox" bind:checked={enabled} on:change={setEnabled}>
+    <input type="checkbox" bind:checked={isLight} on:change={setEnabled}>
     <span/>
   </label>
 </div>

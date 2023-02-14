@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store'
+import { persistentStore } from './persistentWritable';
 
 /* Base colors, the UI will fade from background to foreground using shades, these must be hex */
 export type BaseColors = {
@@ -49,6 +49,7 @@ export interface BasePalette extends Palette {
   [key: string]: string | undefined;
 }
 
+/* Theme interface */
 export interface Theme {
   colors: {
     shades: Shades,
@@ -75,97 +76,90 @@ export type ThemeConfig = {
   customs: CustomTheme[]
 }
 
-export const defaultThemeConfig: ThemeConfig = {
-  base: {
-    colors: {
-      shades: {
-        paper: 0.13,
+const baseTheme: BaseTheme = {
+  colors: {
+    shades: {
+      paper: 0.13,
 
-        inputText: 0.87,
-        inputBg: 0.07,
-        inputHovBg: 0.04,
-        inputDisBg: 0.02,
-        inputPlaceholder: '#cecece',
-        
-        btnText: 0.87,
-        btnBg: 0.2,
-        btnHovBg: 0.4,
-        btnDis: 0.3,
-        btnDisBg: 0.12,
+      inputText: 0.87,
+      inputBg: 0.07,
+      inputHovBg: 0.04,
+      inputDisBg: 0.02,
+      inputPlaceholder: '#cecece',
+      
+      btnText: 0.87,
+      btnBg: 0.2,
+      btnHovBg: 0.4,
+      btnDis: 0.3,
+      btnDisBg: 0.12,
 
-        chkBox: '#606060',
-        chkBoxTo: '#474747',
-        chkBoxSel: '#1d52c1',
-        chkBoxSelTo: '#255cd2',
-        chkBoxStroke: '#fff',
+      chkBox: '#606060',
+      chkBoxTo: '#474747',
+      chkBoxSel: '#1d52c1',
+      chkBoxSelTo: '#255cd2',
+      chkBoxStroke: '#fff',
 
-        swiBg: 'darkgray',
-        swiBgSel: 'dodgerblue',
-        swiBtn: 'white',
+      swiBg: 'darkgray',
+      swiBgSel: 'dodgerblue',
+      swiBtn: 'white',
 
-        div: 0.12,
-      },
-      palette: {
-      },
+      div: 0.12,
+    },
+    palette: {
     },
   },
-  customs: [
-  {
-    name: 'dark',
-    colors: {
-      base: {
-        background: '#121212',
-        foreground: '#fff',
-      },
-      shades: {
-        txtPri: 1,
-        txtSec: 0.7,
-        txtDis: 0.5,
-        
-        btnBg: 0.2,
-        btnHovBg: 0.4,
+};
+const darkTheme: CustomTheme = {
+  name: 'dark',
+  colors: {
+    base: {
+      background: '#121212',
+      foreground: '#fff',
+    },
+    shades: {
+      txtPri: 1,
+      txtSec: 0.7,
+      txtDis: 0.5,
+      
+      btnBg: 0.2,
+      btnHovBg: 0.4,
 
-        chkBox: '#606060',
-        chkBoxTo: '#474747',
+      chkBox: '#606060',
+      chkBoxTo: '#474747',
 
-        swiBtn: 'white',
-      },
+      swiBtn: 'white',
     },
   },
-  {
-    name: 'light',
-    colors: {
-      base: {
-        background: '#fff',
-        foreground: '#000',
-      },
-      shades: {
-        txtPri: 0.87,
-        txtSec: 0.6,
-        txtDis: 0.38,
-        
-        btnBg: 0.27,
-        btnHovBg: 0.47,
-
-        chkBox: '#c8c8c8',
-        chkBoxTo: '#b0b0b0',
-
-        swiBtn: 'black',
-      },
+};
+const lightTheme: CustomTheme = {
+  name: 'light',
+  colors: {
+    base: {
+      background: '#fff',
+      foreground: '#000',
     },
-  }
-  ]
+    shades: {
+      txtPri: 0.87,
+      txtSec: 0.6,
+      txtDis: 0.38,
+      
+      btnBg: 0.27,
+      btnHovBg: 0.47,
+
+      chkBox: '#c8c8c8',
+      chkBoxTo: '#b0b0b0',
+
+      swiBtn: 'black',
+    },
+  },
 };
 
-export const currentTheme = writable<CustomTheme|null>(null);
+export const defaultThemeConfig: ThemeConfig = {
+  base: baseTheme,
+  customs: [ darkTheme, lightTheme ]
+};
 
-export function SetTheme(theme: CustomTheme|null) {
-  if (theme) currentTheme.set(theme);
-}
-export function SetThemeByName(themeName: string) {
-  SetTheme(defaultThemeConfig.customs.find((t) => t.name === themeName) || null);
-}
-
+let initialThemes: CustomTheme[] = [];
 function AddAlpha(hex: string, alpha: number): string {
   if (alpha >= 1) return hex;
   if (alpha <= 0) return 'transparent';
@@ -177,7 +171,6 @@ function AddAlpha(hex: string, alpha: number): string {
 
   return `${hex}${Math.round(alpha * 255).toString(16)}`
 }
-
 function ApplyThemeToDOM(selectedTheme: CustomTheme) {
   const name = selectedTheme.name;
   const { foreground, background } = selectedTheme.colors.base;
@@ -211,28 +204,34 @@ function ApplyThemeToDOM(selectedTheme: CustomTheme) {
     document.documentElement.style.setProperty('--thm-' + prop, color);
   }
 }
+function OnFetchThemes(val: CustomTheme[]): CustomTheme[] {
+  initialThemes = val;
+  return val;
+}
+function OnFetchOrUpdateTheme(val: string): string {
+  let theme = initialThemes.find(t => t.name === val);
 
-const unsubscribe = currentTheme.subscribe((theme) => {
-  if (!theme)
-  {
-    if (defaultThemeConfig.customs.length === 0 || !defaultThemeConfig.customs[0]) {
-      throw new Error('No themes found');
+  if (!theme) {
+    switch (val) {
+      case 'auto':
+      case 'default':
+        val = 'dark';
+      case 'dark':
+        theme = darkTheme;
+        break;
+      case 'light':
+        theme = lightTheme;
+        break;
+      default:
+        throw new Error('Invalid theme');
     }
-
-    theme = defaultThemeConfig.customs[0];
   }
 
-  localStorage.setItem('theme', theme.name);
   ApplyThemeToDOM(theme);
-});
 
-const isInitialized = writable(false);
-export function InitializeTheme() {
-  isInitialized.update((v) => {
-    if (!v) {
-      SetThemeByName(localStorage.getItem('theme') || 'dark');
-    }
-
-    return true;
-  });
+  return val;
 }
+
+export const additonalThemes = persistentStore<CustomTheme[]>('additionalThemes', [], OnFetchThemes);
+export const selectedTheme = persistentStore<string>('selectedTheme', 'dark', OnFetchOrUpdateTheme);
+selectedTheme.subscribe(OnFetchOrUpdateTheme);

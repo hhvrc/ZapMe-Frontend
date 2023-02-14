@@ -1,6 +1,6 @@
 <script lang="ts">
   import { IsAuthenticatedStore, IsMenuOpenStore } from '../stores';
-  import { currentTheme } from '../ThemeContext';
+  import { selectedTheme } from '../ThemeContext';
 
   type ListEntry = {
     name: string,
@@ -55,7 +55,7 @@
           link
         </span>
       {:else}
-        <img src={$currentTheme?.name === 'light' ? iconLight ?? icon : icon} alt={name} style="width: 24px; height: 24px;"/>
+        <img src={$selectedTheme === 'light' ? iconLight ?? icon : icon} alt={name} style="width: 24px; height: 24px;"/>
       {/if}
       <h3 style="margin-left: 8px">
         {name}

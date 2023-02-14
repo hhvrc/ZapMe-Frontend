@@ -1,22 +1,30 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { InitializeTheme } from './ThemeContext';
 	import {Router} from '@roxi/routify';
 	import routes from '../.routify/routes.default.js';
   import Header from '$cmp/Header.svelte';
   import Footer from '$cmp/Footer.svelte';
   import SideBar from '$cmp/SideBar.svelte';
 
-  onMount(InitializeTheme);
+  // TODO: this is probably not the proper way to detect when a page is done loading (also see global.css line 3)
+  let isLoading = true;
+  onMount(() => {
+    isLoading = false;
+  });
 </script>
 
-<Header/>
-<main>
-  <Router {routes}/>
-  <Footer/>
-  <div class="scroll-cover"/>
-</main>
-<SideBar/>
+{#if isLoading}
+  <!-- TODO: make a better loading screen -->
+  <div class="loading" style="background-color: black;">Loading...</div>
+{:else}
+  <Header/>
+  <main>
+    <Router {routes}/>
+    <Footer/>
+    <div class="scroll-cover"/>
+  </main>
+  <SideBar/>
+{/if}
 
 <style>
   main {

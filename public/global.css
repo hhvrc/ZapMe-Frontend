@@ -1,5 +1,6 @@
 :root {
   --scrollbar-width: 14px;
+  background-color: #121212; /* Only for loading in the page (TODO: please find a better way to do this) (also see App.svelte line 9) */
 }
 
 html,
