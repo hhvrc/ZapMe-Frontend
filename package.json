@@ -16,15 +16,24 @@
     "build:svelte": "vite build",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
-    "test:wasm": "cd wasm && wasm-pack test --release --chrome --firefox --safari --headless"
+    "test": "run-s -l test:wasm test:svelte",
+    "test:ui": "run-s -l test:wasm test:svelte:ui",
+    "test:wasm": "cd wasm && wasm-pack test --release --chrome --firefox --headless",
+    "test:svelte": "vitest --run",
+    "test:svelte:ui": "vitest --ui",
+    "coverage": "vitest run --coverage"
   },
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.5.2",
     "@roxi/routify": "^3.0.0-next.1",
     "@sveltejs/vite-plugin-svelte": "^2.0.2",
+    "@testing-library/svelte": "^3.2.2",
     "@tsconfig/svelte": "^3.0.0",
+    "@types/jest": "^29.4.0",
+    "@vitest/ui": "^0.28.5",
     "cross-env": "^7.0.3",
     "crypto-random-string": "^5.0.0",
+    "jsdom": "^21.1.0",
     "npm-check-updates": "^16.7.4",
     "npm-run-all": "^4.1.5",
     "rimraf": "^4.1.2",
@@ -35,6 +44,7 @@
     "tslib": "^2.5.0",
     "typescript": "^4.9.5",
     "vite": "^4.1.1",
+    "vitest": "^0.28.5",
     "wasm": "file:wasm/pkg"
   },
   "browserslist": {

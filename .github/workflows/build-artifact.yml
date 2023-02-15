@@ -1,0 +1,28 @@
+name: Build artifact
+
+on:
+  push:
+    branches: ["main"]
+    paths-ignore:
+      - "README.md"
+      - "**/LICENSE"
+      - "**/.editorconfig"
+      - "**/.vscode/**"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build
+        uses: ./.github/actions/build
+      
+      - name: Upload build
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: dist
