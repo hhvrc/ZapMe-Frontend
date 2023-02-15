@@ -4,6 +4,8 @@
   import type { ErrorDetails } from '$api/generated/api';
   import NamedInput from '$cmp/NamedInput.svelte';
   import ReCaptcha from '$cmp//ReCaptcha.svelte';
+  import Form from '$cmp/Form.svelte';
+  import FormButton from '$cmp/FormButton.svelte';
 
   let title = 'Register';
   let username = '';
@@ -66,58 +68,13 @@
     <title>ZapMe - {title}</title>
 </svelte:head>
 
-<div>
-  <form on:submit|preventDefault={handleSubmit}>
-      <h2 class="usn">Register</h2>
+<Form on:submit={handleSubmit} title={title}>
+  <NamedInput type="text" icon="badge" displayname="Username" bind:value={username} error={usernameError} />
+  <NamedInput type="email" displayname="Email" bind:value={email} error={emailError} />
+  <NamedInput type="password" displayname="Password" bind:value={password} error={passwordError} />
+  <NamedInput type="password" displayname="Confirm Password" placeholder="Password" bind:value={confirmedPassword} error={confirmedPasswordError} />
 
-      <NamedInput type="text" icon="badge" displayname="Username" bind:value={username} error={usernameError} />
-      <NamedInput type="email" displayname="Email" bind:value={email} error={emailError} />
-      <NamedInput type="password" displayname="Password" bind:value={password} error={passwordError} />
-      <NamedInput type="password" displayname="Confirm Password" placeholder="Password" bind:value={confirmedPassword} error={confirmedPasswordError} />
+  <ReCaptcha bind:response={recaptchaResponse} />
 
-      <ReCaptcha bind:response={recaptchaResponse} />
-
-      <button type="submit" class="usn submit-btn" disabled='{!validateForm(username, password, email, confirmedPassword)}'>Register</button>
-  </form>
-</div>
-
-<style>
-  form{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-
-    box-sizing: border-box;
-    min-width: 500px;
-    transform: translate(-50%,-50%);
-
-    padding: 50px 35px;
-    border: 2px solid rgba(255,255,255,0.1);
-    border-radius: 10px;
-    box-shadow: 0 0 40px rgba(8,7,16,0.6);
-
-    background-color: var(--thm-paper);
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-  }
-  h2{
-    margin-bottom: 10px;
-  }
-  button {
-    width: 100%;
-    border-radius: 5px;
-
-    outline: none;
-    border: none;
-    
-    font-family: 'Poppins',sans-serif;
-    font-size: 18px;
-    font-weight: 600;
-  }
-  .submit-btn {
-    padding: 15px 0;
-  }
-</style>
+  <FormButton disabled={!validateForm(username, password, email, confirmedPassword)}>Register</FormButton>
+</Form>

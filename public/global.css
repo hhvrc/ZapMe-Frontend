@@ -83,6 +83,11 @@ input::placeholder {
 }
 
 button {
+  border-radius: 5px;
+
+  outline: none;
+  border: none;
+
   color: var(--thm-btn);
   background-color: var(--thm-btnBg);
   cursor: pointer;
@@ -105,4 +110,10 @@ button,.usn {
   -khtml-user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
+}
+
+.default-btn-text {
+  font-family: 'Poppins',sans-serif;
+  font-size: 18px;
+  font-weight: 600;
 }
