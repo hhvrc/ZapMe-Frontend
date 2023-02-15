@@ -13,8 +13,7 @@
           "withInterfaces": true,
           "enumPropertyNaming": "camelCase",
           "modelPropertyNaming": "camelCase"
-        },
-        "enablePostProcessFile": true
+        }
       }
     }
   }

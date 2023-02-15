@@ -11,7 +11,7 @@
     "clean:wasm": "rimraf wasm/pkg wasm/Cargo.lock",
     "clean:svelte": "rimraf .routify dist",
     "build": "run-s -l clean build:wasm build:api build:svelte",
-    "build:api": "cross-env TS_POST_PROCESS_FILE=\"node scripts/cleanOpenApiFile.js\" openapi-generator-cli generate",
+    "build:api": "cross-env openapi-generator-cli generate",
     "build:wasm": "cd wasm && wasm-pack build --release --target bundler --out-dir pkg",
     "build:svelte": "vite build",
     "preview": "vite preview",
