@@ -45,6 +45,7 @@ export async function registerAccount(
 export async function requestPasswordReset(email: string, recaptchaResponse: string): Promise<ErrorDetails | null> {
   try {
     await accountApi.accountRecoveryRequest({email, recaptcha_response: recaptchaResponse});
+    return null;
   }
   catch (error: any) {
     const response = error?.response;
