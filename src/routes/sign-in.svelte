@@ -49,6 +49,11 @@
   function validateForm(username:string, password:string) {
     return username.length > 0 && password.length > 0;
   }
+
+  let socials = [
+    { name: 'Google', icon: '/icons/logo_google.svg', link: '/auth/google' },
+    { name: 'Twitter', icon: '/icons/logo_twitter.svg', link: '/auth/twitter' },
+  ];
 </script>
 
 <svelte:head>
@@ -63,8 +68,12 @@
   <FormButton disabled={!validateForm(username, password)}>Sign In</FormButton>
 
   <div style="display: flex; gap: 10px;">
-    <button class="default-btn-text"><img src="/icons/logo_google.svg" alt="Google Icon" />Google</button>
-    <button class="default-btn-text"><img src="/icons/logo_twitter.svg" alt="Google Icon" />Twitter</button>
+    {#each socials as {name, icon}}
+      <button class="default-btn-text">
+        <img src={icon} alt="{name} Icon"/>
+        {name}
+      </button>
+    {/each}
   </div>
 </Form>
 
