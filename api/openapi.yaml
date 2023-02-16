@@ -958,8 +958,12 @@ components:
       properties:
         support:
           type: string
+          format: email
+          example: user.name@example.com
         contact:
           type: string
+          format: email
+          example: user.name@example.com
       additionalProperties: false
     ErrorDetails:
       type: object
@@ -1057,6 +1061,8 @@ components:
         email:
           type: string
           description: Email of your account you want to recover
+          format: email
+          example: user.name@example.com
         recaptcha_response:
           type: string
           description: Response from google recaptcha request
