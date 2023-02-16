@@ -1,0 +1,35 @@
+name: Check dev
+
+on:
+  push:
+    branches: ["dev"]
+    paths-ignore:
+      - "README.md"
+      - "**/LICENSE"
+      - "**/.editorconfig"
+      - "**/.vscode/**"
+  pull_request:
+    branches: ["main", "dev"]
+    paths-ignore:
+      - "README.md"
+      - "**/LICENSE"
+      - "**/.editorconfig"
+      - "**/.vscode/**"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build
+        uses: ./.github/actions/build
+      
+      - name: Run checks
+        run: npm run check
+      
+      - name: Run tests
+        run: npm run test

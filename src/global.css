@@ -1,0 +1,119 @@
+:root {
+  --scrollbar-width: 14px;
+  background-color: #121212; /* Only for loading in the page (TODO: please find a better way to do this) (also see App.svelte line 9) */
+}
+
+html,
+body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+body {
+  color: var(--thm-txtPri);
+  background: var(--thm-bg);
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: var(--scrollbar-width);
+}
+::-webkit-scrollbar-track {
+  visibility: hidden;
+}
+::-webkit-scrollbar-thumb {
+  background: #88888888;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #bbbbbbbb;
+}
+
+h1, h2, h3,
+h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+
+  color: var(--thm-txtPri);
+
+  text-align: center;
+}
+h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+h2 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 42px;
+  letter-spacing: 0.5px;
+  line-height: 42px;
+}
+h3 {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+input {
+  color: var(--thm-inputText);
+  background-color: var(--thm-inputBg);
+}
+input:hover {
+  background-color: var(--thm-inputHovBg);
+}
+input:selected {
+  background-color: var(--thm-inputSelBg);
+}
+input:disabled {
+  background-color: var(--thm-inputDisBg);
+}
+input::placeholder {
+  color: var(--thm-inputPlaceholder);
+}
+
+button {
+  border-radius: 5px;
+
+  outline: none;
+  border: none;
+
+  color: var(--thm-btn);
+  background-color: var(--thm-btnBg);
+  cursor: pointer;
+}
+button:hover {
+  color: var(--thm-btnHov);
+  background-color: var(--thm-btnHovBg);
+}
+button:disabled {
+  color: var(--thm-btnDis);
+  background-color: var(--thm-btnDisBg);
+  cursor: default;
+}
+
+/* User Select None (usn) */
+button,.usn {
+  user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.default-btn-text {
+  font-family: 'Poppins',sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+}

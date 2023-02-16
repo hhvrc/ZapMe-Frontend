@@ -2,16 +2,16 @@ openapi: 3.0.1
 info:
   title: ZapMe
   description: Open source application to control things
-  termsOfService: https://heavenvr.tech/tos
+  termsOfService: https://heavenvr.tech/zapme/tos
   contact:
     name: Contact me
-    url: https://heavenvr.tech/contact
+    url: https://heavenvr.tech/zapme/contact
   license:
     name: 'The Apache License, Version 2.0'
-    url: https://heavenvr.tech/license
+    url: https://heavenvr.tech/zapme/license
   version: v1
 paths:
-  /api/v1/account:
+  /api/v1/Account:
     post:
       tags:
         - Account
@@ -27,8 +27,8 @@ paths:
             schema:
               $ref: '#/components/schemas/Create'
       responses:
-        '200':
-          description: Created account
+        '201':
+          description: Created
           content:
             application/json:
               schema:
@@ -54,6 +54,8 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/ErrorDetails'
+        '200':
+          description: Created account
     delete:
       tags:
         - Account
@@ -71,8 +73,8 @@ paths:
       responses:
         '200':
           description: Empty
-        '400':
-          description: ''
+        '401':
+          description: Unauthorized
           content:
             application/json:
               schema:
@@ -89,6 +91,8 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/ErrorDetails'
+        '400':
+          description: ''
     get:
       tags:
         - Account
@@ -104,8 +108,8 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/AccountDto'
-        '404':
-          description: Error details
+        '401':
+          description: Unauthorized
           content:
             application/json:
               schema:
@@ -113,7 +117,9 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/ErrorDetails'
-  '/api/v1/account/oauth/{providerName}':
+        '404':
+          description: Error details
+  '/api/v1/Account/oauth/{providerName}':
     post:
       tags:
         - Account
@@ -180,7 +186,7 @@ paths:
             text/json:
               schema:
                 $ref: '#/components/schemas/ErrorDetails'
-  /api/v1/account/recover-confirm:
+  /api/v1/Account/recover-confirm:
     post:
       tags:
         - Account
@@ -207,7 +213,7 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/ErrorDetails'
-  /api/v1/account/recover:
+  /api/v1/Account/recover:
     post:
       tags:
         - Account
@@ -225,7 +231,7 @@ paths:
       responses:
         '200':
           description: Account
-  /api/v1/account/email:
+  /api/v1/Account/email:
     put:
       tags:
         - Account
@@ -259,7 +265,7 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/ErrorDetails'
-  /api/v1/account/password:
+  /api/v1/Account/password:
     put:
       tags:
         - Account
@@ -293,7 +299,57 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/ErrorDetails'
-  /api/v1/account/username:
+  /api/v1/Account/pfp:
+    put:
+      tags:
+        - Account
+      summary: Updates the account username
+      operationId: UpdateProfilePicture
+      requestBody:
+        content:
+          image/png:
+            schema:
+              type: string
+              description: payload
+              format: binary
+          image/jpeg:
+            schema:
+              type: string
+              description: payload
+              format: binary
+          image/webp:
+            schema:
+              type: string
+              description: payload
+              format: binary
+          image/gif:
+            schema:
+              type: string
+              description: payload
+              format: binary
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+        '400':
+          description: Error details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetails'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorDetails'
+        '200':
+          description: New username
+  /api/v1/Account/username:
     put:
       tags:
         - Account
@@ -327,6 +383,22 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/ErrorDetails'
+  /api/v1/auth/oauth-providers:
+    get:
+      tags:
+        - Authentication
+      summary: ''
+      operationId: AuthGetOAuthProviders
+      responses:
+        '200':
+          description: Returns supported OAuth providers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuthProviderList'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/OAuthProviderList'
   /api/v1/auth/signin:
     post:
       tags:
@@ -344,16 +416,43 @@ paths:
               $ref: '#/components/schemas/AuthSignIn'
       responses:
         '200':
-          description: Returns users account
+          description: Returns SignInOk along with a Cookie with similar data
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AccountDto'
+                $ref: '#/components/schemas/SignInOk'
             application/xml:
               schema:
-                $ref: '#/components/schemas/AccountDto'
+                $ref: '#/components/schemas/SignInOk'
         '400':
           description: Error details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetails'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorDetails'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetails'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorDetails'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetails'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorDetails'
+        '413':
+          description: Client Error
           content:
             application/json:
               schema:
@@ -370,7 +469,7 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/ErrorDetails'
-  /api/v1/auth/signin-oauth:
+  /api/v1/auth/oauth-signin:
     post:
       tags:
         - Authentication
@@ -384,14 +483,14 @@ paths:
             type: string
       responses:
         '200':
-          description: Returns users account
+          description: Returns SignInOk along with a Cookie with similar data
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AccountDto'
+                $ref: '#/components/schemas/SignInOk'
             application/xml:
               schema:
-                $ref: '#/components/schemas/AccountDto'
+                $ref: '#/components/schemas/SignInOk'
         '403':
           description: Error details
           content:
@@ -427,7 +526,7 @@ paths:
       operationId: GetConfig
       responses:
         '200':
-          description: Returns users account
+          description: Returns the service config
           content:
             application/json:
               schema:
@@ -445,7 +544,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorDetails'
         '500':
-          description: Error details
+          description: Server Error
           content:
             application/json:
               schema:
@@ -482,10 +581,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserDto'
             application/xml:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserDto'
         '304':
           description: ''
           content:
@@ -523,10 +622,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserDto'
             application/xml:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserDto'
         '404':
           description: ''
           content:
@@ -600,10 +699,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserDto'
             application/xml:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserDto'
         '404':
           description: ''
           content:
@@ -632,10 +731,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserDto'
             application/xml:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserDto'
         '404':
           description: ''
           content:
@@ -645,18 +744,12 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/ErrorDetails'
-  '/api/v1/user/i/{userId}/report':
+  /api/v1/user/report:
     post:
       tags:
         - User
       summary: Report a user
       operationId: ReportUser
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
       requestBody:
         description: ''
         content:
@@ -703,27 +796,47 @@ components:
         username:
           type: string
           description: ''
+          example: MyUsername
+        profile_picture_id:
+          type: string
+          description: ''
+          format: uuid
+        status:
+          $ref: '#/components/schemas/UserOnlineStatus'
+        status_text:
+          type: string
+          description: ''
+        created_at:
+          type: string
+          description: Date this account was created at
+          format: date-time
+        last_online:
+          type: string
+          description: Last time this user was online
+          format: date-time
         email:
           type: string
           description: Obfuscated email of your account
+          format: email
+          example: user.name@example.com
         email_verified:
           type: boolean
           description: True if email address has been verified
-        connected_accounts:
-          type: array
-          items:
-            type: string
-          description: OAuth2 providers this account is connected to
+        accepted_tos_version:
+          type: integer
+          description: ''
+          format: int32
         friends:
           type: array
           items:
             type: string
             format: uuid
           description: Id of friends this account has
-        created_at:
-          type: string
-          description: Date this account was created at
-          format: date-time
+        connected_accounts:
+          type: array
+          items:
+            type: string
+          description: OAuth2 providers this account is connected to
       additionalProperties: false
       description: 'Account object, this can only retrieved for the user you are logged in as'
     AccountOAuthAdd:
@@ -733,23 +846,82 @@ components:
           type: string
       additionalProperties: false
       description: Request sent to server to add a oauth connection to a account
+    ApiConfig:
+      type: object
+      properties:
+        version:
+          $ref: '#/components/schemas/Version'
+        tos_version:
+          type: integer
+          format: int32
+        disabled_features:
+          $ref: '#/components/schemas/ApiDisabledFeatures'
+      additionalProperties: false
+    ApiDisabledFeatures:
+      type: object
+      properties:
+        chat:
+          type: boolean
+        sessions:
+          type: boolean
+        webrtc:
+          type: boolean
+        websockets:
+          type: boolean
+        captcha:
+          type: boolean
+        registration:
+          type: boolean
+        password_reset:
+          type: boolean
+        email_verification:
+          type: boolean
+      additionalProperties: false
+    AppConfig:
+      type: object
+      properties:
+        name:
+          type: string
+      additionalProperties: false
     AuthSignIn:
       type: object
       properties:
         username:
-          maxLength: 32
-          minLength: 3
           type: string
-          description: ''
+          description: Username or email address
+          example: MyUsername
         password:
-          maxLength: 256
-          minLength: 10
           type: string
-          description: ''
+          description: Password
+          example: Hq2yP1B^Fho&zRHxHkEu
+        sessionName:
+          maxLength: 32
+          minLength: 1
+          type: string
+          description: "Session name to remember this sign in by, e.g. \"My home computer\"\r\nThis is for the users to be able to see which devices they have logged in their user settings"
+          nullable: true
+        rememberMe:
+          type: boolean
+          description: Make this login persist for a longer period of time
       additionalProperties: false
       description: Message sent to server to authenticate user using username and password
+    CommunityConfig:
+      type: object
+      properties:
+        discord_invite_url:
+          type: string
+      additionalProperties: false
     Config:
       type: object
+      properties:
+        app:
+          $ref: '#/components/schemas/AppConfig'
+        api:
+          $ref: '#/components/schemas/ApiConfig'
+        email:
+          $ref: '#/components/schemas/Emailconfig'
+        community:
+          $ref: '#/components/schemas/CommunityConfig'
       additionalProperties: false
     Create:
       type: object
@@ -757,17 +929,21 @@ components:
         username:
           maxLength: 32
           minLength: 3
+          pattern: '^[^\s].*[^\s]$'
           type: string
           description: ''
+          example: MyUsername
         password:
           maxLength: 256
           minLength: 10
           type: string
           description: ''
+          example: Hq2yP1B^Fho&zRHxHkEu
         email:
           type: string
           description: ''
           format: email
+          example: user.name@example.com
         acceptedTosVersion:
           type: integer
           description: ''
@@ -777,6 +953,18 @@ components:
           description: Response from google recaptcha request
       additionalProperties: false
       description: Message sent to server to create a new account
+    Emailconfig:
+      type: object
+      properties:
+        support:
+          type: string
+          format: email
+          example: user.name@example.com
+        contact:
+          type: string
+          format: email
+          example: user.name@example.com
+      additionalProperties: false
     ErrorDetails:
       type: object
       properties:
@@ -796,8 +984,11 @@ components:
         fields:
           type: object
           additionalProperties:
-            type: string
-          description: ''
+            type: array
+            items:
+              type: string
+            nullable: true
+          description: Errors for specific fields in the request
           nullable: true
         notification:
           $ref: '#/components/schemas/UserNotification'
@@ -820,6 +1011,16 @@ components:
           description: UserId's of users that this account has sent friend requests to
       additionalProperties: false
       description: List of incoming and outgoing friendrequests
+    OAuthProviderList:
+      type: object
+      properties:
+        providers:
+          type: array
+          items:
+            type: string
+          description: ''
+      additionalProperties: false
+      description: ''
     ProblemDetails:
       type: object
       properties:
@@ -848,6 +1049,7 @@ components:
           minLength: 10
           type: string
           description: The new password to set
+          example: Hq2yP1B^Fho&zRHxHkEu
         token:
           type: string
           description: The token sent to the user's email address
@@ -860,6 +1062,7 @@ components:
           type: string
           description: Email of your account you want to recover
           format: email
+          example: user.name@example.com
         recaptcha_response:
           type: string
           description: Response from google recaptcha request
@@ -871,6 +1074,23 @@ components:
         - warning
         - error
       type: string
+    SignInOk:
+      type: object
+      properties:
+        sessionId:
+          type: string
+          description: ''
+          format: uuid
+        issuedAtUtc:
+          type: string
+          description: ''
+          format: date-time
+        expiresAtUtc:
+          type: string
+          description: ''
+          format: date-time
+      additionalProperties: false
+      description: ''
     UpdateEmail:
       type: object
       properties:
@@ -878,9 +1098,11 @@ components:
           type: string
           description: ''
           format: email
+          example: user.name@example.com
         password:
           type: string
           description: ''
+          example: Hq2yP1B^Fho&zRHxHkEu
       additionalProperties: false
       description: Request sent to server to update account email address
     UpdatePassword:
@@ -891,9 +1113,11 @@ components:
           minLength: 10
           type: string
           description: ''
+          example: Hq2yP1B^Fho&zRHxHkEu
         old:
           type: string
           description: ''
+          example: Hq2yP1B^Fho&zRHxHkEu
       additionalProperties: false
       description: Request sent to server to update account password
     UpdateUserName:
@@ -902,14 +1126,17 @@ components:
         new_username:
           maxLength: 32
           minLength: 3
+          pattern: '^[^\s].*[^\s]$'
           type: string
           description: ''
+          example: MyUsername
         password:
           type: string
           description: ''
+          example: Hq2yP1B^Fho&zRHxHkEu
       additionalProperties: false
       description: Request sent to server to update account username
-    User:
+    UserDto:
       type: object
       properties:
         id:
@@ -919,16 +1146,25 @@ components:
         username:
           type: string
           description: ''
-        last_online:
+          example: MyUsername
+        profile_picture_id:
           type: string
-          description: Last time this user was online
-          format: date-time
+          description: ''
+          format: uuid
+        status:
+          $ref: '#/components/schemas/UserOnlineStatus'
+        status_text:
+          type: string
+          description: ''
         created_at:
           type: string
           description: Date this account was created at
           format: date-time
+        last_online:
+          type: string
+          description: Last time this user was online
+          format: date-time
       additionalProperties: false
-      description: 'User object, this can be retrieved by anyone who is friends with the user'
     UserNotification:
       type: object
       properties:
@@ -937,15 +1173,26 @@ components:
         title:
           type: string
           description: Message title to display to the user
-        detail:
+        message:
           type: string
-          description: User friendly details about this notification
+          description: User friendly message about this notification
           nullable: true
       additionalProperties: false
       description: "System notification to be displayed to the user, do not confuse with user notifications\r\nThis is a hint and clients can choose to ignore it or implement notifications to be independent of this"
+    UserOnlineStatus:
+      enum:
+        - offline
+        - doNotDisturb
+        - inactive
+        - online
+        - downBad
+      type: string
     UserReport:
       type: object
       properties:
+        user_id:
+          type: string
+          format: uuid
         title:
           type: string
           description: ''
@@ -954,3 +1201,31 @@ components:
           description: ''
       additionalProperties: false
       description: Message sent to server to report a user
+    Version:
+      type: object
+      properties:
+        major:
+          type: integer
+          format: int32
+          readOnly: true
+        minor:
+          type: integer
+          format: int32
+          readOnly: true
+        build:
+          type: integer
+          format: int32
+          readOnly: true
+        revision:
+          type: integer
+          format: int32
+          readOnly: true
+        majorRevision:
+          type: integer
+          format: int32
+          readOnly: true
+        minorRevision:
+          type: integer
+          format: int32
+          readOnly: true
+      additionalProperties: false

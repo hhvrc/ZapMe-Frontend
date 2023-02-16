@@ -1,29 +1,31 @@
 {
-    "compilerOptions": {
-        "target": "es5",
-        "lib": [
-            "dom",
-            "dom.iterable",
-            "esnext"
-        ],
-        "allowJs": false,
-        "skipLibCheck": true,
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
-        "strict": true,
-        "forceConsistentCasingInFileNames": true,
-        "noFallthroughCasesInSwitch": true,
-        "module": "esnext",
-        "moduleResolution": "node",
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "noEmit": true,
-        "jsx": "react-jsx",
-        "baseUrl": "src"
+  "extends": "@tsconfig/svelte/tsconfig.json",
+
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "$api/*": ["src/api/*"],
+      "$cmp/*": ["src/components/*"]
     },
-    "include": [
-        "src/*.tsx",
-        "src/Tests/*.ts",
-    ]
+
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+
+    "module": "ESNext",
+    "resolveJsonModule": true,
+
+    "strict": true,
+    "noEmit": true,
+    "allowJs": false,
+    "sourceMap": false,
+    "allowSyntheticDefaultImports": true,
+
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "importsNotUsedAsValues": "remove",
+    "noFallthroughCasesInSwitch": false
+  },
+
+  "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.svelte"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }
-  
