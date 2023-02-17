@@ -1,4 +1,4 @@
-export default interface UserSettings {
+export interface UserSettings {
   id: string;
   theme: string;
   createdAt: Date;

@@ -12,6 +12,8 @@ export default defineConfig({
     alias: {
       $api: resolve('./src/api'),
       $cmp: resolve('./src/components'),
+      $models: resolve('./src/models'),
+      $routes: resolve('./src/routes'),
     },
   },
 

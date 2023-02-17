@@ -1,4 +1,4 @@
-export default interface SessionInfo {
+export interface SessionToken {
   id: string;
   issuedAt: Date;
   expiresAt: Date;

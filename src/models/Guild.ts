@@ -1,8 +1,6 @@
-import type User from './User';
-import type GuildMember from './GuildMember';
-import type Channel from './Channel';
+import type { Channel, GuildMember, User } from '.';
 
-export default interface Guild {
+export interface Guild {
   id: string;
   name: string;
   icon: string;

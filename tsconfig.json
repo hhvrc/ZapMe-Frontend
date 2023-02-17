@@ -5,7 +5,9 @@
     "baseUrl": ".",
     "paths": {
       "$api/*": ["src/api/*"],
-      "$cmp/*": ["src/components/*"]
+      "$cmp/*": ["src/components/*"],
+      "$models/*": ["src/models/*"],
+      "$routes/*": ["src/routes/*"],
     },
 
     "target": "ESNext",
