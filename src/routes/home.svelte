@@ -1,4 +1,14 @@
 <script lang="ts">
+  import { IsAuthenticated } from "../stores";
+
+  export const load = ctx => {
+    if (!IsAuthenticated())
+    {
+      return {
+        redirect: '/login'
+      }
+    }
+  }
 </script>
 
 <svelte:head>

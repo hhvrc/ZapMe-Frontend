@@ -1,11 +1,10 @@
-// Stores.ts, svelte stores for application state
+import { get, writable } from "svelte/store";
+import type { Account, SessionToken } from "./models";
 
-import { writable } from "svelte/store";
-import { persisted } from 'svelte-local-storage-store';
-import type { User } from "./models";
-import type SessionInfo from "./models/SessionInfo";
+export const IsSidebarOpenStore = writable<boolean>(false);
 
-export const IsMenuOpenStore = writable<boolean>(false);
-export const SessionStore = persisted<SessionInfo | null>("session", null);
-export const IsAuthenticatedStore = writable<boolean>(false);
-export const UserStore = writable<User | null>(null);
+export const AccountStore = writable<Account | null>(null);
+export const SessionTokenStore = writable<SessionToken | null>(null);
+
+export const IsAccountLoaded = () => get(AccountStore) !== null;
+export const IsAuthenticated = () => get(SessionTokenStore) !== null;

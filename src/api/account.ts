@@ -1,4 +1,5 @@
-import { AccountApiFactory, type ErrorDetails } from "./generated/api";
+import { ApiError } from "./ApiError";
+import { AccountApiFactory } from "./generated/api";
 
 const accountApi = AccountApiFactory(
   undefined,
@@ -8,7 +9,7 @@ const accountApi = AccountApiFactory(
 
 export interface RegisterAccountResponse {
   ok: boolean;
-  error?: ErrorDetails;
+  error?: ApiError;
 }
 
 export async function registerAccount(
@@ -29,31 +30,19 @@ export async function registerAccount(
 
     return { ok: true };
   }
-  catch (error: any) {
-    const response = error?.response;
-
-    if (!response?.data) {
-      throw error;
-    }
-
+  catch (exception: any) {
     return {
       ok: false,
-      error: response.data as ErrorDetails,
+      error: new ApiError(exception),
     };
   }
 }
-export async function requestPasswordReset(email: string, recaptchaResponse: string): Promise<ErrorDetails | null> {
+export async function requestPasswordReset(email: string, recaptchaResponse: string): Promise<ApiError | null> {
   try {
     await accountApi.accountRecoveryRequest({email, recaptcha_response: recaptchaResponse});
     return null;
   }
-  catch (error: any) {
-    const response = error?.response;
-
-    if (!response?.data) {
-      throw error;
-    }
-
-    return response.data as ErrorDetails;
+  catch (exception: any) {
+    return new ApiError(exception);
   }
 }

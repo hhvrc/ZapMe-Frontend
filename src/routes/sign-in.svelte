@@ -1,7 +1,6 @@
 <script lang="ts">
   import { goto } from '@roxi/routify';
   import { authLogin } from '$api/authentication';
-  import { SessionStore } from '../stores';
   import NamedInput from '$cmp/NamedInput.svelte';
   import NamedCheckBox from '$cmp/NamedCheckBox.svelte';
   import Form from '$cmp/Form.svelte';
@@ -16,13 +15,11 @@
 
   async function handleSubmit() {
     // TODO: set loading
-    const { sessionInfo, error } = await authLogin(username, password, rememberMe).finally(() => {
+    const error = await authLogin(username, password, rememberMe).finally(() => {
       // TODO: remove loading
     });
 
-    if (sessionInfo) {
-      console.log(sessionInfo);
-      SessionStore.set(sessionInfo);
+    if (!error) {
       $goto('/home');
       return;
     }

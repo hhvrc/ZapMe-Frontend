@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { IsAuthenticatedStore, IsMenuOpenStore } from '../stores';
+  import { IsAuthenticated, IsSidebarOpenStore } from '../stores';
   import { selectedTheme } from '../ThemeContext';
 
   type ListEntry = {
@@ -12,7 +12,7 @@
   let entries: ListEntry[] = [];
   let socials: ListEntry[] = [];
 
-  if ($IsAuthenticatedStore) {
+  if (IsAuthenticated()) {
     entries.push({name: 'Home', iconDark: 'home', href: '/home'});
     entries.push({name: 'Friends', iconDark: 'people', href: '/friends'});
     entries.push({name: 'Messages', iconDark: 'message', href: '/messages'});
@@ -33,7 +33,7 @@
   socials.push({name: 'Discord', iconDark: '/icons/logo_discord_clyde_blurple.svg', href: 'https://discord.gg/ez6HE5vxe8'});
 </script>
 
-{#if $IsMenuOpenStore}
+{#if $IsSidebarOpenStore}
 <div class="menu">
   {#each entries as { name, iconDark: icon, href }}
     <a class="usn" href={href}>

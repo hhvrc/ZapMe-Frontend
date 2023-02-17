@@ -1,21 +1,17 @@
-import type SessionInfo from "src/models/SessionInfo";
-import { AuthenticationApiFactory, type ErrorDetails } from "./generated/api";
+import { AuthenticationApiFactory } from "./generated/api";
+import { SessionTokenStore } from "../stores";
+import { ApiError } from "./ApiError";
 
 const authApi = AuthenticationApiFactory(
   undefined,
   import.meta.env.VITE_BACKEND_URL
 );
 
-export interface AuthLoginResponse {
-  sessionInfo?: SessionInfo;
-  error?: ErrorDetails;
-}
-
 export async function authLogin(
   username: string,
   password: string,
   rememberMe: boolean
-): Promise<AuthLoginResponse> {
+): Promise<ApiError | null> {
   try {
     const response = await authApi.authSignIn({
       username,
@@ -23,24 +19,26 @@ export async function authLogin(
       rememberMe
     });
 
-    const data = response.data;
-
-    return {
-      sessionInfo: {
-        id: data.sessionId!,
-        issuedAt: new Date(data.issuedAtUtc!),
-        expiresAt: new Date(data.expiresAtUtc!),
-      },
-    };
-  } catch (error: any) {
-    const response = error?.response;
-
-    if (!response?.data) {
-      throw error;
+    if (!response.data) {
+      // TODO: Improve error handling
+      throw new Error("No data returned from server");
     }
 
-    return {
-      error: response.data as ErrorDetails,
-    };
+    const { sessionId, issuedAtUtc, expiresAtUtc } = response.data;
+
+    if (!sessionId || !issuedAtUtc || !expiresAtUtc) {
+      // TODO: Improve error handling
+      throw new Error("Invalid data returned from server");
+    }
+
+    SessionTokenStore.set({
+      id: sessionId,
+      issuedAt: new Date(issuedAtUtc),
+      expiresAt: new Date(expiresAtUtc),
+    });
+
+    return null;
+  } catch (exception: any) {
+    return new ApiError(exception);
   }
 }
