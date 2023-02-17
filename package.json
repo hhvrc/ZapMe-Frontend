@@ -57,5 +57,9 @@
     "development": [
       "last 1 version"
     ]
+  },
+  "dependencies": {
+    "@sentry/svelte": "^7.38.0",
+    "@sentry/tracing": "^7.38.0"
   }
 }
