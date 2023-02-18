@@ -2,13 +2,13 @@ openapi: 3.0.1
 info:
   title: ZapMe
   description: Open source application to control things
-  termsOfService: https://heavenvr.tech/zapme/tos
+  termsOfService: https://zapme.app/tos
   contact:
     name: Contact me
-    url: https://heavenvr.tech/zapme/contact
+    url: https://zapme.app/contact
   license:
     name: 'The Apache License, Version 2.0'
-    url: https://heavenvr.tech/zapme/license
+    url: https://zapme.app/license
   version: v1
 paths:
   /api/v1/Account:
