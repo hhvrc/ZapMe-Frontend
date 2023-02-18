@@ -15,8 +15,16 @@ if (sentryDsn && sentryTracesSampleRate) {
   });
 }
 
+const body = document.body;
+
+// Remove all children from the body
+while (body.firstChild) {
+  body.removeChild(body.firstChild);
+}
+
+// Create a new div to mount the app
 const app = new App({
-  target: document.body,
+  target: body,
 });
 
 export default app;
