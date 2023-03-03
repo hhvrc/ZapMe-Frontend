@@ -3,12 +3,6 @@
 
   "compilerOptions": {
     "baseUrl": ".",
-    "paths": {
-      "$api/*": ["src/api/*"],
-      "$cmp/*": ["src/components/*"],
-      "$models/*": ["src/models/*"],
-      "$routes/*": ["src/routes/*"],
-    },
 
     "target": "ESNext",
     "useDefineForClassFields": true,
@@ -25,9 +19,18 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "importsNotUsedAsValues": "remove",
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "$api/*": ["src/api/*"],
+      "$cmp/*": ["src/components/*"],
+      "$models/*": ["src/models/*"],
+      "$routes/*": ["src/routes/*"],
+    }
   },
-
-  "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.svelte"],
+  "include": [
+    "src/**/*.d.ts",
+    "src/**/*.ts",
+    "src/**/*.svelte"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
