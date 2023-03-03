@@ -2,11 +2,9 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vitest/config';
 import { resolve } from 'path';
 
-const isProduction = process.env.NODE_ENV === 'production';
-
 export default defineConfig({
+  plugins: [sveltekit()],
   clearScreen: false,
-
   resolve: {
     alias: {
       $api: resolve('./src/api'),
@@ -15,17 +13,10 @@ export default defineConfig({
       $routes: resolve('./src/routes'),
     },
   },
-
-  plugins: [sveltekit()],
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}']
 	},
-  build: {
-    outDir: 'dist',
-    target: 'esnext',
-    sourcemap: !isProduction,
-    emptyOutDir: true,
+  server: {
+    port: 1337
   },
-
-  server: { port: 1337 },
 });
