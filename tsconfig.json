@@ -1,5 +1,5 @@
 {
-  "extends": "@tsconfig/svelte/tsconfig.json",
+  "extends": "./.svelte-kit/tsconfig.json",
 
   "compilerOptions": {
     "baseUrl": ".",
@@ -14,6 +14,7 @@
     "noEmit": true,
     "allowJs": false,
     "sourceMap": false,
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
 
     "noUnusedLocals": true,
@@ -21,16 +22,15 @@
     "importsNotUsedAsValues": "remove",
     "noFallthroughCasesInSwitch": false,
     "paths": {
+      "$lib":["./src/lib"],
+      "$lib/*":["./src/lib/*"],
+      
+      "$api": ["src/api"],
       "$api/*": ["src/api/*"],
+
       "$cmp/*": ["src/components/*"],
       "$models/*": ["src/models/*"],
       "$routes/*": ["src/routes/*"],
     }
-  },
-  "include": [
-    "src/**/*.d.ts",
-    "src/**/*.ts",
-    "src/**/*.svelte"
-  ],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  }
 }
