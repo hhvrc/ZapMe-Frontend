@@ -1,6 +1,5 @@
-import { defineConfig, type PluginOption } from 'vite';
-import { svelte } from '@sveltejs/vite-plugin-svelte';
-import routify from '@roxi/routify/vite-plugin';
+import { sveltekit } from '@sveltejs/kit/vite';
+import { defineConfig } from 'vitest/config';
 import { resolve } from 'path';
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -17,8 +16,10 @@ export default defineConfig({
     },
   },
 
-  plugins: [routify(), svelte()],
-
+  plugins: [sveltekit()],
+	test: {
+		include: ['src/**/*.{test,spec}.{js,ts}']
+	},
   build: {
     outDir: 'dist',
     target: 'esnext',
