@@ -1,3 +1,4 @@
+import { browser } from '$app/environment';
 import { get } from 'svelte/store';
 import { persisted } from 'svelte-local-storage-store';
 import { StringSerializer } from './serializers';
@@ -231,4 +232,6 @@ function OnFetchOrUpdateTheme(val: string): string {
 
 export const additonalThemes = persisted<CustomTheme[]>('themeAdditionals', []);
 export const selectedTheme = persisted<string>('themeSelected', 'dark', { serializer: StringSerializer });
-selectedTheme.subscribe(OnFetchOrUpdateTheme);
+if (browser) {
+  selectedTheme.subscribe(OnFetchOrUpdateTheme);
+}
