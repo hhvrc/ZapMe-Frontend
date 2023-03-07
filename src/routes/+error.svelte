@@ -1,5 +1,12 @@
-<script>
-    import { url } from '@roxi/routify'
+<script lang="ts">
+  import { goto, afterNavigate } from '$app/navigation';
+  import { base } from '$app/paths';
+  
+  let previousPage : string = base;
+  
+  afterNavigate(({from}) => {
+    previousPage = from?.url.pathname || previousPage
+  });
 </script>
 
 <style>
@@ -19,6 +26,6 @@
   <div class="huge">404</div>
   <div class="big">Page not found. 
   <!-- link to the parent folder of _fallback.svelte -->
-  <a href={$url('../')}>Go back</a>
+  <a href={previousPage}>Go back</a>
   </div>
 </div>

@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { IsAuthenticated, IsSidebarOpenStore } from '../stores';
-  import { selectedTheme } from '../ThemeContext';
+  import { IsAuthenticated, IsSidebarOpenStore } from '$lib/stores';
+  import { selectedTheme } from '$lib/ThemeContext';
 
   type ListEntry = {
     name: string,

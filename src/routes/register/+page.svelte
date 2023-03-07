@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { goto } from '@roxi/routify';
-  import { registerAccount } from '$api/account';
-  import type { ErrorDetails } from '$api/generated/api';
-  import NamedInput from '$cmp/NamedInput.svelte';
-  import ReCaptcha from '$cmp//ReCaptcha.svelte';
-  import Form from '$cmp/Form.svelte';
-  import FormButton from '$cmp/FormButton.svelte';
+  import { goto } from '$app/navigation';
+  import { registerAccount } from '$lib/api/account';
+  import type { ErrorDetails } from '$lib/api/generated/api';
+  import NamedInput from '$components/NamedInput.svelte';
+  import ReCaptcha from '$components//ReCaptcha.svelte';
+  import Form from '$components/Form.svelte';
+  import FormButton from '$components/FormButton.svelte';
 
   let title = 'Register';
   let username = '';
@@ -23,7 +23,7 @@
     const response = await registerAccount(username, password, email, acceptedTosVersion, recaptchaResponse);
 
     if (response.ok) {
-      $goto('/home');
+      goto('/home');
       return;
     }
 

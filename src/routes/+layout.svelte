@@ -1,8 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import Header from '$cmp/Header.svelte';
-  import Footer from '$cmp/Footer.svelte';
-  import SideBar from '$cmp/SideBar.svelte';
+  import Header from '$components/Header.svelte';
+  import Footer from '$components/Footer.svelte';
+  import SideBar from '$components/SideBar.svelte';
 
   // TODO: this is probably not the proper way to detect when a page is done loading (also see global.css line 3)
   let isLoading = true;

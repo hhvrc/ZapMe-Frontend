@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { IsAuthenticated, IsSidebarOpenStore } from '../stores';
-  import ThemeSwitch from '$cmp/ThemeSwitch.svelte'
+  import { IsAuthenticated, IsSidebarOpenStore } from '$lib/stores';
+  import ThemeSwitch from './ThemeSwitch.svelte'
 
   let entries: { name: string, href: string }[] = [];
 

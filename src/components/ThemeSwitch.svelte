@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { selectedTheme } from "../ThemeContext";
+  import { selectedTheme } from "$lib/ThemeContext";
 
   function setEnabled() {
     selectedTheme.update((theme) => {

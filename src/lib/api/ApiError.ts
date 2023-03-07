@@ -1,4 +1,4 @@
-import type { ErrorDetails, UserNotification } from "$api/generated";
+import type { ErrorDetails, UserNotification } from "$lib/api/generated";
 
 export class ApiError {
   constructor(exception: any) {
