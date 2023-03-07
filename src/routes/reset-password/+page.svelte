@@ -27,7 +27,7 @@
     <button type="submit">Request password reset</button>
   </form>
 
-  <a href="/login">Login</a>
+  <a href="/sign-in">Login</a>
   <a href="/register">Register</a>
 </div>
 

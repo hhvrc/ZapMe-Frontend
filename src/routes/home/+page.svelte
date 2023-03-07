@@ -5,7 +5,7 @@
     if (!IsAuthenticated())
     {
       return {
-        redirect: '/login'
+        redirect: '/sign-in'
       }
     }
   }

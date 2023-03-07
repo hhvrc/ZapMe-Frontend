@@ -3,26 +3,15 @@
   import Header from '$components/Header.svelte';
   import Footer from '$components/Footer.svelte';
   import SideBar from '$components/SideBar.svelte';
-
-  // TODO: this is probably not the proper way to detect when a page is done loading (also see global.css line 3)
-  let isLoading = true;
-  onMount(() => {
-    isLoading = false;
-  });
 </script>
 
-{#if isLoading}
-  <!-- TODO: make a better loading screen -->
-  <div class="loading" style="background-color: black;">Loading...</div>
-{:else}
-  <Header/>
-  <main>
-    <slot/>
-    <Footer/>
-    <div class="scroll-cover"/>
-  </main>
-  <SideBar/>
-{/if}
+<Header/>
+<main>
+  <slot/>
+  <Footer/>
+  <div class="scroll-cover"/>
+</main>
+<SideBar/>
 
 <style>
   main {
