@@ -21,6 +21,7 @@
     "format": "prettier --plugin-search-dir . --write ."
   },
   "devDependencies": {
+    "@fontsource/montserrat": "^4.5.14",
     "@openapitools/openapi-generator-cli": "^2.5.2",
     "@playwright/test": "^1.31.2",
     "@sveltejs/adapter-auto": "^2.0.0",
