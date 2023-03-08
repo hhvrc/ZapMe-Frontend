@@ -3,7 +3,7 @@
   import { registerAccount } from '$lib/api/account';
   import type { ErrorDetails } from '$lib/api/generated/api';
   import NamedInput from '$components/NamedInput.svelte';
-  import ReCaptcha from '$components//ReCaptcha.svelte';
+  import ReCaptcha from '$components/ReCaptcha.svelte';
   import Form from '$components/Form.svelte';
   import FormButton from '$components/FormButton.svelte';
 
