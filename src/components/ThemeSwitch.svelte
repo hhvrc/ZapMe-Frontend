@@ -1,5 +1,6 @@
 <script lang="ts">
   import { selectedTheme } from "$lib/ThemeContext";
+  import 'material-symbols';
 
   function setEnabled() {
     selectedTheme.update((theme) => {

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { IsAuthenticated, IsSidebarOpenStore } from '$lib/stores';
   import { selectedTheme } from '$lib/ThemeContext';
+  import 'material-symbols';
 
   type ListEntry = {
     name: string,
