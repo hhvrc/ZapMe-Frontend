@@ -1,5 +1,5 @@
 <script lang="ts">
-  let token = null;
+  let token: string | null = null;
 
   /** @type {import('./$types').PageLoad} */
   export function load({ url }) {
