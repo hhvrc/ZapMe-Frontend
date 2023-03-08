@@ -1,5 +1,5 @@
 import { get, writable } from "svelte/store";
-import type { Account, SessionToken } from "$types/index";
+import type { Account, SessionToken } from "$types";
 
 export const IsSidebarOpenStore = writable<boolean>(false);
 
