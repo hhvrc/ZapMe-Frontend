@@ -3,22 +3,15 @@
   "compilerOptions": {
     "allowJs": false,
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "sourceMap": false,
     "strict": true,
 
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-
     "noUnusedLocals": true,
+    "noImplicitReturns": true,
     "noUnusedParameters": true,
+    "allowUnreachableCode": false,
     "importsNotUsedAsValues": "remove",
     "noFallthroughCasesInSwitch": false,
-
-    "types": [
-      "@sveltejs/kit",
-      "vitest/globals",
-    ]
   }
 }

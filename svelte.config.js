@@ -22,8 +22,10 @@ export default {
   kit: {
     adapter: activeAdapter,
     alias: {
-      '$components/*': 'src/components/*',
-      '$models/*': 'src/models/*'
+      '$types': 'src/types',
+      '$types/*': 'src/types/*',
+      '$components': 'src/components',
+      '$components/*': 'src/components/*'
     }
   }
 };

@@ -3,7 +3,7 @@
 
 declare global {
   interface Window {
-    grecaptcha: any;
+    grecaptcha: any | undefined;
     handleCaptchaCallback: (token: string) => Promise<void>;
     resetCaptcha: () => void;
     handleCaptchaError: () => void;
