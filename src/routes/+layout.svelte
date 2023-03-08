@@ -2,23 +2,34 @@
   import Header from '$components/Header.svelte';
   import Footer from '$components/Footer.svelte';
   import SideBar from '$components/SideBar.svelte';
+  import TwitterTags from '$components/MetaTags/TwitterTags.svelte';
+  import OpenGraphTags from '$components/MetaTags/OpenGraphTags.svelte';
+  import DefaultTags from '$components/MetaTags/DefaultTags.svelte';
+
+  const WebsiteURL = "https://www.zapme.app";
+  const WebsiteTitle = "ZapMe | Control collars remotely";
+  const WebsiteDescription = "ZapMe allows you to control your Submissives shock collars from anywhere in the world with low latency, realtime networking.";
+  const WebsiteLogo = "https://www.zapme.app/logo-512.png";
+  const WebsiteLogoAlt = "ZapMe Logo";
 </script>
 
-<svelte:head>
-  <!-- OpenGraph -->
-  <meta property="og:type" content="website"/>
-  <meta property="og:url" content="https://www.zapme.app"/>
-  <meta property="og:title" content="ZapMe | Control collars remotely"/>
-  <meta property="og:description" content="ZapMe allows you to control your Submissives shock collars from anywhere in the world with low latency, realtime networking."/>
-  <meta property="og:image" content="https://www.zapme.app/logo-512.png"/>
-
-  <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image"/>
-  <meta property="twitter:creator" content="@hhvrc"/>
-  <meta property="twitter:description" content="ZapMe allows you to control your Submissives shock collars from anywhere in the world with low latency, realtime networking."/>
-  <meta property="twitter:image" content="https://www.zapme.app/logo-512.png"/>
-  <meta property="twitter:image:alt" content="ZapMe Logo"/>
-</svelte:head>
+<DefaultTags
+  title={WebsiteTitle}
+  description={WebsiteDescription}
+/>
+<TwitterTags
+  card="summary_large_image"
+  creatorHandle="@hhvrc"
+  description={WebsiteDescription}
+  image={{src: WebsiteLogo, alt: WebsiteLogoAlt}}
+/>
+<OpenGraphTags
+  type="website"
+  title={WebsiteTitle}
+  description={WebsiteDescription}
+  image={{src: WebsiteLogo, alt: WebsiteLogoAlt}}
+  url={WebsiteURL}
+/>
 
 <Header/>
 <main>
