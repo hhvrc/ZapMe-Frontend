@@ -1,7 +1,7 @@
 <script lang="ts">
   import { IsAuthenticated } from "$lib/stores";
 
-  export const load = ctx => {
+  export function load({}) {
     if (!IsAuthenticated())
     {
       return {

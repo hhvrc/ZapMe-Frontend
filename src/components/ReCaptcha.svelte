@@ -5,7 +5,6 @@
   export let response: string | null = null;
   export let theme = 'light';
 
-  // @svelte js/element 
   function onSuccess(resp: string) {
     response = resp;
     console.log('Recaptcha success: ' + response);

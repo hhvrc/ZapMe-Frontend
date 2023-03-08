@@ -1,8 +1,6 @@
 {
   "extends": "./.svelte-kit/tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
-
     "allowJs": false,
     "esModuleInterop": true,
     "sourceMap": false,
@@ -10,12 +8,17 @@
 
     "target": "ESNext",
     "module": "ESNext",
-    "moduleResolution": "node16",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
 
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "importsNotUsedAsValues": "remove",
     "noFallthroughCasesInSwitch": false,
+
+    "types": [
+      "@sveltejs/kit",
+      "vitest/globals",
+    ]
   }
 }

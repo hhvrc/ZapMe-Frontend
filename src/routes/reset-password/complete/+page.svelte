@@ -1,7 +1,6 @@
 <script lang="ts">
   let token: string | null = null;
 
-  /** @type {import('./$types').PageLoad} */
   export function load({ url }) {
     if (!url.searchParams.has('token')) {
       return {
