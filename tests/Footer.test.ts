@@ -1,5 +1,5 @@
 import { cleanup, render, screen } from '@testing-library/svelte'
-import Footer from '../components/Footer.svelte'
+import Footer from '$components/Footer.svelte'
 
 describe('Footer.svelte', () => {
   // TODO: @testing-library/svelte claims to add this automatically but it doesn't work without explicit afterEach
