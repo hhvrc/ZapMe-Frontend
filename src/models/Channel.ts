@@ -1,6 +1,6 @@
-import type Guild from './Guild';
+import type { Guild } from '.';
 
-export default interface Channel {
+export interface Channel {
   id: string;
   name: string;
   type: string;

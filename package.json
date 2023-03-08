@@ -1,51 +1,54 @@
 {
   "name": "zapme",
-  "private": true,
   "version": "0.1.0",
+  "private": true,
   "type": "module",
   "scripts": {
-    "init": "npm run build:wasm && npm install",
-    "dev": "vite",
-    "clean": "run-p -l clean:*",
-    "clean:api": "rimraf src/api/generated",
-    "clean:wasm": "rimraf wasm/pkg wasm/Cargo.lock",
-    "clean:svelte": "rimraf .routify dist",
-    "build": "run-s -l clean build:wasm build:api build:svelte",
+    "dev": "vite dev",
+    "build": "run-s -l clean build:api build:app",
     "build:api": "cross-env openapi-generator-cli generate",
-    "build:wasm": "cd wasm && wasm-pack build --release --target bundler --out-dir pkg",
-    "build:svelte": "vite build",
+    "build:app": "vite build",
     "preview": "vite preview",
-    "check": "svelte-check --tsconfig ./tsconfig.json",
-    "test": "run-s -l test:wasm test:svelte",
-    "test:ui": "run-s -l test:wasm test:svelte:ui",
-    "test:wasm": "cd wasm && wasm-pack test --release --chrome --firefox --headless",
-    "test:svelte": "vitest --run",
-    "test:svelte:ui": "vitest --ui",
-    "coverage": "vitest run --coverage"
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "test": "playwright test",
+    "test:unit": "vitest --run",
+    "clean": "run-p -l clean:*",
+    "clean:api": "rimraf src/lib/api/generated",
+    "clean:app": "rimraf .svelte-kit",
+    "coverage": "vitest run --coverage",
+    "lint": "prettier --plugin-search-dir . --check . && eslint .",
+    "format": "prettier --plugin-search-dir . --write ."
   },
   "devDependencies": {
+    "@fontsource/montserrat": "^4.5.14",
     "@openapitools/openapi-generator-cli": "^2.5.2",
-    "@roxi/routify": "^3.0.0-next.1",
-    "@sveltejs/vite-plugin-svelte": "^2.0.2",
+    "@playwright/test": "^1.31.2",
+    "@sveltejs/adapter-auto": "^2.0.0",
+    "@sveltejs/adapter-cloudflare": "^2.2.0",
+    "@sveltejs/kit": "^1.10.0",
+    "@sveltejs/vite-plugin-svelte": "^2.0.3",
     "@testing-library/svelte": "^3.2.2",
     "@tsconfig/svelte": "^3.0.0",
     "@types/jest": "^29.4.0",
-    "@vitest/ui": "^0.28.5",
+    "@vitest/ui": "^0.29.2",
     "cross-env": "^7.0.3",
     "crypto-random-string": "^5.0.0",
+    "eslint": "^8.35.0",
+    "eslint-plugin-svelte3": "^4.0.0",
     "jsdom": "^21.1.0",
-    "npm-check-updates": "^16.7.4",
+    "material-symbols": "^0.4.6",
+    "npm-check-updates": "^16.7.10",
     "npm-run-all": "^4.1.5",
-    "rimraf": "^4.1.2",
+    "rimraf": "^4.3.1",
     "svelte": "^3.55.1",
-    "svelte-check": "^3.0.3",
+    "svelte-check": "^3.1.0",
     "svelte-i18n": "^3.6.0",
     "svelte-local-storage-store": "^0.4.0",
     "tslib": "^2.5.0",
     "typescript": "^4.9.5",
-    "vite": "^4.1.1",
-    "vitest": "^0.28.5",
-    "wasm": "file:wasm/pkg"
+    "vite": "^4.1.4",
+    "vitest": "^0.29.2"
   },
   "browserslist": {
     "production": [
@@ -57,5 +60,9 @@
     "development": [
       "last 1 version"
     ]
+  },
+  "dependencies": {
+    "@sentry/svelte": "^7.41.0",
+    "@sentry/tracing": "^7.41.0"
   }
 }

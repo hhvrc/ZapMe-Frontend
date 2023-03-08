@@ -1,7 +1,6 @@
-import type User from './User';
-import type AuthenticationMethod from './AuthenticationMethod';
+import type { AuthenticationMethod, User } from '.';
 
-export default interface Account {
+export interface Account {
   id: string;
   username: string;
   email: string;

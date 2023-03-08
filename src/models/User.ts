@@ -1,7 +1,6 @@
-import type Guild from './Guild';
-import type UserSettings from './UserSettings';
+import type { Guild, UserSettings } from '.';
 
-export default interface User {
+export interface User {
   id: string;
   email: string;
   username: string;

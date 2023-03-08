@@ -1,10 +1,11 @@
 <script lang="ts">
-  import { IsMenuOpenStore, IsAuthenticatedStore } from '../stores';
-  import ThemeSwitch from '$cmp/ThemeSwitch.svelte'
+  import { IsAuthenticated, IsSidebarOpenStore } from '$lib/stores';
+  import ThemeSwitch from './ThemeSwitch.svelte';
+  import "@fontsource/montserrat";
 
   let entries: { name: string, href: string }[] = [];
 
-  if ($IsAuthenticatedStore) {;
+  if (IsAuthenticated()) {;
     entries.push({name: 'Sign Out', href: '/sign-out'});
   } else {
     entries.push({name: 'Sign In', href: '/sign-in'});
@@ -13,7 +14,7 @@
 </script>
 
 <header>
-  <button class="menu-btn" on:click={() => IsMenuOpenStore.update(b => !b)}>
+  <button class="menu-btn" on:click={() => IsSidebarOpenStore.update(b => !b)}>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <line x1="3" y1="6" x2="21" y2="6"></line>
       <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -73,11 +74,17 @@
      height: 32px;
      width: auto;
   }
-  h4 {
+  h1, h4 {
     font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: 24px;
+    letter-spacing: 4px;
+  }
+  h4 {
     font-weight: 500;
     font-size: 18px;
-
-    text-transform: uppercase;
   }
 </style>
