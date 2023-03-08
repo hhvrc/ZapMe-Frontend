@@ -59,4 +59,4 @@ runs:
     ################
     - name: Build svelte
       shell: bash
-      run: npm run build:svelte
+      run: npm run build:app
