@@ -43,7 +43,9 @@
     data-error-callback="errorCallback"
   />
 {:else}
-  <div/>
+  <div>
+    <p>Loading...</p>
+  </div>
 {/if}
 
 <style>
