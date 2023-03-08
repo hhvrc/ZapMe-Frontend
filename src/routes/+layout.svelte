@@ -4,6 +4,22 @@
   import SideBar from '$components/SideBar.svelte';
 </script>
 
+<svelte:head>
+  <!-- OpenGraph -->
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://www.zapme.app"/>
+  <meta property="og:title" content="ZapMe | Control collars remotely"/>
+  <meta property="og:description" content="ZapMe allows you to control your Submissives shock collars from anywhere in the world with low latency, realtime networking."/>
+  <meta property="og:image" content="https://www.zapme.app/logo-512.png"/>
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image"/>
+  <meta property="twitter:creator" content="@hhvrc"/>
+  <meta property="twitter:description" content="ZapMe allows you to control your Submissives shock collars from anywhere in the world with low latency, realtime networking."/>
+  <meta property="twitter:image" content="https://www.zapme.app/logo-512.png"/>
+  <meta property="twitter:image:alt" content="ZapMe Logo"/>
+</svelte:head>
+
 <Header/>
 <main>
   <slot/>
