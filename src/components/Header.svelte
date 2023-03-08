@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { IsAuthenticated, IsSidebarOpenStore } from '../stores';
-  import ThemeSwitch from '$cmp/ThemeSwitch.svelte'
+  import { IsAuthenticated, IsSidebarOpenStore } from '$lib/stores';
+  import ThemeSwitch from './ThemeSwitch.svelte';
+  import "@fontsource/montserrat";
 
   let entries: { name: string, href: string }[] = [];
 
@@ -73,11 +74,17 @@
      height: 32px;
      width: auto;
   }
-  h4 {
+  h1, h4 {
     font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: 24px;
+    letter-spacing: 4px;
+  }
+  h4 {
     font-weight: 500;
     font-size: 18px;
-
-    text-transform: uppercase;
   }
 </style>

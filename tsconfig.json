@@ -1,33 +1,21 @@
 {
-  "extends": "@tsconfig/svelte/tsconfig.json",
-
+  "extends": "./.svelte-kit/tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "paths": {
-      "$api/*": ["src/api/*"],
-      "$cmp/*": ["src/components/*"],
-      "$models/*": ["src/models/*"],
-      "$routes/*": ["src/routes/*"],
-    },
+
+    "allowJs": false,
+    "esModuleInterop": true,
+    "sourceMap": false,
+    "strict": true,
 
     "target": "ESNext",
-    "useDefineForClassFields": true,
-
     "module": "ESNext",
+    "moduleResolution": "node16",
     "resolveJsonModule": true,
-
-    "strict": true,
-    "noEmit": true,
-    "allowJs": false,
-    "sourceMap": false,
-    "allowSyntheticDefaultImports": true,
 
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "importsNotUsedAsValues": "remove",
-    "noFallthroughCasesInSwitch": false
-  },
-
-  "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.svelte"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+    "noFallthroughCasesInSwitch": false,
+  }
 }

@@ -1,5 +1,5 @@
 import { AuthenticationApiFactory } from "./generated/api";
-import { SessionTokenStore } from "../stores";
+import { SessionTokenStore } from "$lib/stores";
 import { ApiError } from "./ApiError";
 
 const authApi = AuthenticationApiFactory(

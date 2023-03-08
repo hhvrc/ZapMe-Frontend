@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { IsAuthenticated, IsSidebarOpenStore } from '../stores';
-  import { selectedTheme } from '../ThemeContext';
+  import { IsAuthenticated, IsSidebarOpenStore } from '$lib/stores';
+  import { selectedTheme } from '$lib/ThemeContext';
+  import 'material-symbols';
 
   type ListEntry = {
     name: string,
@@ -97,5 +98,9 @@
   a h3 {
     margin: 0;
     padding: 0;
+  }
+  h3 {
+    font-size: 24px;
+    font-weight: 600;
   }
 </style>

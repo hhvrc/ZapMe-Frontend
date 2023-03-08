@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
+
   const SiteKey: string = import.meta.env.VITE_RECAPTCHA_SITEKEY;
   export let response: string | null = null;
   export let theme = 'light';
@@ -9,20 +11,42 @@
     console.log('Recaptcha success: ' + response);
   }
 
-  function onExpire() {
+  function onExpired() {
     console.log('Recaptcha expired');
+    window.grecaptcha.reset();
   }
 
   function onError() {
     console.log('Recaptcha error');
   }
+
+  let show = false;
+  onMount(() => {
+    window.successCallback = onSuccess;
+    window.expiredCallback = onExpired;
+    window.errorCallback = onError;
+    show = true;
+  });
 </script>
 
 <svelte:head>
   <script src="https://www.google.com/recaptcha/api.js" async defer/>
 </svelte:head>
 
-<div class="g-recaptcha" data-sitekey={SiteKey} data-theme={theme} data-callback={onSuccess.name} data-expired-callback={onExpire.name} data-error-callback={onError.name}/>
+{#if show}
+  <div
+    class="g-recaptcha"
+    data-sitekey={SiteKey}
+    data-theme={theme}
+    data-callback="successCallback"
+    data-expired-callback="expiredCallback"
+    data-error-callback="errorCallback"
+  />
+{:else}
+  <div>
+    <p>Loading...</p>
+  </div>
+{/if}
 
 <style>
   div {

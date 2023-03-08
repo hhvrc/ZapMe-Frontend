@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { IsAuthenticated } from "../stores";
+  import { IsAuthenticated } from "$lib/stores";
 
   export const load = ctx => {
     if (!IsAuthenticated())
     {
       return {
-        redirect: '/login'
+        redirect: '/sign-in'
       }
     }
   }

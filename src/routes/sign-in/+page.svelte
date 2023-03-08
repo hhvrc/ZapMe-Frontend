@@ -1,16 +1,16 @@
 <script lang="ts">
-  import { goto } from '@roxi/routify';
-  import { authLogin } from '$api/authentication';
-  import NamedInput from '$cmp/NamedInput.svelte';
-  import NamedCheckBox from '$cmp/NamedCheckBox.svelte';
-  import Form from '$cmp/Form.svelte';
-  import FormButton from '$cmp/FormButton.svelte';
+  import { goto } from '$app/navigation';
+  import { authLogin } from '$lib/api/authentication';
+  import NamedInput from '$components/NamedInput.svelte';
+  import NamedCheckBox from '$components/NamedCheckBox.svelte';
+  import Form from '$components/Form.svelte';
+  import FormButton from '$components/FormButton.svelte';
 
   let title = 'Login';
   let username = '';
-  let usernameError: string | null = null;
+  let usernameError : string | null = null;
   let password = '';
-  let passwordError: string | null = null;
+  let passwordError : string | null = null;
   let rememberMe = false;
 
   async function handleSubmit() {
@@ -20,7 +20,7 @@
     });
 
     if (!error) {
-      $goto('/home');
+      goto('/home');
       return;
     }
 

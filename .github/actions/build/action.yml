@@ -13,57 +13,6 @@ runs:
         node-version: 18.13.0
     
     ############################
-    # wasm-pack installation   #
-    ############################
-    - name: Install wasm-pack
-      uses: jetli/wasm-pack-action@v0.4.0
-      with:
-        version: 'latest'
-    
-    ###############################
-    # Rust toolchain installation #
-    ###############################
-    - name: Install rust toolchain
-      uses: actions-rs/toolchain@v1
-      with:
-        override: true
-        toolchain: stable
-        target: wasm32-unknown-unknown
-        profile: minimal
-        components: cargo, rust-std, rustc
-    
-    ###############################
-    # Cargo registry installation #
-    ###############################
-    - name: Restore cached cargo registry # Restore cached
-      id: cache-cargo-restore
-      uses: actions/cache/restore@v3
-      with:
-        path: |
-          ~/.cargo/registry
-          ~/.cargo/git
-        key: cargo-${{ hashFiles('wasm/Cargo.lock') }}
-    - name: Install cargo registry # Install
-      shell: bash
-      working-directory: ./wasm
-      run: cargo fetch
-    - name: Cache cargo registry # Cache cargo registry
-      id: cache-cargo-save
-      uses: actions/cache/save@v3
-      with:
-        path: |
-          ~/.cargo/registry
-          ~/.cargo/git
-        key: cargo-${{ hashFiles('wasm/Cargo.lock') }}
-
-    #####################
-    # Build webassembly #
-    #####################
-    - name: Build webassembly
-      shell: bash
-      run: npm run build:wasm
-    
-    ############################
     # Install npm dependencies #
     ############################
     - name: Restore cached npm dependencies # Restore cached
@@ -93,7 +42,7 @@ runs:
       id: cache-api-restore
       uses: actions/cache/restore@v3
       with:
-        path: src/api/generated
+        path: src/lib/api/generated
         key: api-${{ hashFiles('api/*.yaml') }}
     - name: Build API # Build
       shell: bash
@@ -102,7 +51,7 @@ runs:
       id: cache-api-save
       uses: actions/cache/save@v3
       with:
-        path: src/api/generated
+        path: src/lib/api/generated
         key: api-${{ hashFiles('api/*.yaml') }}
 
     ################
@@ -110,4 +59,4 @@ runs:
     ################
     - name: Build svelte
       shell: bash
-      run: npm run build:svelte
+      run: npm run build:app

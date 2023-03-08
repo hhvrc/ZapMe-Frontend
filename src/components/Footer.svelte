@@ -1,10 +1,8 @@
 <script lang="ts">
+  import "@fontsource/montserrat";
+  
   const year = new Date().getFullYear();
 </script>
-
-<svelte:head>
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:300,400,600,700&amp;lang=en" />
-</svelte:head>
 
 <footer>
   <div class="l">
