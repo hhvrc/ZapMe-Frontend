@@ -10,7 +10,7 @@ if (process.env.CF_PAGES) {
   activeAdapter = cfAdapter({
       routes: {
         include: ['/*'],
-        exclude: []
+        exclude: ['<all>']
       }
   });
 } else {
