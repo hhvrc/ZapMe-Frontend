@@ -15,11 +15,7 @@
 
 <header>
   <button class="menu-btn" on:click={() => IsSidebarOpenStore.update(b => !b)}>
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="3" y1="6" x2="21" y2="6"></line>
-      <line x1="3" y1="12" x2="21" y2="12"></line>
-      <line x1="3" y1="18" x2="21" y2="18"></line>
-    </svg>
+    <svg viewBox="0 0 16 16" width="24" height="24" class={$IsSidebarOpenStore ? 'svg-open' : 'svg-closed'}><path d={$IsSidebarOpenStore ? 'm2 2 12 12m0-12L2 14' : 'M14 3.5H2v1h12v-1m0 4H2v1h12v-1m0 4H2v1h12v-1'}/></svg>
   </button>
   <a href="/" class="logo usn">
     <img src="/logo-128.png" alt="ZapMe Logo"/>
@@ -38,29 +34,34 @@
 
 <style>
   header {
-    padding: 24px;
+    height: 64;
     display: flex;
     align-items: center;
-    gap: 24px;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  button {
+    width: 64px;
+    height: 64px;
+    border-right: 1px;
+    padding: auto;
+    background: none;
+
+    cursor: pointer;
+  }
+  .svg-open {
+    stroke: var(--thm-txtPri);
+    stroke-width: 1.5;
+  }
+  .svg-closed {
+    font-size: 16px;
+    fill: var(--thm-txtPri);
+    color: var(--thm-txtPri);
+    shape-rendering: crispEdges;
   }
   a {
     color: inherit;
     text-decoration: none;
-  }
-  .menu-btn {
-    width: 32px;
-    height: 32px;
-    margin: 0;
-    padding: 0;
-
-    border: none;
-    outline: none;
-    background: none;
-
-    cursor: pointer;  
-  }
-  .menu-btn svg {
-    stroke: var(--thm-txtPri);
   }
   .logo {
     display: flex;
