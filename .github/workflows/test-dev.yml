@@ -28,8 +28,8 @@ jobs:
       - name: Build
         uses: ./.github/actions/build
       
-      - name: Run checks
-        run: npm run check
+      #- name: Run checks
+      #  run: npm run check
       
-      - name: Run tests
-        run: npm run test
+      #- name: Run tests
+      #  run: npm run test

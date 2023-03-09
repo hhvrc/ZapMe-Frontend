@@ -7,7 +7,7 @@
       "v1": {
         "inputSpec": "api/openapi.yaml",
         "generatorName": "typescript-axios",
-        "output": "src/api/generated",
+        "output": "src/lib/api/generated",
         "additionalProperties": {
           "supportsES6": true,
           "withInterfaces": true,

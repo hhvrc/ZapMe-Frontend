@@ -1,6 +1,9 @@
 <script lang="ts">
-  import { IsAuthenticatedStore, IsMenuOpenStore } from '../stores';
-  import { selectedTheme } from '../ThemeContext';
+  import { IsAuthenticated } from '$lib/stores';
+  import { selectedTheme } from '$lib/ThemeContext';
+  import 'material-symbols';
+
+  export let isOpen: boolean;
 
   type ListEntry = {
     name: string,
@@ -12,7 +15,7 @@
   let entries: ListEntry[] = [];
   let socials: ListEntry[] = [];
 
-  if ($IsAuthenticatedStore) {
+  if (IsAuthenticated()) {
     entries.push({name: 'Home', iconDark: 'home', href: '/home'});
     entries.push({name: 'Friends', iconDark: 'people', href: '/friends'});
     entries.push({name: 'Messages', iconDark: 'message', href: '/messages'});
@@ -33,7 +36,7 @@
   socials.push({name: 'Discord', iconDark: '/icons/logo_discord_clyde_blurple.svg', href: 'https://discord.gg/ez6HE5vxe8'});
 </script>
 
-{#if $IsMenuOpenStore}
+{#if isOpen}
 <div class="menu">
   {#each entries as { name, iconDark: icon, href }}
     <a class="usn" href={href}>
@@ -68,7 +71,7 @@
 <style>
   .menu {
     position: absolute;
-    top: 80px;
+    top: 64px;
     left: 0;
     bottom: 0;
     width: auto;
@@ -97,5 +100,9 @@
   a h3 {
     margin: 0;
     padding: 0;
+  }
+  h3 {
+    font-size: 24px;
+    font-weight: 600;
   }
 </style>

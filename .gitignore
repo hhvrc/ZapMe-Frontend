@@ -9,9 +9,11 @@ lerna-debug.log*
 
 # dependencies and build artifacts
 node_modules
-.routify
-dist
-*.local
+/build
+/.svelte-kit
+/package
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
 
 # Editor directories and files
 .vscode/*

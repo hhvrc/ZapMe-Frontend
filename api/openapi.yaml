@@ -2,13 +2,13 @@ openapi: 3.0.1
 info:
   title: ZapMe
   description: Open source application to control things
-  termsOfService: https://heavenvr.tech/zapme/tos
+  termsOfService: https://zapme.app/tos
   contact:
     name: Contact me
-    url: https://heavenvr.tech/zapme/contact
+    url: https://zapme.app/contact
   license:
     name: 'The Apache License, Version 2.0'
-    url: https://heavenvr.tech/zapme/license
+    url: https://zapme.app/license
   version: v1
 paths:
   /api/v1/Account:
@@ -850,38 +850,47 @@ components:
       type: object
       properties:
         version:
-          $ref: '#/components/schemas/Version'
+          type: string
+          description: The current version of the API
         tos_version:
           type: integer
+          description: 'The current Terms of Service version, if the user has not accepted this version, they will be prompted to accept it'
           format: int32
+        sentry_dsn:
+          type: string
+          description: "The DSN for Sentry, used for error reporting\r\nIf this is null, Sentry reporting is disabled"
+          format: uri
+          nullable: true
+        sentry_trace_sample_rate:
+          type: number
+          description: 'Trace sample rate for Sentry, used for performance monitoring'
+          format: double
+        authentication:
+          $ref: '#/components/schemas/AuthenticationConfig'
         disabled_features:
           $ref: '#/components/schemas/ApiDisabledFeatures'
       additionalProperties: false
     ApiDisabledFeatures:
       type: object
       properties:
-        chat:
-          type: boolean
-        sessions:
-          type: boolean
         webrtc:
           type: boolean
+          description: 'If true, WebRTC is disabled'
         websockets:
           type: boolean
-        captcha:
-          type: boolean
-        registration:
-          type: boolean
-        password_reset:
-          type: boolean
-        email_verification:
-          type: boolean
+          description: 'If true, WebSockets are disabled'
+        endpoints:
+          type: array
+          items:
+            type: string
+          description: 'List of disabled endpoints, if an endpoint is in this list, it will return a "503 Service Unavailable"'
       additionalProperties: false
     AppConfig:
       type: object
       properties:
-        name:
+        version:
           type: string
+          description: 'The current version of the App, if the local version is lower than this, the user will be notified of an update'
       additionalProperties: false
     AuthSignIn:
       type: object
@@ -905,23 +914,61 @@ components:
           description: Make this login persist for a longer period of time
       additionalProperties: false
       description: Message sent to server to authenticate user using username and password
+    AuthenticationConfig:
+      type: object
+      properties:
+        google_client_id:
+          type: string
+          description: 'Google Client ID for OAuth, if null, Google login will be disabled'
+          nullable: true
+        github_client_id:
+          type: string
+          description: 'Github Client ID for OAuth, if null, Github login will be disabled'
+          nullable: true
+        recaptcha_site_key:
+          type: string
+          description: 'ReCaptcha Client ID for bot detection, if null, ReCaptcha will be disabled'
+          nullable: true
+      additionalProperties: false
     CommunityConfig:
       type: object
       properties:
-        discord_invite_url:
+        discord_invite_uri:
           type: string
+          description: Invite uri to the community discord server
+          format: uri
+        socials:
+          type: array
+          items:
+            $ref: '#/components/schemas/SocialEntry'
+          description: Social media links to project founder's accounts
       additionalProperties: false
     Config:
       type: object
       properties:
+        name:
+          type: string
+          description: 'Name of the product, e.g. "ZapMe"'
         app:
           $ref: '#/components/schemas/AppConfig'
         api:
           $ref: '#/components/schemas/ApiConfig'
-        email:
-          $ref: '#/components/schemas/Emailconfig'
+        contact:
+          $ref: '#/components/schemas/ContactConfig'
         community:
           $ref: '#/components/schemas/CommunityConfig'
+      additionalProperties: false
+    ContactConfig:
+      type: object
+      properties:
+        support:
+          type: string
+          format: email
+          example: user.name@example.com
+        contact:
+          type: string
+          format: email
+          example: user.name@example.com
       additionalProperties: false
     Create:
       type: object
@@ -953,18 +1000,6 @@ components:
           description: Response from google recaptcha request
       additionalProperties: false
       description: Message sent to server to create a new account
-    Emailconfig:
-      type: object
-      properties:
-        support:
-          type: string
-          format: email
-          example: user.name@example.com
-        contact:
-          type: string
-          format: email
-          example: user.name@example.com
-      additionalProperties: false
     ErrorDetails:
       type: object
       properties:
@@ -1011,6 +1046,13 @@ components:
           description: UserId's of users that this account has sent friend requests to
       additionalProperties: false
       description: List of incoming and outgoing friendrequests
+    IconSource:
+      enum:
+        - uri
+        - emoji
+        - googleMaterialDesign
+      type: string
+      description: "The source of an icon, this is used to determine how to fetch the icon\r\n- uri: The icon is a URI to an image\r\n- emoji: The icon is an emoji\r\n- google: The icon is a Google Material Design icon name (https://fonts.google.com/icons)"
     OAuthProviderList:
       type: object
       properties:
@@ -1091,6 +1133,22 @@ components:
           format: date-time
       additionalProperties: false
       description: ''
+    SocialEntry:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the social platform
+        uri:
+          type: string
+          description: Uri to the target page on the platform
+          format: uri
+        icon_type:
+          $ref: '#/components/schemas/IconSource'
+        icon:
+          type: string
+          description: 'The icon URI, fetched from source defined by ZapMe.Controllers.Api.V1.Config.Models.SocialEntry.IconSource'
+      additionalProperties: false
     UpdateEmail:
       type: object
       properties:
@@ -1201,31 +1259,3 @@ components:
           description: ''
       additionalProperties: false
       description: Message sent to server to report a user
-    Version:
-      type: object
-      properties:
-        major:
-          type: integer
-          format: int32
-          readOnly: true
-        minor:
-          type: integer
-          format: int32
-          readOnly: true
-        build:
-          type: integer
-          format: int32
-          readOnly: true
-        revision:
-          type: integer
-          format: int32
-          readOnly: true
-        majorRevision:
-          type: integer
-          format: int32
-          readOnly: true
-        minorRevision:
-          type: integer
-          format: int32
-          readOnly: true
-      additionalProperties: false

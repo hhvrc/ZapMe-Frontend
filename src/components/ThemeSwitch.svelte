@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { selectedTheme } from "../ThemeContext";
+  import { selectedTheme } from "$lib/ThemeContext";
+  import 'material-symbols';
 
   function setEnabled() {
     selectedTheme.update((theme) => {
@@ -18,9 +19,9 @@
 
 <div class="chechbox">
   {#if isLight}
-    <span class="usn material-symbols-outlined">dark_mode</span>
-  {:else if isDark}
     <span class="usn material-symbols-outlined">light_mode</span>
+  {:else if isDark}
+    <span class="usn material-symbols-outlined">dark_mode</span>
   {:else}
     <span class="usn material-symbols-outlined">magic_button</span>
   {/if}

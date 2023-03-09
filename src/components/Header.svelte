@@ -1,10 +1,18 @@
 <script lang="ts">
-  import { IsMenuOpenStore, IsAuthenticatedStore } from '../stores';
-  import ThemeSwitch from '$cmp/ThemeSwitch.svelte'
+  import { IsAuthenticated } from '$lib/stores';
+  import ThemeSwitch from './ThemeSwitch.svelte';
+  import SideBar from './SideBar.svelte';
+  import "@fontsource/montserrat";
+  import { beforeNavigate } from '$app/navigation';
 
   let entries: { name: string, href: string }[] = [];
+  let sidebarOpen = false;
 
-  if ($IsAuthenticatedStore) {;
+  beforeNavigate(() => {
+    sidebarOpen = false;
+  });
+
+  if (IsAuthenticated()) {;
     entries.push({name: 'Sign Out', href: '/sign-out'});
   } else {
     entries.push({name: 'Sign In', href: '/sign-in'});
@@ -13,12 +21,8 @@
 </script>
 
 <header>
-  <button class="menu-btn" on:click={() => IsMenuOpenStore.update(b => !b)}>
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="3" y1="6" x2="21" y2="6"></line>
-      <line x1="3" y1="12" x2="21" y2="12"></line>
-      <line x1="3" y1="18" x2="21" y2="18"></line>
-    </svg>
+  <button class="menu-btn" on:click={() => sidebarOpen = !sidebarOpen}>
+    <svg viewBox="0 0 16 16" width="24" height="24" class={sidebarOpen ? 'svg-open' : 'svg-closed'}><path d={sidebarOpen ? 'm2 2 12 12m0-12L2 14' : 'M14 3.5H2v1h12v-1m0 4H2v1h12v-1m0 4H2v1h12v-1'}/></svg>
   </button>
   <a href="/" class="logo usn">
     <img src="/logo-128.png" alt="ZapMe Logo"/>
@@ -34,32 +38,38 @@
   {/each}
   <ThemeSwitch/>
 </header>
+<SideBar isOpen={sidebarOpen}/>
 
 <style>
   header {
-    padding: 24px;
+    height: 64;
     display: flex;
     align-items: center;
-    gap: 24px;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  button {
+    width: 64px;
+    height: 64px;
+    border-right: 1px;
+    padding: auto;
+    background: none;
+
+    cursor: pointer;
+  }
+  .svg-open {
+    stroke: var(--thm-txtPri);
+    stroke-width: 1.5;
+  }
+  .svg-closed {
+    font-size: 16px;
+    fill: var(--thm-txtPri);
+    color: var(--thm-txtPri);
+    shape-rendering: crispEdges;
   }
   a {
     color: inherit;
     text-decoration: none;
-  }
-  .menu-btn {
-    width: 32px;
-    height: 32px;
-    margin: 0;
-    padding: 0;
-
-    border: none;
-    outline: none;
-    background: none;
-
-    cursor: pointer;  
-  }
-  .menu-btn svg {
-    stroke: var(--thm-txtPri);
   }
   .logo {
     display: flex;
@@ -73,11 +83,17 @@
      height: 32px;
      width: auto;
   }
-  h4 {
+  h1, h4 {
     font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: 24px;
+    letter-spacing: 4px;
+  }
+  h4 {
     font-weight: 500;
     font-size: 18px;
-
-    text-transform: uppercase;
   }
 </style>
