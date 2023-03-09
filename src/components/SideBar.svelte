@@ -1,7 +1,9 @@
 <script lang="ts">
-  import { IsAuthenticated, IsSidebarOpenStore } from '$lib/stores';
+  import { IsAuthenticated } from '$lib/stores';
   import { selectedTheme } from '$lib/ThemeContext';
   import 'material-symbols';
+
+  export let isOpen: boolean;
 
   type ListEntry = {
     name: string,
@@ -34,7 +36,7 @@
   socials.push({name: 'Discord', iconDark: '/icons/logo_discord_clyde_blurple.svg', href: 'https://discord.gg/ez6HE5vxe8'});
 </script>
 
-{#if $IsSidebarOpenStore}
+{#if isOpen}
 <div class="menu">
   {#each entries as { name, iconDark: icon, href }}
     <a class="usn" href={href}>
@@ -69,7 +71,7 @@
 <style>
   .menu {
     position: absolute;
-    top: 80px;
+    top: 64px;
     left: 0;
     bottom: 0;
     width: auto;

@@ -1,7 +1,6 @@
 <script lang="ts">
   import Header from '$components/Header.svelte';
   import Footer from '$components/Footer.svelte';
-  import SideBar from '$components/SideBar.svelte';
   import TwitterTags from '$components/MetaTags/TwitterTags.svelte';
   import OpenGraphTags from '$components/MetaTags/OpenGraphTags.svelte';
   import DefaultTags from '$components/MetaTags/DefaultTags.svelte';
@@ -37,7 +36,6 @@
   <Footer/>
   <div class="scroll-cover"/>
 </main>
-<SideBar/>
 
 <style>
   main {

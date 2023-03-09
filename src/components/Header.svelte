@@ -1,9 +1,16 @@
 <script lang="ts">
-  import { IsAuthenticated, IsSidebarOpenStore } from '$lib/stores';
+  import { IsAuthenticated } from '$lib/stores';
   import ThemeSwitch from './ThemeSwitch.svelte';
+  import SideBar from './SideBar.svelte';
   import "@fontsource/montserrat";
+  import { beforeNavigate } from '$app/navigation';
 
   let entries: { name: string, href: string }[] = [];
+  let sidebarOpen = false;
+
+  beforeNavigate(() => {
+    sidebarOpen = false;
+  });
 
   if (IsAuthenticated()) {;
     entries.push({name: 'Sign Out', href: '/sign-out'});
@@ -14,8 +21,8 @@
 </script>
 
 <header>
-  <button class="menu-btn" on:click={() => IsSidebarOpenStore.update(b => !b)}>
-    <svg viewBox="0 0 16 16" width="24" height="24" class={$IsSidebarOpenStore ? 'svg-open' : 'svg-closed'}><path d={$IsSidebarOpenStore ? 'm2 2 12 12m0-12L2 14' : 'M14 3.5H2v1h12v-1m0 4H2v1h12v-1m0 4H2v1h12v-1'}/></svg>
+  <button class="menu-btn" on:click={() => sidebarOpen = !sidebarOpen}>
+    <svg viewBox="0 0 16 16" width="24" height="24" class={sidebarOpen ? 'svg-open' : 'svg-closed'}><path d={sidebarOpen ? 'm2 2 12 12m0-12L2 14' : 'M14 3.5H2v1h12v-1m0 4H2v1h12v-1m0 4H2v1h12v-1'}/></svg>
   </button>
   <a href="/" class="logo usn">
     <img src="/logo-128.png" alt="ZapMe Logo"/>
@@ -31,6 +38,7 @@
   {/each}
   <ThemeSwitch/>
 </header>
+<SideBar isOpen={sidebarOpen}/>
 
 <style>
   header {
