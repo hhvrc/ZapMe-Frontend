@@ -5,14 +5,14 @@
   export let response: string | null = null;
   export let theme = 'light';
 
-  function onSuccess(resp: string) {
-    response = resp;
+  function onSuccess(token: string) {
+    response = token;
     console.log('Recaptcha success: ' + response);
   }
 
   function onExpired() {
     console.log('Recaptcha expired');
-    window.grecaptcha.reset();
+    window.grecaptcha?.reset();
   }
 
   function onError() {
@@ -21,10 +21,11 @@
 
   let show = false;
   onMount(() => {
-    // TODO: Fix type on window
-    (window as any).successCallback = onSuccess;
-    (window as any).expiredCallback = onExpired;
-    (window as any).errorCallback = onError;
+    window.grecaptchaSuccessCallback = onSuccess;
+    window.grecaptchaExpiredCallback = onExpired;
+    window.grecaptchaErrorCallback = onError;
+    console.log(window);
+    
     show = true;
   });
 </script>
@@ -38,9 +39,9 @@
     class="g-recaptcha"
     data-sitekey={SiteKey}
     data-theme={theme}
-    data-callback="successCallback"
-    data-expired-callback="expiredCallback"
-    data-error-callback="errorCallback"
+    data-callback="grecaptchaSuccessCallback"
+    data-expired-callback="grecaptchaExpiredCallback"
+    data-error-callback="grecaptchaErrorCallback"
   />
 {:else}
   <div>
