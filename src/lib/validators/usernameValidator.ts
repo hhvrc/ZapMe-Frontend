@@ -23,7 +23,7 @@ function validateUsername(username: string): { valid: boolean; message: string |
     return { valid: false, message: 'Username cannot contain consecutive whitespaces' };
   }
   if (UnwantedCharacterRegex.test(username)) {
-    return { valid: false, message: 'Username contains invalid characters' };
+    return { valid: false, message: 'Emoji/Zalgo/Weird Unicode characters are not allowed in username' };
   }
 
   return { valid: true, message: null };

@@ -9,7 +9,7 @@ function validatePassword(password: string): { valid: boolean; message: string |
     return { valid: false, message: 'Password is too short' };
   }
   if (password.length > 256) {
-    return { valid: false, message: 'Password is too long' };
+    return { valid: false, message: `Seriously? ${password.length} characters? That's too much` }; 
   }
   let trimmedLength = password.trim().length;
   if (trimmedLength == 0) {
