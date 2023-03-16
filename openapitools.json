@@ -2,12 +2,12 @@
   "$schema": "./node_modules/@openapitools/openapi-generator-cli/config.schema.json",
   "spaces": 2,
   "generator-cli": {
-    "version": "6.3.0",
+    "version": "6.4.0",
     "generators": {
       "v1": {
-        "inputSpec": "api/openapi.yaml",
+        "inputSpec": "https://raw.githubusercontent.com/hhvrc/ZapMe-Backend/master/api/openapi.yaml",
         "generatorName": "typescript-axios",
-        "output": "src/lib/api/generated",
+        "output": "src/lib/api",
         "additionalProperties": {
           "supportsES6": true,
           "withInterfaces": true,

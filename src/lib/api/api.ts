@@ -951,12 +951,12 @@ export const AccountApiAxiosParamCreator = function (configuration?: Configurati
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            if (reason !== undefined) {
-                localVarQueryParameter['reason'] = reason;
-            }
-
             if (password != null) {
                 localVarHeaderParameter['password'] = String(password);
+            }
+
+            if (reason != null) {
+                localVarHeaderParameter['reason'] = String(reason);
             }
 
 
