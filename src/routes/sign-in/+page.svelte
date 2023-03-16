@@ -1,70 +1,85 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import { authLogin } from '$lib/api/authentication';
+  import { AuthenticationApiFactory } from '$lib/api';
   import NamedInput from '$components/NamedInput.svelte';
   import NamedCheckBox from '$components/NamedCheckBox.svelte';
   import Form from '$components/Form.svelte';
   import FormButton from '$components/FormButton.svelte';
+  import type { Snapshot } from './$types';
+  import { validateUsername, validatePassword } from '$lib/validators';
 
-  let title = 'Login';
-  let username = '';
-  let usernameError : string | null = null;
-  let password = '';
-  let passwordError : string | null = null;
-  let rememberMe = false;
+  const authenticationApi = AuthenticationApiFactory();
 
-  async function handleSubmit() {
-    // TODO: set loading
-    const error = await authLogin(username, password, rememberMe).finally(() => {
-      // TODO: remove loading
-    });
-
-    if (!error) {
-      goto('/home');
-      return;
-    }
-
-    if (error?.fields) {
-      for (const [key, value] of Object.entries(error.fields)) {
-        switch (key) {
-          case 'username':
-            usernameError = value[0];
-            break;
-          case 'password':
-            passwordError = value[0];
-            break;
-          default:
-            break;
-        }
-      }
-    }
-
-    if (error?.notification) {
-      window.alert(error.notification.title + ': ' + error.notification.message);
-    }
+  let formData = {
+    username: '',
+    password: '',
+    rememberMe: false,
   }
-  function validateForm(username:string, password:string) {
-    return username.length > 0 && password.length > 0;
+  export const snapshot: Snapshot = {
+    capture: () => formData,
+    restore: (data) => {
+      formData = data;
+    },
+  };
+
+  let apiAuthError: string | null = null;
+  function handleSubmit() {
+    authenticationApi.authSignIn({
+      username: formData.username,
+      password: formData.password,
+      rememberMe: formData.rememberMe,
+    })
+    .then(
+      (furfilled) => {
+        console.log(furfilled);
+        goto('/dashboard');
+      },
+      (rejected) => {
+        apiAuthError = rejected?.response?.data?.notification?.message ?? null;
+      }
+    )
+    .finally(() => {
+      formData.password = '';
+    });
   }
 
   let socials = [
     { name: 'Google', icon: '/icons/logo_google.svg', link: '/auth/google' },
     { name: 'Twitter', icon: '/icons/logo_twitter.svg', link: '/auth/twitter' },
   ];
+
+  let formValid = false;
+  let usernameError: string | null = null;
+  let passwordError: string | null = null;
+  $: {
+    let { username, password } = formData;
+
+    let usernameValidation = validateUsername(username);
+    usernameError = usernameValidation.message;
+
+    let passwordValidation = validatePassword(password);
+    passwordError = passwordValidation.message;
+
+    formValid = usernameValidation.valid && passwordValidation.valid;
+  }
 </script>
 
 <svelte:head>
-  <title>ZapMe - {title}</title>
+  <title>ZapMe - Login</title>
 </svelte:head>
 
-<Form on:submit={handleSubmit} title={title}>
-  <NamedInput type="text" icon="badge" displayname="Username" bind:value={username} error={usernameError} />
-  <NamedInput type="password" displayname="Password" bind:value={password} error={passwordError} />
-  <NamedCheckBox displayname="Remember Me" bind:checked={rememberMe} />
+<Form on:submit={handleSubmit} title='Login'>
+  <NamedInput type="text" icon="badge" displayname="Username" bind:value={formData.username} error={usernameError} />
+  <NamedInput type="password" displayname="Password" bind:value={formData.password} error={passwordError} />
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <NamedCheckBox displayname="Remember Me" bind:checked={formData.rememberMe} />
+    <div style="flex: 1; text-align: right;"/>
+    <a href="/reset-password">Forgot Password?</a>
+  </div>
+  
+  <FormButton disabled={!formValid} content='Sign In'/>
 
-  <FormButton disabled={!validateForm(username, password)}>Sign In</FormButton>
-
-  <div style="display: flex; gap: 10px;">
+  <div class="oauth-logins">
     {#each socials as {name, icon}}
       <button class="default-btn-text">
         <img src={icon} alt="{name} Icon"/>
@@ -75,14 +90,17 @@
 </Form>
 
 <style>
-  div button {
-    width: 150px;
+  .oauth-logins {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 10px;
+  }
+  .oauth-logins button {
     padding: 5px 10px 10px 5px;
     text-align: center;
   }
-  div img {
+  img {
     height: 25px;
-    width: 25px;
-    margin-right: 4px;
   }
 </style>

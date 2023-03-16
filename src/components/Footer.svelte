@@ -5,12 +5,8 @@
 </script>
 
 <footer>
-  <div class="l">
-    Made with <span style="color: #e25555;">&#9829;</span> by HentaiHeaven#0001
-  </div>
-  <div class="c">
-    Copyright ©{year} | All Rights Reserved
-  </div>
+  <div>Made with <span style="color: #e25555;">&#9829;</span> by HentaiHeaven#0001</div>
+  <div>Copyright ©{year} | All Rights Reserved</div>
   <div class="r">
       <a class="usn" href="/privacy">
         Privacy Policy
@@ -23,34 +19,40 @@
 
 <style>
   footer {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    min-height: 0;
+
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: stretch;
+    align-content: stretch;
+    justify-content: space-between;
+
+    gap: 16px;
+    padding: 16px;
+    font-size: 0.8rem;
+  }
+  div {
+    text-align: center;
   }
   a {
     color: inherit;
     text-decoration: none;
-
-    font-family: 'Montserrat', sans-serif;
-    text-align: center;
-    text-transform: uppercase;
-    text-decoration: none;
-    
-    font-weight: 400;
-    font-size: 18px;
   }
 
-  .l {
-    padding: 24px;
-  }
-  .c {
-    padding: 24px;
-    text-align: center;
-  }
   .r {
-    padding: 24px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    gap: 32px;
+    gap: 16px;
+  }
+  @media (max-width: 700px) {
+    footer {
+      flex-direction: column;
+      flex-wrap: nowrap;
+    }
+    .r {
+      justify-content: center;
+    }
   }
 </style>

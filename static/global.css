@@ -1,30 +1,34 @@
 :root {
+  --header-height: 3rem;
   --scrollbar-width: 14px;
-  background-color: #121212; /* Only for loading in the page (TODO: please find a better way to do this) (also see App.svelte line 9) */
+  color: #FFFFFF;
+  background-color: #121212;
 }
 
-html,
-body {
-  position: relative;
-  width: 100%;
+html,body {
   height: 100%;
-  box-sizing: border-box;
+  font-size: 20px;
 }
-
 body {
+  margin: 0;
+  
   color: var(--thm-txtPri);
   background: var(--thm-bg);
-  margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
 
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto 1fr;
+@media (max-width: 900px) {
+  html { font-size: 16px; }
+}
+@media (max-width: 400px) {
+  html { font-size: 12px; }
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
+  position: fixed;
+  top: 0;
   width: var(--scrollbar-width);
 }
 ::-webkit-scrollbar-track {
@@ -45,6 +49,21 @@ h4, h5, h6 {
   color: var(--thm-txtPri);
 
   text-align: center;
+}
+h1, h4 {
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+}
+h2 {
+  font-size: 2rem;
+}
+h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+h4 {
+  font-size: 1.125rem;
+  font-weight: 500;
 }
 
 input {

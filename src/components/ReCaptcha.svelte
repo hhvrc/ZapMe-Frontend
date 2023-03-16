@@ -21,9 +21,10 @@
 
   let show = false;
   onMount(() => {
-    window.successCallback = onSuccess;
-    window.expiredCallback = onExpired;
-    window.errorCallback = onError;
+    // TODO: Fix type on window
+    (window as any).successCallback = onSuccess;
+    (window as any).expiredCallback = onExpired;
+    (window as any).errorCallback = onError;
     show = true;
   });
 </script>
@@ -48,9 +49,10 @@
 {/if}
 
 <style>
-  div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  @media (max-width: 1100px) {
+    .g-recaptcha {
+      transform: scale(0.9);
+      -webkit-transform: scale(0.9);
+    }
   }
 </style>

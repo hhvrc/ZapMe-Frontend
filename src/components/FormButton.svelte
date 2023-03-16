@@ -1,10 +1,9 @@
 <script lang="ts">
   export let disabled = false;
+  export let content = '';
 </script>
 
-<button type="submit" class="usn default-btn-text submit-btn" disabled='{disabled}'>
-  <slot/>
-</button>
+<button type="submit" class="usn default-btn-text submit-btn" disabled='{disabled}'>{content}</button>
 
 <style>
   button {

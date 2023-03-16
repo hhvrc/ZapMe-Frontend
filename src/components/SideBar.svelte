@@ -37,7 +37,7 @@
 </script>
 
 {#if isOpen}
-<div class="menu">
+<aside>
   {#each entries as { name, iconDark: icon, href }}
     <a class="usn" href={href}>
       {#if !!icon}
@@ -65,17 +65,15 @@
       </h3>
     </a>
   {/each}
-</div>
+</aside>
 {/if}
 
 <style>
-  .menu {
-    position: absolute;
-    top: 64px;
+  aside {
+    position: fixed;
+    top: var(--header-height);
     left: 0;
-    bottom: 0;
-    width: auto;
-    min-width: 200px;
+    width: minmax(200px, 300px);
     padding: 24px;
 
     background-color: var(--thm-bg);
@@ -96,13 +94,5 @@
   a * {
     display: inline-block;
     vertical-align: middle;
-  }
-  a h3 {
-    margin: 0;
-    padding: 0;
-  }
-  h3 {
-    font-size: 24px;
-    font-weight: 600;
   }
 </style>

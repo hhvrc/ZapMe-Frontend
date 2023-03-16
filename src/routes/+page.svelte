@@ -18,8 +18,4 @@
     align-items: center;
     justify-content: center;
   }
-  h3 {
-    font-size: 24px;
-    font-weight: 600;
-  }
 </style>

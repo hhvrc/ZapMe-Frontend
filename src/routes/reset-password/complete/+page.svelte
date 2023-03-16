@@ -1,15 +1,21 @@
 <script lang="ts">
-  let token: string | null = null;
+  import { page } from '$app/stores';
+  import NamedInput from '$components/NamedInput.svelte';
+  import NamedCheckBox from '$components/NamedCheckBox.svelte';
+  import Form from '$components/Form.svelte';
+  import FormButton from '$components/FormButton.svelte';
 
-  export function load({ url }) {
-    if (!url.searchParams.has('token')) {
-      return {
-        status: 404,
-        error: new Error('Not found')
-      };
-    }
+  const token = $page.url.searchParams.get('token');
+  let title = 'Reset Password';
+  let password = '';
+  let passwordError : string | null = null;
+  let confirmedPassword = '';
+  let confirmedPasswordError : string | null = null;
 
-    token = url.searchParams.get('token');
+  async function handleSubmit() {
+  }
+  function validateForm(password:string, confirmedPassword:string) {
+    return password.length > 0 && confirmedPassword.length > 0 && password === confirmedPassword;
   }
 </script>
 
@@ -19,11 +25,19 @@
 
 {#if !token}
 
-<h2>Token Not Supplied</h2>
+<h2>
+  You have not been provided with a token.<br>
+  Please check your email and try again.
+</h2>
 
 {:else}
 
-<h2>Reset Password</h2>
+<Form on:submit={handleSubmit} title={title}>
+  <NamedInput type="password" displayname="Password" bind:value={password} error={passwordError} />
+  <NamedInput type="password" displayname="Confirm Password" bind:value={confirmedPassword} error={confirmedPasswordError} />
+
+  <FormButton disabled={!validateForm(password, confirmedPassword)}>Reset Password</FormButton>
+</Form>
 
 {/if}
 

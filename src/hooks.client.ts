@@ -1,9 +1,9 @@
 import * as Sentry from "@sentry/svelte";
 import { BrowserTracing } from "@sentry/tracing";
 
+// Initialize Sentry for error and performance monitoring
 const sentryDsn = import.meta.env.VITE_SENTRY_DSN as string | undefined;
 const sentryTracesSampleRate = import.meta.env.VITE_SENTRY_TRACES_SAMPLE_RATE as number | undefined;
-
 if (sentryDsn && sentryTracesSampleRate) {
   Sentry.init({
     dsn: sentryDsn,
@@ -11,3 +11,5 @@ if (sentryDsn && sentryTracesSampleRate) {
     tracesSampleRate: sentryTracesSampleRate,
   });
 }
+
+// Fetch API configuration

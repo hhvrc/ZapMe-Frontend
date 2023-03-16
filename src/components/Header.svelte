@@ -5,8 +5,12 @@
   import "@fontsource/montserrat";
   import { beforeNavigate } from '$app/navigation';
 
+  interface $$Slots {
+    default: { sidebarOpen: boolean };
+  }
+  export let sidebarOpen = false;
+
   let entries: { name: string, href: string }[] = [];
-  let sidebarOpen = false;
 
   beforeNavigate(() => {
     sidebarOpen = false;
@@ -26,36 +30,36 @@
   </button>
   <a href="/" class="logo usn">
     <img src="/logo-128.png" alt="ZapMe Logo"/>
-    <h1>ZapMe</h1>
   </a>
   <div style="flex: 1;"/>
   {#each entries as { name, href }}
-    <a class="usn" href={href}>
-      <h4 class="usn">
-        {name}
-      </h4>
-    </a>
+    <a class="link usn" href={href}>{name}</a>
   {/each}
   <ThemeSwitch/>
+  <div style="width: 0px;"/>
 </header>
 <SideBar isOpen={sidebarOpen}/>
 
 <style>
   header {
-    height: 64;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: var(--header-height);
     display: flex;
     align-items: center;
+    vertical-align: middle;
     justify-content: space-between;
-    gap: 16px;
+    gap: 0.5rem;
   }
-  button {
-    width: 64px;
-    height: 64px;
+  .menu-btn {
     border-right: 1px;
-    padding: auto;
+    padding: 0 0.5rem;
     background: none;
 
     cursor: pointer;
+
+    vertical-align: middle;
   }
   .svg-open {
     stroke: var(--thm-txtPri);
@@ -72,28 +76,32 @@
     text-decoration: none;
   }
   .logo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    
-    color: inherit;
-    text-decoration: none;
+    white-space: nowrap;
   }
   .logo img {
-     height: 32px;
-     width: auto;
+    height: 2rem;
+    width: auto;
+    vertical-align: middle;
   }
-  h1, h4 {
-    font-family: 'Montserrat', sans-serif;
-    text-transform: uppercase;
-  }
-  h1 {
+  .logo::after {
+    margin-left: 8px;
+    vertical-align: middle;
+
+    color: inherit;
+    content: 'ZapMe';
+
+    font-size: 1.5rem;
     font-weight: 700;
-    font-size: 24px;
+    font-family: 'Montserrat', sans-serif;
+    
     letter-spacing: 4px;
+    text-transform: uppercase;
+    text-decoration: none;
+    text-overflow: hidden;
   }
-  h4 {
+  .link {
+    font-size: 1rem;
     font-weight: 500;
-    font-size: 18px;
+    font-family: 'Montserrat', sans-serif;
   }
 </style>

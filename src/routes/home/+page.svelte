@@ -1,13 +1,11 @@
 <script lang="ts">
+  import { browser } from '$app/environment';
+  import { goto } from '$app/navigation';
   import { IsAuthenticated } from "$lib/stores";
 
-  export function load({}) {
-    if (!IsAuthenticated())
-    {
-      return {
-        redirect: '/sign-in'
-      }
-    }
+  $: if (browser && !IsAuthenticated())
+  {
+    goto('/sign-in');
   }
 </script>
 

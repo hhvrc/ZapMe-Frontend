@@ -4,6 +4,7 @@
   import TwitterTags from '$components/MetaTags/TwitterTags.svelte';
   import OpenGraphTags from '$components/MetaTags/OpenGraphTags.svelte';
   import DefaultTags from '$components/MetaTags/DefaultTags.svelte';
+  import SideBar from '$components/SideBar.svelte';
 
   const WebsiteURL = "https://www.zapme.app";
   const WebsiteTitle = "ZapMe | Control collars remotely";
@@ -30,30 +31,41 @@
   url={WebsiteURL}
 />
 
-<Header/>
+<Header let:sidebarOpen>
+  <SideBar isOpen={sidebarOpen}>
+  </SideBar>
+</Header>
 <main>
   <slot/>
-  <Footer/>
   <div class="scroll-cover"/>
+  <Footer/>
 </main>
 
 <style>
   main {
-    height: 100%;
-    width: auto;
-    overflow-y: scroll;
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    margin: 0;
+    height: calc(100vh - var(--header-height));
     padding-left: var(--scrollbar-width);
+    overflow-y: scroll;
+    overflow-x: hidden;
 
     display: grid;
     grid-template-rows: 1fr auto;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    align-items: center;
   }
   .scroll-cover {
-    position: absolute;
-    background: var(--thm-bg);
-    height: 100%;  
-    top: 0;
+    position: fixed;
+    top: var(--header-height);
     right: 0;
     width: var(--scrollbar-width);
+    height: calc(100vh - var(--header-height));
+    background: var(--thm-bg);
 
     pointer-events: none;
 
