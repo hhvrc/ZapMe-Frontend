@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { GeneratePseudoRandomString } from "../utils/random";
+  import { GeneratePseudoRandomString } from "$lib/utils/random";
   import 'material-symbols';
 
   export let id: string = GeneratePseudoRandomString(9);

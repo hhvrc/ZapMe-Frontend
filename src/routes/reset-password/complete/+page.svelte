@@ -1,7 +1,6 @@
 <script lang="ts">
   import { page } from '$app/stores';
   import NamedInput from '$components/NamedInput.svelte';
-  import NamedCheckBox from '$components/NamedCheckBox.svelte';
   import Form from '$components/Form.svelte';
   import FormButton from '$components/FormButton.svelte';
 

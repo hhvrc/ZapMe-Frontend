@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { GeneratePseudoRandomString } from "../utils/random";
+  import { GeneratePseudoRandomString } from "$lib/Utils/random";
 
   export let id: string = GeneratePseudoRandomString(9);
   export let displayname: string;
