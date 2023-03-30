@@ -1,5 +1,5 @@
 import axios, { isAxiosError, type AxiosInstance, type AxiosResponse, AxiosError } from 'axios';
-import type { ErrorDetails } from '$lib/api';
+import type { ErrorDetails, UserNotification } from '$lib/api';
 
 const basePath = 'https://localhost:5001/api';
 const instance = axios.create({
@@ -17,71 +17,75 @@ export type RespOk<T> = {
   code: 'ok';
   data: T;
 }
-export type RespErrInternalException = {
-  code: 'InternalError';
-  exception: any;
+export interface RespServerError extends ErrorDetails {
+  code: 'err_server';
 }
-export type RespErrNetwork = {
-  code: 'NetworkError';
-}
-export type RespErrCancelled = {
-  code: 'CancelledError';
-}
-export type RespErrServer = {
-  code: 'ServerError';
-  data: any;
+export type RespNetworkError = {
+  code: 'err_network';
 }
 
-function isErrorDetails(data: any): data is AxiosError<ErrorDetails> {
+function isUserNotification(data: any): data is UserNotification {
   return (
-    data &&
+    data.hasOwnProperty('severity') &&
+    data.hasOwnProperty('title') &&
+    data.hasOwnProperty('message')
+  );
+}
+function isErrorDetails(data: any): data is ErrorDetails {
+  if (
     data.hasOwnProperty('title') &&
     data.hasOwnProperty('detail') &&
     data.hasOwnProperty('traceId') &&
     data.hasOwnProperty('suggestion') &&
     data.hasOwnProperty('fields') &&
     data.hasOwnProperty('notification')
-  );
+    )
+  {
+    const notification = data.notification;
+
+    if (notification) {
+      return isUserNotification(notification);
+    }
+
+    return true;
+  }
+
+  return false;
 }
 
-export async function DoRequest<T>(axiosCall: AxiosFunction<T>): Promise<RespOk<T> | RespErrInternalException | RespErrNetwork | RespErrCancelled | RespErrServer> {
+export type Response<T> = RespOk<T> | RespServerError | RespNetworkError;
+
+export async function DoRequest<T>(axiosCall: AxiosFunction<T>): Promise<Response<T>> {
   try
   {
     const response = await axiosCall(instance, basePath);
 
+    // Successfull response, return it.
     return { code: 'ok', data: response.data };
   }
   catch (error: any)
   {
-    if (!isErrorDetails(error)) {
-    {
-      console.error('Unexpected error', error);
-      return { code: 'InternalError', exception: { message: 'Unexpected error', exception: error } };
+    // If the error is not a axios error, then we don't know what to do with it, so just rethrow it.
+    if (!isAxiosError(error)) {
+      throw error;
     }
 
-    if (error.code === 'ERR_CANCELLED') return { code: 'CancelledError' };
+    const responseData = error.response?.data;
 
-    if (error.response) {
-      const data = error.response.data;
+    // If there is no response data, then it's probably a network error.
+    if (!responseData) {
+      // Not a network error, screw it.
+      if (!error.request) throw error;
 
-      if (
-        !data ||
-        !data.hasOwnProperty('title') ||
-        !data.hasOwnProperty('detail') ||
-        !data.hasOwnProperty('traceId') ||
-        !data.hasOwnProperty('suggestion') ||
-        !data.hasOwnProperty('field') ||
-        !data.hasOwnProperty('notification')
-      ) {
-        console.error('Unexpected error response', error);
-        return { code: 'InternalError', exception: { message: 'Unexpected error response', exception: error } };
-      }
-
-      return { code: 'ServerError', data: data as ErrorDetails };
-    } else if (error.request) {
-      return { code: 'NetworkError' };
+      return { code: 'err_network' };
     }
-    
-    return { code: 'InternalError', exception: error };
+
+    // If the response data is not an error details object, then we don't know what to do with it, so just rethrow it.
+    if (!isErrorDetails(responseData)) {
+      throw error;
+    }
+
+    // Finally, we have an error details object, so return it.
+    return { code: 'err_server', ...responseData };
   }
 }
