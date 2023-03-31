@@ -14,8 +14,10 @@ export type RespOk<T> = {
   code: 'ok';
   data: T;
 }
-export interface RespServerError extends ErrorDetails {
+export interface RespServerError {
   code: 'err_server';
+  status: number;
+  details: ErrorDetails;
 }
 export type RespNetworkError = {
   code: 'err_network';
@@ -75,14 +77,15 @@ export async function DoRequest<T>(axiosCall: AxiosFunction<T>): Promise<Respons
       return { code: 'err_network' };
     }
     
-    const responseData = error.response.data;
+    const response = error.response;
+    const responseData = response.data;
 
     // If the response data is not an error details object, then we don't know what to do with it, so just rethrow it.
-    if (!isErrorDetails(responseData)) {
+    if (!!responseData && !isErrorDetails(responseData)) {
       throw error;
     }
 
     // Finally, we have an error details object, so return it.
-    return { code: 'err_server', ...responseData };
+    return { code: 'err_server', status: response.status, details: responseData };
   }
 }

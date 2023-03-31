@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Response } from "$lib/axiosSingleton";
-  import { ExceptionDetails, NetworkErrorDetails, ServerErrorDetails, UnknownErrorDetails } from "$components/ErrorComponents";
+  import { ExceptionDetails, NetworkErrorDetails, ServerErrorDetails } from "$components/ErrorComponents";
   import LoadingWidget from "$components/LoadingWidget.svelte";
 
   type T = $$Generic;
@@ -16,18 +16,24 @@
 {:then response}
   {#if response.code == 'ok'}
     {() => data = response.data}
-    <slot>
-      <h1>Missing default slot</h1>
+    <slot/>
+  {:else if response.code == 'err_network'}
+    <slot name="networkError">
+      <NetworkErrorDetails />
+    </slot>
+  {:else if response.status == 404}
+    <slot name="notFound">
+      <h1>Not found</h1>
     </slot>
   {:else if response.code == 'err_server'}
-    <ServerErrorDetails error={response} />
-  {:else if response.code == 'err_network'}
-    <NetworkErrorDetails />
-  {:else}
-    <UnknownErrorDetails />
+    <slot name="serverError">
+      <ServerErrorDetails error={response} />
+    </slot>
   {/if}
 {:catch exception}
-  <ExceptionDetails {exception} />
+  <slot name="exceptionError">
+    <ExceptionDetails {exception} />
+  </slot>
 {/await}
 
 <style>

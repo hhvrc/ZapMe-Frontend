@@ -19,6 +19,9 @@
       <h2>{userData.username}</h2>
     {/if}
   </div>
+  <div slot="notFound">
+    <h1>User not found</h1>
+  </div>
 </ErrorWrapper>
 
 <style>
