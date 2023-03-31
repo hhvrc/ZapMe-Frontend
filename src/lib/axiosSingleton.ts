@@ -1,13 +1,10 @@
-import axios, { isAxiosError, type AxiosInstance, type AxiosResponse, AxiosError } from 'axios';
+import axios, { isAxiosError, type AxiosInstance, type AxiosResponse } from 'axios';
 import type { ErrorDetails, UserNotification } from '$lib/api';
 
-const basePath = 'https://localhost:5001/api';
+const basePath = import.meta.env.VITE_BACKEND_URL;
 const instance = axios.create({
   baseURL: basePath,
-  timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  timeout: 10000
 });
 
 export type AxiosPromise<T> = Promise<AxiosResponse<T>>;
@@ -70,15 +67,15 @@ export async function DoRequest<T>(axiosCall: AxiosFunction<T>): Promise<Respons
       throw error;
     }
 
-    const responseData = error.response?.data;
-
     // If there is no response data, then it's probably a network error.
-    if (!responseData) {
+    if (!error.response) {
       // Not a network error, screw it.
       if (!error.request) throw error;
 
       return { code: 'err_network' };
     }
+    
+    const responseData = error.response.data;
 
     // If the response data is not an error details object, then we don't know what to do with it, so just rethrow it.
     if (!isErrorDetails(responseData)) {
