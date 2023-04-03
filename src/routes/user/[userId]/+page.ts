@@ -1,17 +1,11 @@
-import { UserApiFp } from '$lib/api';
-import { DoRequest } from '$lib/axiosSingleton';
-
-const userApi = UserApiFp();
+import { DoRequest, userApi } from '$lib/fetchSingleton';
 
 export async function load({ params }) {
   const userId = params.userId ?? "test";
-  const userRequestFunc = async () => {
-    const request = await userApi.getUser(userId);
-    return await DoRequest(request);
-  }
+  const request = userApi.getUser({ userId });
 
   return {
     userId,
-    userRequestFunc
+    userRequestFunc: async () => DoRequest(request)
   }
 }

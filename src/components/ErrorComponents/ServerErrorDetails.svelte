@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { RespServerError } from "$lib/axiosSingleton";
+  import type { RespServerError } from "$lib/fetchSingleton";
   import { getReasonPhrase } from "http-status-codes";
 
   export let error: RespServerError;

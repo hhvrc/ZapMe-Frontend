@@ -1,14 +1,14 @@
-import axios, { isAxiosError, type AxiosInstance, type AxiosResponse } from 'axios';
-import type { ErrorDetails, UserNotification } from '$lib/api';
+import { AccountApi, AuthenticationApi, ConfigApi, HealthApi, UserApi, WebSocketApi, type ErrorDetails, type UserNotification, Configuration } from '$lib/api';
 
-const basePath = import.meta.env.VITE_BACKEND_URL;
-const instance = axios.create({
-  baseURL: basePath,
-  timeout: 10000
-});
+const basePath = import.meta.env.VITE_BACKEND_URL as string;
+const config = new Configuration({ basePath });
 
-export type AxiosPromise<T> = Promise<AxiosResponse<T>>;
-export type AxiosFunction<T> = (axios?: AxiosInstance, basePath?: string) => AxiosPromise<T>;
+export const accountApi = new AccountApi(config);
+export const authenticationApi = new AuthenticationApi(config);
+export const configApi = new ConfigApi(config);
+export const healthApi = new HealthApi(config);
+export const userApi = new UserApi(config);
+export const webSocketApi = new WebSocketApi(config);
 
 export type RespOk<T> = {
   code: 'ok';
@@ -54,16 +54,43 @@ function isErrorDetails(data: any): data is ErrorDetails {
 
 export type Response<T> = RespOk<T> | RespServerError | RespNetworkError;
 
-export async function DoRequest<T>(axiosCall: AxiosFunction<T>): Promise<Response<T>> {
+export async function DoRequest<T>(fetchCall: Promise<T>): Promise<Response<T>> {
   try
   {
-    const response = await axiosCall(instance, basePath);
+    const response = await fetchCall;
 
     // Successfull response, return it.
-    return { code: 'ok', data: response.data };
+    return { code: 'ok', data: response };
   }
   catch (error: any)
   {
+    /*
+    export class ResponseError extends Error {
+        override name: "ResponseError" = "ResponseError";
+        constructor(public response: Response, msg?: string) {
+            super(msg);
+        }
+    }
+
+    export class FetchError extends Error {
+        override name: "FetchError" = "FetchError";
+        constructor(public cause: Error, msg?: string) {
+            super(msg);
+        }
+    }
+
+    export class RequiredError extends Error {
+        override name: "RequiredError" = "RequiredError";
+        constructor(public field: string, msg?: string) {
+            super(msg);
+        }
+    }
+    */
+    switch (error.name) {
+      case 'ResponseError':
+        const response = error.response;
+        const responseData = response.data;
+
     // If the error is not a axios error, then we don't know what to do with it, so just rethrow it.
     if (!isAxiosError(error)) {
       throw error;

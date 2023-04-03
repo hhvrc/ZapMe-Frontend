@@ -1,14 +1,12 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import { AuthenticationApiFactory } from '$lib/api';
   import NamedInput from '$components/NamedInput.svelte';
   import NamedCheckBox from '$components/NamedCheckBox.svelte';
   import Form from '$components/Form.svelte';
   import FormButton from '$components/FormButton.svelte';
   import type { Snapshot } from './$types';
   import { validateUsername, validatePassword } from '$lib/validators';
-
-  const authenticationApi = AuthenticationApiFactory();
+  import { authenticationApi } from '$lib/fetchSingleton';
 
   let formData = {
     username: '',
@@ -24,11 +22,11 @@
 
   let apiAuthError: string | null = null;
   function handleSubmit() {
-    authenticationApi.authSignIn({
+    authenticationApi.authSignIn({authSignIn: {
       username: formData.username,
       password: formData.password,
       rememberMe: formData.rememberMe,
-    })
+    }})
     .then(
       (furfilled) => {
         console.log(furfilled);
