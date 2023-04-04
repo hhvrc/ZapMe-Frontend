@@ -9,6 +9,7 @@
   export let placeholder: string | null = null;
   export let value: string;
   export let error: string | null = null;
+  export let disabled: boolean = false;
 
   if (!icon) {
     if (type === 'password') icon = 'lock';
@@ -21,11 +22,11 @@
 
   <div style="position: relative;">
     {#if type === 'password'}
-      <input type="password" id={id} name={id} placeholder={placeholder ?? displayname} bind:value={value}>
+      <input type="password" {id} name={id} placeholder={placeholder ?? displayname} bind:value={value} {disabled}>
     {:else if type === 'email'}
-      <input type="email" id={id} name={id} placeholder={placeholder ?? displayname} bind:value={value}>
+      <input type="email" {id} name={id} placeholder={placeholder ?? displayname} bind:value={value} {disabled}>
     {:else}
-      <input type="text" id={id} name={id} placeholder={placeholder ?? displayname} bind:value={value}>
+      <input type="text" {id} name={id} placeholder={placeholder ?? displayname} bind:value={value} {disabled}>
     {/if}
 
     {#if !!icon}

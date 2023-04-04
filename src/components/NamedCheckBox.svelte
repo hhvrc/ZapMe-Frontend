@@ -4,10 +4,11 @@
   export let id: string = GeneratePseudoRandomString(9);
   export let displayname: string;
   export let checked: boolean;
+  export let disabled: boolean = false;
 </script>
 
 <label for={id} class="usn">
-  <input type="checkbox" id={id} name={id} style="display:none" bind:checked={checked}>
+  <input type="checkbox" id={id} name={id} style="display:none" bind:checked={checked} {disabled}>
   <span>
     <svg viewBox="0 0 12 11">
       <polyline points="1 6.29411765 4.5 10 11 1"></polyline>
