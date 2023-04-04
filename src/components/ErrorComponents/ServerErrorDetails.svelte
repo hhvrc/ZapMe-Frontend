@@ -17,11 +17,11 @@
     {#if details.traceId} <h3>{details.traceId}</h3> {/if}
     {#if details.suggestion} <h4>{details.suggestion}</h4> {/if}
     {#if details.notification} <h5>{details.notification}</h5> {/if}
-    {#if details.fields}
+    {#if details.fields && Object.keys(details.fields).length > 0}
       <h6>Fields:</h6>
       <ul>
-        {#each Array.from(details.fields.entries, ([key, value]) => ({ key, value })) as field}
-          <li>{field}</li>
+        {#each Array.from(Object.entries(details.fields)) as field}
+          <li>{field[0]}: {field[1]}</li>
         {/each}
       </ul>
     {/if}
