@@ -1,6 +1,6 @@
 import { goto } from '$app/navigation';
 import { AccountApi, AuthenticationApi, ConfigApi, HealthApi, UserApi, WebSocketApi, type ErrorDetails, type UserNotification, Configuration, FetchError, ResponseError, RequiredError } from '$lib/api';
-import { getReasonPhrase, getStatusCode, getStatusText } from 'http-status-codes';
+import { getReasonPhrase } from 'http-status-codes';
 
 const basePath = import.meta.env.VITE_BACKEND_URL as string;
 const config = new Configuration({ basePath });

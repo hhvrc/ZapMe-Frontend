@@ -13,3 +13,11 @@ if (sentryDsn && sentryTracesSampleRate) {
 }
 
 // Fetch API configuration
+
+
+export function handleError(error: any) {
+  console.error(error);
+  if (sentryDsn && sentryTracesSampleRate) {
+    Sentry.captureException(error);
+  }
+}
