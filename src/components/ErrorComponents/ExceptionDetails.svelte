@@ -2,12 +2,16 @@
   export let exception: any;
 </script>
 
-{#if exception instanceof Error}
+{#if Object.hasOwn(exception, 'cause')}
   <div>
-    <h1>Error: {exception.message}</h1>
+    <h1>Error: {exception.cause}</h1>
+  </div>
+{:else if Object.hasOwn(exception, 'message')}
+  <div>
+    <h1>Exception: {exception.message}</h1>
   </div>
 {:else}
   <div>
-    <h1>Exception: {JSON.stringify(exception)}</h1>
+    <h1>Unknown exception</h1>
   </div>
 {/if}

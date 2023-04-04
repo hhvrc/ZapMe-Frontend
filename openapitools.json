@@ -6,7 +6,7 @@
     "generators": {
       "v1": {
         "inputSpec": "https://raw.githubusercontent.com/hhvrc/ZapMe-Backend/master/api/openapi.yaml",
-        "generatorName": "typescript-axios",
+        "generatorName": "typescript-fetch",
         "output": "src/lib/api",
         "additionalProperties": {
           "supportsES6": true,

@@ -1,14 +1,12 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import { AuthenticationApiFactory } from '$lib/api';
   import NamedInput from '$components/NamedInput.svelte';
   import NamedCheckBox from '$components/NamedCheckBox.svelte';
   import Form from '$components/Form.svelte';
   import FormButton from '$components/FormButton.svelte';
   import type { Snapshot } from './$types';
   import { validateUsername, validatePassword } from '$lib/validators';
-
-  const authenticationApi = AuthenticationApiFactory();
+  import { authenticationApi, ParseFetchError } from '$lib/fetchSingleton';
 
   let formData = {
     username: '',
@@ -22,25 +20,41 @@
     },
   };
 
-  let apiAuthError: string | null = null;
-  function handleSubmit() {
-    authenticationApi.authSignIn({
-      username: formData.username,
-      password: formData.password,
-      rememberMe: formData.rememberMe,
-    })
-    .then(
-      (furfilled) => {
-        console.log(furfilled);
-        goto('/dashboard');
-      },
-      (rejected) => {
-        apiAuthError = rejected?.response?.data?.notification?.message ?? null;
+  async function handleSubmit() {
+    try {
+      const response = await authenticationApi.authSignIn({authSignIn: formData});
+      console.log(response);
+      goto('/dashboard');
+    }
+    catch (error) {
+      const responseData = await ParseFetchError(error);
+      if (responseData.code == 'err_network') {
+        window.alert('Network error');
+        return;
       }
-    )
-    .finally(() => {
-      formData.password = '';
-    });
+      let response = responseData.details;
+      if (!response) {
+        if (error instanceof Error) {
+          window.alert(error.message);
+        } else {
+          window.alert('An unknown error occurred.');
+        }
+        return;
+      }
+
+      if (response.notification) {
+        window.alert(response.notification.title + ': ' + response.notification.message);
+      }
+
+      if (response.fields) {
+        if (response.fields.username) {
+          window.alert(response.fields.username);
+        }
+        if (response.fields.password) {
+          window.alert(response.fields.password);
+        }
+      }
+    }
   }
 
   let socials = [

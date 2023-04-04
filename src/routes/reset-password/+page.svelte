@@ -1,26 +1,47 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import { AccountApiFactory } from '$lib/api';
   import NamedInput from '$components/NamedInput.svelte';
   import Form from '$components/Form.svelte';
   import FormButton from '$components/FormButton.svelte';
   import ReCaptcha from '$components/ReCaptcha.svelte';
   import { validateEmail } from '$lib/validators';
-
-  const accountApi = AccountApiFactory();
+  import { accountApi, ParseFetchError } from '$lib/fetchSingleton';
 
   let email = '';
-  let recaptcha_response = '';
+  let recaptchaResponse = '';
 
   async function handleSubmit() {
-    accountApi.accountRecoveryRequest({
-      email: email,
-      recaptcha_response: recaptcha_response,
-    }).catch((error) => {
-      console.log(error);
-    }).finally(() => {
+    try {
+      await accountApi.accountRecoveryRequest({recoveryRequest: { email, recaptchaResponse }});
+      // TODO: Show a success message ("If an account with that email exists, we've sent you an email with a link to reset your password.")
       goto('/sign-in');
-    });
+    } catch (error) {
+      const responseData = await ParseFetchError(error);
+      if (responseData.code == 'err_network') {
+        window.alert('Network error');
+        return;
+      }
+
+      let response = responseData.details;
+      if (!response) {
+        if (error instanceof Error) {
+          window.alert(error.message);
+        } else {
+          window.alert('An unknown error occurred.');
+        }
+        return;
+      }
+
+      if (response.notification) {
+        window.alert(response.notification.title + ': ' + response.notification.message);
+      }
+
+      if (response.fields) {
+        if (response.fields.email) {
+          window.alert(response.fields.email);
+        }
+      }
+    }
   }
 
   $: validationResult = validateEmail(email);
@@ -31,7 +52,7 @@
 </svelte:head>
 <Form on:submit={handleSubmit} title='Reset Password'>
   <NamedInput type="text" icon="mail" displayname="Email" bind:value={email} error={validationResult.message} />
-  <ReCaptcha bind:response={recaptcha_response} />
+  <ReCaptcha bind:response={recaptchaResponse} />
   <FormButton disabled={!validationResult.valid} content='Request Password Reset'/>
 </Form>
 
