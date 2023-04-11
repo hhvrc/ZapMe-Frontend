@@ -12,7 +12,7 @@ function validateUsername(username: string): { valid: boolean; message: string |
   if (username.length > 32) {
     return { valid: false, message: 'Username is too long' };
   }
-  let trimmedLength = username.trim().length;
+  const trimmedLength = username.trim().length;
   if (trimmedLength == 0) {
     return { valid: false, message: 'Username cannot consist of only whitespaces' };
   }

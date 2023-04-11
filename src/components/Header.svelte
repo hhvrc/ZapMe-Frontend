@@ -10,7 +10,7 @@
   }
   export let sidebarOpen = false;
 
-  let entries: { name: string, href: string }[] = [];
+  const entries: { name: string, href: string }[] = [];
 
   beforeNavigate(() => {
     sidebarOpen = false;

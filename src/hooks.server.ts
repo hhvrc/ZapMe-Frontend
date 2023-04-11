@@ -8,20 +8,23 @@ export async function handle({ event, resolve }) {
 
   const response = await resolve(event);
 
-  // Add CORS for ReCAPTCHA
-
-  // Required for CORS to work
+  // Options request, handle in different function
   if(event.request.method === 'OPTIONS') {
-    return new Response(null, {
-      headers: {
-        'Access-Control-Allow-Origin': 'https://google.com',
-        'Access-Control-Allow-Methods': '*',
-        'Access-Control-Allow-Headers': '*',
-      }
-    });
+    return handleOptions(event);
   }
 
   response.headers.append('Access-Control-Allow-Origin', `https://google.com`);
 
   return response;
+};
+
+async function handleOptions(event) {
+  var headers = {
+    'Access-Control-Allow-Origin': 'https://google.com',
+    'Access-Control-Allow-Methods': '*',
+    'Access-Control-Allow-Headers': '*'
+  };
+  
+  // Add CORS for ReCAPTCHA
+  return new Response(null, { headers });
 };

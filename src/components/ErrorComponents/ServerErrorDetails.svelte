@@ -3,7 +3,7 @@
   import { getReasonPhrase } from "http-status-codes";
 
   export let error: RespServerError;
-  let { status, details } = error;
+  const { status, details } = error;
 
   let showCat = false;
 

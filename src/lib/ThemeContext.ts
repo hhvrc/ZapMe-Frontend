@@ -184,7 +184,7 @@ function ApplyThemeToDOM(selectedTheme: CustomTheme) {
   themeMap.set('fg', foreground);
 
   // Apply base theme first, then custom theme
-  for (let theme of [defaultThemeConfig.base, selectedTheme]) {
+  for (const theme of [defaultThemeConfig.base, selectedTheme]) {
     for (let [prop, color] of Object.entries(theme.colors.shades)) {
       if (!color) {
         continue;

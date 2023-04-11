@@ -78,18 +78,18 @@
   let passwordError: string | null = null;
   let confirmedPasswordError: string | null = null;
   $: {
-    let { username, email, password, confirmedPassword } = formData;
+    const { username, email, password, confirmedPassword } = formData;
 
-    let usernameValidation = validateUsername(username);
+    const usernameValidation = validateUsername(username);
     usernameError = usernameValidation.message;
 
-    let emailValidation = validateEmail(email);
+    const emailValidation = validateEmail(email);
     emailError = emailValidation.message;
 
-    let passwordValidation = validatePassword(password);
+    const passwordValidation = validatePassword(password);
     passwordError = passwordValidation.message;
 
-    let confirmedPasswordValid = password === confirmedPassword;
+    const confirmedPasswordValid = password === confirmedPassword;
     confirmedPasswordError = confirmedPasswordValid ? null : 'Passwords do not match';
 
     formValid = usernameValidation.valid && emailValidation.valid && passwordValidation.valid && confirmedPasswordValid;

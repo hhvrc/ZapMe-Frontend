@@ -12,8 +12,8 @@
     href: string
   };
 
-  let entries: ListEntry[] = [];
-  let socials: ListEntry[] = [];
+  const entries: ListEntry[] = [];
+  const socials: ListEntry[] = [];
 
   if (IsAuthenticated()) {
     entries.push({name: 'Home', iconDark: 'home', href: '/home'});

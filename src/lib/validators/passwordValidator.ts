@@ -11,7 +11,7 @@ function validatePassword(password: string): { valid: boolean; message: string |
   if (password.length > 256) {
     return { valid: false, message: `Seriously? ${password.length} characters? That's too much` }; 
   }
-  let trimmedLength = password.trim().length;
+  const trimmedLength = password.trim().length;
   if (trimmedLength == 0) {
     return { valid: false, message: 'Password cannot consist of only whitespaces' };
   }

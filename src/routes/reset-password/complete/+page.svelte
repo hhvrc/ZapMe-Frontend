@@ -3,23 +3,61 @@
   import NamedInput from '$components/NamedInput.svelte';
   import Form from '$components/Form.svelte';
   import FormButton from '$components/FormButton.svelte';
+  import { ParseFetchError, accountApi } from '$lib/fetchSingleton';
+  import { validatePassword } from '$lib/validators';
 
   const token = $page.url.searchParams.get('token');
-  let title = 'Reset Password';
   let password = '';
-  let passwordError : string | null = null;
   let confirmedPassword = '';
-  let confirmedPasswordError : string | null = null;
 
   async function handleSubmit() {
+    if (!token) return;
+    try {
+      await accountApi.accountRecoveryConfirm({recoveryConfirm: {
+        token: token,
+        newPassword: password
+      }});
+    }
+    catch (error) {
+      const responseData = await ParseFetchError(error);
+      if (responseData.code == 'err_network') {
+        window.alert('Network error');
+        return;
+      }
+
+      const response = responseData.details;
+
+      if (!response) {
+        if (error instanceof Error) {
+          window.alert(error.message);
+        } else {
+          window.alert('An unknown error occurred.');
+        }
+        return;
+      }
+
+      if (response.notification) {
+        window.alert(response.notification.title + ': ' + response.notification.message);
+      }
+    }
   }
-  function validateForm(password:string, confirmedPassword:string) {
-    return password.length > 0 && confirmedPassword.length > 0 && password === confirmedPassword;
+
+  let formValid = false;
+  let passwordError: string | null = null;
+  let confirmedPasswordError: string | null = null;
+  $: {
+    const passwordValidation = validatePassword(password);
+    passwordError = passwordValidation.message;
+
+    const confirmedPasswordValid = password === confirmedPassword;
+    confirmedPasswordError = confirmedPasswordValid ? null : 'Passwords do not match';
+
+    formValid = passwordValidation.valid && confirmedPasswordValid;
   }
 </script>
 
 <svelte:head>
-    <title>ZapMe - Forgot Password</title>
+  <title>ZapMe - Reset Password</title>
 </svelte:head>
 
 {#if !token}
@@ -31,11 +69,11 @@
 
 {:else}
 
-<Form on:submit={handleSubmit} title={title}>
+<Form on:submit={handleSubmit} title="Reset Password">
   <NamedInput type="password" displayname="Password" bind:value={password} error={passwordError} />
   <NamedInput type="password" displayname="Confirm Password" bind:value={confirmedPassword} error={confirmedPasswordError} />
 
-  <FormButton disabled={!validateForm(password, confirmedPassword)}>Reset Password</FormButton>
+  <FormButton disabled={!formValid}>Reset Password</FormButton>
 </Form>
 
 {/if}

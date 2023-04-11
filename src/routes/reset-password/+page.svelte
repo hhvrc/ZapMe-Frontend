@@ -22,7 +22,7 @@
         return;
       }
 
-      let response = responseData.details;
+      const response = responseData.details;
       if (!response) {
         if (error instanceof Error) {
           window.alert(error.message);

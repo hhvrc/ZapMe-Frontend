@@ -35,7 +35,7 @@
         window.alert('Network error');
         return;
       }
-      let response = responseData.details;
+      const response = responseData.details;
       if (!response) {
         if (error instanceof Error) {
           window.alert(error.message);
@@ -60,7 +60,7 @@
     }
   }
 
-  let socials = [
+  const socials = [
     { name: 'Google', icon: '/icons/logo_google.svg', link: '/auth/google' },
     { name: 'Twitter', icon: '/icons/logo_twitter.svg', link: '/auth/twitter' },
   ];
@@ -69,12 +69,12 @@
   let usernameError: string | null = null;
   let passwordError: string | null = null;
   $: {
-    let { username, password } = formData;
+    const { username, password } = formData;
 
-    let usernameValidation = validateUsername(username);
+    const usernameValidation = validateUsername(username);
     usernameError = usernameValidation.message;
 
-    let passwordValidation = validatePassword(password);
+    const passwordValidation = validatePassword(password);
     passwordError = passwordValidation.message;
 
     formValid = usernameValidation.valid && passwordValidation.valid;

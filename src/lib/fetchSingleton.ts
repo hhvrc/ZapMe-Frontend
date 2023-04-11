@@ -129,7 +129,7 @@ export async function ParseFetchError(error: any): Promise<RespServerError | Res
       goto('/home');
     }
 
-    let details = await response.text().then((text) => {
+    const details = await response.text().then((text) => {
       const json = JSON.parse(text);
       return json && isErrorDetails(json) ? json : null;
     }).catch(() => null);
