@@ -7,6 +7,8 @@
   import type { Snapshot } from './$types';
   import { validateUsername, validatePassword } from '$lib/validators';
   import { authenticationApi, ParseFetchError } from '$lib/fetchSingleton';
+  import { GetRedirectURL } from '$lib/utils/redirects';
+  import { page } from '$app/stores';
 
   let formData = {
     username: '',
@@ -24,7 +26,8 @@
     try {
       const response = await authenticationApi.authSignIn({authSignIn: formData});
       console.log(response);
-      goto('/dashboard');
+
+      goto(GetRedirectURL($page.url, '/home'));
     }
     catch (error) {
       const responseData = await ParseFetchError(error);

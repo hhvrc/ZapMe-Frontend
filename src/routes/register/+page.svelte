@@ -1,5 +1,6 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
+  import { page } from '$app/stores';
   import NamedInput from '$components/NamedInput.svelte';
   import ReCaptcha from '$components/ReCaptcha.svelte';
   import Form from '$components/Form.svelte';
@@ -8,6 +9,7 @@
   import { validateUsername, validateEmail, validatePassword } from '$lib/validators';
   import NamedCheckBox from '$components/NamedCheckBox.svelte';
   import { accountApi, ParseFetchError } from '$lib/fetchSingleton';
+  import { ForwardRedirectURL } from '$lib/utils/redirects';
   
   let formData = {
     username: '',
@@ -35,7 +37,7 @@
         recaptchaResponse: recaptchaResponse ?? ''
       }});
       
-      goto('/sign-in');
+      goto(ForwardRedirectURL($page.url, '/sign-in'));
     }
     catch (error) {
       const responseData = await ParseFetchError(error);

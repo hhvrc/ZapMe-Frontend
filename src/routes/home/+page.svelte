@@ -2,10 +2,11 @@
   import { browser } from '$app/environment';
   import { goto } from '$app/navigation';
   import { IsAuthenticated } from "$lib/stores";
+  import { BuildRedirectURL } from '$lib/utils/redirects';
 
-  $: if (browser && !IsAuthenticated())
+  if (browser && !IsAuthenticated())
   {
-    goto('/sign-in');
+    goto(BuildRedirectURL('/sign-in', '/home'));
   }
 </script>
 
