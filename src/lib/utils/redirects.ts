@@ -47,7 +47,7 @@ function SetSearchParam(url: string | URL, key: string, value: string): string {
   return urlParts[0] + '?' + params.toString();
 }
 
-export function BuildRedirectURL(url: string | URL, redirect: string, redirectQueryKey = 'redirect'): string {
+export function BuildRedirectURL(url: string | URL, redirect: string | URL, redirectQueryKey = 'redirect'): string {
   return SetSearchParam(url, redirectQueryKey, ensureRelativePath(redirect));
 }
 
