@@ -7,24 +7,17 @@
 
   function onSuccess(token: string) {
     response = token;
-    console.log('Recaptcha success: ' + response);
   }
 
-  function onExpired() {
-    console.log('Recaptcha expired');
-    window.grecaptcha?.reset();
-  }
-
-  function onError() {
-    console.log('Recaptcha error');
+  function resetResponse() {
+    response = null;
   }
 
   let show = false;
   onMount(() => {
     window.grecaptchaSuccessCallback = onSuccess;
-    window.grecaptchaExpiredCallback = onExpired;
-    window.grecaptchaErrorCallback = onError;
-    console.log(window);
+    window.grecaptchaExpiredCallback = resetResponse;
+    window.grecaptchaErrorCallback = resetResponse;
     
     show = true;
   });
@@ -48,12 +41,3 @@
     <p>Loading...</p>
   </div>
 {/if}
-
-<style>
-  @media (max-width: 1100px) {
-    .g-recaptcha {
-      transform: scale(0.9);
-      -webkit-transform: scale(0.9);
-    }
-  }
-</style>

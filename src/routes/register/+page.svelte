@@ -10,19 +10,21 @@
   import NamedCheckBox from '$components/NamedCheckBox.svelte';
   import { accountApi, ParseFetchError } from '$lib/fetchSingleton';
   import { ForwardRedirectURL } from '$lib/utils/redirects';
+  import { ApiConfigStore } from '$lib/stores';
   
   let formData = {
     username: '',
     email: '',
     password: '',
-    confirmedPassword: '',
-    acceptedTosVersion: false
+    confirmedPassword: ''
   }
   export const snapshot: Snapshot = {
     capture: () => formData,
     restore: (value) => formData = value,
   };
 
+  let tosAccepted = false;
+  $: acceptedTosVersion = tosAccepted ? $ApiConfigStore?.api?.tosVersion : undefined;
   let recaptchaResponse: string | null = null;
   let isSubmitting = false;
 
@@ -33,7 +35,7 @@
         username: formData.username,
         email: formData.email,
         password: formData.password,
-        acceptedTosVersion: formData.acceptedTosVersion ? 1 : 0,
+        acceptedTosVersion: acceptedTosVersion,
         recaptchaResponse: recaptchaResponse ?? ''
       }});
       
@@ -92,7 +94,7 @@
     const confirmedPasswordValid = password === confirmedPassword;
     confirmedPasswordError = confirmedPasswordValid ? null : 'Passwords do not match';
 
-    formValid = usernameValidation.valid && emailValidation.valid && passwordValidation.valid && confirmedPasswordValid;
+    formValid = usernameValidation.valid && emailValidation.valid && passwordValidation.valid && confirmedPasswordValid && tosAccepted && recaptchaResponse != null;
   }
 
   $: disabled = isSubmitting;
@@ -107,7 +109,7 @@
   <NamedInput type="email" displayname="Email" bind:value={formData.email} error={emailError} {disabled} />
   <NamedInput type="password" displayname="Password" bind:value={formData.password} error={passwordError} {disabled} />
   <NamedInput type="password" displayname="Confirm Password" placeholder="Password" bind:value={formData.confirmedPassword} error={confirmedPasswordError} {disabled} />
-  <NamedCheckBox displayname="I Agree" bind:checked={formData.acceptedTosVersion} {disabled} />
+  <NamedCheckBox bind:checked={tosAccepted} {disabled}>I accept the <a href="/tos">Terms of Service</a></NamedCheckBox>
 
   <ReCaptcha bind:response={recaptchaResponse} />
 

@@ -88,9 +88,8 @@
 <Form on:submit={handleSubmit} title='Login'>
   <NamedInput type="text" icon="badge" displayname="Username" bind:value={formData.username} error={usernameError} />
   <NamedInput type="password" displayname="Password" bind:value={formData.password} error={passwordError} />
-  <div style="display: flex; justify-content: space-between; align-items: center;">
-    <NamedCheckBox displayname="Remember Me" bind:checked={formData.rememberMe} />
-    <div style="flex: 1; text-align: right;"/>
+  <div class="misc">
+    <NamedCheckBox bind:checked={formData.rememberMe}>Remember me</NamedCheckBox>
     <a href="/reset-password">Forgot Password?</a>
   </div>
   
@@ -107,6 +106,17 @@
 </Form>
 
 <style>
+  .misc {
+    width: 100%;
+  }
+  .misc * {
+    display: inline-block;
+  }
+  .misc a {
+    float: right;
+    font-size: 16px;
+    white-space: nowrap;
+  }
   .oauth-logins {
     display: flex;
     justify-content: space-evenly;

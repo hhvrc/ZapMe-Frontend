@@ -11,13 +11,28 @@
   export let error: string | null = null;
   export let disabled: boolean = false;
 
-  if (!icon) {
-    if (type === 'password') icon = 'lock';
-    else if (type === 'email') icon = 'email';
+  let divClass: string | null = null;
+  let activeIcon: string | null = null;
+  $: {
+    if (error) {
+      divClass = 'error';
+      activeIcon = 'error';
+    } else {
+      divClass = null;
+      if (!!icon) {
+        activeIcon = icon;
+      } else if (type === 'password') {
+        activeIcon = 'lock';
+      } else if (type === 'email') {
+        activeIcon = 'email';
+      } else {
+        activeIcon = null;
+      }
+    }
   }
 </script>
 
-<div style="width: 100%;">
+<div class={divClass} style="width: 100%;">
   <label for={id} class="usn">{displayname}</label>
 
   <div style="position: relative;">
@@ -29,13 +44,12 @@
       <input type="text" {id} name={id} placeholder={placeholder ?? displayname} bind:value={value} {disabled}>
     {/if}
 
-    {#if !!icon}
-      <span class="icon usn material-symbols-outlined">{icon}</span>
+    {#if !!activeIcon}
+      <span class="icon usn material-symbols-outlined">{activeIcon}</span>
     {/if}
   </div>
-
   {#if !!error}
-    <p class="error usn">{error}</p>
+    <p class="usn">{error}</p>
   {/if}
 </div>
 
@@ -51,22 +65,22 @@
 
     letter-spacing: 0.5px;
   }
+  .error input {
+    border: 1px solid red;
+  }
+  .error span {
+    color: red;
+    font-weight: 1000;
+  }
   label, input, p {
     font-family: 'Poppins',sans-serif;
   }
   label, p {
-    font-size: 16px;
-    font-weight: 500;
-  }
-  input, p {
     font-size: 14px;
-  }
-  label {
-    font-size: 16px;
     font-weight: 500;
   }
   input{
-    height: 50px;
+    height: 38px;
     width: 100%;
     border-radius: 3px;
     padding: 0 10px;

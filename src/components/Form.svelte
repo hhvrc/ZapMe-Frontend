@@ -9,11 +9,10 @@
 
 <style>
   form{
-    width: min(80%, 400px);
+    width: 350px;
 
-    padding: 2rem;
-    margin: 1rem;
-    border: 2px solid rgba(255,255,255,0.1);
+    padding: 24px;
+    border: 1px solid rgba(255,255,255,0.1);
     border-radius: 10px;
     box-shadow: 0 0 40px rgba(8,7,16,0.6);
 
@@ -22,9 +21,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 30px;
+    gap: 16px;
   }
   h2{
     margin-bottom: 10px;
+    font-size: 24px;
   }
 </style>
