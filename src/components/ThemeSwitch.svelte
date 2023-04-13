@@ -11,16 +11,25 @@
       }
     });
   }
+
+  let materialSymbol: string = "magic_button";
+  $: {
+    switch ($selectedTheme) {
+      case "light":
+        materialSymbol = "light_mode";
+        break;
+      case "dark":
+        materialSymbol = "dark_mode";
+        break;
+      default:
+        materialSymbol = "magic_button";
+        break;
+    }
+  }
 </script>
 
 <button on:click={toggleTheme}>
-  {#if $selectedTheme === "light"}
-    <span class="usn material-symbols-outlined">light_mode</span>
-  {:else if $selectedTheme === "dark"}
-    <span class="usn material-symbols-outlined">dark_mode</span>
-  {:else}
-    <span class="usn material-symbols-outlined">magic_button</span>
-  {/if}
+  <span class="usn material-symbols-outlined">{materialSymbol}</span>
 </button>
 
 <style>
