@@ -3,28 +3,39 @@
 
 declare global {
   interface Window {
-    grecaptcha: ReCaptchaInstance | undefined;
-    grecaptchaSuccessCallback: (token: string) => void;
-    grecaptchaExpiredCallback: () => void;
-    grecaptchaErrorCallback: () => void;
+    turnstile: TurnstileInstance | undefined;
   }
 }
 
-interface ReCaptchaInstance {
-  execute: (siteKey: string, options: ReCaptchaExecuteOptions) => Promise<string>
-  getResponse: (widgetId: number) => string
-  ready: (cb: () => any) => void
-  render: (id: string, options: ReCaptchaRenderOptions) => any
-  reset: (widgetId: number) => void
+interface TurnstileInstance {
+  execute: (container: string | HTMLElement, jsParams: TurnstileRenderParameters) => Promise<string>
+  getResponse: (container: string | HTMLElement) => string
+  implicitRender: () => void
+  ready: (callback: (token: string) => void) => void
+  remove: (container: string | HTMLElement) => void
+  render: (container: string | HTMLElement, parameters: TurnstileRenderParameters) => void
+  reset: (container: string | HTMLElement) => void
 }
 
-interface ReCaptchaExecuteOptions {
-  action: string
-}
-
-interface ReCaptchaRenderOptions {
+interface TurnstileRenderParameters {
   sitekey: string
-  size: 'invisible'
+  action?: string
+  cData?: string
+  callback?: (token: string) => void
+  'error-callback'?: () => void
+  execution?: 'render' | 'execute'
+  'expired-callback'?: () => void
+  theme?: 'light' | 'dark' | 'auto'
+  language?: 'auto' | 'ar-eg' | 'de' | 'en' | 'es' | 'fa' | 'fr' | 'id' | 'it' | 'ja' | 'ko' | 'nl' | 'pl' | 'pt-br' | 'ru' | 'tr' | 'zh-cn' | 'zh-tw'
+  tabindex?: number
+  'timeout-callback'?: () => void
+  'response-field'?: string
+  'response-field-name'?: string
+  size?: 'normal' | 'compact'
+  retry?: 'auto' | 'never'
+  'retry-interval'?: number
+  'refresh-expired'?: 'auto' | 'manual' | 'never'
+  'apperance'?: 'always' | 'execute' | 'interaction-only'
 }
 
 export {};

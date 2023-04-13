@@ -20,13 +20,13 @@ import { exists, mapValues } from '../runtime';
  */
 export interface FriendRequestList {
     /**
-     * UserId's of users that has sent friend requests to this account
+     * UserId's of users that has sent friend requests to this user
      * @type {Array<string>}
      * @memberof FriendRequestList
      */
     incoming?: Array<string>;
     /**
-     * UserId's of users that this account has sent friend requests to
+     * UserId's of users that this user has sent friend requests to
      * @type {Array<string>}
      * @memberof FriendRequestList
      */

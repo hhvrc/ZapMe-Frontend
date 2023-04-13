@@ -3,16 +3,16 @@
   import NamedInput from '$components/NamedInput.svelte';
   import Form from '$components/Form.svelte';
   import FormButton from '$components/FormButton.svelte';
-  import ReCaptcha from '$components/ReCaptcha.svelte';
   import { validateEmail } from '$lib/validators';
   import { accountApi, ParseFetchError } from '$lib/fetchSingleton';
+  import Turnstile from '$components/Turnstile.svelte';
 
   let email = '';
-  let recaptchaResponse = '';
+  let turnstileResponse = '';
 
   async function handleSubmit() {
     try {
-      await accountApi.accountRecoveryRequest({recoveryRequest: { email, recaptchaResponse }});
+      await accountApi.accountRecoveryRequest({recoveryRequest: { email, turnstileResponse }});
       // TODO: Show a success message ("If an account with that email exists, we've sent you an email with a link to reset your password.")
       goto('/sign-in');
     } catch (error) {
@@ -52,7 +52,7 @@
 </svelte:head>
 <Form on:submit={handleSubmit} title='Reset Password'>
   <NamedInput type="text" icon="mail" displayname="Email" bind:value={email} error={validationResult.message} />
-  <ReCaptcha bind:response={recaptchaResponse} />
+  <Turnstile bind:response={turnstileResponse} />
   <FormButton disabled={!validationResult.valid} content='Request Password Reset'/>
 </Form>
 

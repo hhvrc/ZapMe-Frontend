@@ -57,7 +57,7 @@ export interface AccountDto {
      */
     statusText?: string;
     /**
-     * Date this account was created at
+     * Date this user was created at
      * @type {Date}
      * @memberof AccountDto
      */

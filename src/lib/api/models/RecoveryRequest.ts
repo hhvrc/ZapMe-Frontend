@@ -26,11 +26,11 @@ export interface RecoveryRequest {
      */
     email?: string;
     /**
-     * Response from google recaptcha request
+     * Response from cloudflare turnstile request
      * @type {string}
      * @memberof RecoveryRequest
      */
-    recaptchaResponse?: string;
+    turnstileResponse?: string;
 }
 
 /**
@@ -53,7 +53,7 @@ export function RecoveryRequestFromJSONTyped(json: any, ignoreDiscriminator: boo
     return {
         
         'email': !exists(json, 'email') ? undefined : json['email'],
-        'recaptchaResponse': !exists(json, 'recaptcha_response') ? undefined : json['recaptcha_response'],
+        'turnstileResponse': !exists(json, 'turnstile_response') ? undefined : json['turnstile_response'],
     };
 }
 
@@ -67,7 +67,7 @@ export function RecoveryRequestToJSON(value?: RecoveryRequest | null): any {
     return {
         
         'email': value.email,
-        'recaptcha_response': value.recaptchaResponse,
+        'turnstile_response': value.turnstileResponse,
     };
 }
 

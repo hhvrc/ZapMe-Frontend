@@ -2,7 +2,6 @@
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
   import NamedInput from '$components/NamedInput.svelte';
-  import ReCaptcha from '$components/ReCaptcha.svelte';
   import Form from '$components/Form.svelte';
   import FormButton from '$components/FormButton.svelte';
   import type { Snapshot } from './$types';
@@ -11,6 +10,7 @@
   import { accountApi, ParseFetchError } from '$lib/fetchSingleton';
   import { ForwardRedirectURL } from '$lib/utils/redirects';
   import { ApiConfigStore } from '$lib/stores';
+  import Turnstile from '$components/Turnstile.svelte';
   
   let formData = {
     username: '',
@@ -25,10 +25,12 @@
 
   let tosAccepted = false;
   $: acceptedTosVersion = tosAccepted ? $ApiConfigStore?.api?.tosVersion : undefined;
-  let recaptchaResponse: string | null = null;
+  let turnstileResponse: string | null = null;
   let isSubmitting = false;
 
   async function handleSubmit() {
+    if (!turnstileResponse) return;
+
     try {
       isSubmitting = true;
       await accountApi.createAccount({create: {
@@ -36,7 +38,7 @@
         email: formData.email,
         password: formData.password,
         acceptedTosVersion: acceptedTosVersion,
-        recaptchaResponse: recaptchaResponse ?? ''
+        turnstileResponse
       }});
       
       goto(ForwardRedirectURL($page.url, '/sign-in'));
@@ -70,7 +72,7 @@
     }
     finally {
       isSubmitting = false;
-      recaptchaResponse = null;
+      turnstileResponse = null;
     }
   }
 
@@ -94,7 +96,7 @@
     const confirmedPasswordValid = password === confirmedPassword;
     confirmedPasswordError = confirmedPasswordValid ? null : 'Passwords do not match';
 
-    formValid = usernameValidation.valid && emailValidation.valid && passwordValidation.valid && confirmedPasswordValid && tosAccepted && recaptchaResponse != null;
+    formValid = usernameValidation.valid && emailValidation.valid && passwordValidation.valid && confirmedPasswordValid && tosAccepted && turnstileResponse != null;
   }
 
   $: disabled = isSubmitting;
@@ -111,7 +113,7 @@
   <NamedInput type="password" displayname="Confirm Password" placeholder="Password" bind:value={formData.confirmedPassword} error={confirmedPasswordError} {disabled} />
   <NamedCheckBox bind:checked={tosAccepted} {disabled}>I accept the <a href="/tos">Terms of Service</a></NamedCheckBox>
 
-  <ReCaptcha bind:response={recaptchaResponse} />
+  <Turnstile bind:response={turnstileResponse} />
 
   <FormButton disabled={!formValid || disabled} content='Register'/>
 </Form>

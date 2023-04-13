@@ -44,11 +44,11 @@ export interface Create {
      */
     acceptedTosVersion?: number;
     /**
-     * Response from google recaptcha request
+     * Response from cloudflare turnstile request
      * @type {string}
      * @memberof Create
      */
-    recaptchaResponse?: string;
+    turnstileResponse?: string;
 }
 
 /**
@@ -74,7 +74,7 @@ export function CreateFromJSONTyped(json: any, ignoreDiscriminator: boolean): Cr
         'password': !exists(json, 'password') ? undefined : json['password'],
         'email': !exists(json, 'email') ? undefined : json['email'],
         'acceptedTosVersion': !exists(json, 'acceptedTosVersion') ? undefined : json['acceptedTosVersion'],
-        'recaptchaResponse': !exists(json, 'recaptcha_response') ? undefined : json['recaptcha_response'],
+        'turnstileResponse': !exists(json, 'turnstile_response') ? undefined : json['turnstile_response'],
     };
 }
 
@@ -91,7 +91,7 @@ export function CreateToJSON(value?: Create | null): any {
         'password': value.password,
         'email': value.email,
         'acceptedTosVersion': value.acceptedTosVersion,
-        'recaptcha_response': value.recaptchaResponse,
+        'turnstile_response': value.turnstileResponse,
     };
 }
 
