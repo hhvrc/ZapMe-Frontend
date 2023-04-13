@@ -52,7 +52,7 @@
 </svelte:head>
 <Form on:submit={handleSubmit} title='Reset Password'>
   <NamedInput type="text" icon="mail" displayname="Email" bind:value={email} error={validationResult.message} />
-  <Turnstile action="reset-password" cData="" bind:response={turnstileResponse} />
+  <Turnstile action="reset-password" bind:response={turnstileResponse} />
   <FormButton disabled={!validationResult.valid} content='Request Password Reset'/>
 </Form>
 

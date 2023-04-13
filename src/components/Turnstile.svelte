@@ -4,7 +4,7 @@
 
   const sitekey: string = import.meta.env.VITE_TURNSTILE_SITEKEY;
   export let action: string;
-  export let cData: string | undefined;
+  export let cData: string | undefined = undefined;
   export let response: string | null = null;
 
   let element: HTMLDivElement | null = null;

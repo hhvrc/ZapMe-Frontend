@@ -113,7 +113,7 @@
   <NamedInput type="password" displayname="Confirm Password" placeholder="Password" bind:value={formData.confirmedPassword} error={confirmedPasswordError} {disabled} />
   <NamedCheckBox bind:checked={tosAccepted} {disabled}>I accept the <a href="/tos">Terms of Service</a></NamedCheckBox>
 
-  <Turnstile action="register" cData="" bind:response={turnstileResponse} />
+  <Turnstile action="register" bind:response={turnstileResponse} />
 
   <FormButton disabled={!formValid || disabled} content='Register'/>
 </Form>
