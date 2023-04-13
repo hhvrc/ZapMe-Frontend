@@ -86,8 +86,8 @@
 </svelte:head>
 
 <Form on:submit={handleSubmit} title='Login'>
-  <NamedInput type="text" icon="badge" displayname="Username" bind:value={formData.username} error={usernameError} />
-  <NamedInput type="password" displayname="Password" bind:value={formData.password} error={passwordError} />
+  <NamedInput type="text" autocomplete="username" icon="badge" displayname="Username" bind:value={formData.username} error={usernameError} />
+  <NamedInput type="password" autocomplete="current-password" displayname="Password" bind:value={formData.password} error={passwordError} />
   <div class="misc">
     <NamedCheckBox bind:checked={formData.rememberMe}>Remember me</NamedCheckBox>
     <a href="/reset-password">Forgot Password?</a>

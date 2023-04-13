@@ -70,8 +70,8 @@
 {:else}
 
 <Form on:submit={handleSubmit} title="Reset Password">
-  <NamedInput type="password" displayname="Password" bind:value={password} error={passwordError} />
-  <NamedInput type="password" displayname="Confirm Password" bind:value={confirmedPassword} error={confirmedPasswordError} />
+  <NamedInput type="password" autocomplete="current-password" displayname="Password" bind:value={password} error={passwordError} />
+  <NamedInput type="password" autocomplete="new-password" displayname="Confirm Password" bind:value={confirmedPassword} error={confirmedPasswordError} />
 
   <FormButton disabled={!formValid}>Reset Password</FormButton>
 </Form>

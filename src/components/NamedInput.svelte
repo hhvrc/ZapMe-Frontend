@@ -9,6 +9,7 @@
   export let placeholder: string | null = null;
   export let value: string;
   export let error: string | null = null;
+  export let autocomplete: string | null = null;
   export let disabled: boolean = false;
 
   let divClass: string | null = null;
@@ -37,11 +38,11 @@
 
   <div style="position: relative;">
     {#if type === 'password'}
-      <input type="password" {id} name={id} placeholder={placeholder ?? displayname} bind:value={value} {disabled}>
+      <input type="password" {id} name={id} {autocomplete} placeholder={placeholder ?? displayname} bind:value={value} {disabled}>
     {:else if type === 'email'}
-      <input type="email" {id} name={id} placeholder={placeholder ?? displayname} bind:value={value} {disabled}>
+      <input type="email" {id} name={id} {autocomplete} placeholder={placeholder ?? displayname} bind:value={value} {disabled}>
     {:else}
-      <input type="text" {id} name={id} placeholder={placeholder ?? displayname} bind:value={value} {disabled}>
+      <input type="text" {id} name={id} {autocomplete} placeholder={placeholder ?? displayname} bind:value={value} {disabled}>
     {/if}
 
     {#if !!activeIcon}

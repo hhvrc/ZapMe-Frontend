@@ -107,10 +107,10 @@
 </svelte:head>
 
 <Form on:submit={handleSubmit} title='Register'>
-  <NamedInput type="text" icon="badge" displayname="Username" bind:value={formData.username} error={usernameError} {disabled} />
+  <NamedInput type="text" autocomplete="username" icon="badge" displayname="Username" bind:value={formData.username} error={usernameError} {disabled} />
   <NamedInput type="email" displayname="Email" bind:value={formData.email} error={emailError} {disabled} />
-  <NamedInput type="password" displayname="Password" bind:value={formData.password} error={passwordError} {disabled} />
-  <NamedInput type="password" displayname="Confirm Password" placeholder="Password" bind:value={formData.confirmedPassword} error={confirmedPasswordError} {disabled} />
+  <NamedInput type="password" autocomplete="new-password" displayname="Password" bind:value={formData.password} error={passwordError} {disabled} />
+  <NamedInput type="password" autocomplete="new-password" displayname="Confirm Password" placeholder="Password" bind:value={formData.confirmedPassword} error={confirmedPasswordError} {disabled} />
   <NamedCheckBox bind:checked={tosAccepted} {disabled}>I accept the <a href="/tos">Terms of Service</a></NamedCheckBox>
 
   <Turnstile action="register" bind:response={turnstileResponse} />
