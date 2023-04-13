@@ -86,7 +86,8 @@ const baseTheme: BaseTheme = {
 
       inputText: 0.87,
       inputBg: 0.07,
-      inputHovBg: 0.04,
+      inputHovBg: 0.12,
+      inputSelBg: 0.12,
       inputDisBg: 0.02,
       inputPlaceholder: '#cecece',
       

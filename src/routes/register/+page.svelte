@@ -115,3 +115,9 @@
 
   <FormButton disabled={!formValid || disabled} content='Register'/>
 </Form>
+
+<style>
+  a {
+    color: var(--color-primary);
+  }
+</style>
