@@ -3,6 +3,8 @@
   import { onMount } from 'svelte';
 
   const sitekey: string = import.meta.env.VITE_TURNSTILE_SITEKEY;
+  export let action: string;
+  export let cData: string | undefined;
   export let response: string | null = null;
 
   let element: HTMLDivElement | null = null;
@@ -41,6 +43,8 @@
     if (element) {
       window?.turnstile?.render(element, {
         sitekey,
+        action,
+        cData,
         theme,
         callback,
         'expired-callback': resetResponse,
