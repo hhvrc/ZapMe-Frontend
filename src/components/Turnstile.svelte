@@ -22,6 +22,7 @@
     const { turnstile } = window;
 
     if (!turnstile) throw new Error('CloudFlare Turnstile is not loaded, did you forget to include the script tag?');
+    if (!sitekey) throw new Error('CloudFlare Turnstile sitekey is not set, did you forget to set the VITE_TURNSTILE_SITEKEY environment variable?');
 
     turnstile.ready(() => isLoaded = true);
   });
