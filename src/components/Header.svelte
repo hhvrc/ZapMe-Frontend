@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { IsAuthenticated } from '$lib/stores';
+  import { SessionTokenStore } from '$lib/stores';
   import ThemeSwitch from './ThemeSwitch.svelte';
   import SideBar from './SideBar.svelte';
   import "@fontsource/montserrat";
@@ -10,17 +10,23 @@
   }
   export let sidebarOpen = false;
 
-  const entries: { name: string, href: string }[] = [];
-
   beforeNavigate(() => {
     sidebarOpen = false;
   });
 
-  if (IsAuthenticated()) {;
-    entries.push({name: 'Sign Out', href: '/sign-out'});
+  let entries: { name: string, href: string }[];
+  $: if (!!$SessionTokenStore) {
+    entries = [
+      {name: 'Home', href: '/home'},
+      {name: 'Profile', href: '/profile'},
+      {name: 'Settings', href: '/settings'},
+      {name: 'Sign Out', href: '/sign-out'}
+    ];
   } else {
-    entries.push({name: 'Sign In', href: '/sign-in'});
-    entries.push({name: 'Register', href: '/register'});
+    entries = [
+      {name: 'Sign In', href: '/sign-in'},
+      {name: 'Register', href: '/register'}
+    ];
   }
 </script>
 
@@ -32,7 +38,7 @@
     <img src="/logo-128.png" alt="ZapMe Logo"/>
   </a>
   <div style="flex: 1;"/>
-  {#each entries as { name, href }}
+  {#each entries as { name, href } (name)}
     <a class="link usn" href={href}>{name}</a>
   {/each}
   <ThemeSwitch/>
