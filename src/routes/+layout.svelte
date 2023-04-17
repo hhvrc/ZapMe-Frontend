@@ -11,6 +11,8 @@
   const WebsiteDescription = "ZapMe allows you to control your Submissives shock collars from anywhere in the world with low latency, realtime networking.";
   const WebsiteLogo = "https://www.zapme.app/logo-512.png";
   const WebsiteLogoAlt = "ZapMe Logo";
+
+  let sidebarOpen = false;
 </script>
 
 <DefaultTags
@@ -31,10 +33,8 @@
   url={WebsiteURL}
 />
 
-<Header let:sidebarOpen>
-  <SideBar isOpen={sidebarOpen}>
-  </SideBar>
-</Header>
+<Header bind:sidebarOpen/>
+<SideBar isOpen={sidebarOpen}/>
 <main>
   <slot/>
   <div class="scroll-cover"/>

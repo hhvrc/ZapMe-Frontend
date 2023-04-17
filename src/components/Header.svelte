@@ -1,7 +1,6 @@
 <script lang="ts">
   import { SessionTokenStore } from '$lib/stores';
   import ThemeSwitch from './ThemeSwitch.svelte';
-  import SideBar from './SideBar.svelte';
   import "@fontsource/montserrat";
   import { beforeNavigate } from '$app/navigation';
 
@@ -44,7 +43,6 @@
   <ThemeSwitch/>
   <div style="width: 0px;"/>
 </header>
-<SideBar isOpen={sidebarOpen}/>
 
 <style>
   header {
