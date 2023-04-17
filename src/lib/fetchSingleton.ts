@@ -1,7 +1,7 @@
 import { goto } from '$app/navigation';
 import { AccountApi, AuthenticationApi, ConfigApi, HealthApi, UserApi, WebSocketApi, type ErrorDetails, type UserNotification, Configuration, FetchError, ResponseError, RequiredError } from '$lib/api';
 import { getReasonPhrase } from 'http-status-codes';
-import { GetRedirectURL } from './utils/redirects';
+import { BuildRedirectURL, GetRedirectURL } from './utils/redirects';
 
 const basePath = import.meta.env.VITE_BACKEND_URL as string;
 const config = new Configuration({ basePath });
@@ -122,8 +122,7 @@ export async function ParseFetchError(error: any): Promise<RespServerError | Res
       return Panic();
     }
     if (status === 401) {
-      // TODO: remove auth token from local storage.
-      goto(GetRedirectURL(url, '/sign-in'));
+      goto(BuildRedirectURL('/sign-out', GetRedirectURL(url, '/sign-in')));
     }
     else if (status === 403) {
       goto('/home');
