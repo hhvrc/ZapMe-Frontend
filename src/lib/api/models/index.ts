@@ -18,6 +18,7 @@ export * from './OAuthProviderList';
 export * from './ProblemDetails';
 export * from './RecoveryConfirm';
 export * from './RecoveryRequest';
+export * from './SessionDto';
 export * from './SeverityLevel';
 export * from './SignInOk';
 export * from './SocialEntry';

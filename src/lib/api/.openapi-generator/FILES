@@ -24,6 +24,7 @@ models/OAuthProviderList.ts
 models/ProblemDetails.ts
 models/RecoveryConfirm.ts
 models/RecoveryRequest.ts
+models/SessionDto.ts
 models/SeverityLevel.ts
 models/SignInOk.ts
 models/SocialEntry.ts

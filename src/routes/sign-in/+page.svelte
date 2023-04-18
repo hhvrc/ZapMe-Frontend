@@ -9,7 +9,7 @@
   import { authenticationApi, ParseFetchError } from '$lib/fetchSingleton';
   import { GetRedirectURL } from '$lib/utils/redirects';
   import { page } from '$app/stores';
-  import { SessionTokenStore } from '$lib/stores';
+  import { AccountStore, SessionTokenStore } from '$lib/stores';
 
   let formData = {
     username: '',
@@ -27,15 +27,12 @@
     try {
       const response = await authenticationApi.authSignIn({authSignIn: formData});
 
-      if (!response.sessionId || !response.issuedAtUtc || !response.expiresAtUtc) {
+      if (!response.session || !response.account) {
         throw new Error('Invalid response');
       }
 
-      SessionTokenStore.set({
-        id: response.sessionId,
-        issuedAt: response.issuedAtUtc,
-        expiresAt: response.expiresAtUtc,
-      });
+      AccountStore.set(response.account);
+      SessionTokenStore.set(response.session);
 
       goto(GetRedirectURL($page.url, '/home'));
     }

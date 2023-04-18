@@ -1,4 +1,3 @@
-export * from './Account';
 export * from './AuthenticationMethod';
 export * from './Channel';
 export * from './Guild';

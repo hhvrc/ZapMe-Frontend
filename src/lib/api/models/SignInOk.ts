@@ -13,6 +13,19 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { AccountDto } from './AccountDto';
+import {
+    AccountDtoFromJSON,
+    AccountDtoFromJSONTyped,
+    AccountDtoToJSON,
+} from './AccountDto';
+import type { SessionDto } from './SessionDto';
+import {
+    SessionDtoFromJSON,
+    SessionDtoFromJSONTyped,
+    SessionDtoToJSON,
+} from './SessionDto';
+
 /**
  * 
  * @export
@@ -21,22 +34,16 @@ import { exists, mapValues } from '../runtime';
 export interface SignInOk {
     /**
      * 
-     * @type {string}
+     * @type {SessionDto}
      * @memberof SignInOk
      */
-    sessionId?: string;
+    session?: SessionDto;
     /**
      * 
-     * @type {Date}
+     * @type {AccountDto}
      * @memberof SignInOk
      */
-    issuedAtUtc?: Date;
-    /**
-     * 
-     * @type {Date}
-     * @memberof SignInOk
-     */
-    expiresAtUtc?: Date;
+    account?: AccountDto;
 }
 
 /**
@@ -58,9 +65,8 @@ export function SignInOkFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     }
     return {
         
-        'sessionId': !exists(json, 'sessionId') ? undefined : json['sessionId'],
-        'issuedAtUtc': !exists(json, 'issuedAtUtc') ? undefined : (new Date(json['issuedAtUtc'])),
-        'expiresAtUtc': !exists(json, 'expiresAtUtc') ? undefined : (new Date(json['expiresAtUtc'])),
+        'session': !exists(json, 'session') ? undefined : SessionDtoFromJSON(json['session']),
+        'account': !exists(json, 'account') ? undefined : AccountDtoFromJSON(json['account']),
     };
 }
 
@@ -73,9 +79,8 @@ export function SignInOkToJSON(value?: SignInOk | null): any {
     }
     return {
         
-        'sessionId': value.sessionId,
-        'issuedAtUtc': value.issuedAtUtc === undefined ? undefined : (value.issuedAtUtc.toISOString()),
-        'expiresAtUtc': value.expiresAtUtc === undefined ? undefined : (value.expiresAtUtc.toISOString()),
+        'session': SessionDtoToJSON(value.session),
+        'account': AccountDtoToJSON(value.account),
     };
 }
 
