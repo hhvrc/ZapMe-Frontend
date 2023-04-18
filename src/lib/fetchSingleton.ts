@@ -4,7 +4,10 @@ import { getReasonPhrase } from 'http-status-codes';
 import { BuildRedirectURL, GetRedirectURL } from './utils/redirects';
 
 const basePath = import.meta.env.VITE_BACKEND_URL as string;
-const config = new Configuration({ basePath });
+const config = new Configuration({
+  basePath,
+  credentials: 'include'
+});
 
 export const accountApi = new AccountApi(config);
 export const authenticationApi = new AuthenticationApi(config);
