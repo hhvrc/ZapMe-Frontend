@@ -10,16 +10,13 @@ models/AccountDto.ts
 models/AccountOAuthAdd.ts
 models/ApiConfig.ts
 models/ApiDisabledFeatures.ts
-models/AppConfig.ts
 models/AuthSignIn.ts
 models/AuthenticationConfig.ts
-models/CommunityConfig.ts
 models/Config.ts
 models/ContactConfig.ts
 models/Create.ts
 models/ErrorDetails.ts
 models/FriendRequestList.ts
-models/IconSource.ts
 models/OAuthProviderList.ts
 models/ProblemDetails.ts
 models/RecoveryConfirm.ts
@@ -27,7 +24,7 @@ models/RecoveryRequest.ts
 models/SessionDto.ts
 models/SeverityLevel.ts
 models/SignInOk.ts
-models/SocialEntry.ts
+models/SocialsConfig.ts
 models/UpdateEmail.ts
 models/UpdatePassword.ts
 models/UpdateUserName.ts

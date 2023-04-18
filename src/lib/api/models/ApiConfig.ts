@@ -33,17 +33,17 @@ import {
  */
 export interface ApiConfig {
     /**
-     * The current version of the API
-     * @type {string}
-     * @memberof ApiConfig
-     */
-    version?: string;
-    /**
      * The current Terms of Service version, if the user has not accepted this version, they will be prompted to accept it
      * @type {number}
      * @memberof ApiConfig
      */
     tosVersion?: number;
+    /**
+     * The current Privacy Policy version, if the user has not accepted this version, they will be prompted to accept it
+     * @type {number}
+     * @memberof ApiConfig
+     */
+    privacyVersion?: number;
     /**
      * The DSN for Sentry, used for error reporting
      * If this is null, Sentry reporting is disabled
@@ -90,8 +90,8 @@ export function ApiConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     }
     return {
         
-        'version': !exists(json, 'version') ? undefined : json['version'],
         'tosVersion': !exists(json, 'tos_version') ? undefined : json['tos_version'],
+        'privacyVersion': !exists(json, 'privacy_version') ? undefined : json['privacy_version'],
         'sentryDsn': !exists(json, 'sentry_dsn') ? undefined : json['sentry_dsn'],
         'sentryTraceSampleRate': !exists(json, 'sentry_trace_sample_rate') ? undefined : json['sentry_trace_sample_rate'],
         'authentication': !exists(json, 'authentication') ? undefined : AuthenticationConfigFromJSON(json['authentication']),
@@ -108,8 +108,8 @@ export function ApiConfigToJSON(value?: ApiConfig | null): any {
     }
     return {
         
-        'version': value.version,
         'tos_version': value.tosVersion,
+        'privacy_version': value.privacyVersion,
         'sentry_dsn': value.sentryDsn,
         'sentry_trace_sample_rate': value.sentryTraceSampleRate,
         'authentication': AuthenticationConfigToJSON(value.authentication),

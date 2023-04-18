@@ -20,17 +20,23 @@ import { exists, mapValues } from '../runtime';
  */
 export interface ContactConfig {
     /**
-     * 
+     * Email address to contact the support of the service
      * @type {string}
      * @memberof ContactConfig
      */
     support?: string;
     /**
-     * 
+     * Email address to contact the owner of the service
      * @type {string}
      * @memberof ContactConfig
      */
     contact?: string;
+    /**
+     * Invite URL to the Discord server where users can get support
+     * @type {string}
+     * @memberof ContactConfig
+     */
+    discord?: string;
 }
 
 /**
@@ -54,6 +60,7 @@ export function ContactConfigFromJSONTyped(json: any, ignoreDiscriminator: boole
         
         'support': !exists(json, 'support') ? undefined : json['support'],
         'contact': !exists(json, 'contact') ? undefined : json['contact'],
+        'discord': !exists(json, 'discord') ? undefined : json['discord'],
     };
 }
 
@@ -68,6 +75,7 @@ export function ContactConfigToJSON(value?: ContactConfig | null): any {
         
         'support': value.support,
         'contact': value.contact,
+        'discord': value.discord,
     };
 }
 

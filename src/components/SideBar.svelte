@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { SessionTokenStore } from '$lib/stores';
+  import { ApiConfigStore, SessionTokenStore } from '$lib/stores';
   import { selectedTheme } from '$lib/ThemeContext';
   import 'material-symbols';
 
@@ -7,46 +7,76 @@
 
   type ListEntry = {
     name: string,
-    iconDark?: string,
-    iconLight?: string,
-    href: string
+    href: string,
+    icon: 
+      { type: 'uri', darkUri: string, lightUri: string } |
+      { type: 'emoji', dark: string, light: string } |
+      { type: 'material', name: string }
   };
 
   let entries: ListEntry[] = [];
   $: if (!!$SessionTokenStore) {
     entries = [
-      {name: 'Home', iconDark: 'home', href: '/home'},
-      {name: 'Friends', iconDark: 'people', href: '/friends'},
-      {name: 'Messages', iconDark: 'message', href: '/messages'},
-      {name: 'Profile', iconDark: 'person', href: '/profile'},
-      {name: 'Settings', iconDark: 'settings', href: '/settings'},
-      {name: 'Sign Out', iconDark: 'logout', href: '/sign-out'}
+      { name: 'Home', href: '/home', icon: { type: 'material', name: 'home' } },
+      { name: 'Friends', href: '/friends', icon: { type: 'material', name: 'people' } },
+      { name: 'Messages', href: '/messages', icon: { type: 'material', name: 'message' } },
+      { name: 'Profile', href: '/profile', icon: { type: 'material', name: 'person' } },
+      { name: 'Settings', href: '/settings', icon: { type: 'material', name: 'settings' } },
+      { name: 'Sign Out', href: '/sign-out', icon: { type: 'material', name: 'logout' } }
     ];
   } else {
     entries = [
-      {name: 'Sign In', iconDark: 'login', href: '/sign-in'},
-      {name: 'Register', iconDark: 'person_add', href: '/register'},
-      {name: 'Reset Password', iconDark: 'lock', href: '/reset-password'},
-      {name: 'Privacy Policy', iconDark: 'privacy_tip', href: '/privacy'},
-      {name: 'Terms of Service', iconDark: 'gavel', href: '/tos'},
-      {name: 'Contact', iconDark: 'contact_support', href: '/contact'}
+      { name: 'Sign In', href: '/sign-in', icon: { type: 'material', name: 'login' } },
+      { name: 'Register', href: '/register', icon: { type: 'material', name: 'person_add' } },
+      { name: 'Reset Password', href: '/reset-password', icon: { type: 'material', name: 'lock' } },
+      { name: 'Privacy Policy', href: '/privacy', icon: { type: 'material', name: 'privacy_tip' } },
+      { name: 'Terms of Service', href: '/tos', icon: { type: 'material', name: 'gavel' } },
+      { name: 'Contact', href: '/contact', icon: { type: 'material', name: 'contact_support' } }
     ];
   }
 
-  const socials: ListEntry[] = [
-    {name: 'GitHub', iconDark: '/icons/logo_github_white.svg', iconLight: '/icons/logo_github_black.svg', href: 'https://github.com/hhvrc'},
-    {name: 'Twitter', iconDark: '/icons/logo_twitter.svg', href: 'https://twitter.com/hhvrc'},
-    {name: 'Discord', iconDark: '/icons/logo_discord_clyde_blurple.svg', href: 'https://discord.gg/ez6HE5vxe8'}
-  ];
+  let socials: ListEntry[] = [];
+  $: {
+    socials = [];
+
+    const config = $ApiConfigStore;
+
+    if (!!config)
+    {
+      const { githubUri, twitterUri, redditUri, websiteUri } = config!.founderSocials!;
+
+      if (githubUri) socials.push({ name: 'GitHub', href: githubUri, icon: { type: 'uri', darkUri: '/icons/logo_github_white.svg', lightUri: '/icons/logo_github_black.svg' } });
+
+      socials.push({ name: 'Discord', href: config.contact!.discord!, icon: { type: 'uri', darkUri: '/icons/logo_discord_clyde_blurple.svg', lightUri: '/icons/logo_discord_clyde_blurple.svg' } });
+
+      if (twitterUri) socials.push({ name: 'Twitter', href: twitterUri, icon: { type: 'uri', darkUri: '/icons/logo_twitter.svg', lightUri: '/icons/logo_twitter.svg' } });
+
+      if (redditUri) socials.push({ name: 'Reddit', href: redditUri, icon: { type: 'uri', darkUri: '/icons/logo_reddit.svg', lightUri: '/icons/logo_reddit.svg' } });
+
+      if (websiteUri) socials.push({ name: 'Website', href: websiteUri, icon: { type: 'material', name: 'link' } });
+    }
+  }
+
+  $: IsLightMode = $selectedTheme === 'light';
 </script>
 
 {#if isOpen}
 <aside>
-  {#each entries as { name, iconDark: icon, href }}
+  {#each entries as { name, icon: icon, href }}
     <a class="usn" {href}>
-      {#if !!icon}
+      {#if icon.type === 'uri'}
+        <img src={IsLightMode ? icon.lightUri : icon.darkUri} alt={name} style="width: 24px; height: 24px;"/>
+      {:else if icon.type === 'emoji'}
+        <span style="font-size: 24px; line-height: 24px; width: 24px; height: 24px;">
+          {IsLightMode ? icon.light : icon.dark}
+        </span>
+      {:else if icon.type === 'material'}
         <span class="material-symbols-outlined">
-          {icon}
+          {icon.name}
+        </span>
+      {:else}
+        <span class="material-symbols-outlined">
+          link
         </span>
       {/if}
       <h3 style="margin-left: 8px">
@@ -55,14 +85,22 @@
     </a>
   {/each}
   <div style="flex: 1"/>
-  {#each socials as { name, iconDark: icon, iconLight, href }}
+  {#each socials as { name, href, icon }}
     <a class="usn" {href}>
-      {#if !icon && !iconLight}
+      {#if icon.type === 'uri'}
+        <img src={IsLightMode ? icon.lightUri : icon.darkUri} alt={name} style="width: 24px; height: 24px;"/>
+      {:else if icon.type === 'emoji'}
+        <span style="font-size: 24px; line-height: 24px; width: 24px; height: 24px;">
+          {IsLightMode ? icon.light : icon.dark}
+        </span>
+      {:else if icon.type === 'material'}
+        <span class="material-symbols-outlined">
+          {icon.name}
+        </span>
+      {:else}
         <span class="material-symbols-outlined">
           link
         </span>
-      {:else}
-        <img src={$selectedTheme === 'light' ? iconLight ?? icon : icon} alt={name} style="width: 24px; height: 24px;"/>
       {/if}
       <h3 style="margin-left: 8px">
         {name}

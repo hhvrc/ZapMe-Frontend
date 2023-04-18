@@ -19,24 +19,18 @@ import {
     ApiConfigFromJSONTyped,
     ApiConfigToJSON,
 } from './ApiConfig';
-import type { AppConfig } from './AppConfig';
-import {
-    AppConfigFromJSON,
-    AppConfigFromJSONTyped,
-    AppConfigToJSON,
-} from './AppConfig';
-import type { CommunityConfig } from './CommunityConfig';
-import {
-    CommunityConfigFromJSON,
-    CommunityConfigFromJSONTyped,
-    CommunityConfigToJSON,
-} from './CommunityConfig';
 import type { ContactConfig } from './ContactConfig';
 import {
     ContactConfigFromJSON,
     ContactConfigFromJSONTyped,
     ContactConfigToJSON,
 } from './ContactConfig';
+import type { SocialsConfig } from './SocialsConfig';
+import {
+    SocialsConfigFromJSON,
+    SocialsConfigFromJSONTyped,
+    SocialsConfigToJSON,
+} from './SocialsConfig';
 
 /**
  * 
@@ -49,13 +43,13 @@ export interface Config {
      * @type {string}
      * @memberof Config
      */
-    name?: string;
+    appName?: string;
     /**
-     * 
-     * @type {AppConfig}
+     * Version of the product, e.g. "1.0.0"
+     * @type {string}
      * @memberof Config
      */
-    app?: AppConfig;
+    appVersion?: string;
     /**
      * 
      * @type {ApiConfig}
@@ -70,10 +64,10 @@ export interface Config {
     contact?: ContactConfig;
     /**
      * 
-     * @type {CommunityConfig}
+     * @type {SocialsConfig}
      * @memberof Config
      */
-    community?: CommunityConfig;
+    founderSocials?: SocialsConfig;
 }
 
 /**
@@ -95,11 +89,11 @@ export function ConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean): Co
     }
     return {
         
-        'name': !exists(json, 'name') ? undefined : json['name'],
-        'app': !exists(json, 'app') ? undefined : AppConfigFromJSON(json['app']),
+        'appName': !exists(json, 'appName') ? undefined : json['appName'],
+        'appVersion': !exists(json, 'appVersion') ? undefined : json['appVersion'],
         'api': !exists(json, 'api') ? undefined : ApiConfigFromJSON(json['api']),
         'contact': !exists(json, 'contact') ? undefined : ContactConfigFromJSON(json['contact']),
-        'community': !exists(json, 'community') ? undefined : CommunityConfigFromJSON(json['community']),
+        'founderSocials': !exists(json, 'founderSocials') ? undefined : SocialsConfigFromJSON(json['founderSocials']),
     };
 }
 
@@ -112,11 +106,11 @@ export function ConfigToJSON(value?: Config | null): any {
     }
     return {
         
-        'name': value.name,
-        'app': AppConfigToJSON(value.app),
+        'appName': value.appName,
+        'appVersion': value.appVersion,
         'api': ApiConfigToJSON(value.api),
         'contact': ContactConfigToJSON(value.contact),
-        'community': CommunityConfigToJSON(value.community),
+        'founderSocials': SocialsConfigToJSON(value.founderSocials),
     };
 }
 
