@@ -8,7 +8,7 @@
 
 <div class="usn">
   <label for={id}>
-    <input type="checkbox" id={id} name={id} style="display:none" bind:checked={checked} {disabled}>
+    <input type="checkbox" {id} name={id} style="display:none" bind:checked={checked} {disabled}>
     <span>
       <svg viewBox="0 0 12 11">
         <polyline points="1 6.29411765 4.5 10 11 1"></polyline>

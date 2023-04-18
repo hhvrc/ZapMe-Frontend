@@ -38,7 +38,7 @@
   </a>
   <div style="flex: 1;"/>
   {#each entries as { name, href } (name)}
-    <a class="link usn" href={href}>{name}</a>
+    <a class="link usn" {href}>{name}</a>
   {/each}
   <ThemeSwitch/>
   <div style="width: 0px;"/>

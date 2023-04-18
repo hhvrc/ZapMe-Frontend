@@ -43,7 +43,7 @@
 {#if isOpen}
 <aside>
   {#each entries as { name, iconDark: icon, href }}
-    <a class="usn" href={href}>
+    <a class="usn" {href}>
       {#if !!icon}
         <span class="material-symbols-outlined">
           {icon}
@@ -56,7 +56,7 @@
   {/each}
   <div style="flex: 1"/>
   {#each socials as { name, iconDark: icon, iconLight, href }}
-    <a class="usn" href={href}>
+    <a class="usn" {href}>
       {#if !icon && !iconLight}
         <span class="material-symbols-outlined">
           link
