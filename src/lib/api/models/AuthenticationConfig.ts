@@ -20,11 +20,11 @@ import { exists, mapValues } from '../runtime';
  */
 export interface AuthenticationConfig {
     /**
-     * Google Client ID for OAuth, if null, Google login will be disabled
+     * Discord Client ID for OAuth, if null, Discord login will be disabled
      * @type {string}
      * @memberof AuthenticationConfig
      */
-    googleClientId?: string | null;
+    discordClientId?: string | null;
     /**
      * Github Client ID for OAuth, if null, Github login will be disabled
      * @type {string}
@@ -32,11 +32,29 @@ export interface AuthenticationConfig {
      */
     githubClientId?: string | null;
     /**
-     * ReCaptcha Client ID for bot detection, if null, ReCaptcha will be disabled
+     * Twitter Client ID for OAuth, if null, Twitter login will be disabled
+     * @type {string}
+     * @memberof AuthenticationConfig
+     */
+    twitterClientId?: string | null;
+    /**
+     * Google Client ID for OAuth, if null, Google login will be disabled
+     * @type {string}
+     * @memberof AuthenticationConfig
+     */
+    googleClientId?: string | null;
+    /**
+     * ReCaptcha site key for bot detection, if null, ReCaptcha will be disabled
      * @type {string}
      * @memberof AuthenticationConfig
      */
     recaptchaSiteKey?: string | null;
+    /**
+     * Turnstile site key for bot detection, if null, Turnstile will be disabled
+     * @type {string}
+     * @memberof AuthenticationConfig
+     */
+    turnstileSiteKey?: string | null;
 }
 
 /**
@@ -58,9 +76,12 @@ export function AuthenticationConfigFromJSONTyped(json: any, ignoreDiscriminator
     }
     return {
         
-        'googleClientId': !exists(json, 'google_client_id') ? undefined : json['google_client_id'],
+        'discordClientId': !exists(json, 'discord_client_id') ? undefined : json['discord_client_id'],
         'githubClientId': !exists(json, 'github_client_id') ? undefined : json['github_client_id'],
+        'twitterClientId': !exists(json, 'twitter_client_id') ? undefined : json['twitter_client_id'],
+        'googleClientId': !exists(json, 'google_client_id') ? undefined : json['google_client_id'],
         'recaptchaSiteKey': !exists(json, 'recaptcha_site_key') ? undefined : json['recaptcha_site_key'],
+        'turnstileSiteKey': !exists(json, 'turnstile_site_key') ? undefined : json['turnstile_site_key'],
     };
 }
 
@@ -73,9 +94,12 @@ export function AuthenticationConfigToJSON(value?: AuthenticationConfig | null):
     }
     return {
         
-        'google_client_id': value.googleClientId,
+        'discord_client_id': value.discordClientId,
         'github_client_id': value.githubClientId,
+        'twitter_client_id': value.twitterClientId,
+        'google_client_id': value.googleClientId,
         'recaptcha_site_key': value.recaptchaSiteKey,
+        'turnstile_site_key': value.turnstileSiteKey,
     };
 }
 

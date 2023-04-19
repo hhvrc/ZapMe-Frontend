@@ -1,11 +1,13 @@
 <script lang="ts">
   import { selectedTheme } from '$lib/ThemeContext';
+  import { ApiConfigStore } from '$lib/stores';
   import { onMount } from 'svelte';
 
-  const sitekey: string = import.meta.env.VITE_TURNSTILE_SITEKEY;
   export let action: string;
   export let cData: string | undefined = undefined;
   export let response: string | null = null;
+
+  $: sitekey = $ApiConfigStore?.api?.authentication?.turnstileSiteKey ?? null;
 
   let element: HTMLDivElement | null = null;
 
@@ -17,15 +19,16 @@
     response = null;
   }
 
+  let turnstile: any = null;
   let isLoaded = false;
   onMount(() => {
-    const { turnstile } = window;
-
+    turnstile = window.turnstile;
     if (!turnstile) throw new Error('CloudFlare Turnstile is not loaded, did you forget to include the script tag?');
-    if (!sitekey) throw new Error('CloudFlare Turnstile sitekey is not set, did you forget to set the VITE_TURNSTILE_SITEKEY environment variable?');
-
-    turnstile.ready(() => isLoaded = true);
   });
+
+  $: if (!!turnstile && !!sitekey) {
+    turnstile.ready(() => isLoaded = true);
+  }
 
   let theme: 'light' | 'dark' | 'auto' = 'auto';
   $: {
@@ -41,8 +44,8 @@
         break;
     }
 
-    if (element) {
-      window?.turnstile?.render(element, {
+    if (!!turnstile && !!element && !!sitekey) {
+      turnstile.render(element, {
         sitekey,
         action,
         cData,
