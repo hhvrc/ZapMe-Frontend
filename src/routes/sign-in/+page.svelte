@@ -12,8 +12,9 @@
   import { AccountStore, SessionTokenStore } from '$lib/stores';
 
   let formData = {
-    username: '',
+    usernameOrEmail: '',
     password: '',
+    sessionName: 'session-' + Math.random().toString(36).substring(2, 10),
     rememberMe: false,
   }
   export const snapshot: Snapshot = {
@@ -76,9 +77,9 @@
   let usernameError: string | null = null;
   let passwordError: string | null = null;
   $: {
-    const { username, password } = formData;
+    const { usernameOrEmail, password } = formData;
 
-    const usernameValidation = validateUsername(username);
+    const usernameValidation = validateUsername(usernameOrEmail);
     usernameError = usernameValidation.message;
 
     const passwordValidation = validatePassword(password);
@@ -93,7 +94,7 @@
 </svelte:head>
 
 <Form on:submit={handleSubmit} title='Login'>
-  <NamedInput type="text" autocomplete="username" icon="badge" displayname="Username" bind:value={formData.username} error={usernameError} />
+  <NamedInput type="text" autocomplete="username" icon="badge" displayname="Username Or Email" bind:value={formData.usernameOrEmail} error={usernameError} />
   <NamedInput type="password" autocomplete="current-password" displayname="Password" bind:value={formData.password} error={passwordError} />
   <div class="misc">
     <NamedCheckBox bind:checked={formData.rememberMe}>Remember me</NamedCheckBox>
