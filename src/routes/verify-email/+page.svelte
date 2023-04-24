@@ -3,9 +3,10 @@
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
   import { accountApi } from '$lib/fetchSingleton';
-  const token = $page.url.searchParams.get('token');
 
   $: if (browser) {
+    const token = $page.url.searchParams.get('token');
+
     if (!token) {
       window.alert('Missing verification token!');
       goto('/sign-in');
