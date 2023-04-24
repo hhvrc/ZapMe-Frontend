@@ -33,7 +33,7 @@
 
     try {
       isSubmitting = true;
-      await accountApi.createAccount({create: {
+      await accountApi.createAccount({createAccount: {
         username: formData.username,
         email: formData.email,
         password: formData.password,

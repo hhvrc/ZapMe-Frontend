@@ -106,7 +106,7 @@ export async function ParseFetchError(error: any): Promise<RespServerError | Res
         details: {
           title: 'Bad Request',
           detail: error.message,
-          traceId: '', fields: {
+          fields: {
             [error.field]: [ 'invalid' ]
           }
         }
@@ -143,7 +143,6 @@ export async function ParseFetchError(error: any): Promise<RespServerError | Res
         details: {
           title: 'Server Error',
           detail: getReasonPhrase(status),
-          traceId: '',
           fields: {}
         }
       };

@@ -53,7 +53,7 @@ export function RecoveryRequestFromJSONTyped(json: any, ignoreDiscriminator: boo
     return {
         
         'email': !exists(json, 'email') ? undefined : json['email'],
-        'turnstileResponse': !exists(json, 'turnstile_response') ? undefined : json['turnstile_response'],
+        'turnstileResponse': !exists(json, 'turnstileResponse') ? undefined : json['turnstileResponse'],
     };
 }
 
@@ -67,7 +67,7 @@ export function RecoveryRequestToJSON(value?: RecoveryRequest | null): any {
     return {
         
         'email': value.email,
-        'turnstile_response': value.turnstileResponse,
+        'turnstileResponse': value.turnstileResponse,
     };
 }
 

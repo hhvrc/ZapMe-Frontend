@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { UserOnlineStatus } from './UserOnlineStatus';
+import type { UserStatus } from './UserStatus';
 import {
-    UserOnlineStatusFromJSON,
-    UserOnlineStatusFromJSONTyped,
-    UserOnlineStatusToJSON,
-} from './UserOnlineStatus';
+    UserStatusFromJSON,
+    UserStatusFromJSONTyped,
+    UserStatusToJSON,
+} from './UserStatus';
 
 /**
  * 
@@ -46,10 +46,10 @@ export interface UserDto {
     profilePictureId?: string;
     /**
      * 
-     * @type {UserOnlineStatus}
+     * @type {UserStatus}
      * @memberof UserDto
      */
-    status?: UserOnlineStatus;
+    status?: UserStatus;
     /**
      * 
      * @type {string}
@@ -91,11 +91,11 @@ export function UserDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): U
         
         'id': !exists(json, 'id') ? undefined : json['id'],
         'username': !exists(json, 'username') ? undefined : json['username'],
-        'profilePictureId': !exists(json, 'profile_picture_id') ? undefined : json['profile_picture_id'],
-        'status': !exists(json, 'status') ? undefined : UserOnlineStatusFromJSON(json['status']),
-        'statusText': !exists(json, 'status_text') ? undefined : json['status_text'],
-        'createdAt': !exists(json, 'created_at') ? undefined : (new Date(json['created_at'])),
-        'lastOnline': !exists(json, 'last_online') ? undefined : (new Date(json['last_online'])),
+        'profilePictureId': !exists(json, 'profilePictureId') ? undefined : json['profilePictureId'],
+        'status': !exists(json, 'status') ? undefined : UserStatusFromJSON(json['status']),
+        'statusText': !exists(json, 'statusText') ? undefined : json['statusText'],
+        'createdAt': !exists(json, 'createdAt') ? undefined : (new Date(json['createdAt'])),
+        'lastOnline': !exists(json, 'lastOnline') ? undefined : (new Date(json['lastOnline'])),
     };
 }
 
@@ -110,11 +110,11 @@ export function UserDtoToJSON(value?: UserDto | null): any {
         
         'id': value.id,
         'username': value.username,
-        'profile_picture_id': value.profilePictureId,
-        'status': UserOnlineStatusToJSON(value.status),
-        'status_text': value.statusText,
-        'created_at': value.createdAt === undefined ? undefined : (value.createdAt.toISOString()),
-        'last_online': value.lastOnline === undefined ? undefined : (value.lastOnline.toISOString()),
+        'profilePictureId': value.profilePictureId,
+        'status': UserStatusToJSON(value.status),
+        'statusText': value.statusText,
+        'createdAt': value.createdAt === undefined ? undefined : (value.createdAt.toISOString()),
+        'lastOnline': value.lastOnline === undefined ? undefined : (value.lastOnline.toISOString()),
     };
 }
 

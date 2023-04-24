@@ -20,9 +20,9 @@
   {#if $AccountStore}
     <p>Id: {$AccountStore.id}</p>
     <p>Username: {$AccountStore.username}</p>
-    <p>Obfuscated Email: {$AccountStore.email}</p>
+    <p>Obfuscated Email: {$AccountStore.obscuredEmail}</p>
     <p>Email Verified: {$AccountStore.emailVerified}</p>
-    <p>ProfilePictureId: {$AccountStore.profilePictureId}</p>
+    <p>ProfilePictureId: {$AccountStore.profilePictureUrl}</p>
     <p>Status: {$AccountStore.status}</p>
     <p>StatusText: {$AccountStore.statusText}</p>
     <p>CreatedAt: {$AccountStore.createdAt}</p>
@@ -36,7 +36,7 @@
     </div>
     <div>
       <h2>Connected OAuth Accounts:</h2>
-      {#each $AccountStore.connectedAccounts ?? [] as account}
+      {#each $AccountStore.oauthConnections ?? [] as account}
         <p>{account}</p>
       {/each}
     </div>

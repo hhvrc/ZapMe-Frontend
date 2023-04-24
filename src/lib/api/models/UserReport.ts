@@ -58,7 +58,7 @@ export function UserReportFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     }
     return {
         
-        'userId': !exists(json, 'user_id') ? undefined : json['user_id'],
+        'userId': !exists(json, 'userId') ? undefined : json['userId'],
         'title': !exists(json, 'title') ? undefined : json['title'],
         'explenation': !exists(json, 'explenation') ? undefined : json['explenation'],
     };
@@ -73,7 +73,7 @@ export function UserReportToJSON(value?: UserReport | null): any {
     }
     return {
         
-        'user_id': value.userId,
+        'userId': value.userId,
         'title': value.title,
         'explenation': value.explenation,
     };

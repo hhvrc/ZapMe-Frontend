@@ -76,12 +76,12 @@ export function AuthenticationConfigFromJSONTyped(json: any, ignoreDiscriminator
     }
     return {
         
-        'discordClientId': !exists(json, 'discord_client_id') ? undefined : json['discord_client_id'],
-        'githubClientId': !exists(json, 'github_client_id') ? undefined : json['github_client_id'],
-        'twitterClientId': !exists(json, 'twitter_client_id') ? undefined : json['twitter_client_id'],
-        'googleClientId': !exists(json, 'google_client_id') ? undefined : json['google_client_id'],
-        'recaptchaSiteKey': !exists(json, 'recaptcha_site_key') ? undefined : json['recaptcha_site_key'],
-        'turnstileSiteKey': !exists(json, 'turnstile_site_key') ? undefined : json['turnstile_site_key'],
+        'discordClientId': !exists(json, 'discordClientId') ? undefined : json['discordClientId'],
+        'githubClientId': !exists(json, 'githubClientId') ? undefined : json['githubClientId'],
+        'twitterClientId': !exists(json, 'twitterClientId') ? undefined : json['twitterClientId'],
+        'googleClientId': !exists(json, 'googleClientId') ? undefined : json['googleClientId'],
+        'recaptchaSiteKey': !exists(json, 'recaptchaSiteKey') ? undefined : json['recaptchaSiteKey'],
+        'turnstileSiteKey': !exists(json, 'turnstileSiteKey') ? undefined : json['turnstileSiteKey'],
     };
 }
 
@@ -94,12 +94,12 @@ export function AuthenticationConfigToJSON(value?: AuthenticationConfig | null):
     }
     return {
         
-        'discord_client_id': value.discordClientId,
-        'github_client_id': value.githubClientId,
-        'twitter_client_id': value.twitterClientId,
-        'google_client_id': value.googleClientId,
-        'recaptcha_site_key': value.recaptchaSiteKey,
-        'turnstile_site_key': value.turnstileSiteKey,
+        'discordClientId': value.discordClientId,
+        'githubClientId': value.githubClientId,
+        'twitterClientId': value.twitterClientId,
+        'googleClientId': value.googleClientId,
+        'recaptchaSiteKey': value.recaptchaSiteKey,
+        'turnstileSiteKey': value.turnstileSiteKey,
     };
 }
 

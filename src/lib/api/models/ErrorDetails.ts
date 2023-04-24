@@ -39,12 +39,6 @@ export interface ErrorDetails {
      */
     detail?: string;
     /**
-     * 
-     * @type {string}
-     * @memberof ErrorDetails
-     */
-    traceId?: string;
-    /**
      * Suggestion to developer on how they might be able to midegate this error
      * @type {string}
      * @memberof ErrorDetails
@@ -85,7 +79,6 @@ export function ErrorDetailsFromJSONTyped(json: any, ignoreDiscriminator: boolea
         
         'title': !exists(json, 'title') ? undefined : json['title'],
         'detail': !exists(json, 'detail') ? undefined : json['detail'],
-        'traceId': !exists(json, 'traceId') ? undefined : json['traceId'],
         'suggestion': !exists(json, 'suggestion') ? undefined : json['suggestion'],
         'fields': !exists(json, 'fields') ? undefined : json['fields'],
         'notification': !exists(json, 'notification') ? undefined : UserNotificationFromJSON(json['notification']),
@@ -103,7 +96,6 @@ export function ErrorDetailsToJSON(value?: ErrorDetails | null): any {
         
         'title': value.title,
         'detail': value.detail,
-        'traceId': value.traceId,
         'suggestion': value.suggestion,
         'fields': value.fields,
         'notification': UserNotificationToJSON(value.notification),

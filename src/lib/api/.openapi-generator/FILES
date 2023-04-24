@@ -14,7 +14,8 @@ models/AuthSignIn.ts
 models/AuthenticationConfig.ts
 models/Config.ts
 models/ContactConfig.ts
-models/Create.ts
+models/CreateAccount.ts
+models/CreateOk.ts
 models/ErrorDetails.ts
 models/FriendRequestList.ts
 models/OAuthProviderList.ts
@@ -26,11 +27,13 @@ models/SeverityLevel.ts
 models/SignInOk.ts
 models/SocialsConfig.ts
 models/UpdateEmail.ts
+models/UpdateEmailOk.ts
 models/UpdatePassword.ts
+models/UpdateProfilePictureOk.ts
 models/UpdateUserName.ts
 models/UserDto.ts
 models/UserNotification.ts
-models/UserOnlineStatus.ts
 models/UserReport.ts
+models/UserStatus.ts
 models/index.ts
 runtime.ts

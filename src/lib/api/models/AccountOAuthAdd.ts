@@ -46,7 +46,7 @@ export function AccountOAuthAddFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
-        'oauthCode': !exists(json, 'oauth_code') ? undefined : json['oauth_code'],
+        'oauthCode': !exists(json, 'oauthCode') ? undefined : json['oauthCode'],
     };
 }
 
@@ -59,7 +59,7 @@ export function AccountOAuthAddToJSON(value?: AccountOAuthAdd | null): any {
     }
     return {
         
-        'oauth_code': value.oauthCode,
+        'oauthCode': value.oauthCode,
     };
 }
 

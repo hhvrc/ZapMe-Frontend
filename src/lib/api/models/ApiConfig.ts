@@ -90,12 +90,12 @@ export function ApiConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     }
     return {
         
-        'tosVersion': !exists(json, 'tos_version') ? undefined : json['tos_version'],
-        'privacyVersion': !exists(json, 'privacy_version') ? undefined : json['privacy_version'],
-        'sentryDsn': !exists(json, 'sentry_dsn') ? undefined : json['sentry_dsn'],
-        'sentryTraceSampleRate': !exists(json, 'sentry_trace_sample_rate') ? undefined : json['sentry_trace_sample_rate'],
+        'tosVersion': !exists(json, 'tosVersion') ? undefined : json['tosVersion'],
+        'privacyVersion': !exists(json, 'privacyVersion') ? undefined : json['privacyVersion'],
+        'sentryDsn': !exists(json, 'sentryDsn') ? undefined : json['sentryDsn'],
+        'sentryTraceSampleRate': !exists(json, 'sentryTraceSampleRate') ? undefined : json['sentryTraceSampleRate'],
         'authentication': !exists(json, 'authentication') ? undefined : AuthenticationConfigFromJSON(json['authentication']),
-        'disabledFeatures': !exists(json, 'disabled_features') ? undefined : ApiDisabledFeaturesFromJSON(json['disabled_features']),
+        'disabledFeatures': !exists(json, 'disabledFeatures') ? undefined : ApiDisabledFeaturesFromJSON(json['disabledFeatures']),
     };
 }
 
@@ -108,12 +108,12 @@ export function ApiConfigToJSON(value?: ApiConfig | null): any {
     }
     return {
         
-        'tos_version': value.tosVersion,
-        'privacy_version': value.privacyVersion,
-        'sentry_dsn': value.sentryDsn,
-        'sentry_trace_sample_rate': value.sentryTraceSampleRate,
+        'tosVersion': value.tosVersion,
+        'privacyVersion': value.privacyVersion,
+        'sentryDsn': value.sentryDsn,
+        'sentryTraceSampleRate': value.sentryTraceSampleRate,
         'authentication': AuthenticationConfigToJSON(value.authentication),
-        'disabled_features': ApiDisabledFeaturesToJSON(value.disabledFeatures),
+        'disabledFeatures': ApiDisabledFeaturesToJSON(value.disabledFeatures),
     };
 }
 

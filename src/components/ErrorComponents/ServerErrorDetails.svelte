@@ -14,7 +14,6 @@
   <div>
     <h1>{details.title}</h1>
     {#if details.detail} <h2>{details.detail}</h2> {/if}
-    {#if details.traceId} <h3>{details.traceId}</h3> {/if}
     {#if details.suggestion} <h4>{details.suggestion}</h4> {/if}
     {#if details.notification} <h5>{details.notification}</h5> {/if}
     {#if details.fields && Object.keys(details.fields).length > 0}

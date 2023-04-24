@@ -52,7 +52,7 @@ export function UpdateEmailFromJSONTyped(json: any, ignoreDiscriminator: boolean
     }
     return {
         
-        'newEmail': !exists(json, 'new_email') ? undefined : json['new_email'],
+        'newEmail': !exists(json, 'newEmail') ? undefined : json['newEmail'],
         'password': !exists(json, 'password') ? undefined : json['password'],
     };
 }
@@ -66,7 +66,7 @@ export function UpdateEmailToJSON(value?: UpdateEmail | null): any {
     }
     return {
         
-        'new_email': value.newEmail,
+        'newEmail': value.newEmail,
         'password': value.password,
     };
 }

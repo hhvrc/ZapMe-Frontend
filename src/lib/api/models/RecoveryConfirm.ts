@@ -52,7 +52,7 @@ export function RecoveryConfirmFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
-        'newPassword': !exists(json, 'new_password') ? undefined : json['new_password'],
+        'newPassword': !exists(json, 'newPassword') ? undefined : json['newPassword'],
         'token': !exists(json, 'token') ? undefined : json['token'],
     };
 }
@@ -66,7 +66,7 @@ export function RecoveryConfirmToJSON(value?: RecoveryConfirm | null): any {
     }
     return {
         
-        'new_password': value.newPassword,
+        'newPassword': value.newPassword,
         'token': value.token,
     };
 }

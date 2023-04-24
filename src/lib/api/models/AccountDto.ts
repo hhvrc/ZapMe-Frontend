@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { UserOnlineStatus } from './UserOnlineStatus';
+import type { UserStatus } from './UserStatus';
 import {
-    UserOnlineStatusFromJSON,
-    UserOnlineStatusFromJSONTyped,
-    UserOnlineStatusToJSON,
-} from './UserOnlineStatus';
+    UserStatusFromJSON,
+    UserStatusFromJSONTyped,
+    UserStatusToJSON,
+} from './UserStatus';
 
 /**
  * Account object, this can only retrieved for the user you are logged in as
@@ -31,73 +31,79 @@ export interface AccountDto {
      * @type {string}
      * @memberof AccountDto
      */
-    id?: string;
+    readonly id?: string;
     /**
      * 
      * @type {string}
      * @memberof AccountDto
      */
-    username?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof AccountDto
-     */
-    profilePictureId?: string;
-    /**
-     * 
-     * @type {UserOnlineStatus}
-     * @memberof AccountDto
-     */
-    status?: UserOnlineStatus;
-    /**
-     * 
-     * @type {string}
-     * @memberof AccountDto
-     */
-    statusText?: string;
-    /**
-     * Date this user was created at
-     * @type {Date}
-     * @memberof AccountDto
-     */
-    createdAt?: Date;
-    /**
-     * Last time this user was online
-     * @type {Date}
-     * @memberof AccountDto
-     */
-    lastOnline?: Date;
+    readonly username?: string;
     /**
      * Obfuscated email of your account
      * @type {string}
      * @memberof AccountDto
      */
-    email?: string;
+    readonly obscuredEmail?: string;
     /**
-     * True if email address has been verified
+     * 
      * @type {boolean}
      * @memberof AccountDto
      */
-    emailVerified?: boolean;
+    readonly emailVerified?: boolean;
     /**
      * 
      * @type {number}
      * @memberof AccountDto
      */
-    acceptedTosVersion?: number;
+    readonly acceptedTosVersion?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof AccountDto
+     */
+    readonly profilePictureUrl?: string;
+    /**
+     * 
+     * @type {UserStatus}
+     * @memberof AccountDto
+     */
+    status?: UserStatus;
+    /**
+     * 
+     * @type {string}
+     * @memberof AccountDto
+     */
+    readonly statusText?: string;
     /**
      * Id of friends this account has
      * @type {Array<string>}
      * @memberof AccountDto
      */
-    friends?: Array<string>;
+    readonly friends?: Array<string>;
     /**
      * OAuth2 providers this account is connected to
      * @type {Array<string>}
      * @memberof AccountDto
      */
-    connectedAccounts?: Array<string>;
+    readonly oauthConnections?: Array<string>;
+    /**
+     * Date this user was created at
+     * @type {Date}
+     * @memberof AccountDto
+     */
+    readonly createdAt?: Date;
+    /**
+     * Last time this user was updated
+     * @type {Date}
+     * @memberof AccountDto
+     */
+    readonly updatedAt?: Date;
+    /**
+     * Last time this user was online
+     * @type {Date}
+     * @memberof AccountDto
+     */
+    readonly lastOnline?: Date;
 }
 
 /**
@@ -121,16 +127,17 @@ export function AccountDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         
         'id': !exists(json, 'id') ? undefined : json['id'],
         'username': !exists(json, 'username') ? undefined : json['username'],
-        'profilePictureId': !exists(json, 'profile_picture_id') ? undefined : json['profile_picture_id'],
-        'status': !exists(json, 'status') ? undefined : UserOnlineStatusFromJSON(json['status']),
-        'statusText': !exists(json, 'status_text') ? undefined : json['status_text'],
-        'createdAt': !exists(json, 'created_at') ? undefined : (new Date(json['created_at'])),
-        'lastOnline': !exists(json, 'last_online') ? undefined : (new Date(json['last_online'])),
-        'email': !exists(json, 'email') ? undefined : json['email'],
-        'emailVerified': !exists(json, 'email_verified') ? undefined : json['email_verified'],
-        'acceptedTosVersion': !exists(json, 'accepted_tos_version') ? undefined : json['accepted_tos_version'],
+        'obscuredEmail': !exists(json, 'obscuredEmail') ? undefined : json['obscuredEmail'],
+        'emailVerified': !exists(json, 'emailVerified') ? undefined : json['emailVerified'],
+        'acceptedTosVersion': !exists(json, 'acceptedTosVersion') ? undefined : json['acceptedTosVersion'],
+        'profilePictureUrl': !exists(json, 'profilePictureUrl') ? undefined : json['profilePictureUrl'],
+        'status': !exists(json, 'status') ? undefined : UserStatusFromJSON(json['status']),
+        'statusText': !exists(json, 'statusText') ? undefined : json['statusText'],
         'friends': !exists(json, 'friends') ? undefined : json['friends'],
-        'connectedAccounts': !exists(json, 'connected_accounts') ? undefined : json['connected_accounts'],
+        'oauthConnections': !exists(json, 'oauthConnections') ? undefined : json['oauthConnections'],
+        'createdAt': !exists(json, 'createdAt') ? undefined : (new Date(json['createdAt'])),
+        'updatedAt': !exists(json, 'updatedAt') ? undefined : (new Date(json['updatedAt'])),
+        'lastOnline': !exists(json, 'lastOnline') ? undefined : (new Date(json['lastOnline'])),
     };
 }
 
@@ -143,18 +150,7 @@ export function AccountDtoToJSON(value?: AccountDto | null): any {
     }
     return {
         
-        'id': value.id,
-        'username': value.username,
-        'profile_picture_id': value.profilePictureId,
-        'status': UserOnlineStatusToJSON(value.status),
-        'status_text': value.statusText,
-        'created_at': value.createdAt === undefined ? undefined : (value.createdAt.toISOString()),
-        'last_online': value.lastOnline === undefined ? undefined : (value.lastOnline.toISOString()),
-        'email': value.email,
-        'email_verified': value.emailVerified,
-        'accepted_tos_version': value.acceptedTosVersion,
-        'friends': value.friends,
-        'connected_accounts': value.connectedAccounts,
+        'status': UserStatusToJSON(value.status),
     };
 }
 

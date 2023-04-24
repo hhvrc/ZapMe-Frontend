@@ -24,7 +24,7 @@ export interface AuthSignIn {
      * @type {string}
      * @memberof AuthSignIn
      */
-    username?: string;
+    usernameOrEmail?: string;
     /**
      * Password
      * @type {string}
@@ -65,7 +65,7 @@ export function AuthSignInFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     }
     return {
         
-        'username': !exists(json, 'username') ? undefined : json['username'],
+        'usernameOrEmail': !exists(json, 'usernameOrEmail') ? undefined : json['usernameOrEmail'],
         'password': !exists(json, 'password') ? undefined : json['password'],
         'sessionName': !exists(json, 'sessionName') ? undefined : json['sessionName'],
         'rememberMe': !exists(json, 'rememberMe') ? undefined : json['rememberMe'],
@@ -81,7 +81,7 @@ export function AuthSignInToJSON(value?: AuthSignIn | null): any {
     }
     return {
         
-        'username': value.username,
+        'usernameOrEmail': value.usernameOrEmail,
         'password': value.password,
         'sessionName': value.sessionName,
         'rememberMe': value.rememberMe,

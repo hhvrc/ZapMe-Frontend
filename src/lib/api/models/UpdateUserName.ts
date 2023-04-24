@@ -52,7 +52,7 @@ export function UpdateUserNameFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
-        'newUsername': !exists(json, 'new_username') ? undefined : json['new_username'],
+        'newUsername': !exists(json, 'newUsername') ? undefined : json['newUsername'],
         'password': !exists(json, 'password') ? undefined : json['password'],
     };
 }
@@ -66,7 +66,7 @@ export function UpdateUserNameToJSON(value?: UpdateUserName | null): any {
     }
     return {
         
-        'new_username': value.newUsername,
+        'newUsername': value.newUsername,
         'password': value.password,
     };
 }

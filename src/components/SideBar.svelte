@@ -47,7 +47,7 @@
 
       if (githubUri) socials.push({ name: 'GitHub', href: githubUri, icon: { type: 'uri', darkUri: '/icons/logo_github_white.svg', lightUri: '/icons/logo_github_black.svg' } });
 
-      socials.push({ name: 'Discord', href: config.contact!.discord!, icon: { type: 'uri', darkUri: '/icons/logo_discord_clyde_blurple.svg', lightUri: '/icons/logo_discord_clyde_blurple.svg' } });
+      socials.push({ name: 'Discord', href: config.contact!.discordInviteUrl!, icon: { type: 'uri', darkUri: '/icons/logo_discord_clyde_blurple.svg', lightUri: '/icons/logo_discord_clyde_blurple.svg' } });
 
       if (twitterUri) socials.push({ name: 'Twitter', href: twitterUri, icon: { type: 'uri', darkUri: '/icons/logo_twitter.svg', lightUri: '/icons/logo_twitter.svg' } });
 
