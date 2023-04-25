@@ -6,39 +6,37 @@
   import DefaultTags from '$components/MetaTags/DefaultTags.svelte';
   import SideBar from '$components/SideBar.svelte';
 
-  const WebsiteURL = "https://www.zapme.app";
-  const WebsiteTitle = "ZapMe | Control collars remotely";
-  const WebsiteDescription = "ZapMe allows you to control your Submissives shock collars from anywhere in the world with low latency, realtime networking.";
-  const WebsiteLogo = "https://www.zapme.app/logo-512.png";
-  const WebsiteLogoAlt = "ZapMe Logo";
+  const WebsiteURL = 'https://www.zapme.app';
+  const WebsiteTitle = 'ZapMe | Control collars remotely';
+  const WebsiteDescription =
+    'ZapMe allows you to control your Submissives shock collars from anywhere in the world with low latency, realtime networking.';
+  const WebsiteLogo = 'https://www.zapme.app/logo-512.png';
+  const WebsiteLogoAlt = 'ZapMe Logo';
 
   let sidebarOpen = false;
 </script>
 
-<DefaultTags
-  title={WebsiteTitle}
-  description={WebsiteDescription}
-/>
+<DefaultTags title={WebsiteTitle} description={WebsiteDescription} />
 <TwitterTags
   card="summary_large_image"
   creatorHandle="@hhvrc"
   description={WebsiteDescription}
-  image={{src: WebsiteLogo, alt: WebsiteLogoAlt}}
+  image={{ src: WebsiteLogo, alt: WebsiteLogoAlt }}
 />
 <OpenGraphTags
   type="website"
   title={WebsiteTitle}
   description={WebsiteDescription}
-  image={{src: WebsiteLogo, alt: WebsiteLogoAlt}}
+  image={{ src: WebsiteLogo, alt: WebsiteLogoAlt }}
   url={WebsiteURL}
 />
 
-<Header bind:sidebarOpen/>
-<SideBar isOpen={sidebarOpen}/>
+<Header bind:sidebarOpen />
+<SideBar isOpen={sidebarOpen} />
 <main>
-  <slot/>
-  <div class="scroll-cover"/>
-  <Footer/>
+  <slot />
+  <div class="scroll-cover" />
+  <Footer />
 </main>
 
 <style>
@@ -70,14 +68,14 @@
     pointer-events: none;
 
     opacity: 1;
-    transition: opacity .5s;
+    transition: opacity 0.5s;
     transition-delay: 1s;
-    -webkit-transition: opacity .5s;
+    -webkit-transition: opacity 0.5s;
     -webkit-transition-delay: 1s;
   }
   main:hover .scroll-cover {
     opacity: 0;
-    transition: opacity .5s;
-    -webkit-transition: opacity .5s;
+    transition: opacity 0.5s;
+    -webkit-transition: opacity 0.5s;
   }
 </style>

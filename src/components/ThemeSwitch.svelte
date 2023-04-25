@@ -1,28 +1,28 @@
 <script lang="ts">
-  import { selectedTheme } from "$lib/ThemeContext";
+  import { selectedTheme } from '$lib/ThemeContext';
   import 'material-symbols';
 
   function toggleTheme() {
     selectedTheme.update((theme) => {
-      if (theme === "dark") {
-        return "light";
+      if (theme === 'dark') {
+        return 'light';
       } else {
-        return "dark";
+        return 'dark';
       }
     });
   }
 
-  let materialSymbol: string = "magic_button";
+  let materialSymbol: string = 'magic_button';
   $: {
     switch ($selectedTheme) {
-      case "light":
-        materialSymbol = "light_mode";
+      case 'light':
+        materialSymbol = 'light_mode';
         break;
-      case "dark":
-        materialSymbol = "dark_mode";
+      case 'dark':
+        materialSymbol = 'dark_mode';
         break;
       default:
-        materialSymbol = "magic_button";
+        materialSymbol = 'magic_button';
         break;
     }
   }

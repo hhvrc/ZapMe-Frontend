@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { RespServerError } from "$lib/fetchSingleton";
-  import { getReasonPhrase } from "http-status-codes";
+  import type { RespServerError } from '$lib/fetchSingleton';
+  import { getReasonPhrase } from 'http-status-codes';
 
   export let error: RespServerError;
   const { status, details } = error;
@@ -33,7 +33,7 @@
       <h1>{status}</h1>
       <h4>{title}</h4>
     {/if}
-    <button on:click={() => showCat = !showCat}>
+    <button on:click={() => (showCat = !showCat)}>
       {showCat ? 'Hide' : 'Show'} funny cat
     </button>
   </div>

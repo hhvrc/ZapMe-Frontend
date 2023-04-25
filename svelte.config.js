@@ -7,8 +7,8 @@ export default {
     adapter: cfAdapter({
       routes: {
         include: ['/*'],
-        exclude: ['<all>']
-      }
+        exclude: ['<all>'],
+      },
     }),
     alias: {
       $lib: 'src/lib',
@@ -16,7 +16,7 @@ export default {
       $types: 'src/types',
       '$types/*': 'src/types/*',
       $components: 'src/components',
-      '$components/*': 'src/components/*'
-    }
-  }
+      '$components/*': 'src/components/*',
+    },
+  },
 };

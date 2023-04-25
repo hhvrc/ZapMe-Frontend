@@ -5,7 +5,7 @@
   import { SessionTokenStore } from '$lib/stores';
   import { GetRedirectURL } from '$lib/utils/redirects';
   import { onMount } from 'svelte';
-  
+
   onMount(async () => {
     await authenticationApi.authSignOut().catch(() => {});
     SessionTokenStore.set(null);

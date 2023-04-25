@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { GeneratePseudoRandomString } from "$lib/utils/random";
+  import { GeneratePseudoRandomString } from '$lib/utils/random';
 
   export let id: string = GeneratePseudoRandomString(9);
   export let checked: boolean;
@@ -8,14 +8,21 @@
 
 <div class="usn">
   <label for={id}>
-    <input type="checkbox" {id} name={id} style="display:none" bind:checked={checked} {disabled}>
+    <input
+      type="checkbox"
+      {id}
+      name={id}
+      style="display:none"
+      bind:checked
+      {disabled}
+    />
     <span>
       <svg viewBox="0 0 12 11">
-        <polyline points="1 6.29411765 4.5 10 11 1"></polyline>
+        <polyline points="1 6.29411765 4.5 10 11 1" />
       </svg>
     </span>
   </label>
-  <p><slot/></p>
+  <p><slot /></p>
 </div>
 
 <style>
@@ -45,7 +52,8 @@
 
     background-color: var(--thm-chkBox);
     background-image: linear-gradient(var(--thm-chkBoxTo), var(--thm-chkBox));
-    box-shadow: inset 0 1px 1px rgba(255,255,255,0.15), inset 0 -1px 1px rgba(0,0,0,0.15);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15),
+      inset 0 -1px 1px rgba(0, 0, 0, 0.15);
     transition: all 0.15s ease;
   }
 
@@ -66,7 +74,10 @@
   }
   input:checked + span {
     background-color: var(--thm-chkBox);
-    background-image: linear-gradient(var(--thm-chkBoxSelTo), var(--thm-chkBoxSel));
+    background-image: linear-gradient(
+      var(--thm-chkBoxSelTo),
+      var(--thm-chkBoxSel)
+    );
   }
   input:checked + span svg {
     stroke-dashoffset: 0;

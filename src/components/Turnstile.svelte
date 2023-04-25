@@ -23,11 +23,14 @@
   let isLoaded = false;
   onMount(() => {
     turnstile = window.turnstile;
-    if (!turnstile) throw new Error('CloudFlare Turnstile is not loaded, did you forget to include the script tag?');
+    if (!turnstile)
+      throw new Error(
+        'CloudFlare Turnstile is not loaded, did you forget to include the script tag?'
+      );
   });
 
   $: if (!!turnstile && !!sitekey) {
-    turnstile.ready(() => isLoaded = true);
+    turnstile.ready(() => (isLoaded = true));
   }
 
   let theme: 'light' | 'dark' | 'auto' = 'auto';

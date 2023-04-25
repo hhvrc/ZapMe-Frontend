@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { GeneratePseudoRandomString } from "$lib/utils/random";
+  import { GeneratePseudoRandomString } from '$lib/utils/random';
   import 'material-symbols';
 
   export let id: string = GeneratePseudoRandomString(9);
@@ -38,11 +38,35 @@
 
   <div style="position: relative;">
     {#if type === 'password'}
-      <input type="password" {id} name={id} {autocomplete} placeholder={placeholder ?? displayname} bind:value={value} {disabled}>
+      <input
+        type="password"
+        {id}
+        name={id}
+        {autocomplete}
+        placeholder={placeholder ?? displayname}
+        bind:value
+        {disabled}
+      />
     {:else if type === 'email'}
-      <input type="email" {id} name={id} {autocomplete} placeholder={placeholder ?? displayname} bind:value={value} {disabled}>
+      <input
+        type="email"
+        {id}
+        name={id}
+        {autocomplete}
+        placeholder={placeholder ?? displayname}
+        bind:value
+        {disabled}
+      />
     {:else}
-      <input type="text" {id} name={id} {autocomplete} placeholder={placeholder ?? displayname} bind:value={value} {disabled}>
+      <input
+        type="text"
+        {id}
+        name={id}
+        {autocomplete}
+        placeholder={placeholder ?? displayname}
+        bind:value
+        {disabled}
+      />
     {/if}
 
     {#if !!activeIcon}
@@ -73,14 +97,17 @@
     color: red;
     font-weight: 1000;
   }
-  label, input, p {
-    font-family: 'Poppins',sans-serif;
+  label,
+  input,
+  p {
+    font-family: 'Poppins', sans-serif;
   }
-  label, p {
+  label,
+  p {
     font-size: 14px;
     font-weight: 500;
   }
-  input{
+  input {
     height: 38px;
     width: 100%;
     border-radius: 3px;
@@ -91,13 +118,13 @@
     margin-top: 3px;
     color: red;
   }
-  .icon{
+  .icon {
     position: absolute;
     top: 50%;
     right: 10px;
     transform: translateY(-50%);
     font-size: 18px;
-    
+
     pointer-events: none;
   }
 </style>

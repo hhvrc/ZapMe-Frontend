@@ -3,7 +3,9 @@
   export let content = '';
 </script>
 
-<button type="submit" class="usn default-btn-text submit-btn" disabled='{disabled}'>{content}</button>
+<button type="submit" class="usn default-btn-text submit-btn" {disabled}
+  >{content}</button
+>
 
 <style>
   button {

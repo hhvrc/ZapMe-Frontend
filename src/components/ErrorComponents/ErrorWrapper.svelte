@@ -1,7 +1,11 @@
 <script lang="ts">
-  import type { Response } from "$lib/fetchSingleton";
-  import { ExceptionDetails, NetworkErrorDetails, ServerErrorDetails } from "$components/ErrorComponents";
-  import LoadingWidget from "$components/LoadingWidget.svelte";
+  import type { Response } from '$lib/fetchSingleton';
+  import {
+    ExceptionDetails,
+    NetworkErrorDetails,
+    ServerErrorDetails,
+  } from '$components/ErrorComponents';
+  import LoadingWidget from '$components/LoadingWidget.svelte';
 
   type T = $$Generic;
 
@@ -15,8 +19,8 @@
   </slot>
 {:then response}
   {#if response.code == 'ok'}
-    {() => data = response.data}
-    <slot/>
+    {() => (data = response.data)}
+    <slot />
   {:else if response.code == 'err_network'}
     <slot name="networkError">
       <NetworkErrorDetails />

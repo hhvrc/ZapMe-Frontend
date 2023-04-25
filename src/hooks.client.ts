@@ -1,9 +1,13 @@
-import { init as SentryInit, captureException as SentryCaptureException } from "@sentry/svelte";
+import {
+  init as SentryInit,
+  captureException as SentryCaptureException,
+} from '@sentry/svelte';
 import { BrowserTracing } from '@sentry/browser';
 
 // Initialize Sentry for error and performance monitoring
 const sentryDsn = import.meta.env.VITE_SENTRY_DSN as string | undefined;
-const sentryTracesSampleRate = import.meta.env.VITE_SENTRY_TRACES_SAMPLE_RATE as number | undefined;
+const sentryTracesSampleRate = import.meta.env
+  .VITE_SENTRY_TRACES_SAMPLE_RATE as number | undefined;
 if (sentryDsn && sentryTracesSampleRate) {
   SentryInit({
     dsn: sentryDsn,

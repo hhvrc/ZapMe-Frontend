@@ -1,4 +1,3 @@
-
 const Passtrough = <T>(val: T): T => val;
 const ToString = (val: any): string => val.toString();
 const ToNumber = (val: any): number => Number(val);

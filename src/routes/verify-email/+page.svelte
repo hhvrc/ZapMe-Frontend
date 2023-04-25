@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-    <title>ZapMe - Verify Email Address</title>
+  <title>ZapMe - Verify Email Address</title>
 </svelte:head>
 
 {#if data.error}

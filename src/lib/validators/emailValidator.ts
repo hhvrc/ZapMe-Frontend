@@ -1,6 +1,9 @@
 import { validate } from 'email-validator';
 
-function validateEmail(email: string): { valid: boolean; message: string | null } {
+function validateEmail(email: string): {
+  valid: boolean;
+  message: string | null;
+} {
   if (email.length == 0) {
     return { valid: false, message: null };
   }

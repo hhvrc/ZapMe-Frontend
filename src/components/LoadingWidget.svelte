@@ -1,10 +1,10 @@
 <div>
   <div class="loading-widget">
     <div class="loading-widget__spinner">
-      <div class="loading-widget__spinner__dot"></div>
-      <div class="loading-widget__spinner__dot"></div>
-      <div class="loading-widget__spinner__dot"></div>
-      <div class="loading-widget__spinner__dot"></div>
+      <div class="loading-widget__spinner__dot" />
+      <div class="loading-widget__spinner__dot" />
+      <div class="loading-widget__spinner__dot" />
+      <div class="loading-widget__spinner__dot" />
     </div>
     <div class="loading-widget__text">Loading...</div>
   </div>

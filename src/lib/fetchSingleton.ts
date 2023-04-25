@@ -1,12 +1,25 @@
 import { goto } from '$app/navigation';
-import { AccountApi, AuthenticationApi, ConfigApi, HealthApi, UserApi, WebSocketApi, type ErrorDetails, type UserNotification, Configuration, FetchError, ResponseError, RequiredError } from '$lib/api';
+import {
+  AccountApi,
+  AuthenticationApi,
+  ConfigApi,
+  HealthApi,
+  UserApi,
+  WebSocketApi,
+  type ErrorDetails,
+  type UserNotification,
+  Configuration,
+  FetchError,
+  ResponseError,
+  RequiredError,
+} from '$lib/api';
 import { getReasonPhrase } from 'http-status-codes';
 import { BuildRedirectURL, GetRedirectURL } from './utils/redirects';
 
 const basePath = import.meta.env.VITE_BACKEND_URL as string;
 const config = new Configuration({
   basePath,
-  credentials: 'include'
+  credentials: 'include',
 });
 
 export const accountApi = new AccountApi(config);
@@ -19,7 +32,7 @@ export const webSocketApi = new WebSocketApi(config);
 export type RespOk<T> = {
   code: 'ok';
   data: T;
-}
+};
 export interface RespServerError {
   code: 'err_server';
   status: number;
@@ -27,7 +40,7 @@ export interface RespServerError {
 }
 export type RespNetworkError = {
   code: 'err_network';
-}
+};
 
 export type Response<T> = RespOk<T> | RespServerError | RespNetworkError;
 
@@ -73,8 +86,7 @@ function isErrorDetails(data: any): data is ErrorDetails {
     Object.hasOwn(data, 'suggestion') &&
     Object.hasOwn(data, 'fields') &&
     Object.hasOwn(data, 'notification')
-    )
-  {
+  ) {
     const notification = data.notification;
 
     if (notification) {
@@ -90,73 +102,77 @@ function isErrorDetails(data: any): data is ErrorDetails {
 function Panic(): RespNetworkError {
   goto('/503');
   return {
-    code: 'err_network'
+    code: 'err_network',
   };
 }
 
-export async function ParseFetchError(error: any): Promise<RespServerError | RespNetworkError> {
-    if (isFetchError(error)) {
-      return Panic();
-    }
+export async function ParseFetchError(
+  error: any
+): Promise<RespServerError | RespNetworkError> {
+  if (isFetchError(error)) {
+    return Panic();
+  }
 
-    if (isRequiredError(error)) {
-      return {
-        code: 'err_server',
-        status: 400,
-        details: {
-          title: 'Bad Request',
-          detail: error.message,
-          fields: {
-            [error.field]: [ 'invalid' ]
-          }
-        }
-      };
-    }
-
-    if (!isResponseError(error)) {
-      // Unknown error, screw it.
-      throw error;
-    }
-    
-    const { response } = error;
-    const { status, url } = response;
-
-    if (status === 503) {
-      return Panic();
-    }
-    if (status === 401) {
-      goto(BuildRedirectURL('/sign-out', GetRedirectURL(url, '/sign-in')));
-    }
-    else if (status === 403) {
-      goto('/home');
-    }
-
-    const details = await response.text().then((text) => {
-      const json = JSON.parse(text);
-      return json && isErrorDetails(json) ? json : null;
-    }).catch(() => null);
-
-    if (!details) {
-      return {
-        code: 'err_server',
-        status,
-        details: {
-          title: 'Server Error',
-          detail: getReasonPhrase(status),
-          fields: {}
-        }
-      };
-    }
-
-    // Try to parse the error details.
-    if (!isErrorDetails(details)) {
-      // Unknown response, screw it.
-      throw error;
-    }
-
+  if (isRequiredError(error)) {
     return {
       code: 'err_server',
-      status: error.response.status,
-      details: details
+      status: 400,
+      details: {
+        title: 'Bad Request',
+        detail: error.message,
+        fields: {
+          [error.field]: ['invalid'],
+        },
+      },
     };
+  }
+
+  if (!isResponseError(error)) {
+    // Unknown error, screw it.
+    throw error;
+  }
+
+  const { response } = error;
+  const { status, url } = response;
+
+  if (status === 503) {
+    return Panic();
+  }
+  if (status === 401) {
+    goto(BuildRedirectURL('/sign-out', GetRedirectURL(url, '/sign-in')));
+  } else if (status === 403) {
+    goto('/home');
+  }
+
+  const details = await response
+    .text()
+    .then((text) => {
+      const json = JSON.parse(text);
+      return json && isErrorDetails(json) ? json : null;
+    })
+    .catch(() => null);
+
+  if (!details) {
+    return {
+      code: 'err_server',
+      status,
+      details: {
+        title: 'Server Error',
+        detail: getReasonPhrase(status),
+        fields: {},
+      },
+    };
+  }
+
+  // Try to parse the error details.
+  if (!isErrorDetails(details)) {
+    // Unknown response, screw it.
+    throw error;
+  }
+
+  return {
+    code: 'err_server',
+    status: error.response.status,
+    details: details,
+  };
 }

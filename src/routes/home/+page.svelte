@@ -5,19 +5,16 @@
   import { SessionTokenStore } from '$lib/stores';
   import { BuildRedirectURL } from '$lib/utils/redirects';
 
-  if (browser && !$SessionTokenStore)
-  {
+  if (browser && !$SessionTokenStore) {
     goto(BuildRedirectURL('/sign-in', $page.url));
   }
 </script>
 
 <svelte:head>
-    <title>ZapMe - Home</title>
+  <title>ZapMe - Home</title>
 </svelte:head>
 
-<div>
-    Home
-</div>
+<div>Home</div>
 
 <style>
 </style>

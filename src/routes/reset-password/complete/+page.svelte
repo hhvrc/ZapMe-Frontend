@@ -13,12 +13,13 @@
   async function handleSubmit() {
     if (!token) return;
     try {
-      await accountApi.accountRecoveryConfirm({recoveryConfirm: {
-        token: token,
-        newPassword: password
-      }});
-    }
-    catch (error) {
+      await accountApi.accountRecoveryConfirm({
+        recoveryConfirm: {
+          token: token,
+          newPassword: password,
+        },
+      });
+    } catch (error) {
       const responseData = await ParseFetchError(error);
       if (responseData.code == 'err_network') {
         window.alert('Network error');
@@ -37,7 +38,9 @@
       }
 
       if (response.notification) {
-        window.alert(response.notification.title + ': ' + response.notification.message);
+        window.alert(
+          response.notification.title + ': ' + response.notification.message
+        );
       }
     }
   }
@@ -50,7 +53,9 @@
     passwordError = passwordValidation.message;
 
     const confirmedPasswordValid = password === confirmedPassword;
-    confirmedPasswordError = confirmedPasswordValid ? null : 'Passwords do not match';
+    confirmedPasswordError = confirmedPasswordValid
+      ? null
+      : 'Passwords do not match';
 
     formValid = passwordValidation.valid && confirmedPasswordValid;
   }
@@ -61,21 +66,29 @@
 </svelte:head>
 
 {#if !token}
-
-<h2>
-  You have not been provided with a token.<br>
-  Please check your email and try again.
-</h2>
-
+  <h2>
+    You have not been provided with a token.<br />
+    Please check your email and try again.
+  </h2>
 {:else}
+  <Form on:submit={handleSubmit} title="Reset Password">
+    <NamedInput
+      type="password"
+      autocomplete="current-password"
+      displayname="Password"
+      bind:value={password}
+      error={passwordError}
+    />
+    <NamedInput
+      type="password"
+      autocomplete="new-password"
+      displayname="Confirm Password"
+      bind:value={confirmedPassword}
+      error={confirmedPasswordError}
+    />
 
-<Form on:submit={handleSubmit} title="Reset Password">
-  <NamedInput type="password" autocomplete="current-password" displayname="Password" bind:value={password} error={passwordError} />
-  <NamedInput type="password" autocomplete="new-password" displayname="Confirm Password" bind:value={confirmedPassword} error={confirmedPasswordError} />
-
-  <FormButton disabled={!formValid}>Reset Password</FormButton>
-</Form>
-
+    <FormButton disabled={!formValid}>Reset Password</FormButton>
+  </Form>
 {/if}
 
 <style>

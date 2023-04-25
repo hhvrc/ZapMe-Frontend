@@ -1,15 +1,35 @@
 <script lang="ts">
-  export let type: "website" | "profile" | "article" | "book" | "video.movie" | "video.episode" | "video.tv_show" | "video.other" | "music.song" | "music.album" | "music.playlist" | "music.radio_station";
+  export let type:
+    | 'website'
+    | 'profile'
+    | 'article'
+    | 'book'
+    | 'video.movie'
+    | 'video.episode'
+    | 'video.tv_show'
+    | 'video.other'
+    | 'music.song'
+    | 'music.album'
+    | 'music.playlist'
+    | 'music.radio_station';
   export let title: string;
-  export let image: { src: string, type?: string, width?: number, height?: number, alt?: string };
+  export let image: {
+    src: string;
+    type?: string;
+    width?: number;
+    height?: number;
+    alt?: string;
+  };
   export let url: string;
   export let siteName: string | undefined = undefined;
   export let description: string | undefined = undefined;
   export let determiner: string | undefined = undefined;
   export let metaLocale: string | undefined = undefined;
   export let locales: string[] | undefined = undefined;
-  export let video: { src: string, type?: string, width?: number, height?: number } | undefined = undefined;
-  export let audio: { src: string, type?: string } | undefined = undefined;
+  export let video:
+    | { src: string; type?: string; width?: number; height?: number }
+    | undefined = undefined;
+  export let audio: { src: string; type?: string } | undefined = undefined;
 </script>
 
 <svelte:head>
@@ -62,7 +82,7 @@
       <meta property="og:video:height" content={video.height.toString()} />
     {/if}
   {/if}
-  
+
   {#if audio}
     <meta property="og:audio" content={audio.src} />
     {#if audio.type}

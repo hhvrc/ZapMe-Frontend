@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { ErrorWrapper } from "$components/ErrorComponents";
-  import type { UserDto } from "$lib/api";
+  import { ErrorWrapper } from '$components/ErrorComponents';
+  import type { UserDto } from '$lib/api';
 
   export let data;
-  let userData: UserDto|null = null;
+  let userData: UserDto | null = null;
 </script>
 
 <svelte:head>

@@ -47,11 +47,19 @@ function SetSearchParam(url: string | URL, key: string, value: string): string {
   return urlParts[0] + '?' + params.toString();
 }
 
-export function BuildRedirectURL(url: string | URL, redirect: string | URL, redirectQueryKey = 'redirect'): string {
+export function BuildRedirectURL(
+  url: string | URL,
+  redirect: string | URL,
+  redirectQueryKey = 'redirect'
+): string {
   return SetSearchParam(url, redirectQueryKey, ensureRelativePath(redirect));
 }
 
-export function GetRedirectURL(url: string | URL, fallback: string, redirectQueryKey = 'redirect'): string {
+export function GetRedirectURL(
+  url: string | URL,
+  fallback: string,
+  redirectQueryKey = 'redirect'
+): string {
   // Get the redirect url
   let redirect = GetSearchParam(url, redirectQueryKey);
 
@@ -64,13 +72,21 @@ export function GetRedirectURL(url: string | URL, fallback: string, redirectQuer
   return ensureRelativePath(redirect);
 }
 
-export function ForwardRedirectURL(url: string | URL, nextUrl: string | URL, redirectQueryKey = 'redirect'): string {
+export function ForwardRedirectURL(
+  url: string | URL,
+  nextUrl: string | URL,
+  redirectQueryKey = 'redirect'
+): string {
   // Get the redirect url
   const redirect = GetSearchParam(url, redirectQueryKey);
 
   // Assign the redirect to the next url
   if (redirect) {
-    nextUrl = SetSearchParam(nextUrl, redirectQueryKey, ensureRelativePath(redirect));
+    nextUrl = SetSearchParam(
+      nextUrl,
+      redirectQueryKey,
+      ensureRelativePath(redirect)
+    );
   }
 
   // Return the next url

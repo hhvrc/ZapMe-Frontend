@@ -1,19 +1,20 @@
 <script lang="ts">
   import { afterNavigate } from '$app/navigation';
   import { base } from '$app/paths';
-  
-  let previousPage : string = base;
-  
-  afterNavigate(({from}) => {
-    previousPage = from?.url.pathname || previousPage
+
+  let previousPage: string = base;
+
+  afterNavigate(({ from }) => {
+    previousPage = from?.url.pathname || previousPage;
   });
 </script>
 
 <div class="e404">
   <div class="huge">404</div>
-  <div class="big">Page not found. 
-  <!-- link to the parent folder of _fallback.svelte -->
-  <a href={previousPage}>Go back</a>
+  <div class="big">
+    Page not found.
+    <!-- link to the parent folder of _fallback.svelte -->
+    <a href={previousPage}>Go back</a>
   </div>
 </div>
 

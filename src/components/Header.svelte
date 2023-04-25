@@ -1,7 +1,7 @@
 <script lang="ts">
   import { SessionTokenStore } from '$lib/stores';
   import ThemeSwitch from './ThemeSwitch.svelte';
-  import "@fontsource/montserrat";
+  import '@fontsource/montserrat';
   import { beforeNavigate } from '$app/navigation';
 
   interface $$Slots {
@@ -13,35 +13,45 @@
     sidebarOpen = false;
   });
 
-  let entries: { name: string, href: string }[];
+  let entries: { name: string; href: string }[];
   $: if (!!$SessionTokenStore) {
     entries = [
-      {name: 'Home', href: '/home'},
-      {name: 'Profile', href: '/profile'},
-      {name: 'Settings', href: '/settings'},
-      {name: 'Sign Out', href: '/sign-out'}
+      { name: 'Home', href: '/home' },
+      { name: 'Profile', href: '/profile' },
+      { name: 'Settings', href: '/settings' },
+      { name: 'Sign Out', href: '/sign-out' },
     ];
   } else {
     entries = [
-      {name: 'Sign In', href: '/sign-in'},
-      {name: 'Register', href: '/register'}
+      { name: 'Sign In', href: '/sign-in' },
+      { name: 'Register', href: '/register' },
     ];
   }
 </script>
 
 <header>
-  <button class="menu-btn" on:click={() => sidebarOpen = !sidebarOpen}>
-    <svg viewBox="0 0 16 16" width="24" height="24" class={sidebarOpen ? 'svg-open' : 'svg-closed'}><path d={sidebarOpen ? 'm2 2 12 12m0-12L2 14' : 'M14 3.5H2v1h12v-1m0 4H2v1h12v-1m0 4H2v1h12v-1'}/></svg>
+  <button class="menu-btn" on:click={() => (sidebarOpen = !sidebarOpen)}>
+    <svg
+      viewBox="0 0 16 16"
+      width="24"
+      height="24"
+      class={sidebarOpen ? 'svg-open' : 'svg-closed'}
+      ><path
+        d={sidebarOpen
+          ? 'm2 2 12 12m0-12L2 14'
+          : 'M14 3.5H2v1h12v-1m0 4H2v1h12v-1m0 4H2v1h12v-1'}
+      /></svg
+    >
   </button>
   <a href="/" class="logo usn">
-    <img src="/logo-128.png" alt="ZapMe Logo"/>
+    <img src="/logo-128.png" alt="ZapMe Logo" />
   </a>
-  <div style="flex: 1;"/>
+  <div style="flex: 1;" />
   {#each entries as { name, href } (name)}
     <a class="link usn" {href}>{name}</a>
   {/each}
-  <ThemeSwitch/>
-  <div style="width: 0px;"/>
+  <ThemeSwitch />
+  <div style="width: 0px;" />
 </header>
 
 <style>
@@ -97,7 +107,7 @@
     font-size: 1.5rem;
     font-weight: 700;
     font-family: 'Montserrat', sans-serif;
-    
+
     letter-spacing: 4px;
     text-transform: uppercase;
     text-decoration: none;

@@ -12,7 +12,9 @@
 
   async function handleSubmit() {
     try {
-      await accountApi.accountRecoveryRequest({recoveryRequest: { email, turnstileResponse }});
+      await accountApi.accountRecoveryRequest({
+        recoveryRequest: { email, turnstileResponse },
+      });
       // TODO: Show a success message ("If an account with that email exists, we've sent you an email with a link to reset your password.")
       goto('/sign-in');
     } catch (error) {
@@ -33,7 +35,9 @@
       }
 
       if (response.notification) {
-        window.alert(response.notification.title + ': ' + response.notification.message);
+        window.alert(
+          response.notification.title + ': ' + response.notification.message
+        );
       }
 
       if (response.fields) {
@@ -50,10 +54,19 @@
 <svelte:head>
   <title>ZapMe - Reset Password</title>
 </svelte:head>
-<Form on:submit={handleSubmit} title='Reset Password'>
-  <NamedInput type="text" icon="mail" displayname="Email" bind:value={email} error={validationResult.message} />
+<Form on:submit={handleSubmit} title="Reset Password">
+  <NamedInput
+    type="text"
+    icon="mail"
+    displayname="Email"
+    bind:value={email}
+    error={validationResult.message}
+  />
   <Turnstile action="reset-password" bind:response={turnstileResponse} />
-  <FormButton disabled={!validationResult.valid} content='Request Password Reset'/>
+  <FormButton
+    disabled={!validationResult.valid}
+    content="Request Password Reset"
+  />
 </Form>
 
 <style>

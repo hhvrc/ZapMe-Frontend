@@ -7,7 +7,7 @@ import { StringSerializer } from './serializers';
 export type BaseColors = {
   background: string;
   foreground: string;
-}
+};
 
 /* Shades of the base colors, can be a number between 0 and 1, or a hex color to override the base color */
 export interface Shades {
@@ -55,29 +55,29 @@ export interface BasePalette extends Palette {
 /* Theme interface */
 export interface Theme {
   colors: {
-    shades: Shades,
-    palette?: Palette
+    shades: Shades;
+    palette?: Palette;
   };
-};
+}
 export interface BaseTheme extends Theme {
   colors: {
-    shades: BaseShades,
-    palette: BasePalette
+    shades: BaseShades;
+    palette: BasePalette;
   };
-};
+}
 export interface CustomTheme extends Theme {
-  name: 'light' | 'dark' | string,
+  name: 'light' | 'dark' | string;
   colors: {
-    base: BaseColors,
-    shades: Shades,
-    palette?: Palette
+    base: BaseColors;
+    shades: Shades;
+    palette?: Palette;
   };
-};
+}
 
 export type ThemeConfig = {
-  base: BaseTheme,
-  customs: CustomTheme[]
-}
+  base: BaseTheme;
+  customs: CustomTheme[];
+};
 
 const baseTheme: BaseTheme = {
   colors: {
@@ -90,7 +90,7 @@ const baseTheme: BaseTheme = {
       inputSelBg: 0.12,
       inputDisBg: 0.02,
       inputPlaceholder: '#cecece',
-      
+
       btnText: 0.87,
       btnBg: 0.2,
       btnHovBg: 0.4,
@@ -109,8 +109,7 @@ const baseTheme: BaseTheme = {
 
       div: 0.12,
     },
-    palette: {
-    },
+    palette: {},
   },
 };
 const darkTheme: CustomTheme = {
@@ -124,7 +123,7 @@ const darkTheme: CustomTheme = {
       txtPri: 1,
       txtSec: 0.7,
       txtDis: 0.5,
-      
+
       btnBg: 0.2,
       btnHovBg: 0.4,
 
@@ -146,7 +145,7 @@ const lightTheme: CustomTheme = {
       txtPri: 0.87,
       txtSec: 0.6,
       txtDis: 0.38,
-      
+
       btnBg: 0.27,
       btnHovBg: 0.47,
 
@@ -160,19 +159,20 @@ const lightTheme: CustomTheme = {
 
 export const defaultThemeConfig: ThemeConfig = {
   base: baseTheme,
-  customs: [ darkTheme, lightTheme ]
+  customs: [darkTheme, lightTheme],
 };
 
 function AddAlpha(hex: string, alpha: number): string {
   if (alpha >= 1) return hex;
   if (alpha <= 0) return 'transparent';
-  
+
   if (!hex.startsWith('#')) throw new Error('Invalid hex color');
 
   // If shorthand hex, convert to full hex
-  if (hex.length === 4) hex = '#' + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3];
+  if (hex.length === 4)
+    hex = '#' + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3];
 
-  return `${hex}${Math.round(alpha * 255).toString(16)}`
+  return `${hex}${Math.round(alpha * 255).toString(16)}`;
 }
 function ApplyThemeToDOM(selectedTheme: CustomTheme) {
   const name = selectedTheme.name;
@@ -196,7 +196,9 @@ function ApplyThemeToDOM(selectedTheme: CustomTheme) {
       }
 
       if (prop === 'name' || prop === 'bg' || prop === 'fg') {
-        throw new Error(`Invalid theme property name: ${prop}, this is a reserved property name`);
+        throw new Error(
+          `Invalid theme property name: ${prop}, this is a reserved property name`
+        );
       }
 
       themeMap.set(prop, color);
@@ -208,7 +210,7 @@ function ApplyThemeToDOM(selectedTheme: CustomTheme) {
   }
 }
 function OnFetchOrUpdateTheme(val: string): string {
-  let theme = get(additonalThemes).find(t => t.name === val);
+  let theme = get(additonalThemes).find((t) => t.name === val);
 
   if (!theme) {
     switch (val) {
@@ -232,7 +234,9 @@ function OnFetchOrUpdateTheme(val: string): string {
 }
 
 export const additonalThemes = persisted<CustomTheme[]>('themeAdditionals', []);
-export const selectedTheme = persisted<string>('themeSelected', 'dark', { serializer: StringSerializer });
+export const selectedTheme = persisted<string>('themeSelected', 'dark', {
+  serializer: StringSerializer,
+});
 if (browser) {
   selectedTheme.subscribe(OnFetchOrUpdateTheme);
 }

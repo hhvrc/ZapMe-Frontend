@@ -2,14 +2,13 @@ import type { UserDto } from '$lib/api';
 import { ParseFetchError, userApi, type Response } from '$lib/fetchSingleton';
 
 export async function load({ params }) {
-  const userId = params.userId ?? "test";
+  const userId = params.userId ?? 'test';
 
   async function userRequestFunc(): Promise<Response<UserDto>> {
     try {
       const response = await userApi.getUser({ userId });
       return { code: 'ok', data: response };
-    }
-    catch (error) {
+    } catch (error) {
       const parsed = await ParseFetchError(error);
       return parsed;
     }
@@ -17,6 +16,6 @@ export async function load({ params }) {
 
   return {
     userId,
-    userRequestFunc
-  }
+    userRequestFunc,
+  };
 }

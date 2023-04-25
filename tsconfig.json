@@ -12,6 +12,6 @@
     "noUnusedParameters": true,
     "allowUnreachableCode": false,
     "importsNotUsedAsValues": "remove",
-    "noFallthroughCasesInSwitch": false,
+    "noFallthroughCasesInSwitch": false
   }
 }

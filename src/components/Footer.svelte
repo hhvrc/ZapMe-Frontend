@@ -1,19 +1,17 @@
 <script lang="ts">
-  import "@fontsource/montserrat";
-  
+  import '@fontsource/montserrat';
+
   const year = new Date().getFullYear();
 </script>
 
 <footer>
-  <div>Made with <span style="color: #e25555;">&#9829;</span> by HentaiHeaven#0001</div>
+  <div>
+    Made with <span style="color: #e25555;">&#9829;</span> by HentaiHeaven#0001
+  </div>
   <div>Copyright ©{year} | All Rights Reserved</div>
   <div class="r">
-      <a class="usn" href="/privacy">
-        Privacy Policy
-      </a>
-      <a class="usn" href="/tos">
-        Terms of Service
-      </a>
+    <a class="usn" href="/privacy"> Privacy Policy </a>
+    <a class="usn" href="/tos"> Terms of Service </a>
   </div>
 </footer>
 

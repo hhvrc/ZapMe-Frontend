@@ -1,11 +1,13 @@
 <script lang="ts">
-  export let card: "summary" | "summary_large_image" | "player" | "app";
+  export let card: 'summary' | 'summary_large_image' | 'player' | 'app';
   export let title: string | undefined = undefined;
   export let description: string | undefined = undefined;
   export let siteHandle: string | undefined = undefined;
   export let creatorHandle: string | undefined = undefined;
-  export let image: { src: string, alt: string } | undefined = undefined;
-  export let player: { src: string, width: number, height: number } | undefined = undefined;
+  export let image: { src: string; alt: string } | undefined = undefined;
+  export let player:
+    | { src: string; width: number; height: number }
+    | undefined = undefined;
 </script>
 
 <svelte:head>

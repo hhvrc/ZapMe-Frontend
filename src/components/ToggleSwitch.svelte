@@ -3,8 +3,8 @@
 </script>
 
 <label class="usn">
-  <input type="checkbox" bind:checked={enabled} on:change>
-  <span/>
+  <input type="checkbox" bind:checked={enabled} on:change />
+  <span />
 </label>
 
 <style>
