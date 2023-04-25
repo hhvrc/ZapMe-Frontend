@@ -14,6 +14,13 @@
 
 
 import * as runtime from '../runtime';
+import type {
+  ErrorDetails,
+} from '../models';
+import {
+    ErrorDetailsFromJSON,
+    ErrorDetailsToJSON,
+} from '../models';
 
 /**
  * WebSocketApi - interface
@@ -29,12 +36,12 @@ export interface WebSocketApiInterface {
      * @throws {RequiredError}
      * @memberof WebSocketApiInterface
      */
-    wsGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+    webSocketRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
 
     /**
      * Websocket endpoint for pub/sub communication (e.g. chat, notifications, events)    Documentation:  Yes
      */
-    wsGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+    webSocket(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
 }
 
@@ -46,7 +53,7 @@ export class WebSocketApi extends runtime.BaseAPI implements WebSocketApiInterfa
     /**
      * Websocket endpoint for pub/sub communication (e.g. chat, notifications, events)    Documentation:  Yes
      */
-    async wsGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async webSocketRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -64,8 +71,8 @@ export class WebSocketApi extends runtime.BaseAPI implements WebSocketApiInterfa
     /**
      * Websocket endpoint for pub/sub communication (e.g. chat, notifications, events)    Documentation:  Yes
      */
-    async wsGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.wsGetRaw(initOverrides);
+    async webSocket(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.webSocketRaw(initOverrides);
     }
 
 }
