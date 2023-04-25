@@ -1,33 +1,20 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-# dependencies and build artifacts
+# Build artifacts
+.DS_Store
 node_modules
+.svelte-kit
 /build
-/.svelte-kit/**/*
 /package
-vite.config.js.timestamp-*
-vite.config.ts.timestamp-*
+/logs
+vite.config.[tj]s.timestamp-*
+
+# Test results
+/playwright-report
+/test-results
+/coverage
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
 
-# Configuration files
+# Exclude sensitive configuration files
 *.local
-
-# Include the /.svelte-kit/tsconfig.json file so that VS Code can provide
-!/.svelte-kit/tsconfig.json
