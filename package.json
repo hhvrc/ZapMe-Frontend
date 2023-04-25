@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "vite dev",
     "sync": "svelte-kit sync",
-    "build": "rimraf src/lib/api && openapi-generator-cli generate && vite build",
+    "build": "run-s -l clean:api build:api build:app format",
     "build:app": "vite build",
+    "build:api": "openapi-generator-cli generate",
     "package": "svelte-kit package",
     "preview": "vite preview",
     "test:ci": "run-s -l test:ui test:unit:ci",
@@ -19,7 +20,9 @@
     "check:watch": "svelte-kit sync && svelte-check --watch",
     "lint": "prettier --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
     "format": "prettier --write --plugin-search-dir=. .",
-    "clean": "rimraf src/lib/api && rimraf .svelte-kit"
+    "clean": "run-p -l clean:*",
+    "clean:app": "rimraf .svelte-kit",
+    "clean:api": "rimraf src/lib/api"
   },
   "devDependencies": {
     "@fontsource/montserrat": "^4.5.14",

@@ -10,7 +10,7 @@ lerna-debug.log*
 # dependencies and build artifacts
 node_modules
 /build
-/.svelte-kit
+/.svelte-kit/**/*
 /package
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
@@ -28,3 +28,6 @@ vite.config.ts.timestamp-*
 
 # Configuration files
 *.local
+
+# Include the /.svelte-kit/tsconfig.json file so that VS Code can provide
+!/.svelte-kit/tsconfig.json
