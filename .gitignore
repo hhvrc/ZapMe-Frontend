@@ -1,7 +1,7 @@
 # Build artifacts
 .DS_Store
-node_modules
-.svelte-kit
+/node_modules
+/.svelte-kit
 /build
 /package
 /logs
