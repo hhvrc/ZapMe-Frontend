@@ -1,5 +1,5 @@
 <script lang="ts">
-  import "../app.postcss";
+  import '../app.postcss';
   import Header from '$components/Header.svelte';
   import Footer from '$components/Footer.svelte';
   import TwitterTags from '$components/MetaTags/TwitterTags.svelte';
@@ -17,16 +17,27 @@
   let sidebarOpen = false;
 </script>
 
-<defaulttags title="{WebsiteTitle}" description="{WebsiteDescription}"></defaulttags>
-<twittertags card="summary_large_image" creatorhandle="@hhvrc" description="{WebsiteDescription}" image="{{" src: websitelogo, alt: websitelogoalt }}></twittertags>
-<opengraphtags type="website" title="{WebsiteTitle}" description="{WebsiteDescription}" image="{{" src: websitelogo, alt: websitelogoalt }} url="{WebsiteURL}"></opengraphtags>
+<DefaultTags title={WebsiteTitle} description={WebsiteDescription} />
+<TwitterTags
+  card="summary_large_image"
+  creatorhandle="@hhvrc"
+  description={WebsiteDescription}
+  image={{ src: WebsiteLogo, alt: WebsiteLogoAlt }}
+/>
+<OpenGraphTags
+  type="website"
+  title={WebsiteTitle}
+  description={WebsiteDescription}
+  image={{ src: WebsiteLogo, alt: WebsiteLogoAlt }}
+  url={WebsiteURL}
+/>
 
-<header bind:sidebaropen></header>
-<sidebar isopen="{sidebarOpen}"></sidebar>
+<Header bind:sidebarOpen />
+<SideBar isopen={sidebarOpen} />
 <main>
-  <slot></slot>
-  <div class="scroll-cover"></div>
-  <footer></footer>
+  <slot />
+  <div class="scroll-cover" />
+  <Footer />
 </main>
 
 <style>
