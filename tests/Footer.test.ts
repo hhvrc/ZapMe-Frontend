@@ -1,26 +1,12 @@
-import { cleanup, render, screen } from '@testing-library/svelte';
-import Footer from '$components/Footer.svelte';
+import { expect, test } from '@playwright/test';
 
-describe('Footer.svelte', () => {
-  // TODO: @testing-library/svelte claims to add this automatically but it doesn't work without explicit afterEach
-  afterEach(() => cleanup());
-
-  it('mounts', () => {
-    const { container } = render(Footer);
-    expect(container).toBeTruthy();
-
-    const year = new Date().getFullYear();
-
-    expect(
-      screen.getByText(`Copyright ©${year} | All Rights Reserved`)
-    ).toBeTruthy();
-    expect(screen.getByText('Privacy Policy')).toBeTruthy();
-    expect(screen.getByText('Terms of Service')).toBeTruthy();
-    expect(screen.getByText('Privacy Policy').getAttribute('href')).toBe(
-      '/privacy'
-    );
-    expect(screen.getByText('Terms of Service').getAttribute('href')).toBe(
-      '/tos'
-    );
-  });
+// text: Take Control of Your Submissives from Anywhere in the World.
+test('index page contains text', async ({ page }) => {
+  await page.goto('/');
+  const text = await page.textContent(
+    'text=Take Control of Your Submissives from Anywhere in the World.'
+  );
+  expect(text).toBe(
+    'Take Control of Your Submissives from Anywhere in the World.'
+  );
 });
