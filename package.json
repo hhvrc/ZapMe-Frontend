@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "build": "run-s -l clean build:api build:app",
-    "build:api": "cross-env openapi-generator-cli generate",
+    "build": "run-s -l build:api build:app",
+    "build:api": "run-s -l clean:api generate:api",
     "build:app": "vite build",
+    "generate:api": "cross-env openapi-generator-cli generate",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
