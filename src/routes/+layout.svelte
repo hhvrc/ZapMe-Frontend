@@ -20,7 +20,7 @@
 <DefaultTags title={WebsiteTitle} description={WebsiteDescription} />
 <TwitterTags
   card="summary_large_image"
-  creatorhandle="@hhvrc"
+  creatorHandle="@hhvrc"
   description={WebsiteDescription}
   image={{ src: WebsiteLogo, alt: WebsiteLogoAlt }}
 />
@@ -33,7 +33,7 @@
 />
 
 <Header bind:sidebarOpen />
-<SideBar isopen={sidebarOpen} />
+<SideBar isOpen={sidebarOpen} />
 <main>
   <slot />
   <div class="scroll-cover" />
