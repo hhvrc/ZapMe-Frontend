@@ -1,34 +1,23 @@
 <script lang="ts">
-  import { browser } from '$app/environment';
-  import { goto } from '$app/navigation';
-  import { page } from '$app/stores';
-  import { accountApi } from '$lib/fetchSingleton';
-
-  $: if (browser) {
-    const token = $page.url.searchParams.get('token');
-
-    if (!token) {
-      window.alert('Missing verification token!');
-      goto('/sign-in');
-    }
-    else
-    {
-      accountApi.verifyEmailAddress({ token })
-      .then(() => {
-        window.alert('Email verified!');
-        goto('/sign-in');
-      })
-      .catch(() => {
-        window.alert('Failed to verify email!');
-        goto('/sign-in');
-      });
-    }
-  }
+  export let data;
 </script>
 
 <svelte:head>
-  <title>ZapMe - Verify Email</title>
+    <title>ZapMe - Verify Email Address</title>
 </svelte:head>
+
+{#if data.error}
+  <div class="error">
+    <h1>Oops!</h1>
+    <p>{data.error}</p>
+  </div>
+{:else}
+  <div class="success">
+    <h1>Success!</h1>
+    <p>Your email address has been confirmed.</p>
+    <p>Now you can <a href="/login">login</a> to your account.</p>
+  </div>
+{/if}
 
 <style>
 </style>
