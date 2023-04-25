@@ -5,21 +5,21 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "build": "run-s -l build:api build:app",
-    "build:api": "run-s -l clean:api generate:api",
+    "sync": "svelte-kit sync",
+    "build": "rimraf src/lib/api && openapi-generator-cli generate && vite build",
     "build:app": "vite build",
-    "generate:api": "cross-env openapi-generator-cli generate",
+    "package": "svelte-kit package",
     "preview": "vite preview",
-    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-    "test": "playwright test",
-    "test:unit": "vitest --run",
-    "clean": "run-p -l clean:*",
-    "clean:api": "rimraf src/lib/api/generated",
-    "clean:app": "rimraf .svelte-kit",
+    "test:ci": "run-s -l test:ui test:unit:ci",
+    "test:ui": "playwright test",
+    "test:unit": "vitest",
+    "test:unit:ci": "vitest --run",
     "coverage": "vitest run --coverage",
-    "lint": "prettier --plugin-search-dir . --check . && eslint .",
-    "format": "prettier --plugin-search-dir . --write ."
+    "check": "svelte-kit sync && svelte-check",
+    "check:watch": "svelte-kit sync && svelte-check --watch",
+    "lint": "prettier --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
+    "format": "prettier --write --plugin-search-dir=. .",
+    "clean": "rimraf src/lib/api && rimraf .svelte-kit"
   },
   "devDependencies": {
     "@fontsource/montserrat": "^4.5.14",
@@ -34,9 +34,9 @@
     "@testing-library/svelte": "^3.2.2",
     "@tsconfig/svelte": "^4.0.1",
     "@types/jest": "^29.5.1",
+    "@vitest/coverage-c8": "^0.30.1",
     "@vitest/ui": "^0.30.1",
     "cross-env": "^7.0.3",
-    "crypto-random-string": "^5.0.0",
     "email-validator": "^2.0.4",
     "eslint": "^8.39.0",
     "eslint-plugin-svelte3": "^4.0.0",
@@ -45,6 +45,8 @@
     "material-symbols": "^0.5.5",
     "npm-check-updates": "^16.10.9",
     "npm-run-all": "^4.1.5",
+    "prettier": "^2.8.8",
+    "prettier-plugin-svelte": "^2.10.0",
     "rimraf": "^5.0.0",
     "svelte": "^3.58.0",
     "svelte-check": "^3.2.0",
@@ -64,6 +66,25 @@
     ],
     "development": [
       "last 1 version"
+    ]
+  },
+  "prettier": {
+    "printWidth": 120,
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": true,
+    "singleQuote": true,
+    "quoteProps": "as-needed",
+    "trailingComma": "es5",
+    "bracketSpacing": true,
+    "arrowParens": "always",
+    "requirePragma": false,
+    "insertPragma": false,
+    "proseWrap": "preserve",
+    "htmlWhitespaceSensitivity": "css",
+    "endOfLine": "lf",
+    "plugins": [
+      "prettier-plugin-svelte"
     ]
   }
 }

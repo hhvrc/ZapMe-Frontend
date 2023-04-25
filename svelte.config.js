@@ -11,9 +11,11 @@ export default {
       }
     }),
     alias: {
-      '$types': 'src/types',
+      $lib: 'src/lib',
+      '$lib/*': 'src/lib/*',
+      $types: 'src/types',
       '$types/*': 'src/types/*',
-      '$components': 'src/components',
+      $components: 'src/components',
       '$components/*': 'src/components/*'
     }
   }

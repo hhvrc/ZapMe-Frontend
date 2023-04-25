@@ -35,28 +35,9 @@ runs:
           node_modules
         key: npm-${{ hashFiles('package-lock.json') }}
 
-    #############
-    # Build API #
-    #############
-    - name: Restore cached API build # Restore cached
-      id: cache-api-restore
-      uses: actions/cache/restore@v3
-      with:
-        path: src/lib/api/generated
-        key: api-${{ hashFiles('api/*.yaml') }}
-    - name: Build API # Build
-      shell: bash
-      run: npm run build:api
-    - name: Cache API build # Cache API build
-      id: cache-api-save
-      uses: actions/cache/save@v3
-      with:
-        path: src/lib/api/generated
-        key: api-${{ hashFiles('api/*.yaml') }}
-
     ################
     # Build svelte #
     ################
     - name: Build svelte
       shell: bash
-      run: npm run build:app
+      run: npm run build

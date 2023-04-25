@@ -1,0 +1,5 @@
+# Ignore build artifacts
+.svelte-kit
+
+# Ignore OpenApi generated files
+src/lib/api
