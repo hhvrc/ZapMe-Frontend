@@ -1,15 +1,15 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import NamedInput from '$components/NamedInput.svelte';
-  import NamedCheckBox from '$components/NamedCheckBox.svelte';
+  import { page } from '$app/stores';
   import Form from '$components/Form.svelte';
   import FormButton from '$components/FormButton.svelte';
-  import type { Snapshot } from './$types';
-  import { validateUsername, validatePassword } from '$lib/validators';
+  import NamedCheckBox from '$components/NamedCheckBox.svelte';
+  import NamedInput from '$components/NamedInput.svelte';
   import { authenticationApi, ParseFetchError } from '$lib/fetchSingleton';
-  import { GetRedirectURL } from '$lib/utils/redirects';
-  import { page } from '$app/stores';
   import { AccountStore, SessionTokenStore } from '$lib/stores';
+  import { GetRedirectURL } from '$lib/utils/redirects';
+  import { validateUsername, validatePassword } from '$lib/validators';
+  import type { Snapshot } from './$types';
 
   let formData = {
     usernameOrEmail: '',

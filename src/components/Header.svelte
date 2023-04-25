@@ -1,8 +1,8 @@
 <script lang="ts">
+  import { beforeNavigate } from '$app/navigation';
   import { SessionTokenStore } from '$lib/stores';
   import ThemeSwitch from './ThemeSwitch.svelte';
   import '@fontsource/montserrat';
-  import { beforeNavigate } from '$app/navigation';
 
   interface $$Slots {
     default: { sidebarOpen: boolean };

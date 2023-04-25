@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "@fontsource/montserrat": "^4.5.14",
+    "@ianvs/prettier-plugin-sort-imports": "^3.7.2",
     "@openapitools/openapi-generator-cli": "^2.6.0",
     "@playwright/test": "^1.32.3",
     "@sentry/svelte": "^7.49.0",
@@ -92,9 +93,20 @@
     "insertPragma": false,
     "proseWrap": "preserve",
     "htmlWhitespaceSensitivity": "css",
-    "endOfLine": "lf",
+    "endOfLine": "crlf",
+    "svelteSortOrder": "options-scripts-markup-styles",
+    "svelteStrictMode": false,
+    "svelteAllowShorthand": true,
+    "importOrder": [
+      "^@skeletonlabs/skeleton/themes.+\\.css$",
+      "^@skeletonlabs/skeleton/styles.+\\.css$",
+      "^.+postcss$",
+      "^[./]"
+    ],
     "plugins": [
-      "prettier-plugin-svelte"
+      "prettier-plugin-svelte",
+      "@ianvs/prettier-plugin-sort-imports",
+      "prettier-plugin-tailwindcss"
     ],
     "pluginSearchDirs": [
       "."

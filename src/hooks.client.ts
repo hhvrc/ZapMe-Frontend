@@ -1,8 +1,8 @@
+import { BrowserTracing } from '@sentry/browser';
 import {
   init as SentryInit,
   captureException as SentryCaptureException,
 } from '@sentry/svelte';
-import { BrowserTracing } from '@sentry/browser';
 
 // Initialize Sentry for error and performance monitoring
 const sentryDsn = import.meta.env.VITE_SENTRY_DSN as string | undefined;

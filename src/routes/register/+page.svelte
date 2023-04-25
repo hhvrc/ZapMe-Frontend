@@ -1,20 +1,20 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
-  import NamedInput from '$components/NamedInput.svelte';
   import Form from '$components/Form.svelte';
   import FormButton from '$components/FormButton.svelte';
-  import type { Snapshot } from './$types';
+  import NamedCheckBox from '$components/NamedCheckBox.svelte';
+  import NamedInput from '$components/NamedInput.svelte';
+  import Turnstile from '$components/Turnstile.svelte';
+  import { accountApi, ParseFetchError } from '$lib/fetchSingleton';
+  import { ApiConfigStore } from '$lib/stores';
+  import { ForwardRedirectURL } from '$lib/utils/redirects';
   import {
     validateUsername,
     validateEmail,
     validatePassword,
   } from '$lib/validators';
-  import NamedCheckBox from '$components/NamedCheckBox.svelte';
-  import { accountApi, ParseFetchError } from '$lib/fetchSingleton';
-  import { ForwardRedirectURL } from '$lib/utils/redirects';
-  import { ApiConfigStore } from '$lib/stores';
-  import Turnstile from '$components/Turnstile.svelte';
+  import type { Snapshot } from './$types';
 
   let formData = {
     username: '',

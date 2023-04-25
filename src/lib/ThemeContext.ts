@@ -1,7 +1,7 @@
 import { browser } from '$app/environment';
-import { get } from 'svelte/store';
-import { persisted } from 'svelte-local-storage-store';
 import { StringSerializer } from './serializers';
+import { persisted } from 'svelte-local-storage-store';
+import { get } from 'svelte/store';
 
 /* Base colors, the UI will fade from background to foreground using shades, these must be hex */
 export type BaseColors = {

@@ -1,11 +1,11 @@
 <script lang="ts">
-  import type { Response } from '$lib/fetchSingleton';
   import {
     ExceptionDetails,
     NetworkErrorDetails,
     ServerErrorDetails,
   } from '$components/ErrorComponents';
   import LoadingWidget from '$components/LoadingWidget.svelte';
+  import type { Response } from '$lib/fetchSingleton';
 
   type T = $$Generic;
 

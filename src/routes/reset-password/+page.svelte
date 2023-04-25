@@ -1,11 +1,11 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import NamedInput from '$components/NamedInput.svelte';
   import Form from '$components/Form.svelte';
   import FormButton from '$components/FormButton.svelte';
-  import { validateEmail } from '$lib/validators';
-  import { accountApi, ParseFetchError } from '$lib/fetchSingleton';
+  import NamedInput from '$components/NamedInput.svelte';
   import Turnstile from '$components/Turnstile.svelte';
+  import { accountApi, ParseFetchError } from '$lib/fetchSingleton';
+  import { validateEmail } from '$lib/validators';
 
   let email = '';
   let turnstileResponse = '';

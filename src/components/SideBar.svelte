@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { ApiConfigStore, SessionTokenStore } from '$lib/stores';
   import { selectedTheme } from '$lib/ThemeContext';
+  import { ApiConfigStore, SessionTokenStore } from '$lib/stores';
   import 'material-symbols';
 
   export let isOpen: boolean;

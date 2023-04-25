@@ -1,8 +1,8 @@
 <script lang="ts">
   import { page } from '$app/stores';
-  import NamedInput from '$components/NamedInput.svelte';
   import Form from '$components/Form.svelte';
   import FormButton from '$components/FormButton.svelte';
+  import NamedInput from '$components/NamedInput.svelte';
   import { ParseFetchError, accountApi } from '$lib/fetchSingleton';
   import { validatePassword } from '$lib/validators';
 

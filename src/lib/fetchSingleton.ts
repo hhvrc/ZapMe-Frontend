@@ -13,8 +13,8 @@ import {
   ResponseError,
   RequiredError,
 } from '$lib/api';
-import { getReasonPhrase } from 'http-status-codes';
 import { BuildRedirectURL, GetRedirectURL } from './utils/redirects';
+import { getReasonPhrase } from 'http-status-codes';
 
 const basePath = import.meta.env.VITE_BACKEND_URL as string;
 const config = new Configuration({
