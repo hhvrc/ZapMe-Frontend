@@ -2,45 +2,58 @@
   import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
   import '@skeletonlabs/skeleton/styles/all.css';
   import '../app.postcss';
-  import { AppShell, AppBar } from '@skeletonlabs/skeleton';
+  import '@fontsource/montserrat';
+  import ThemeSwitch from '$components/ThemeSwitch.svelte';
+  import {
+    computePosition,
+    autoUpdate,
+    flip,
+    shift,
+    offset,
+    arrow,
+  } from '@floating-ui/dom';
+  import { AppShell, AppBar, AppRail, AppRailTile } from '@skeletonlabs/skeleton';
+  import { storePopup } from '@skeletonlabs/skeleton';
+
+  storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
+  
+  const year = new Date().getFullYear();
 </script>
 
-<!-- App Shell -->
 <AppShell>
   <svelte:fragment slot="header">
-    <!-- App Bar -->
     <AppBar>
       <svelte:fragment slot="lead">
-        <strong class="text-xl uppercase">Skeleton</strong>
+        <div class="flex items-center space-x-4">
+          <!-- Logo -->
+          <a class="lg:!ml-0 w-[32px] lg:w-auto overflow-hidden" href="/">
+            <img class="h-10 inline-block" src="/logo-128.png" alt="ZapMe Logo" />
+            <strong class="text-3xl uppercase tracking-widest align-middle hidden md:inline-block" style="font-family: Montserrat,sans-serif">ZapMe</strong>
+          </a>
+        </div>
       </svelte:fragment>
       <svelte:fragment slot="trail">
-        <a
-          class="btn btn-sm variant-ghost-surface"
-          href="https://discord.gg/EXqV7W8MtY"
-          target="_blank"
-          rel="noreferrer"
+        <ThemeSwitch />
+        <a class="btn btn-sm variant-ghost-surface" href="/sign-in">Sign In</a>
+        <a class="btn btn-sm variant-ghost-surface" href="/register">Register</a
         >
-          Discord
-        </a>
-        <a
-          class="btn btn-sm variant-ghost-surface"
-          href="https://twitter.com/SkeletonUI"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Twitter
-        </a>
-        <a
-          class="btn btn-sm variant-ghost-surface"
-          href="https://github.com/skeletonlabs/skeleton"
-          target="_blank"
-          rel="noreferrer"
-        >
-          GitHub
-        </a>
       </svelte:fragment>
     </AppBar>
   </svelte:fragment>
-  <!-- Page Route Content -->
-  <slot />
+	<slot />
+  <svelte:fragment slot="sidebarLeft">
+    <AppRail>
+
+    </AppRail>
+  </svelte:fragment>
+	<svelte:fragment slot="pageFooter">
+    <div>
+      Made with <span style="color: #e25555;">&#9829;</span> by HentaiHeaven#0001
+    </div>
+    <div>Copyright ©{year} | All Rights Reserved</div>
+    <div class="r">
+      <a class="usn" href="/privacy"> Privacy Policy </a>
+      <a class="usn" href="/tos"> Terms of Service </a>
+    </div>
+  </svelte:fragment>
 </AppShell>

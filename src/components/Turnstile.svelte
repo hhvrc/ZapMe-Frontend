@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { selectedTheme } from '$lib/ThemeContext';
   import { ApiConfigStore } from '$lib/stores';
   import { onMount } from 'svelte';
 
