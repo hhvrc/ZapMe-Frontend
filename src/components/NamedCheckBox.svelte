@@ -6,7 +6,7 @@
   export let disabled: boolean = false;
 </script>
 
-<div class="usn">
+<div class="select-none">
   <label for={id}>
     <input
       type="checkbox"

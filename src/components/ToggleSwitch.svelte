@@ -2,7 +2,7 @@
   export let enabled = false;
 </script>
 
-<label class="usn">
+<label class="select-none">
   <input type="checkbox" bind:checked={enabled} on:change />
   <span />
 </label>

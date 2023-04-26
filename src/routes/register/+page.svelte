@@ -1,172 +1,100 @@
 <script lang="ts">
-  import { goto } from '$app/navigation';
-  import { page } from '$app/stores';
-  import Form from '$components/Form.svelte';
-  import FormButton from '$components/FormButton.svelte';
-  import NamedCheckBox from '$components/NamedCheckBox.svelte';
-  import NamedInput from '$components/NamedInput.svelte';
   import Turnstile from '$components/Turnstile.svelte';
-  import { accountApi, ParseFetchError } from '$lib/fetchSingleton';
-  import { ApiConfigStore } from '$lib/stores';
-  import { ForwardRedirectURL } from '$lib/utils/redirects';
-  import {
-    validateUsername,
-    validateEmail,
-    validatePassword,
-  } from '$lib/validators';
-  import type { Snapshot } from './$types';
+  import { focusTrap } from '@skeletonlabs/skeleton';
 
-  let formData = {
-    username: '',
-    email: '',
-    password: '',
-    confirmedPassword: '',
-  };
-  export const snapshot: Snapshot = {
-    capture: () => formData,
-    restore: (value) => (formData = value),
-  };
-
-  let tosAccepted = false;
-  $: acceptedTosVersion = tosAccepted
-    ? $ApiConfigStore?.api?.tosVersion
-    : undefined;
-  let turnstileResponse: string | null = null;
-  let isSubmitting = false;
-
-  async function handleSubmit() {
-    if (!turnstileResponse) return;
-
-    try {
-      isSubmitting = true;
-      await accountApi.createAccount({
-        createAccount: {
-          username: formData.username,
-          email: formData.email,
-          password: formData.password,
-          acceptedTosVersion: acceptedTosVersion,
-          turnstileResponse,
-        },
-      });
-
-      goto(ForwardRedirectURL($page.url, '/sign-in'));
-    } catch (error) {
-      const responseData = await ParseFetchError(error);
-      if (responseData.code == 'err_network') {
-        window.alert('Network error');
-        return;
-      }
-      let response = responseData.details;
-      if (!response) {
-        if (error instanceof Error) {
-          window.alert(error.message);
-        } else {
-          window.alert('An unknown error occurred.');
-        }
-        return;
-      }
-
-      if (response.notification) {
-        window.alert(
-          response.notification.title + ': ' + response.notification.message
-        );
-      }
-
-      if (response.fields) {
-        usernameError = response.fields.username?.[0] ?? null;
-        emailError = response.fields.email?.[0] ?? null;
-        passwordError = response.fields.password?.[0] ?? null;
-        confirmedPasswordError = response.fields.confirmedPassword?.[0] ?? null;
-      }
-    } finally {
-      isSubmitting = false;
-      turnstileResponse = null;
-    }
-  }
-
-  let formValid = false;
-  let usernameError: string | null = null;
-  let emailError: string | null = null;
-  let passwordError: string | null = null;
-  let confirmedPasswordError: string | null = null;
-  $: {
-    const { username, email, password, confirmedPassword } = formData;
-
-    const usernameValidation = validateUsername(username);
-    usernameError = usernameValidation.message;
-
-    const emailValidation = validateEmail(email);
-    emailError = emailValidation.message;
-
-    const passwordValidation = validatePassword(password);
-    passwordError = passwordValidation.message;
-
-    const confirmedPasswordValid = password === confirmedPassword;
-    confirmedPasswordError = confirmedPasswordValid
-      ? null
-      : 'Passwords do not match';
-
-    formValid =
-      usernameValidation.valid &&
-      emailValidation.valid &&
-      passwordValidation.valid &&
-      confirmedPasswordValid &&
-      tosAccepted &&
-      turnstileResponse != null;
-  }
-
-  $: disabled = isSubmitting;
+  let disabled = false;
+  let isFocused = true;
 </script>
 
 <svelte:head>
   <title>ZapMe - Register</title>
 </svelte:head>
 
-<Form on:submit={handleSubmit} title="Register">
-  <NamedInput
-    type="text"
-    autocomplete="username"
-    icon="badge"
-    displayname="Username"
-    bind:value={formData.username}
-    error={usernameError}
-    {disabled}
-  />
-  <NamedInput
-    type="email"
-    displayname="Email"
-    bind:value={formData.email}
-    error={emailError}
-    {disabled}
-  />
-  <NamedInput
-    type="password"
-    autocomplete="new-password"
-    displayname="Password"
-    bind:value={formData.password}
-    error={passwordError}
-    {disabled}
-  />
-  <NamedInput
-    type="password"
-    autocomplete="new-password"
-    displayname="Confirm Password"
-    placeholder="Password"
-    bind:value={formData.confirmedPassword}
-    error={confirmedPasswordError}
-    {disabled}
-  />
-  <NamedCheckBox bind:checked={tosAccepted} {disabled}
-    >I accept the <a href="/tos">Terms of Service</a></NamedCheckBox
-  >
+<form method="POST" use:focusTrap={isFocused}>
+  <!-- Username -->
+  <label class="label">
+    <span>Username</span>
+    <div class="input-group input-group-divider grid-cols-[1fr_auto]">
+      <input
+        class="input"
+        type="text"
+        name="username"
+        title="Username"
+        placeholder="username"
+        autocomplete="username"
+      />
+      <div>
+        <i
+          class="fa-solid fa-info-circle"
+          title="Username must be between 3 and 20 characters long, and can only contain letters, numbers, and underscores."
+        />
+      </div>
+    </div>
+  </label>
 
-  <Turnstile action="register" bind:response={turnstileResponse} />
+  <!-- Email -->
+  <label class="label">
+    <span>Email</span>
+    <input
+      class="input"
+      type="email"
+      name="email"
+      title="Email"
+      placeholder="john@example.com"
+      autocomplete="email"
+    />
+  </label>
 
-  <FormButton disabled={!formValid || disabled} content="Register" />
-</Form>
+  <!-- Password -->
+  <label class="label">
+    <span>Password</span>
+    <div class="input-group input-group-divider grid-cols-[1fr_auto]">
+      <input
+        class="input"
+        type="password"
+        name="password"
+        title="Password"
+        placeholder="password"
+        autocomplete="new-password"
+      />
+      <div>
+        <i
+          class="fa-solid fa-info-circle"
+          title="Password must be at least 8 characters long, and contain at least one uppercase letter, one lowercase letter, and one number."
+        />
+      </div>
+    </div>
+  </label>
 
-<style>
-  a {
-    color: var(--color-primary);
-  }
-</style>
+  <!-- Confirm Password, name removed to prevent submission -->
+  <label class="label">
+    <span>Confirm Password</span>
+    <div class="input-group input-group-divider grid-cols-[1fr_auto]">
+      <input
+        class="input"
+        type="password"
+        title="Password"
+        placeholder="password"
+        autocomplete="new-password"
+      />
+      <div>
+        <i class="fa-solid fa-info-circle" title="Passwords must match." />
+      </div>
+    </div>
+  </label>
+
+  <!-- Terms of Service -->
+  <label class="flex items-center space-x-2">
+    <input class="checkbox" type="checkbox" name="accepted-terms" title="Agree to terms of service" />
+    <span>I agree to the <a href="/terms-of-service">Terms of Service</a></span>
+  </label>
+
+  <!-- Turnstile -->
+  <Turnstile action="register" />
+
+  <!-- Submit -->
+  <button type="submit" class="btn variant-filled" {disabled}>
+    <span>🚀</span>
+    <span>Register</span>
+  </button>
+</form>

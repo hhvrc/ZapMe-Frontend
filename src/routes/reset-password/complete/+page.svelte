@@ -1,8 +1,5 @@
 <script lang="ts">
   import { page } from '$app/stores';
-  import Form from '$components/Form.svelte';
-  import FormButton from '$components/FormButton.svelte';
-  import NamedInput from '$components/NamedInput.svelte';
   import { ParseFetchError, accountApi } from '$lib/fetchSingleton';
   import { validatePassword } from '$lib/validators';
 
@@ -71,25 +68,38 @@
     Please check your email and try again.
   </h2>
 {:else}
-  <Form on:submit={handleSubmit} title="Reset Password">
-    <NamedInput
-      type="password"
-      autocomplete="current-password"
-      displayname="Password"
-      bind:value={password}
-      error={passwordError}
-    />
-    <NamedInput
-      type="password"
-      autocomplete="new-password"
-      displayname="Confirm Password"
-      bind:value={confirmedPassword}
-      error={confirmedPasswordError}
-    />
-
-    <FormButton disabled={!formValid}>Reset Password</FormButton>
-  </Form>
+  <form>
+    <h2>Reset Password</h2>
+    <p>Please enter your new password below.</p>
+    <label class="label">
+      <span>Password</span>
+      <input
+        type="password"
+        class="input"
+        title="Password"
+        placeholder="Password"
+        autocomplete="new-password"
+        bind:value={password}
+      />
+    </label>
+    <label class="label">
+      <span>Confirm Password</span>
+      <input
+        type="password"
+        class="input"
+        title="Confirm Password"
+        placeholder="Confirm Password"
+        autocomplete="new-password"
+        bind:value={confirmedPassword}
+      />
+    </label>
+    <button
+      type="submit"
+      class="btn variant-filled"
+      disabled={!formValid}
+      on:click|preventDefault={handleSubmit}
+    >
+      Reset Password
+    </button>
+  </form>
 {/if}
-
-<style>
-</style>

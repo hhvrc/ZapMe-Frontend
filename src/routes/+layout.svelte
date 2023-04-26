@@ -26,7 +26,11 @@
       <svelte:fragment slot="lead">
         <div class="flex items-center space-x-4">
           <!-- Logo -->
-          <a class="w-[32px] overflow-hidden lg:!ml-0 lg:w-auto" href="/">
+          <a
+            href="/"
+            class="w-[32px] overflow-hidden lg:!ml-0 lg:w-auto"
+            data-sveltekit-preload-data="hover"
+          >
             <img
               class="inline-block h-10"
               src="/logo-128.png"
@@ -41,8 +45,15 @@
       </svelte:fragment>
       <svelte:fragment slot="trail">
         <ThemeSwitch />
-        <a class="btn btn-sm variant-ghost-surface" href="/sign-in">Sign In</a>
-        <a class="btn btn-sm variant-ghost-surface" href="/register">Register</a
+        <a
+          href="/sign-in"
+          class="btn btn-sm variant-ghost-surface"
+          data-sveltekit-preload-data="hover">Sign In</a
+        >
+        <a
+          href="/register"
+          class="btn btn-sm variant-ghost-surface"
+          data-sveltekit-preload-data="hover">Register</a
         >
       </svelte:fragment>
     </AppBar>
@@ -57,8 +68,20 @@
     </div>
     <div>Copyright ©{year} | All Rights Reserved</div>
     <div class="r">
-      <a class="usn" href="/privacy"> Privacy Policy </a>
-      <a class="usn" href="/tos"> Terms of Service </a>
+      <a
+        href="/privacy"
+        class="select-none"
+        data-sveltekit-preload-data="hover"
+      >
+        Privacy Policy
+      </a>
+      <a
+        href="/terms-of-service"
+        class="select-none"
+        data-sveltekit-preload-data="hover"
+      >
+        Terms of Service
+      </a>
     </div>
   </svelte:fragment>
 </AppShell>

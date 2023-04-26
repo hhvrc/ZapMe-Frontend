@@ -1,15 +1,12 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
-  import Form from '$components/Form.svelte';
-  import FormButton from '$components/FormButton.svelte';
-  import NamedCheckBox from '$components/NamedCheckBox.svelte';
-  import NamedInput from '$components/NamedInput.svelte';
   import { authenticationApi, ParseFetchError } from '$lib/fetchSingleton';
   import { AccountStore, SessionTokenStore } from '$lib/stores';
   import { GetRedirectURL } from '$lib/utils/redirects';
   import { validateUsername, validatePassword } from '$lib/validators';
   import type { Snapshot } from './$types';
+  import { focusTrap } from '@skeletonlabs/skeleton';
 
   let formData = {
     usernameOrEmail: '',
@@ -90,69 +87,37 @@
 
     formValid = usernameValidation.valid && passwordValidation.valid;
   }
+
+  let isFocused = true;
 </script>
 
 <svelte:head>
   <title>ZapMe - Login</title>
 </svelte:head>
 
-<Form on:submit={handleSubmit} title="Login">
-  <NamedInput
-    type="text"
-    autocomplete="username"
-    icon="badge"
-    displayname="Username Or Email"
-    bind:value={formData.usernameOrEmail}
-    error={usernameError}
-  />
-  <NamedInput
-    type="password"
-    autocomplete="current-password"
-    displayname="Password"
-    bind:value={formData.password}
-    error={passwordError}
-  />
-  <div class="misc">
-    <NamedCheckBox bind:checked={formData.rememberMe}>Remember me</NamedCheckBox
-    >
-    <a href="/reset-password">Forgot Password?</a>
-  </div>
-
-  <FormButton disabled={!formValid} content="Sign In" />
-
-  <div class="oauth-logins">
-    {#each socials as { name, icon }}
-      <button class="default-btn-text">
-        <img src={icon} alt="{name} Icon" />
-        {name}
-      </button>
-    {/each}
-  </div>
-</Form>
-
-<style>
-  .misc {
-    width: 100%;
-  }
-  .misc * {
-    display: inline-block;
-  }
-  .misc a {
-    float: right;
-    font-size: 16px;
-    white-space: nowrap;
-  }
-  .oauth-logins {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    gap: 10px;
-  }
-  .oauth-logins button {
-    padding: 5px 10px 10px 5px;
-    text-align: center;
-  }
-  img {
-    height: 25px;
-  }
-</style>
+<form use:focusTrap={isFocused}>
+  <label class="label">
+    <span>Username Or Email</span>
+    <input
+      class="input"
+      title="Username"
+      type="text"
+      placeholder="username"
+      autocomplete="username"
+    />
+  </label>
+  <label class="label">
+    <span>Password</span>
+    <input
+      class="input"
+      title="Password"
+      type="password"
+      placeholder="password"
+      autocomplete="new-password"
+    />
+  </label>
+  <button type="submit" class="btn variant-filled">
+    <span>🚀</span>
+    <span>Sign In</span>
+  </button>
+</form>

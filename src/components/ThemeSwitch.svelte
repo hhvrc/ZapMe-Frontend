@@ -1,6 +1,6 @@
 <script lang="ts">
   import { ThemeStore } from '$lib/stores';
-  import { LightSwitch, popup } from '@skeletonlabs/skeleton';
+  import { LightSwitch, focusTrap, popup } from '@skeletonlabs/skeleton';
 
   const themes = [
     { type: 'skeleton', name: 'Skeleton', icon: '💀' },
@@ -13,6 +13,8 @@
     { type: 'gold-nouveau', name: 'Gold Nouveau', icon: '💫' },
     { type: 'crimson', name: 'Crimson', icon: '⭕' },
   ];
+
+  let isFocused = true;
 </script>
 
 <div class="select-none">
@@ -27,7 +29,7 @@
   </button>
   <!-- popup -->
   <div class="card w-60 p-4 shadow-xl" data-popup="theme">
-    <div class="space-y-4">
+    <div class="space-y-4" use:focusTrap={isFocused}>
       <section class="flex items-center justify-between">
         <h6>Mode</h6>
         <LightSwitch />
@@ -37,7 +39,7 @@
           {#each themes as { icon, name, type }}
             <li>
               <button
-                class="option h-full w-full"
+                class="option"
                 type="submit"
                 name="theme"
                 value={type}
@@ -56,3 +58,9 @@
     <div class="arrow bg-surface-100-800-token" />
   </div>
 </div>
+
+<style lang="postcss">
+  .option {
+    @apply flex h-full w-full content-between items-center rounded-lg transition-colors;
+  }
+</style>
