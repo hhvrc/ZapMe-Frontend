@@ -85,7 +85,7 @@
 
   <!-- Terms of Service -->
   <label class="flex items-center space-x-2">
-    <input class="checkbox" type="checkbox" name="accepted-terms" title="Agree to terms of service" />
+    <input class="checkbox" type="checkbox" name="acceptedTerms" title="Agree to terms of service" />
     <span>I agree to the <a href="/terms-of-service">Terms of Service</a></span>
   </label>
 
