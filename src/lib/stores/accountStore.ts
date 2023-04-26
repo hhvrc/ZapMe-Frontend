@@ -1,6 +1,6 @@
-import type { AccountDto } from "$lib/api";
-import { accountApi } from "$lib/fetchSingleton";
-import { writable } from "svelte/store";
+import type { AccountDto } from '$lib/api';
+import { accountApi } from '$lib/fetchSingleton';
+import { writable } from 'svelte/store';
 
 const store = writable({
   account: null as AccountDto | null,
@@ -18,5 +18,5 @@ export const AccountStore = {
         };
       });
     });
-  }
-}
+  },
+};

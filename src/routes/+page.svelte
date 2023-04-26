@@ -5,7 +5,9 @@
   <title>ZapMe</title>
 </svelte:head>
 
-<h2 class="text-center">Take Control of Your Submissives from Anywhere in the World.</h2>
+<h2 class="text-center">
+  Take Control of Your Submissives from Anywhere in the World.
+</h2>
 <br />
 <h3 class="text-center">
   ZapMe allows you to control your Submissives shock collars from anywhere in

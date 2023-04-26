@@ -2,7 +2,6 @@
   import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
   import '@skeletonlabs/skeleton/styles/all.css';
   import '../app.postcss';
-  import '@fontsource/montserrat';
   import ThemeSwitch from '$components/ThemeSwitch.svelte';
   import {
     computePosition,
@@ -12,11 +11,12 @@
     offset,
     arrow,
   } from '@floating-ui/dom';
-  import { AppShell, AppBar, AppRail, AppRailTile } from '@skeletonlabs/skeleton';
+  import '@fontsource/montserrat';
+  import { AppShell, AppBar, AppRail } from '@skeletonlabs/skeleton';
   import { storePopup } from '@skeletonlabs/skeleton';
 
   storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
-  
+
   const year = new Date().getFullYear();
 </script>
 
@@ -26,9 +26,16 @@
       <svelte:fragment slot="lead">
         <div class="flex items-center space-x-4">
           <!-- Logo -->
-          <a class="lg:!ml-0 w-[32px] lg:w-auto overflow-hidden" href="/">
-            <img class="h-10 inline-block" src="/logo-128.png" alt="ZapMe Logo" />
-            <strong class="text-3xl uppercase tracking-widest align-middle hidden md:inline-block" style="font-family: Montserrat,sans-serif">ZapMe</strong>
+          <a class="w-[32px] overflow-hidden lg:!ml-0 lg:w-auto" href="/">
+            <img
+              class="inline-block h-10"
+              src="/logo-128.png"
+              alt="ZapMe Logo"
+            />
+            <strong
+              class="hidden align-middle text-3xl uppercase tracking-widest md:inline-block"
+              style="font-family: Montserrat,sans-serif">ZapMe</strong
+            >
           </a>
         </div>
       </svelte:fragment>
@@ -40,13 +47,11 @@
       </svelte:fragment>
     </AppBar>
   </svelte:fragment>
-	<slot />
+  <slot />
   <svelte:fragment slot="sidebarLeft">
-    <AppRail>
-
-    </AppRail>
+    <AppRail />
   </svelte:fragment>
-	<svelte:fragment slot="pageFooter">
+  <svelte:fragment slot="pageFooter">
     <div>
       Made with <span style="color: #e25555;">&#9829;</span> by HentaiHeaven#0001
     </div>
