@@ -1,9 +1,14 @@
 <script lang="ts">
   import Turnstile from '$components/Turnstile.svelte';
+  import type { ActionData, PageData } from './$types';
   import { focusTrap } from '@skeletonlabs/skeleton';
+  import { stringify } from 'postcss';
 
   let disabled = false;
   let isFocused = true;
+
+  export let data: PageData;
+  export let form: ActionData;
 </script>
 
 <svelte:head>
@@ -11,6 +16,9 @@
 </svelte:head>
 
 <form method="POST" use:focusTrap={isFocused}>
+  {#if !(form?.success ?? true)}<p class="text-error-50">
+      {JSON.stringify(form)}
+    </p>{/if}
   <!-- Username -->
   <label class="label">
     <span>Username</span>
@@ -22,6 +30,7 @@
         title="Username"
         placeholder="username"
         autocomplete="username"
+        value={form?.username ?? ''}
       />
       <div>
         <i
@@ -42,6 +51,7 @@
       title="Email"
       placeholder="john@example.com"
       autocomplete="email"
+      value={form?.email ?? ''}
     />
   </label>
 
@@ -85,7 +95,13 @@
 
   <!-- Terms of Service -->
   <label class="flex items-center space-x-2">
-    <input class="checkbox" type="checkbox" name="acceptedTerms" title="Agree to terms of service" />
+    <input
+      class="checkbox"
+      type="checkbox"
+      name="acceptedTerms"
+      title="Agree to terms of service"
+      value={form?.acceptedTerms ?? false}
+    />
     <span>I agree to the <a href="/terms-of-service">Terms of Service</a></span>
   </label>
 

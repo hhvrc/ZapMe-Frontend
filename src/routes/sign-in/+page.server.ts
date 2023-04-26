@@ -1,21 +1,17 @@
 import { Turnstile } from '$lib/cloudflare';
-import { accountApi } from '$lib/fetchSingleton';
+import { authenticationApi } from '$lib/fetchSingleton';
 import { fail, type Actions } from '@sveltejs/kit';
 
 export const actions: Actions = {
   default: async ({ request }) => {
     const body = await request.formData();
-    const username = body.get('username');
+    const usernameOrEmail = body.get('usernameOrEmail');
     const password = body.get('password');
-    const email = body.get('email');
-    const acceptedTerms = body.get('acceptedTerms');
 
     // Validate field presence
-    if (!username || !email || !password || acceptedTerms !== 'on') {
+    if (!usernameOrEmail || !password) {
       return fail(400, {
-        username,
-        email,
-        acceptedTerms,
+        usernameOrEmail,
         success: false,
         missingFields: true,
       });
@@ -29,24 +25,20 @@ export const actions: Actions = {
     );
     if (!cfResponse.success) {
       return fail(400, {
-        username,
-        email,
-        acceptedTerms,
+        usernameOrEmail,
         success: false,
         turnstileError: cfResponse.message,
       });
     }
 
     // Create account
-    const zmResponse = await accountApi
-      .createAccount({
-        createAccount: {
-          username: username.toString(),
+    const zmResponse = await authenticationApi
+      .authSignIn({
+        authSignIn: {
+          usernameOrEmail: usernameOrEmail.toString(),
           password: password.toString(),
-          email: email.toString(),
-          acceptedTosVersion: 1,
-          turnstileResponse:
-            'bypass:' + process.env.VITE_TURNSTILE_BYPASS_TOKEN,
+          sessionName: 'sveltekit',
+          rememberMe: true,
         },
       })
       .then((res) => {
@@ -60,9 +52,7 @@ export const actions: Actions = {
       const err = zmResponse.body as Error;
       console.error(err);
       return fail(400, {
-        username,
-        email,
-        acceptedTerms,
+        usernameOrEmail,
         success: false,
         error: zmResponse.body,
       });
