@@ -38,8 +38,10 @@
             />
             <strong
               class="hidden align-middle text-3xl uppercase tracking-widest md:inline-block"
-              style="font-family: Montserrat,sans-serif">ZapMe</strong
-            >
+              style="font-family: Montserrat,sans-serif"
+              >
+              ZapMe
+            </strong>
           </a>
         </div>
       </svelte:fragment>
