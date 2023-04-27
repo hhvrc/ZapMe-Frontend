@@ -39,7 +39,7 @@
             <strong
               class="hidden align-middle text-3xl uppercase tracking-widest md:inline-block"
               style="font-family: Montserrat,sans-serif"
-              >
+            >
               ZapMe
             </strong>
           </a>
@@ -65,25 +65,27 @@
     <AppRail />
   </svelte:fragment>
   <svelte:fragment slot="pageFooter">
-    <div>
-      Made with <span style="color: #e25555;">&#9829;</span> by HentaiHeaven#0001
-    </div>
-    <div>Copyright ©{year} | All Rights Reserved</div>
-    <div class="r">
-      <a
-        href="/privacy"
-        class="select-none"
-        data-sveltekit-preload-data="hover"
-      >
-        Privacy Policy
-      </a>
-      <a
-        href="/terms-of-service"
-        class="select-none"
-        data-sveltekit-preload-data="hover"
-      >
-        Terms of Service
-      </a>
+    <div class="m-2 flex items-center justify-center sm:justify-between">
+      <div>
+        Made with <span style="color: #e25555;">&#9829;</span> by HentaiHeaven#0001
+      </div>
+      <div class="hidden lg:block">Copyright ©{year} | All Rights Reserved</div>
+      <div class="hidden items-center space-x-2 sm:flex">
+        <a
+          href="/privacy"
+          class="select-none"
+          data-sveltekit-preload-data="hover"
+        >
+          Privacy Policy
+        </a>
+        <a
+          href="/terms-of-service"
+          class="select-none"
+          data-sveltekit-preload-data="hover"
+        >
+          Terms of Service
+        </a>
+      </div>
     </div>
   </svelte:fragment>
 </AppShell>
