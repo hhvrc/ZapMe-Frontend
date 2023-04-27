@@ -1,5 +1,5 @@
-import { Turnstile } from '$lib/cloudflare';
 import { accountApi } from '$lib/fetchSingleton';
+import { Turnstile } from '$lib/server/cloudflare';
 import { fail, type Actions } from '@sveltejs/kit';
 
 export const actions: Actions = {
@@ -22,11 +22,7 @@ export const actions: Actions = {
     }
 
     // Validate turnstile
-    const cfResponse = await Turnstile.ValidateToken(
-      body,
-      request.headers,
-      process.env.VITE_TURNSTILE_SECRET
-    );
+    const cfResponse = await Turnstile.ValidateToken(body, request.headers);
     if (!cfResponse.success) {
       return fail(400, {
         username,

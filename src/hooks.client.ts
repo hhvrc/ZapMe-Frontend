@@ -1,24 +1,25 @@
-import { BrowserTracing } from '@sentry/browser';
+import {
+  PUBLIC_SENTRY_DSN,
+  PUBLIC_SENTRY_TRACES_SAMPLERATE,
+  PUBLIC_REPLAYS_SESSION_SAMPLERATE,
+  PUBLIC_REPLAYS_ONERROR_SAMPLERATE,
+} from '$env/static/public';
+import { BrowserTracing, Replay } from '@sentry/browser';
 import {
   init as SentryInit,
   captureException as SentryCaptureException,
 } from '@sentry/svelte';
 
 // Initialize Sentry for error and performance monitoring
-const sentryDsn = import.meta.env.VITE_SENTRY_DSN as string | undefined;
-const sentryTracesSampleRate = import.meta.env
-  .VITE_SENTRY_TRACES_SAMPLE_RATE as number | undefined;
-if (sentryDsn && sentryTracesSampleRate) {
-  SentryInit({
-    dsn: sentryDsn,
-    integrations: [new BrowserTracing()],
-    tracesSampleRate: sentryTracesSampleRate,
-  });
-}
+SentryInit({
+  dsn: PUBLIC_SENTRY_DSN,
+  integrations: [new BrowserTracing(), new Replay()],
+  tracesSampleRate: parseFloat(PUBLIC_SENTRY_TRACES_SAMPLERATE),
+  replaysSessionSampleRate: parseFloat(PUBLIC_REPLAYS_SESSION_SAMPLERATE),
+  replaysOnErrorSampleRate: parseFloat(PUBLIC_REPLAYS_ONERROR_SAMPLERATE),
+});
 
-export function handleError(error: any) {
+export function handleError(error) {
   console.error(error);
-  if (sentryDsn && sentryTracesSampleRate) {
-    SentryCaptureException(error);
-  }
+  SentryCaptureException(error);
 }

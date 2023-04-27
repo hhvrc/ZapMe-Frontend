@@ -1,3 +1,5 @@
+import { TURNSTILE_SECRET_KEY } from '$env/static/private';
+
 interface TurnstileResponse {
   success: boolean;
   challenge_ts: string;
@@ -29,8 +31,7 @@ interface TurnstileError {
 // https://developers.cloudflare.com/turnstile/get-started/server-side-validation/
 async function ValidateToken(
   body: FormData,
-  headers: Headers,
-  secretKey: string | undefined
+  headers: Headers
 ): Promise<TurnstileOk | TurnstileError> {
   // Turnstile injects a token in "cf-turnstile-response".
   const token = body.get('cf-turnstile-response')?.toString();
@@ -43,14 +44,10 @@ async function ValidateToken(
     throw new Error('CF-Connecting-IP header not set');
   }
 
-  if (!secretKey) {
-    throw new Error('Turnstile secret key not set');
-  }
-
   // Validate the token by calling the
   // "/siteverify" API endpoint.
   const formData = new FormData();
-  formData.append('secret', secretKey);
+  formData.append('secret', TURNSTILE_SECRET_KEY);
   formData.append('response', token);
   formData.append('remoteip', ip);
 
