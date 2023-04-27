@@ -1,4 +1,5 @@
 import { goto } from '$app/navigation';
+import { PUBLIC_BACKEND_URL } from '$env/static/public';
 import {
   AccountApi,
   AuthenticationApi,
@@ -16,9 +17,8 @@ import {
 import { BuildRedirectURL, GetRedirectURL } from './utils/redirects';
 import { getReasonPhrase } from 'http-status-codes';
 
-const basePath = import.meta.env.VITE_BACKEND_URL as string;
 const config = new Configuration({
-  basePath,
+  basePath: PUBLIC_BACKEND_URL,
   credentials: 'include',
 });
 

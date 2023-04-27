@@ -1,3 +1,4 @@
+import { TURNSTILE_SECRET_KEY } from '$env/static/private';
 import { accountApi } from '$lib/fetchSingleton';
 import { Turnstile } from '$lib/server/cloudflare';
 import { fail, type Actions } from '@sveltejs/kit';
@@ -41,8 +42,7 @@ export const actions: Actions = {
           password: password.toString(),
           email: email.toString(),
           acceptedTosVersion: 1,
-          turnstileResponse:
-            'bypass:' + process.env.VITE_TURNSTILE_BYPASS_TOKEN,
+          turnstileResponse: 'bypass:' + TURNSTILE_BYPASS_TOKEN,
         },
       })
       .then((res) => {

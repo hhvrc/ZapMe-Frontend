@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ApiConfigStore } from '$lib/stores';
+  import { PUBLIC_TURNSTILE_SITE_KEY } from '$env/static/public';
   import type { TurnstileInstance } from '$types/TurnstileInstance';
   import { modeCurrent } from '@skeletonlabs/skeleton';
   import { onMount } from 'svelte';
@@ -7,8 +7,6 @@
   export let action: string;
   export let cData: string | undefined = undefined;
   export let response: string | null = null;
-
-  $: sitekey = $ApiConfigStore?.api?.authentication?.turnstileSiteKey ?? null;
 
   let element: HTMLDivElement;
   function resetResponse() {
@@ -24,9 +22,9 @@
   let isLoaded = false;
   $: if (turnstile && !isLoaded) turnstile.ready(() => (isLoaded = true));
 
-  $: if (turnstile && sitekey && isLoaded) {
+  $: if (turnstile && isLoaded) {
     turnstile.render(element, {
-      sitekey,
+      sitekey: PUBLIC_TURNSTILE_SITE_KEY,
       action,
       cData,
       theme: $modeCurrent ? 'light' : 'dark',
