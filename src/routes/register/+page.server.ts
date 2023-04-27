@@ -1,4 +1,4 @@
-import { TURNSTILE_SECRET_KEY } from '$env/static/private';
+import { TURNSTILE_BYPASS_TOKEN } from '$env/static/private';
 import { accountApi } from '$lib/fetchSingleton';
 import { Turnstile } from '$lib/server/cloudflare';
 import { fail, type Actions } from '@sveltejs/kit';
