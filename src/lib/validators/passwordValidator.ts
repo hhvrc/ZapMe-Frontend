@@ -1042,4 +1042,14 @@ function validatePassword(password: string): {
   return { valid: true, message: null };
 }
 
-export { validatePassword };
+function validatePasswordMatch(password: string, passwordConfirmation: string) {
+  if (password.length == 0) {
+    return { valid: false, message: null };
+  }
+  if (password != passwordConfirmation) {
+    return { valid: false, message: 'Passwords do not match' };
+  }
+  return { valid: true, message: null };
+}
+
+export { validatePassword, validatePasswordMatch };
