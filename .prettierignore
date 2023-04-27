@@ -9,3 +9,6 @@ package-lock.json
 
 # Ignore OpenApi generated files
 /src/lib/api/
+
+# Ignore static css an files
+/static/**/*.css
