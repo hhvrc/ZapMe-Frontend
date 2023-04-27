@@ -6,3 +6,4 @@ export * from './Role';
 export * from './SessionToken';
 export * from './User';
 export * from './UserSettings';
+export * from './ValidationResult';

@@ -6,6 +6,7 @@
     validatePasswordMatch,
     validateUsername,
   } from '$lib/validators';
+  import { ValidationResultIcon } from '$types';
   import type { ActionData } from './$types';
   import { focusTrap } from '@skeletonlabs/skeleton';
 
@@ -13,18 +14,26 @@
 
   let username = form?.username?.toString() ?? '';
   $: usernameError = validateUsername(username);
+  $: usernameErrorIcon = ValidationResultIcon(usernameError);
 
   let email = form?.email?.toString() ?? '';
   $: emailError = validateEmail(email);
+  $: emailErrorIcon = ValidationResultIcon(emailError);
 
   let password = '';
   $: passwordError = validatePassword(password);
+  $: passwordErrorIcon = ValidationResultIcon(passwordError);
+  let passwordHidden = true;
 
   let passwordMatch = '';
   $: passwordMatchError = validatePasswordMatch(password, passwordMatch);
+  $: passwordMatchErrorIcon = ValidationResultIcon(passwordMatchError);
+  let passwordMatchHidden = true;
 
   let acceptedTerms = form?.acceptedTerms?.toString() === 'on';
-  $: acceptedTermsError = acceptedTerms ? { valid: true, message: null } : { valid: false, message: 'You must accept the terms.' };
+  $: acceptedTermsError = acceptedTerms
+    ? { valid: true, message: null }
+    : { valid: false, message: 'You must accept the terms.' };
 
   let turnstileToken = '';
 
@@ -36,11 +45,8 @@
     acceptedTermsError.valid &&
     !!turnstileToken
   );
-  
-  let isFocused = true;
 
-  const IconOk = 'fa-info-circle';
-  const IconError = 'fa-circle-exclamation text-error-500';
+  let isFocused = true;
 </script>
 
 <svelte:head>
@@ -68,9 +74,8 @@
       />
       <div>
         <i
-          class={'fa-solid ' + (usernameError.valid ? IconOk : IconError)}
-          title={usernameError.message ??
-            'Username must be between 3 and 20 characters long, and can only contain letters, numbers, and underscores.'}
+          class={'fa-solid ' + usernameErrorIcon}
+          title={usernameError.message}
         />
       </div>
     </div>
@@ -90,10 +95,7 @@
         bind:value={email}
       />
       <div>
-        <i
-          class={'fa-solid ' + (emailError.valid ? IconOk : IconError)}
-          title={emailError.message ?? 'Email must be a valid email address.'}
-        />
+        <i class={'fa-solid ' + emailErrorIcon} title={emailError.message} />
       </div>
     </div>
   </label>
@@ -102,20 +104,37 @@
   <label class="label">
     <span>Password</span>
     <div class="input-group input-group-divider grid-cols-[1fr_auto]">
-      <input
-        class="input"
-        type="password"
-        name="password"
-        title="Password"
-        placeholder="password"
-        autocomplete="new-password"
-        bind:value={password}
-      />
-      <div>
+      {#if passwordHidden}
+        <input
+          class="input"
+          type="password"
+          name="password"
+          title="Password"
+          placeholder="password"
+          autocomplete="new-password"
+          bind:value={password}
+        />
+      {:else}
+        <input
+          class="input"
+          type="text"
+          name="password"
+          title="Password"
+          placeholder="password"
+          autocomplete="new-password"
+          bind:value={password}
+        />
+      {/if}
+      <div class="p-0">
         <i
-          class={'fa-solid ' + (passwordError.valid ? IconOk : IconError)}
-          title={passwordError.message ??
-            'Password must be at least 8 characters long.'}
+          class={'fa-solid cursor-pointer p-1 ' +
+            (passwordHidden ? 'fa-eye' : 'fa-eye-slash')}
+          title={passwordHidden ? 'Show' : 'Hide'}
+          on:click={() => (passwordHidden = !passwordHidden)}
+        />
+        <i
+          class={'fa-solid p-1 ' + passwordErrorIcon}
+          title={passwordError.message}
         />
       </div>
     </div>
@@ -125,18 +144,35 @@
   <label class="label">
     <span>Confirm Password</span>
     <div class="input-group input-group-divider grid-cols-[1fr_auto]">
-      <input
-        class="input"
-        type="password"
-        title="Password"
-        placeholder="password"
-        autocomplete="new-password"
-        bind:value={passwordMatch}
-      />
-      <div>
+      {#if passwordMatchHidden}
+        <input
+          class="input"
+          type="password"
+          title="Password"
+          placeholder="password"
+          autocomplete="new-password"
+          bind:value={passwordMatch}
+        />
+      {:else}
+        <input
+          class="input"
+          type="text"
+          title="Password"
+          placeholder="password"
+          autocomplete="new-password"
+          bind:value={passwordMatch}
+        />
+      {/if}
+      <div class="p-0">
         <i
-          class={'fa-solid ' + (passwordMatchError.valid ? IconOk : IconError)}
-          title={passwordMatchError.message ?? 'Passwords must match.'}
+          class={'fa-solid cursor-pointer p-1 ' +
+            (passwordMatchHidden ? 'fa-eye' : 'fa-eye-slash')}
+          title={passwordMatchHidden ? 'Show' : 'Hide'}
+          on:click={() => (passwordMatchHidden = !passwordMatchHidden)}
+        />
+        <i
+          class={'fa-solid p-1 ' + passwordMatchErrorIcon}
+          title={passwordMatchError.message}
         />
       </div>
     </div>

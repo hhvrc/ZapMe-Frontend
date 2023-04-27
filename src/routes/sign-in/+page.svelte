@@ -1,122 +1,85 @@
 <script lang="ts">
-  import { goto } from '$app/navigation';
-  import { page } from '$app/stores';
-  import { authenticationApi, ParseFetchError } from '$lib/fetchSingleton';
-  import { AccountStore, SessionTokenStore } from '$lib/stores';
-  import { GetRedirectURL } from '$lib/utils/redirects';
-  import { validateUsername, validatePassword } from '$lib/validators';
-  import type { Snapshot } from './$types';
+  import {
+    validatePassword,
+    validateUsernameOrEmail,
+  } from '$lib/validators';
+  import type { ActionData } from './$types';
   import { focusTrap } from '@skeletonlabs/skeleton';
 
-  let formData = {
-    usernameOrEmail: '',
-    password: '',
-    sessionName: 'session-' + Math.random().toString(36).substring(2, 10),
-    rememberMe: false,
-  };
-  export const snapshot: Snapshot = {
-    capture: () => formData,
-    restore: (data) => {
-      formData = data;
-    },
-  };
+  export let form: ActionData;
 
-  async function handleSubmit() {
-    try {
-      const response = await authenticationApi.authSignIn({
-        authSignIn: formData,
-      });
+  let usernameOrEmail = form?.usernameOrEmail?.toString() ?? '';
 
-      if (!response.session || !response.account) {
-        throw new Error('Invalid response');
-      }
+  let password = '';
+  let passwordHidden = true;
 
-      AccountStore.set(response.account);
-      SessionTokenStore.set(response.session);
-
-      goto(GetRedirectURL($page.url, '/home'));
-    } catch (error) {
-      const responseData = await ParseFetchError(error);
-      if (responseData.code == 'err_network') {
-        window.alert('Network error');
-        return;
-      }
-      const response = responseData.details;
-      if (!response) {
-        if (error instanceof Error) {
-          window.alert(error.message);
-        } else {
-          window.alert('An unknown error occurred.');
-        }
-        return;
-      }
-
-      if (response.notification) {
-        window.alert(
-          response.notification.title + ': ' + response.notification.message
-        );
-      }
-
-      if (response.fields) {
-        if (response.fields.username) {
-          window.alert(response.fields.username);
-        }
-        if (response.fields.password) {
-          window.alert(response.fields.password);
-        }
-      }
-    }
-  }
-
-  const socials = [
-    { name: 'Google', icon: '/icons/logo_google.svg', link: '/auth/google' },
-    { name: 'Twitter', icon: '/icons/logo_twitter.svg', link: '/auth/twitter' },
-  ];
-
-  let formValid = false;
-  let usernameError: string | null = null;
-  let passwordError: string | null = null;
-  $: {
-    const { usernameOrEmail, password } = formData;
-
-    const usernameValidation = validateUsername(usernameOrEmail);
-    usernameError = usernameValidation.message;
-
-    const passwordValidation = validatePassword(password);
-    passwordError = passwordValidation.message;
-
-    formValid = usernameValidation.valid && passwordValidation.valid;
-  }
+  $: disabled = !(usernameOrEmail.length > 0 && password.length > 0);
 
   let isFocused = true;
 </script>
 
 <svelte:head>
-  <title>ZapMe - Login</title>
+  <title>ZapMe - Register</title>
 </svelte:head>
 
-<form use:focusTrap={isFocused}>
+<form method="POST" use:focusTrap={isFocused}>
+  {#if !(form?.success ?? true)}
+    <p class="text-black text-error-50">
+      {JSON.stringify(form)}
+    </p>
+  {/if}
+  <!-- Username -->
   <label class="label">
     <span>Username Or Email</span>
-    <input
-      class="input"
-      title="Username"
-      type="text"
-      placeholder="username"
-      autocomplete="username"
-    />
+      <input
+        class="input"
+        type="text"
+        name="usernameOrEmail"
+        title="Username Or Email"
+        placeholder="username / email"
+        autocomplete="username"
+        bind:value={usernameOrEmail}
+      />
   </label>
+
+  <!-- Password -->
   <label class="label">
     <span>Password</span>
-    <input
-      class="input"
-      title="Password"
-      type="password"
-      placeholder="password"
-      autocomplete="new-password"
-    />
+    <div class="input-group input-group-divider grid-cols-[1fr_auto]">
+      {#if passwordHidden}
+        <input
+          class="input"
+          type="password"
+          name="password"
+          title="Password"
+          placeholder="password"
+          autocomplete="new-password"
+          bind:value={password}
+        />
+      {:else}
+        <input
+          class="input"
+          type="text"
+          name="password"
+          title="Password"
+          placeholder="password"
+          autocomplete="new-password"
+          bind:value={password}
+        />
+      {/if}
+      <div>
+        <i
+          class={'fa-solid cursor-pointer p-1 ' +
+            (passwordHidden ? 'fa-eye' : 'fa-eye-slash')}
+          title={passwordHidden ? 'Show' : 'Hide'}
+          on:click={() => (passwordHidden = !passwordHidden)}
+        />
+      </div>
+    </div>
   </label>
-  <button type="submit" class="btn variant-filled">
+
+  <!-- Submit -->
+  <button type="submit" class="btn variant-filled" {disabled}>
     <span>🚀</span>
     <span>Sign In</span>
   </button>
