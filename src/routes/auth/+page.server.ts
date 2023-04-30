@@ -1,9 +1,6 @@
-import { authenticationApi } from '$lib/fetchSingleton';
-import { Turnstile } from '$lib/server/cloudflare';
-import { fail, type Actions } from '@sveltejs/kit';
-
-export const actions: Actions = {
-  default: async ({ request }) => {
+/** @type {import('./$types').Actions} */
+export const actions = {
+    login: async ({ request }) => {
     const body = await request.formData();
     const usernameOrEmail = body.get('usernameOrEmail');
     const password = body.get('password');
