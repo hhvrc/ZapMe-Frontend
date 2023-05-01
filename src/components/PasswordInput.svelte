@@ -1,12 +1,12 @@
 <script lang="ts">
-  export let name: string|undefined;
+  export let name: string|undefined = undefined;
   export let title = 'Password';
   export let placeholder = 'Password';
   export let autocomplete: 'new-password' | 'current-password' = 'current-password';
 	export let passwordShown = false;
 	export let value: string;
-  export let fieldIcon: string|undefined;
-  export let fieldIconMessage: string|undefined;
+  export let fieldIcon: string|undefined = undefined;
+  export let fieldIconMessage: string|undefined = undefined;
 </script>
 
 <label class="label">
