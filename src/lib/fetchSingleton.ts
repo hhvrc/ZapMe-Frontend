@@ -139,7 +139,7 @@ export async function ParseFetchError(
     return Panic();
   }
   if (status === 401) {
-    goto(BuildRedirectURL('/sign-out', GetRedirectURL(url, '/sign-in')));
+    goto(BuildRedirectURL('/logout', GetRedirectURL(url, '/login')));
   } else if (status === 403) {
     goto('/home');
   }

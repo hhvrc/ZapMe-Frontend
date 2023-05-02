@@ -1,7 +1,8 @@
 <script lang="ts">
+  import { enhance } from '$app/forms';
   import PasswordInput from '$components/PasswordInput.svelte';
-import TextInput from '$components/TextInput.svelte';
-import Turnstile from '$components/Turnstile.svelte';
+  import TextInput from '$components/TextInput.svelte';
+  import Turnstile from '$components/Turnstile.svelte';
   import {
     validateEmail,
     validatePassword,
@@ -9,10 +10,9 @@ import Turnstile from '$components/Turnstile.svelte';
     validateUsername,
   } from '$lib/validators';
   import { ValidationResultIcon } from '$types';
-  import type { ActionData } from './$types';
   import { focusTrap } from '@skeletonlabs/skeleton';
 
-  export let form: ActionData;
+  export let form;
 
   let username = form?.username?.toString() ?? '';
   $: usernameError = validateUsername(username);
@@ -25,12 +25,12 @@ import Turnstile from '$components/Turnstile.svelte';
   let password = '';
   $: passwordError = validatePassword(password);
   $: passwordErrorIcon = ValidationResultIcon(passwordError);
-  let passwordHidden = true;
+  let passwordShown = false;
 
   let passwordMatch = '';
   $: passwordMatchError = validatePasswordMatch(password, passwordMatch);
   $: passwordMatchErrorIcon = ValidationResultIcon(passwordMatchError);
-  let passwordMatchHidden = true;
+  let passwordMatchShown = false;
 
   let acceptedTerms = form?.acceptedTerms?.toString() === 'on';
   $: acceptedTermsError = acceptedTerms
@@ -47,82 +47,100 @@ import Turnstile from '$components/Turnstile.svelte';
     acceptedTermsError.valid &&
     !!turnstileToken
   );
-
-  let isFocused = true;
 </script>
 
 <svelte:head>
   <title>ZapMe - Register</title>
 </svelte:head>
 
-<form method="POST" use:focusTrap={isFocused}>
-  {#if !(form?.success ?? true)}
-    <p class="text-black text-error-50">
-      {JSON.stringify(form)}
-    </p>
-  {/if}
+<!-- Register Form -->
+<div class="card mx-auto my-8 w-1/2 max-w-xl p-4">
+  <form
+    class="flex flex-col space-y-4"
+    method="post"
+    action="/register"
+    use:focusTrap={true}
+    use:enhance={() => {
+      disabled = true;
 
-  <!-- Username -->
-  <TextInput
-    name="username"
-    title="Username"
-    placeholder="username"
-    autocomplete="username"
-    bind:value={username}
-    fieldIcon={usernameErrorIcon}
-    fieldIconMessage={usernameError.message}
-  />
+      return async ({ update }) => {
+        await update();
+        disabled = false;
+      };
+    }}
+  >
+    <!-- Title -->
+    <h2>Register</h2>
 
-  <!-- Email -->
-  <TextInput
-    name="email"
-    title="Email"
-    placeholder="john@example.com"
-    autocomplete="email"
-    bind:value={email}
-    fieldIcon={emailErrorIcon}
-    fieldIconMessage={emailError.message}
-  />
-
-  <!-- Password -->
-  <PasswordInput
-    name="password"
-    title="Password"
-    placeholder="password"
-    autocomplete="new-password"
-    bind:value={password}
-    fieldIcon={passwordErrorIcon}
-    fieldIconMessage={passwordError.message}
-  />
-
-  <!-- Confirm Password, name removed to prevent submission -->
-  <PasswordInput
-    title="Confirm Password"
-    placeholder="password"
-    autocomplete="new-password"
-    bind:value={passwordMatch}
-    fieldIcon={passwordMatchErrorIcon}
-    fieldIconMessage={passwordMatchError.message}
-  />
-
-  <!-- Terms of Service -->
-  <label class="flex items-center space-x-2">
-    <input
-      class="checkbox"
-      type="checkbox"
-      name="acceptedTerms"
-      title="Agree to terms of service"
-      bind:checked={acceptedTerms}
+    <!-- Username -->
+    <TextInput
+      name="username"
+      title="Username"
+      placeholder="John Doe"
+      autocomplete="username"
+      bind:value={username}
+      fieldIcon={usernameErrorIcon}
+      fieldIconMessage={usernameError.message}
     />
-    <span>I agree to the <a href="/terms-of-service">Terms of Service</a></span>
-  </label>
 
-  <!-- Turnstile -->
-  <Turnstile action="register" bind:response={turnstileToken} />
+    <!-- Email -->
+    <TextInput
+      name="email"
+      title="Email"
+      placeholder="john@example.com"
+      autocomplete="email"
+      bind:value={email}
+      fieldIcon={emailErrorIcon}
+      fieldIconMessage={emailError.message}
+    />
 
-  <!-- Submit -->
-  <button type="submit" class="btn variant-filled" {disabled}>
-    <span>🚀</span>
-    <span>Register</span>
-  </button>
-</form>
+    <!-- Password -->
+    <PasswordInput
+      name="password"
+      title="Password"
+      autocomplete="new-password"
+      bind:value={password}
+      bind:passwordShown
+      fieldIcon={passwordErrorIcon}
+      fieldIconMessage={passwordError.message}
+    />
+
+    <!-- Password -->
+    <PasswordInput
+      name="password"
+      title="Confirm Password"
+      autocomplete="new-password"
+      bind:value={passwordMatch}
+      bind:passwordShown={passwordMatchShown}
+      fieldIcon={passwordMatchErrorIcon}
+      fieldIconMessage={passwordMatchError.message}
+    />
+
+    <!-- Terms of Service -->
+    <label class="flex items-center space-x-2">
+      <input
+        class="checkbox"
+        type="checkbox"
+        name="acceptedTerms"
+        title="Agree to terms of service"
+        bind:checked={acceptedTerms}
+      />
+      <span
+        >I agree to the <a href="/terms-of-service">Terms of Service</a></span
+      >
+    </label>
+
+    <!-- Turnstile -->
+    <Turnstile action="register" bind:response={turnstileToken} />
+
+    <!-- Submit -->
+    <button
+      type="submit"
+      class="btn variant-filled w-1/2 self-center"
+      {disabled}
+    >
+      <span class="hidden md:inline-block">🚀</span>
+      <span>Register</span>
+    </button>
+  </form>
+</div>

@@ -1042,10 +1042,7 @@ export function validatePassword(value: string): ValidationResult {
     };
   }
 
-  if (
-    CommonBadPasswordRegex.test(value) ||
-    ReallyBadPasswords.has(value)
-  ) {
+  if (CommonBadPasswordRegex.test(value) || ReallyBadPasswords.has(value)) {
     return {
       valid: false,
       message: 'This password is really bad™',

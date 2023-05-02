@@ -48,9 +48,9 @@
       <svelte:fragment slot="trail">
         <ThemeSwitch />
         <a
-          href="/sign-in"
+          href="/login"
           class="btn btn-sm variant-ghost-surface"
-          data-sveltekit-preload-data="hover">Sign In</a
+          data-sveltekit-preload-data="hover">Login</a
         >
         <a
           href="/register"

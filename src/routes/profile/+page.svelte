@@ -6,7 +6,7 @@
   import { BuildRedirectURL } from '$lib/utils/redirects';
 
   if (browser && !$SessionTokenStore) {
-    goto(BuildRedirectURL('/sign-in', $page.url));
+    goto(BuildRedirectURL('/login', $page.url));
   }
 </script>
 

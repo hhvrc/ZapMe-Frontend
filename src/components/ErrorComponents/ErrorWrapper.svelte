@@ -4,8 +4,8 @@
     NetworkErrorDetails,
     ServerErrorDetails,
   } from '$components/ErrorComponents';
-  import LoadingWidget from '$components/LoadingWidget.svelte';
   import type { Response } from '$lib/fetchSingleton';
+  import { ProgressRadial } from '@skeletonlabs/skeleton';
 
   type T = $$Generic;
 
@@ -15,7 +15,7 @@
 
 {#await request()}
   <slot name="loading">
-    <LoadingWidget />
+    <ProgressRadial />
   </slot>
 {:then response}
   {#if response.code == 'ok'}
