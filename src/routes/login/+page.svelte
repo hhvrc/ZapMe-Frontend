@@ -55,7 +55,11 @@
     <PasswordInput name="password" bind:value={password} bind:passwordShown />
 
     <!-- Submit -->
-    <button type="submit" class="btn variant-filled w-1/2 self-center" {disabled}>
+    <button
+      type="submit"
+      class="btn variant-filled w-1/2 self-center"
+      {disabled}
+    >
       <span class="hidden md:inline-block">🚀</span>
       <span>Login</span>
     </button>
@@ -64,9 +68,7 @@
       Don't have an account? Register here.
     </a>
 
-    <a href="/forgot-password" class="text-center">
-      Forgot your password?
-    </a>
+    <a href="/forgot-password" class="text-center"> Forgot your password? </a>
 
     <!-- 1fr-auto-1fr with centered text -->
     <div class="grid grid-cols-[1fr_auto_1fr] items-center gap-3 text-gray-500">
