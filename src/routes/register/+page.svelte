@@ -10,7 +10,6 @@
     validatePasswordMatch,
     validateUsername,
   } from '$lib/validators';
-  import { ValidationResultIcon } from '$types';
   import { focusTrap, toastStore } from '@skeletonlabs/skeleton';
 
   export let form;
@@ -26,20 +25,16 @@
 
   let username = form?.username?.toString() ?? '';
   $: usernameError = validateUsername(username);
-  $: usernameErrorIcon = ValidationResultIcon(usernameError);
 
   let email = form?.email?.toString() ?? '';
   $: emailError = validateEmail(email);
-  $: emailErrorIcon = ValidationResultIcon(emailError);
 
   let password = '';
   $: passwordError = validatePassword(password);
-  $: passwordErrorIcon = ValidationResultIcon(passwordError);
   let passwordShown = false;
 
   let passwordMatch = '';
   $: passwordMatchError = validatePasswordMatch(password, passwordMatch);
-  $: passwordMatchErrorIcon = ValidationResultIcon(passwordMatchError);
   let passwordMatchShown = false;
 
   let acceptedTerms = form?.acceptedTerms?.toString() === 'on';
@@ -68,7 +63,6 @@
   <form
     class="flex flex-col space-y-4"
     method="post"
-    action="/register"
     use:focusTrap={true}
     use:enhance={() => {
       disabled = true;
@@ -89,8 +83,7 @@
       placeholder="John Doe"
       autocomplete="username"
       bind:value={username}
-      fieldIcon={usernameErrorIcon}
-      fieldIconMessage={usernameError.message}
+      validationResult={usernameError}
     />
 
     <!-- Email -->
@@ -100,8 +93,7 @@
       placeholder="john@example.com"
       autocomplete="email"
       bind:value={email}
-      fieldIcon={emailErrorIcon}
-      fieldIconMessage={emailError.message}
+      validationResult={emailError}
     />
 
     <!-- Password -->
@@ -111,19 +103,15 @@
       autocomplete="new-password"
       bind:value={password}
       bind:passwordShown
-      fieldIcon={passwordErrorIcon}
-      fieldIconMessage={passwordError.message}
+      validationResult={passwordError}
     />
-
-    <!-- Password -->
     <PasswordInput
       name="password"
       title="Confirm Password"
       autocomplete="new-password"
       bind:value={passwordMatch}
       bind:passwordShown={passwordMatchShown}
-      fieldIcon={passwordMatchErrorIcon}
-      fieldIconMessage={passwordMatchError.message}
+      validationResult={passwordMatchError}
     />
 
     <!-- Terms of Service -->

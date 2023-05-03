@@ -31,7 +31,6 @@
   <form
     class="flex flex-col space-y-4"
     method="post"
-    action="/forgot-password"
     use:focusTrap={true}
     use:enhance={() => {
       disabled = true;
@@ -55,7 +54,7 @@
     />
 
     <!-- Turnstile -->
-    <Turnstile action="register" bind:response={turnstileToken} />
+    <Turnstile action="forgot-password" bind:response={turnstileToken} />
 
     <!-- Submit -->
     <button

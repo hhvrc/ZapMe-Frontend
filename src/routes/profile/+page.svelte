@@ -8,6 +8,8 @@
   if (browser && !$SessionTokenStore) {
     goto(BuildRedirectURL('/login', $page.url));
   }
+
+  $: account = $AccountStore.account;
 </script>
 
 <svelte:head>
@@ -16,27 +18,27 @@
 
 <div>
   <h1>Profile</h1>
-  {#if $AccountStore}
-    <p>Id: {$AccountStore.id}</p>
-    <p>Username: {$AccountStore.username}</p>
-    <p>Obfuscated Email: {$AccountStore.obscuredEmail}</p>
-    <p>Email Verified: {$AccountStore.emailVerified}</p>
-    <p>ProfilePictureId: {$AccountStore.profilePictureUrl}</p>
-    <p>Status: {$AccountStore.status}</p>
-    <p>StatusText: {$AccountStore.statusText}</p>
-    <p>CreatedAt: {$AccountStore.createdAt}</p>
-    <p>LastOnline: {$AccountStore.lastOnline}</p>
-    <p>Accepted TOS Version: {$AccountStore.acceptedTosVersion}</p>
+  {#if account}
+    <p>Id: {account.id}</p>
+    <p>Username: {account.username}</p>
+    <p>Obfuscated Email: {account.obscuredEmail}</p>
+    <p>Email Verified: {account.emailVerified}</p>
+    <p>ProfilePictureId: {account.profilePictureUrl}</p>
+    <p>Status: {account.status}</p>
+    <p>StatusText: {account.statusText}</p>
+    <p>CreatedAt: {account.createdAt}</p>
+    <p>LastOnline: {account.lastOnline}</p>
+    <p>Accepted TOS Version: {account.acceptedTosVersion}</p>
     <div>
       <h2>Friends:</h2>
-      {#each $AccountStore.friends ?? [] as friend}
+      {#each account.friends ?? [] as friend}
         <p>{friend}</p>
       {/each}
     </div>
     <div>
       <h2>Connected OAuth Accounts:</h2>
-      {#each $AccountStore.oauthConnections ?? [] as account}
-        <p>{account}</p>
+      {#each account.oauthConnections ?? [] as oauthConnection}
+        <p>{oauthConnection}</p>
       {/each}
     </div>
   {:else}

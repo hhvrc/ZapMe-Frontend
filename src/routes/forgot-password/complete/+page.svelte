@@ -1,61 +1,20 @@
 <script lang="ts">
+  import { enhance } from '$app/forms';
   import { page } from '$app/stores';
-  import { ParseFetchError, accountApi } from '$lib/fetchSingleton';
-  import { validatePassword } from '$lib/validators';
+  import PasswordInput from '$components/PasswordInput.svelte';
+  import { validatePassword, validatePasswordMatch } from '$lib/validators';
+  import { focusTrap } from '@skeletonlabs/skeleton';
 
   const token = $page.url.searchParams.get('token');
   let password = '';
-  let confirmedPassword = '';
+  let passwordShown = false;
+  $: passwordError = validatePassword(password);
 
-  async function handleSubmit() {
-    if (!token) return;
-    try {
-      await accountApi.accountRecoveryConfirm({
-        recoveryConfirm: {
-          token: token,
-          newPassword: password,
-        },
-      });
-    } catch (error) {
-      const responseData = await ParseFetchError(error);
-      if (responseData.code == 'err_network') {
-        window.alert('Network error');
-        return;
-      }
+  let passwordMatch = '';
+  let passwordMatchShown = false;
+  $: passwordMatchError = validatePasswordMatch(password, passwordMatch);
 
-      const response = responseData.details;
-
-      if (!response) {
-        if (error instanceof Error) {
-          window.alert(error.message);
-        } else {
-          window.alert('An unknown error occurred.');
-        }
-        return;
-      }
-
-      if (response.notification) {
-        window.alert(
-          response.notification.title + ': ' + response.notification.message
-        );
-      }
-    }
-  }
-
-  let formValid = false;
-  let passwordError: string | null = null;
-  let confirmedPasswordError: string | null = null;
-  $: {
-    const passwordValidation = validatePassword(password);
-    passwordError = passwordValidation.message;
-
-    const confirmedPasswordValid = password === confirmedPassword;
-    confirmedPasswordError = confirmedPasswordValid
-      ? null
-      : 'Passwords do not match';
-
-    formValid = passwordValidation.valid && confirmedPasswordValid;
-  }
+  let disabled = false;
 </script>
 
 <svelte:head>
@@ -68,38 +27,52 @@
     Please check your email and try again.
   </h2>
 {:else}
-  <form>
-    <h2>Reset Password</h2>
-    <p>Please enter your new password below.</p>
-    <label class="label">
-      <span>Password</span>
-      <input
-        type="password"
-        class="input"
+  <div class="card mx-auto my-8 w-1/2 max-w-xl p-4">
+    <form
+      class="flex flex-col space-y-4"
+      method="post"
+      use:focusTrap={true}
+      use:enhance={() => {
+        disabled = true;
+
+        return async ({ update }) => {
+          await update();
+          disabled = false;
+        };
+      }}
+    >
+      <!-- Title -->
+      <h2>Reset Password</h2>
+      
+      <p>Please enter your new password below.</p>
+
+      <!-- Password -->
+      <PasswordInput
+        name="password"
         title="Password"
-        placeholder="Password"
         autocomplete="new-password"
         bind:value={password}
+        bind:passwordShown
+        validationResult={passwordError}
       />
-    </label>
-    <label class="label">
-      <span>Confirm Password</span>
-      <input
-        type="password"
-        class="input"
+      <PasswordInput
+        name="password"
         title="Confirm Password"
-        placeholder="Confirm Password"
         autocomplete="new-password"
-        bind:value={confirmedPassword}
+        bind:value={passwordMatch}
+        bind:passwordShown={passwordMatchShown}
+        validationResult={passwordMatchError}
       />
-    </label>
-    <button
-      type="submit"
-      class="btn variant-filled"
-      disabled={!formValid}
-      on:click|preventDefault={handleSubmit}
-    >
-      Reset Password
-    </button>
-  </form>
+
+      <!-- Submit -->
+      <button
+        type="submit"
+        class="btn variant-filled w-1/2 self-center"
+        {disabled}
+      >
+        <span class="hidden md:inline-block">🚀</span>
+        <span>Reset Password</span>
+      </button>
+    </form>
+  </div>
 {/if}
