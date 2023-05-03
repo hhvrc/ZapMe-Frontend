@@ -12,7 +12,7 @@
     arrow,
   } from '@floating-ui/dom';
   import '@fontsource/montserrat';
-  import { AppShell, AppBar, AppRail } from '@skeletonlabs/skeleton';
+  import { AppShell, AppBar, AppRail, Toast } from '@skeletonlabs/skeleton';
   import { storePopup } from '@skeletonlabs/skeleton';
 
   storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
@@ -20,6 +20,7 @@
   const year = new Date().getFullYear();
 </script>
 
+<Toast position="bl" max={5}/>
 <AppShell>
   <svelte:fragment slot="header">
     <AppBar>

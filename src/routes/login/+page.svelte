@@ -1,8 +1,9 @@
 <script lang="ts">
+  import { browser } from '$app/environment';
   import { enhance } from '$app/forms';
   import PasswordInput from '$components/PasswordInput.svelte';
   import TextInput from '$components/TextInput.svelte';
-  import { focusTrap } from '@skeletonlabs/skeleton';
+  import { focusTrap, toastStore } from '@skeletonlabs/skeleton';
 
   const oauthProviders = [
     { name: 'Discord', icon: 'fa-discord', href: '/oauth/discord' },
@@ -15,9 +16,19 @@
   let password = '';
   let passwordShown = false;
 
-  let disabled = true;
+  let loading = false;
+  $: disabled = !username || !password || loading;
 
   export let form;
+
+  $: if (browser && form?.error) {
+    toastStore.trigger({
+      message: form.message,
+      autohide: true,
+      timeout: 5000,
+      background: 'variant-filled-error'
+    });
+  }
 </script>
 
 <svelte:head>
@@ -31,11 +42,11 @@
     method="post"
     use:focusTrap={true}
     use:enhance={() => {
-      disabled = true;
+      loading = true;
 
       return async ({ update }) => {
         await update();
-        disabled = false;
+        loading = false;
       };
     }}
   >
@@ -44,7 +55,7 @@
 
     <!-- Username -->
     <TextInput
-      name="username"
+      name="usernameOrEmail"
       title="Username Or Email"
       placeholder="John Doe / john@example.com"
       autocomplete="on"
@@ -72,9 +83,7 @@
 
     <!-- 1fr-auto-1fr with centered text -->
     <div class="grid grid-cols-[1fr_auto_1fr] items-center gap-3 text-gray-500">
-      <hr />
-      Or Login With
-      <hr />
+      <hr> Or Login With <hr>
     </div>
 
     <div class="flex space-x-2">

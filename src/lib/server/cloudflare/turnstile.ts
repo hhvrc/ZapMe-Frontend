@@ -1,47 +1,38 @@
 import { TURNSTILE_SECRET_KEY } from '$env/static/private';
 
-interface TurnstileResponse {
-  success: boolean;
-  challenge_ts: string;
-  hostname: string;
-  'error-codes': (
-    | 'missing-input-secret'
+type TurnStileErrorCode
+    = 'missing-input-secret'
     | 'invalid-input-secret'
     | 'missing-input-response'
     | 'invalid-input-response'
     | 'bad-request'
     | 'timeout-or-duplicate'
-    | 'internal-error'
-  )[];
-  action: string;
-  cdata: string;
-}
-interface TurnstileOk {
-  success: true;
-  challenge_ts: string;
-  hostname: string;
-  action: string;
-  cdata: string;
-}
-interface TurnstileError {
-  success: false;
-  message: 'missing-token' | 'invalid-token' | 'timeout-or-duplicate';
+    | 'internal-error';
+
+interface TurnstileResponse {
+  success: boolean;
+  challenge_ts?: string;
+  hostname?: string;
+  'error-codes': TurnStileErrorCode[];
+  action?: string;
+  cdata?: string;
 }
 
 // https://developers.cloudflare.com/turnstile/get-started/server-side-validation/
 async function ValidateToken(
   body: FormData,
   headers: Headers
-): Promise<TurnstileOk | TurnstileError> {
+): Promise<TurnstileResponse> {
   // Turnstile injects a token in "cf-turnstile-response".
   const token = body.get('cf-turnstile-response')?.toString();
   if (!token) {
-    return { success: false, message: 'missing-token' };
+    return { success: false, 'error-codes': ['missing-input-response'] };
   }
 
   const ip = headers.get('CF-Connecting-IP')?.toString();
   if (!ip) {
-    throw new Error('CF-Connecting-IP header not set');
+    console.error('CF-Connecting-IP header is missing');
+    return { success: false, 'error-codes': ['bad-request'] };
   }
 
   // Validate the token by calling the
@@ -67,42 +58,41 @@ async function ValidateToken(
       // If we got a error without error-codes, it's an internal error.
       const errorCodes = outcome['error-codes'];
       if (!errorCodes || errorCodes.length === 0) {
-        throw new Error('Turnstile API returned an error without error-codes');
+        return { success: false, 'error-codes': ['internal-error'] };
       }
 
-      // Process the error-codes.
-      switch (errorCodes[0]) {
-        case 'internal-error':
-          if (retryCount++ >= 3) {
-            throw new Error('Turnstile API returned an internal-error');
-          }
-          retry = true;
-          break;
-        case 'bad-request':
-        case 'missing-input-secret':
-        case 'invalid-input-secret':
-          throw new Error('Turnstile reports that the secret key is invalid');
-        case 'missing-input-response':
-          return { success: false, message: 'missing-token' };
-        case 'invalid-input-response':
-          return { success: false, message: 'invalid-token' };
-        case 'timeout-or-duplicate':
-          return { success: false, message: 'timeout-or-duplicate' };
-        default:
-          throw new Error(
-            'Turnstile API returned an unknown error-code: ' + errorCodes[0]
-          );
-      }
+      retry = errorCodes.includes('internal-error') && retryCount++ < 3;
     }
   } while (retry);
 
-  return {
-    success: true,
-    challenge_ts: outcome.challenge_ts,
-    hostname: outcome.hostname,
-    action: outcome.action,
-    cdata: outcome.cdata,
-  };
+  return outcome;
 }
 
-export { type TurnstileOk, type TurnstileError, ValidateToken };
+function TurnstileUserErrorMessage(response: TurnstileResponse): string {
+  if (response.success) {
+    return 'Success';
+  }
+
+  const errorCodes = response['error-codes'];
+  if (errorCodes.includes('internal-error')) {
+    return 'Internal Server Error';
+  }
+  let message;
+  switch (errorCodes[0]) {
+    case 'missing-input-response':
+      message = 'Missing turnstile response';
+      break;
+    case 'invalid-input-response':
+      message = 'Invalid turnstile response';
+      break;
+    case 'bad-request':
+      message = 'Bad request';
+      break;
+    default:
+      message = 'Unknown error';
+      break;
+  }
+  return message;
+}
+
+export { ValidateToken, TurnstileUserErrorMessage, type TurnstileResponse };

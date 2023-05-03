@@ -1,8 +1,9 @@
 <script lang="ts">
+  import { browser } from '$app/environment';
   import { enhance } from '$app/forms';
   import TextInput from '$components/TextInput.svelte';
   import Turnstile from '$components/Turnstile.svelte';
-  import { focusTrap } from '@skeletonlabs/skeleton';
+  import { focusTrap, toastStore } from '@skeletonlabs/skeleton';
 
   let email = '';
   let turnstileToken: string | null = null;
@@ -10,6 +11,15 @@
   let disabled = true;
 
   export let form;
+
+  $: if (browser && form?.error) {
+    toastStore.trigger({
+      message: form.message,
+      autohide: true,
+      timeout: 5000,
+      background: 'variant-filled-error'
+    });
+  }
 </script>
 
 <svelte:head>
@@ -23,7 +33,7 @@
     method="post"
     action="/forgot-password"
     use:focusTrap={true}
-    use:enhance={(event) => {
+    use:enhance={() => {
       disabled = true;
 
       return async ({ update }) => {

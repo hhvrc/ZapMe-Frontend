@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { browser } from '$app/environment';
   import { enhance } from '$app/forms';
   import PasswordInput from '$components/PasswordInput.svelte';
   import TextInput from '$components/TextInput.svelte';
@@ -10,9 +11,18 @@
     validateUsername,
   } from '$lib/validators';
   import { ValidationResultIcon } from '$types';
-  import { focusTrap } from '@skeletonlabs/skeleton';
+  import { focusTrap, toastStore } from '@skeletonlabs/skeleton';
 
   export let form;
+
+  $: if (browser && form?.error) {
+    toastStore.trigger({
+      message: form.message,
+      autohide: true,
+      timeout: 5000,
+      background: 'variant-filled-error'
+    });
+  }
 
   let username = form?.username?.toString() ?? '';
   $: usernameError = validateUsername(username);

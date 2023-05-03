@@ -1,6 +1,7 @@
 import { TURNSTILE_BYPASS_TOKEN } from '$env/static/private';
 import { accountApi } from '$lib/fetchSingleton.js';
 import { Turnstile } from '$lib/server/cloudflare';
+import { TurnstileUserErrorMessage } from '$lib/server/cloudflare/turnstile.js';
 import { fail } from '@sveltejs/kit';
 
 /** @type {import('./$types').Actions} */
@@ -18,8 +19,8 @@ export const actions = {
         username,
         email,
         acceptedTerms,
-        success: false,
-        missingFields: true,
+        error: true,
+        message: 'Missing required fields',
       });
     }
 
@@ -30,8 +31,8 @@ export const actions = {
         username,
         email,
         acceptedTerms,
-        success: false,
-        turnstileError: cfResponse.message,
+        error: true,
+        message: TurnstileUserErrorMessage(cfResponse),
       });
     }
 
@@ -50,22 +51,24 @@ export const actions = {
         return { success: true, body: res };
       })
       .catch((err) => {
-        return { success: false, body: err };
+        console.error(err);
+        return { success: false };
       });
 
     if (!zmResponse.success) {
-      const err = zmResponse.body as Error;
-      console.error(err);
-      return fail(400, {
+      return fail(500, {
         username,
         email,
         acceptedTerms,
-        success: false,
-        error: zmResponse.body,
+        error: true,
+        message: 'Internal Server Error',
       });
     }
 
     return {
+      username,
+      email,
+      acceptedTerms,
       success: true,
     };
   },

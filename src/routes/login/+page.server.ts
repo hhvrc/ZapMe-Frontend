@@ -1,5 +1,4 @@
 import { authenticationApi } from '$lib/fetchSingleton.js';
-import { Turnstile } from '$lib/server/cloudflare';
 import { fail } from '@sveltejs/kit';
 
 /** @type {import('./$types').Actions} */
@@ -13,22 +12,12 @@ export const actions = {
     if (!usernameOrEmail || !password) {
       return fail(400, {
         usernameOrEmail,
-        success: false,
-        missingFields: true,
+        error: true,
+        message: 'Missing required fields',
       });
     }
 
-    // Validate turnstile
-    const cfResponse = await Turnstile.ValidateToken(body, request.headers);
-    if (!cfResponse.success) {
-      return fail(400, {
-        usernameOrEmail,
-        success: false,
-        turnstileError: cfResponse.message,
-      });
-    }
-
-    // Create account
+    // Sign in
     const zmResponse = await authenticationApi
       .authSignIn({
         authSignIn: {
@@ -42,21 +31,21 @@ export const actions = {
         return { success: true, body: res };
       })
       .catch((err) => {
-        return { success: false, body: err };
+        console.error(err);
+        return { success: false };
       });
 
     if (!zmResponse.success) {
-      const err = zmResponse.body as Error;
-      console.error(err);
-      return fail(400, {
+      return fail(500, {
         usernameOrEmail,
-        success: false,
-        error: zmResponse.body,
+        error: true,
+        message: 'Internal Server Error',
       });
     }
 
     return {
-      success: true,
+      usernameOrEmail,
+      error: null,
     };
   },
 };
