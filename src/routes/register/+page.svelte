@@ -12,46 +12,40 @@
   } from '$lib/validators';
   import { focusTrap, toastStore } from '@skeletonlabs/skeleton';
 
-  export let form;
-
-  $: if (browser && form?.error) {
+  function createToast(message: string) {
+    if (!browser) return;
     toastStore.trigger({
-      message: form.message,
+      message,
       autohide: true,
       timeout: 5000,
-      background: 'variant-filled-error'
+      background: 'variant-filled-error',
     });
   }
 
-  let username = form?.username?.toString() ?? '';
-  $: usernameError = validateUsername(username);
-
-  let email = form?.email?.toString() ?? '';
-  $: emailError = validateEmail(email);
-
+  let username = '';
+  let email = '';
   let password = '';
-  $: passwordError = validatePassword(password);
   let passwordShown = false;
-
   let passwordMatch = '';
-  $: passwordMatchError = validatePasswordMatch(password, passwordMatch);
   let passwordMatchShown = false;
+  let acceptedTerms = false;
+  let turnstileToken = '';
+  let submitting = false;
 
-  let acceptedTerms = form?.acceptedTerms?.toString() === 'on';
+  async function handleSubmit() {
+    
+  }
+
+  $: usernameError = validateUsername(username);
+  $: emailError = validateEmail(email);
+  $: passwordError = validatePassword(password);
+  $: passwordMatchError = validatePasswordMatch(password, passwordMatch);
   $: acceptedTermsError = acceptedTerms
     ? { valid: true, message: null }
     : { valid: false, message: 'You must accept the terms.' };
 
-  let turnstileToken = '';
 
-  $: disabled = !(
-    usernameError.valid &&
-    emailError.valid &&
-    passwordError.valid &&
-    passwordMatchError.valid &&
-    acceptedTermsError.valid &&
-    !!turnstileToken
-  );
+  $: disabled = !(usernameError.valid && emailError.valid && passwordError.valid && passwordMatchError.valid && acceptedTermsError.valid && turnstileToken && !submitting);
 </script>
 
 <svelte:head>
@@ -60,19 +54,7 @@
 
 <!-- Register Form -->
 <div class="card mx-auto my-8 w-1/2 max-w-xl p-4">
-  <form
-    class="flex flex-col space-y-4"
-    method="post"
-    use:focusTrap={true}
-    use:enhance={() => {
-      disabled = true;
-
-      return async ({ update }) => {
-        await update();
-        disabled = false;
-      };
-    }}
-  >
+  <form class="flex flex-col space-y-4" on:submit|preventDefault={handleSubmit} use:focusTrap={true}>
     <!-- Title -->
     <h2>Register</h2>
 

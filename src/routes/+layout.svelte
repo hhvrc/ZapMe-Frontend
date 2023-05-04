@@ -14,10 +14,19 @@
   import '@fontsource/montserrat';
   import { AppShell, AppBar, AppRail, Toast } from '@skeletonlabs/skeleton';
   import { storePopup } from '@skeletonlabs/skeleton';
+  import { ApiConfigStore } from '$lib/stores';
+  import type { Config } from '$lib/api';
 
   storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
   const year = new Date().getFullYear();
+
+  let config: Config;
+  export let data;
+  $: {
+    config = data.config;
+    ApiConfigStore.set(data.config);
+  }
 </script>
 
 <Toast position="bl" max={5}/>
@@ -41,7 +50,7 @@
               class="hidden align-middle text-3xl uppercase tracking-widest md:inline-block"
               style="font-family: Montserrat,sans-serif"
             >
-              ZapMe
+              {config.appName}
             </strong>
           </a>
         </div>
@@ -68,7 +77,7 @@
   <svelte:fragment slot="pageFooter">
     <div class="m-2 flex items-center justify-center sm:justify-between">
       <div>
-        Made with <span style="color: #e25555;">&#9829;</span> by HentaiHeaven#0001
+        Made with <span style="color: #e25555;">&#9829;</span> by {config.founderSocials.discordUsername}
       </div>
       <div class="hidden lg:block">Copyright ©{year} | All Rights Reserved</div>
       <div class="hidden items-center space-x-2 sm:flex">

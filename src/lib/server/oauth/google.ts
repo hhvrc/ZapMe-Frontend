@@ -1,17 +1,19 @@
-import { fail, json, redirect } from '@sveltejs/kit';
+import { fail, json, redirect, type Cookies } from '@sveltejs/kit';
+
+export async function handleGoogleOAuthInitialize(cookies: Cookies, url: URL): Promise<Response> {
+  return redirect(302, '/home');
+}
 
 // Tokens can vary in size, up to the following limits:
 //   Authorization codes: 256 bytes
 //   Access tokens: 2048 bytes
 //   Refresh tokens: 512 bytes
-
-// Callback for Google OAuth2, will contain the code and state
-export async function GET({ cookies, url }) {
+export async function handleGoogleOAuthCallback(cookies: Cookies, url: URL): Promise<Response> {
   const code = url.searchParams.get('code');
   const state = url.searchParams.get('state');
 
   if (!code || !state) {
-    return 400;
+    return json({ error: 'Invalid code or state' }, { status: 400 });
   }
 
   const response = await fetch('https://oauth2.googleapis.com/token', {
@@ -29,7 +31,7 @@ export async function GET({ cookies, url }) {
   });
 
   if (!response.ok) {
-    return fail();
+    return json({ error: 'Failed to fetch access token' }, { status: 400 });
   }
 
   const { access_token, refresh_token, expires_in, scope, token_type } =

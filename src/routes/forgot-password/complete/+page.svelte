@@ -14,6 +14,10 @@
   let passwordMatchShown = false;
   $: passwordMatchError = validatePasswordMatch(password, passwordMatch);
 
+  async function handleSubmit() {
+    
+  }
+
   let disabled = false;
 </script>
 
@@ -28,19 +32,7 @@
   </h2>
 {:else}
   <div class="card mx-auto my-8 w-1/2 max-w-xl p-4">
-    <form
-      class="flex flex-col space-y-4"
-      method="post"
-      use:focusTrap={true}
-      use:enhance={() => {
-        disabled = true;
-
-        return async ({ update }) => {
-          await update();
-          disabled = false;
-        };
-      }}
-    >
+    <form class="flex flex-col space-y-4" on:submit|preventDefault={handleSubmit} use:focusTrap={true}>
       <!-- Title -->
       <h2>Reset Password</h2>
       

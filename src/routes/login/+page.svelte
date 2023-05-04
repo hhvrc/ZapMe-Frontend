@@ -1,16 +1,21 @@
 <script lang="ts">
   import { browser } from '$app/environment';
-  import { enhance } from '$app/forms';
+  import { goto } from '$app/navigation';
+  import { page } from '$app/stores';
   import PasswordInput from '$components/PasswordInput.svelte';
   import TextInput from '$components/TextInput.svelte';
+  import { ParseFetchError, authenticationApi } from '$lib/fetchSingleton.js';
+  import { AccountStore } from '$lib/stores/accountStore.js';
+  import { SessionTokenStore } from '$lib/stores/sessionTokenStore.js';
+  import { GetRedirectURL } from '$lib/utils/redirects.js';
   import { focusTrap, toastStore } from '@skeletonlabs/skeleton';
+  import type { Snapshot } from './$types';
+  import { OAuthProviderInfo } from '$lib/oauth';
 
-  const oauthProviders = [
-    { name: 'Discord', icon: 'fa-discord', href: '/oauth/discord' },
-    { name: 'GitHub', icon: 'fa-github', href: '/oauth/github' },
-    { name: 'Twitter', icon: 'fa-twitter', href: '/oauth/twitter' },
-    { name: 'Google', icon: 'fa-google', href: '/oauth/google' },
-  ];
+  export const snapshot: Snapshot = {
+    capture: () => username,
+    restore: (data) => username = data,
+  };
 
   let username = '';
   let password = '';
@@ -29,6 +34,48 @@
       background: 'variant-filled-error'
     });
   }
+
+  async function handleSubmit() {
+    try {
+      const response = await authenticationApi.authSignIn({
+        authSignIn: formData,
+      });
+      if (!response.session || !response.account) {
+        throw new Error('Invalid response');
+      }
+      AccountStore.set(response.account);
+      SessionTokenStore.set(response.session);
+      goto(GetRedirectURL($page.url, '/home'));
+    } catch (error) {
+      const responseData = await ParseFetchError(error);
+      if (responseData.code == 'err_network') {
+        window.alert('Network error');
+        return;
+      }
+      const response = responseData.details;
+      if (!response) {
+        if (error instanceof Error) {
+          window.alert(error.message);
+        } else {
+          window.alert('An unknown error occurred.');
+        }
+        return;
+      }
+      if (response.notification) {
+        window.alert(
+          response.notification.title + ': ' + response.notification.message
+        );
+      }
+      if (response.fields) {
+        if (response.fields.username) {
+          window.alert(response.fields.username);
+        }
+        if (response.fields.password) {
+          window.alert(response.fields.password);
+        }
+      }
+    }
+  }
 </script>
 
 <svelte:head>
@@ -37,19 +84,7 @@
 
 <!-- Login Form -->
 <div class="card mx-auto my-8 w-1/2 max-w-xl p-4">
-  <form
-    class="flex flex-col space-y-4"
-    method="post"
-    use:focusTrap={true}
-    use:enhance={() => {
-      loading = true;
-
-      return async ({ update }) => {
-        await update();
-        loading = false;
-      };
-    }}
-  >
+  <form class="flex flex-col space-y-4" on:submit|preventDefault={handleSubmit} use:focusTrap={true}>
     <!-- Title -->
     <h2>Login</h2>
 
@@ -87,7 +122,7 @@
     </div>
 
     <div class="flex items-center space gap-2 justify-center flex-wrap">
-      {#each oauthProviders as { name, icon, href }}
+      {#each Object.values(OAuthProviderInfo) as { name, icon, href }}
         <a class="btn variant-filled" {href}>
           <span class={'fa-brands ' + icon} />
           <span class="hidden md:inline">{name}</span>
