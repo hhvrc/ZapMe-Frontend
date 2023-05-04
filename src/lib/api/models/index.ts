@@ -5,7 +5,6 @@ export * from './AccountOAuthAdd';
 export * from './ApiConfig';
 export * from './ApiDisabledFeatures';
 export * from './AuthSignIn';
-export * from './AuthenticationConfig';
 export * from './Config';
 export * from './ContactConfig';
 export * from './CreateAccount';

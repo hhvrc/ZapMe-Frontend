@@ -19,12 +19,6 @@ import {
     ApiDisabledFeaturesFromJSONTyped,
     ApiDisabledFeaturesToJSON,
 } from './ApiDisabledFeatures';
-import type { AuthenticationConfig } from './AuthenticationConfig';
-import {
-    AuthenticationConfigFromJSON,
-    AuthenticationConfigFromJSONTyped,
-    AuthenticationConfigToJSON,
-} from './AuthenticationConfig';
 
 /**
  * 
@@ -44,25 +38,6 @@ export interface ApiConfig {
      * @memberof ApiConfig
      */
     privacyVersion?: number;
-    /**
-     * The DSN for Sentry, used for error reporting
-     * If this is null, Sentry reporting is disabled
-     * @type {string}
-     * @memberof ApiConfig
-     */
-    sentryDsn?: string | null;
-    /**
-     * Trace sample rate for Sentry, used for performance monitoring
-     * @type {number}
-     * @memberof ApiConfig
-     */
-    sentryTraceSampleRate?: number;
-    /**
-     * 
-     * @type {AuthenticationConfig}
-     * @memberof ApiConfig
-     */
-    authentication?: AuthenticationConfig;
     /**
      * 
      * @type {ApiDisabledFeatures}
@@ -92,9 +67,6 @@ export function ApiConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         
         'tosVersion': !exists(json, 'tosVersion') ? undefined : json['tosVersion'],
         'privacyVersion': !exists(json, 'privacyVersion') ? undefined : json['privacyVersion'],
-        'sentryDsn': !exists(json, 'sentryDsn') ? undefined : json['sentryDsn'],
-        'sentryTraceSampleRate': !exists(json, 'sentryTraceSampleRate') ? undefined : json['sentryTraceSampleRate'],
-        'authentication': !exists(json, 'authentication') ? undefined : AuthenticationConfigFromJSON(json['authentication']),
         'disabledFeatures': !exists(json, 'disabledFeatures') ? undefined : ApiDisabledFeaturesFromJSON(json['disabledFeatures']),
     };
 }
@@ -110,9 +82,6 @@ export function ApiConfigToJSON(value?: ApiConfig | null): any {
         
         'tosVersion': value.tosVersion,
         'privacyVersion': value.privacyVersion,
-        'sentryDsn': value.sentryDsn,
-        'sentryTraceSampleRate': value.sentryTraceSampleRate,
-        'authentication': AuthenticationConfigToJSON(value.authentication),
         'disabledFeatures': ApiDisabledFeaturesToJSON(value.disabledFeatures),
     };
 }

@@ -43,6 +43,12 @@ export interface SocialsConfig {
      * @memberof SocialsConfig
      */
     websiteUri?: string | null;
+    /**
+     * Discord username, e.g. "username#1234"
+     * @type {string}
+     * @memberof SocialsConfig
+     */
+    discordUsername?: string | null;
 }
 
 /**
@@ -68,6 +74,7 @@ export function SocialsConfigFromJSONTyped(json: any, ignoreDiscriminator: boole
         'twitterUri': !exists(json, 'twitterUri') ? undefined : json['twitterUri'],
         'redditUri': !exists(json, 'redditUri') ? undefined : json['redditUri'],
         'websiteUri': !exists(json, 'websiteUri') ? undefined : json['websiteUri'],
+        'discordUsername': !exists(json, 'discordUsername') ? undefined : json['discordUsername'],
     };
 }
 
@@ -84,6 +91,7 @@ export function SocialsConfigToJSON(value?: SocialsConfig | null): any {
         'twitterUri': value.twitterUri,
         'redditUri': value.redditUri,
         'websiteUri': value.websiteUri,
+        'discordUsername': value.discordUsername,
     };
 }
 

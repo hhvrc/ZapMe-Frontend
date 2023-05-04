@@ -12,7 +12,6 @@ models/AccountOAuthAdd.ts
 models/ApiConfig.ts
 models/ApiDisabledFeatures.ts
 models/AuthSignIn.ts
-models/AuthenticationConfig.ts
 models/Config.ts
 models/ContactConfig.ts
 models/CreateAccount.ts
