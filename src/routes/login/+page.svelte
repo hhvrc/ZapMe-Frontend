@@ -86,10 +86,10 @@
       <hr> Or Login With <hr>
     </div>
 
+    <div class="flex items-center space gap-2 justify-center flex-wrap">
       {#each oauthProviders as { name, icon, href }}
         <a class="btn variant-filled" {href}>
           <span class={'fa-brands ' + icon} />
-    <div class="flex items-center space gap-2 justify-center flex-wrap">
           <span class="hidden md:inline">{name}</span>
         </a>
       {/each}
