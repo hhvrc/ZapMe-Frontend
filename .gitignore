@@ -12,9 +12,5 @@ vite.config.[tj]s.timestamp-*
 /test-results
 /coverage
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-
 # Exclude sensitive configuration files
 *.local

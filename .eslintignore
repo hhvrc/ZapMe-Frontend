@@ -8,4 +8,7 @@ node_modules
 package-lock.json
 
 # Ignore OpenApi generated files
-/src/lib/api/
+/src/lib/api
+
+# Ignore static files
+/static
