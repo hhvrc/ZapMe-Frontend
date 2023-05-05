@@ -7,6 +7,8 @@
   "parser": "@typescript-eslint/parser",
   "plugins": ["svelte","@typescript-eslint"],
   "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": "latest",
     "extraFileExtensions": [".svelte"]
   },
   "overrides": [{
