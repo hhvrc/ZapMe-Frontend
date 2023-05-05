@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { enhance } from '$app/forms';
   import { page } from '$app/stores';
   import PasswordInput from '$components/PasswordInput.svelte';
   import { validatePassword, validatePasswordMatch } from '$lib/validators';

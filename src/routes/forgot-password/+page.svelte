@@ -4,6 +4,12 @@
   import TextInput from '$components/TextInput.svelte';
   import Turnstile from '$components/Turnstile.svelte';
   import { focusTrap, toastStore } from '@skeletonlabs/skeleton';
+  import type { Snapshot } from './$types';
+
+  export const snapshot: Snapshot = {
+    capture: () => email,
+    restore: (data) => email = data,
+  };
 
   let email = '';
   let turnstileToken: string | null = null;

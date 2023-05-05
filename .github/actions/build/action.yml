@@ -5,6 +5,17 @@ runs:
   using: 'composite'
   steps:
     #####################
+    # Populate secrets  #
+    #####################
+    - name: Create env file
+      shell: bash
+      run: |
+        touch .env.local
+        echo "PUBLIC_SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> .env.local
+        echo "TURNSTILE_SECRET_KEY=${{ secrets.TURNSTILE_SECRET_KEY }}" >> .env.local
+        echo "PUBLIC_TURNSTILE_SITE_KEY=${{ secrets.TURNSTILE_SITE_KEY }}" >> .env.local
+
+    #####################
     # Node installation #
     #####################
     - name: Setup Node

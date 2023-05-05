@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { browser } from '$app/environment';
-  import { enhance } from '$app/forms';
   import PasswordInput from '$components/PasswordInput.svelte';
   import TextInput from '$components/TextInput.svelte';
   import Turnstile from '$components/Turnstile.svelte';
@@ -10,17 +8,23 @@
     validatePasswordMatch,
     validateUsername,
   } from '$lib/validators';
-  import { focusTrap, toastStore } from '@skeletonlabs/skeleton';
+  import { focusTrap } from '@skeletonlabs/skeleton';
+  import type { Snapshot } from './$types';
 
-  function createToast(message: string) {
-    if (!browser) return;
-    toastStore.trigger({
-      message,
-      autohide: true,
-      timeout: 5000,
-      background: 'variant-filled-error',
-    });
-  }
+  export const snapshot: Snapshot = {
+    capture: () => {
+      return {
+        username,
+        email,
+        acceptedTerms
+      }
+    },
+    restore: (data) => {
+      username = data.username;
+      email = data.email;
+      acceptedTerms = data.acceptedTerms;
+    },
+  };
 
   let username = '';
   let email = '';
