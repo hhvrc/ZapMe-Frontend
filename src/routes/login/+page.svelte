@@ -43,7 +43,7 @@
       if (!response.session || !response.account) {
         throw new Error('Invalid response');
       }
-      AccountStore.set(response.account);
+      AccountStore.set({ account: response.account, lastFetch: Date.now() });
       SessionTokenStore.set(response.session);
       goto(GetRedirectURL($page.url, '/home'));
     } catch (error) {

@@ -14,6 +14,7 @@ import {
   ResponseError,
   RequiredError,
 } from '$lib/api';
+import { errors } from '@playwright/test';
 import { BuildRedirectURL, GetRedirectURL } from './utils/redirects';
 import { getReasonPhrase } from 'http-status-codes';
 
@@ -44,41 +45,45 @@ export type RespNetworkError = {
 
 export type Response<T> = RespOk<T> | RespServerError | RespNetworkError;
 
-function isResponseError(error: any): error is ResponseError {
+function isObject(data: unknown): data is object {
+  return typeof data === 'object' && data !== null;
+}
+function isNamedError(error: unknown): error is { name: string, message: string, stack: string } {
+  if (!isObject(error)) return false;
+
   return (
     Object.hasOwn(error, 'name') &&
     Object.hasOwn(error, 'message') &&
-    Object.hasOwn(error, 'stack') &&
-    Object.hasOwn(error, 'response') &&
-    error.name === 'ResponseError'
+    Object.hasOwn(error, 'stack')
   );
 }
-function isFetchError(error: any): error is FetchError {
-  return (
-    Object.hasOwn(error, 'name') &&
-    Object.hasOwn(error, 'message') &&
-    Object.hasOwn(error, 'stack') &&
-    Object.hasOwn(error, 'cause') &&
-    error.name === 'FetchError'
-  );
+function isResponseError(error: unknown): error is ResponseError {
+  if (!isNamedError(error)) return false;
+
+  return error.name === 'ResponseError' && Object.hasOwn(error, 'response');
 }
-function isRequiredError(error: any): error is RequiredError {
-  return (
-    Object.hasOwn(error, 'name') &&
-    Object.hasOwn(error, 'message') &&
-    Object.hasOwn(error, 'stack') &&
-    Object.hasOwn(error, 'field') &&
-    error.name === 'RequiredError'
-  );
+function isFetchError(error: unknown): error is FetchError {
+  if (!isNamedError(error)) return false;
+
+  return error.name === 'FetchError' && Object.hasOwn(error, 'cause');
 }
-function isUserNotification(data: any): data is UserNotification {
+function isRequiredError(error: unknown): error is RequiredError {
+  if (!isNamedError(error)) return false;
+
+  return error.name === 'RequiredError' && Object.hasOwn(error, 'field');
+}
+function isUserNotification(data: unknown): data is UserNotification {
+  if (!isObject(data)) return false;
+
   return (
     Object.hasOwn(data, 'severity') &&
     Object.hasOwn(data, 'title') &&
     Object.hasOwn(data, 'message')
   );
 }
-function isErrorDetails(data: any): data is ErrorDetails {
+function isErrorDetails(data: unknown): data is ErrorDetails {
+  if (!isObject(data)) return false;
+  
   if (
     Object.hasOwn(data, 'title') &&
     Object.hasOwn(data, 'detail') &&

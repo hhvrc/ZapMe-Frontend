@@ -21,7 +21,7 @@ export async function handle({ event, resolve }) {
 }
 
 async function handleOptions(event) {
-  var headers = {
+  const headers = {
     'Access-Control-Allow-Origin': 'https://google.com',
     'Access-Control-Allow-Methods': '*',
     'Access-Control-Allow-Headers': '*',

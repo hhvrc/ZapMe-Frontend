@@ -11,7 +11,7 @@ export const AccountStore = {
   ...store,
   fetch: async () => {
     accountApi.getAccount().then((account) => {
-      store.update((_) => {
+      store.update(() => {
         return {
           account: account,
           lastFetch: Date.now(),
