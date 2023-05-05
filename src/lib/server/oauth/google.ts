@@ -1,6 +1,9 @@
 import { fail, json, redirect, type Cookies } from '@sveltejs/kit';
 
-export async function handleGoogleOAuthInitialize(cookies: Cookies, url: URL): Promise<Response> {
+export async function handleGoogleOAuthInitialize(
+  cookies: Cookies,
+  url: URL
+): Promise<Response> {
   return redirect(302, '/home');
 }
 
@@ -8,7 +11,10 @@ export async function handleGoogleOAuthInitialize(cookies: Cookies, url: URL): P
 //   Authorization codes: 256 bytes
 //   Access tokens: 2048 bytes
 //   Refresh tokens: 512 bytes
-export async function handleGoogleOAuthCallback(cookies: Cookies, url: URL): Promise<Response> {
+export async function handleGoogleOAuthCallback(
+  cookies: Cookies,
+  url: URL
+): Promise<Response> {
   const code = url.searchParams.get('code');
   const state = url.searchParams.get('state');
 

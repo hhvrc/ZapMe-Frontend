@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ValidationResultIcon, type ValidationResult } from "$types";
+  import { ValidationResultIcon, type ValidationResult } from '$types';
 
   export let name: string | undefined = undefined;
   export let title = 'Password';
@@ -41,7 +41,7 @@
         on:click={() => (passwordShown = !passwordShown)}
       />
       {#if validationResult}
-      <i class={'fa-solid p-1 ' + errorIcon} title={errorMessage} />
+        <i class={'fa-solid p-1 ' + errorIcon} title={errorMessage} />
       {/if}
     </div>
   </div>

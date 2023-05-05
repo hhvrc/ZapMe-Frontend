@@ -1,3 +1,6 @@
-import type { Cookies } from "@sveltejs/kit";
+import type { Cookies } from '@sveltejs/kit';
 
-export type OAuthInitializeHandler = (cookies: Cookies, url: URL) => Promise<Response>;
+export type OAuthInitializeHandler = (
+  cookies: Cookies,
+  url: URL
+) => Promise<Response>;

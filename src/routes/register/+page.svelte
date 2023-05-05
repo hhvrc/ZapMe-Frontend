@@ -8,16 +8,16 @@
     validatePasswordMatch,
     validateUsername,
   } from '$lib/validators';
-  import { focusTrap } from '@skeletonlabs/skeleton';
   import type { Snapshot } from './$types';
+  import { focusTrap } from '@skeletonlabs/skeleton';
 
   export const snapshot: Snapshot = {
     capture: () => {
       return {
         username,
         email,
-        acceptedTerms
-      }
+        acceptedTerms,
+      };
     },
     restore: (data) => {
       username = data.username;
@@ -36,9 +36,7 @@
   let turnstileToken = '';
   let submitting = false;
 
-  async function handleSubmit() {
-    
-  }
+  async function handleSubmit() {}
 
   $: usernameError = validateUsername(username);
   $: emailError = validateEmail(email);
@@ -48,8 +46,15 @@
     ? { valid: true, message: null }
     : { valid: false, message: 'You must accept the terms.' };
 
-
-  $: disabled = !(usernameError.valid && emailError.valid && passwordError.valid && passwordMatchError.valid && acceptedTermsError.valid && turnstileToken && !submitting);
+  $: disabled = !(
+    usernameError.valid &&
+    emailError.valid &&
+    passwordError.valid &&
+    passwordMatchError.valid &&
+    acceptedTermsError.valid &&
+    turnstileToken &&
+    !submitting
+  );
 </script>
 
 <svelte:head>
@@ -58,7 +63,11 @@
 
 <!-- Register Form -->
 <div class="card mx-auto my-8 w-1/2 max-w-xl p-4">
-  <form class="flex flex-col space-y-4" on:submit|preventDefault={handleSubmit} use:focusTrap={true}>
+  <form
+    class="flex flex-col space-y-4"
+    on:submit|preventDefault={handleSubmit}
+    use:focusTrap={true}
+  >
     <!-- Title -->
     <h2>Register</h2>
 

@@ -5,16 +5,16 @@
   import PasswordInput from '$components/PasswordInput.svelte';
   import TextInput from '$components/TextInput.svelte';
   import { ParseFetchError, authenticationApi } from '$lib/fetchSingleton.js';
+  import { OAuthProviderInfo } from '$lib/oauth';
   import { AccountStore } from '$lib/stores/accountStore.js';
   import { SessionTokenStore } from '$lib/stores/sessionTokenStore.js';
   import { GetRedirectURL } from '$lib/utils/redirects.js';
-  import { focusTrap, toastStore } from '@skeletonlabs/skeleton';
   import type { Snapshot } from './$types';
-  import { OAuthProviderInfo } from '$lib/oauth';
+  import { focusTrap, toastStore } from '@skeletonlabs/skeleton';
 
   export const snapshot: Snapshot = {
     capture: () => username,
-    restore: (data) => username = data,
+    restore: (data) => (username = data),
   };
 
   let username = '';
@@ -31,7 +31,7 @@
       message: form.message,
       autohide: true,
       timeout: 5000,
-      background: 'variant-filled-error'
+      background: 'variant-filled-error',
     });
   }
 
@@ -84,7 +84,11 @@
 
 <!-- Login Form -->
 <div class="card mx-auto my-8 w-1/2 max-w-xl p-4">
-  <form class="flex flex-col space-y-4" on:submit|preventDefault={handleSubmit} use:focusTrap={true}>
+  <form
+    class="flex flex-col space-y-4"
+    on:submit|preventDefault={handleSubmit}
+    use:focusTrap={true}
+  >
     <!-- Title -->
     <h2>Login</h2>
 
@@ -118,10 +122,12 @@
 
     <!-- 1fr-auto-1fr with centered text -->
     <div class="grid grid-cols-[1fr_auto_1fr] items-center gap-3 text-gray-500">
-      <hr> Or Login With <hr>
+      <hr />
+      Or Login With
+      <hr />
     </div>
 
-    <div class="flex items-center space gap-2 justify-center flex-wrap">
+    <div class="space flex flex-wrap items-center justify-center gap-2">
       {#each Object.values(OAuthProviderInfo) as { name, icon, href }}
         <a class="btn variant-filled" {href}>
           <span class={'fa-brands ' + icon} />

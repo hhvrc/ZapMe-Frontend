@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ValidationResultIcon, type ValidationResult } from "$types";
+  import { ValidationResultIcon, type ValidationResult } from '$types';
 
   export let name: string;
   export let title: string;

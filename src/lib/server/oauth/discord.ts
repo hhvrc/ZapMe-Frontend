@@ -1,12 +1,16 @@
 import { json, redirect, type Cookies } from '@sveltejs/kit';
 
-export async function handleDiscordOAuthInitialize(cookies: Cookies, url: URL): Promise<Response> {
-
-
+export async function handleDiscordOAuthInitialize(
+  cookies: Cookies,
+  url: URL
+): Promise<Response> {
   return redirect(302, '/home');
 }
 
-export async function handleDiscordOAuthCallback(cookies: Cookies, url: URL): Promise<Response> {
+export async function handleDiscordOAuthCallback(
+  cookies: Cookies,
+  url: URL
+): Promise<Response> {
   const code = url.searchParams.get('code');
   const state = url.searchParams.get('state');
 
@@ -32,7 +36,8 @@ export async function handleDiscordOAuthCallback(cookies: Cookies, url: URL): Pr
     return json({ error: 'Failed to fetch access token' }, { status: 400 });
   }
 
-  const { access_token, refresh_token, expires_in, scope, token_type } = await response.json();
+  const { access_token, refresh_token, expires_in, scope, token_type } =
+    await response.json();
 
   // Set cookies
   cookies.set('access_token', access_token);

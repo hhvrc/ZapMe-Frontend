@@ -1,10 +1,16 @@
 import { fail, json, redirect, type Cookies } from '@sveltejs/kit';
 
-export async function handleGithubOAuthInitialize(cookies: Cookies, url: URL): Promise<Response> {
+export async function handleGithubOAuthInitialize(
+  cookies: Cookies,
+  url: URL
+): Promise<Response> {
   return redirect(302, '/home');
 }
 
-export async function handleGithubOAuthCallback(cookies: Cookies, url: URL): Promise<Response> {
+export async function handleGithubOAuthCallback(
+  cookies: Cookies,
+  url: URL
+): Promise<Response> {
   const code = url.searchParams.get('code');
   const state = url.searchParams.get('state');
 

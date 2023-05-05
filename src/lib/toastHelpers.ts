@@ -1,5 +1,5 @@
-import { browser } from "$app/environment";
-import { toastStore, type ToastSettings } from "@skeletonlabs/skeleton";
+import { browser } from '$app/environment';
+import { toastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 
 function createToastImpl(toast: ToastSettings) {
   if (!browser) return;

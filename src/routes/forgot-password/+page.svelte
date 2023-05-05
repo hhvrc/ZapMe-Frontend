@@ -3,12 +3,12 @@
   import { enhance } from '$app/forms';
   import TextInput from '$components/TextInput.svelte';
   import Turnstile from '$components/Turnstile.svelte';
-  import { focusTrap, toastStore } from '@skeletonlabs/skeleton';
   import type { Snapshot } from './$types';
+  import { focusTrap, toastStore } from '@skeletonlabs/skeleton';
 
   export const snapshot: Snapshot = {
     capture: () => email,
-    restore: (data) => email = data,
+    restore: (data) => (email = data),
   };
 
   let email = '';
@@ -23,7 +23,7 @@
       message: form.message,
       autohide: true,
       timeout: 5000,
-      background: 'variant-filled-error'
+      background: 'variant-filled-error',
     });
   }
 </script>
