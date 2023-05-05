@@ -27,6 +27,11 @@ jobs:
 
       - name: Build
         uses: ./.github/actions/build
+        env:
+          NODE_ENV: production
+          PUBLIC_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          TURNSTILE_SECRET_KEY: ${{ secrets.TURNSTILE_SECRET_KEY }}
+          PUBLIC_TURNSTILE_SITE_KEY: ${{ secrets.TURNSTILE_SITE_KEY }}
 
       - name: Run checks
         run: npm run check
