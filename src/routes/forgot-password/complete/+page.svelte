@@ -41,18 +41,16 @@
 
       <!-- Password -->
       <PasswordInput
-        name="password"
         title="Password"
         autocomplete="new-password"
-        bind:value={password}
-        bind:passwordShown
+        bind:password={password}
+        bind:passwordShown={passwordShown}
         validationResult={passwordError}
       />
       <PasswordInput
-        name="password"
         title="Confirm Password"
         autocomplete="new-password"
-        bind:value={passwordMatch}
+        bind:password={passwordMatch}
         bind:passwordShown={passwordMatchShown}
         validationResult={passwordMatchError}
       />

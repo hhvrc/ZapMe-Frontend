@@ -73,7 +73,6 @@
 
     <!-- Username -->
     <TextInput
-      name="username"
       title="Username"
       placeholder="John Doe"
       autocomplete="username"
@@ -83,7 +82,6 @@
 
     <!-- Email -->
     <TextInput
-      name="email"
       title="Email"
       placeholder="john@example.com"
       autocomplete="email"
@@ -93,18 +91,16 @@
 
     <!-- Password -->
     <PasswordInput
-      name="password"
       title="Password"
       autocomplete="new-password"
-      bind:value={password}
+      bind:password
       bind:passwordShown
       validationResult={passwordError}
     />
     <PasswordInput
-      name="password"
       title="Confirm Password"
       autocomplete="new-password"
-      bind:value={passwordMatch}
+      bind:password={passwordMatch}
       bind:passwordShown={passwordMatchShown}
       validationResult={passwordMatchError}
     />
@@ -114,13 +110,12 @@
       <input
         class="checkbox"
         type="checkbox"
-        name="acceptedTerms"
         title="Agree to terms of service"
         bind:checked={acceptedTerms}
       />
-      <span
-        >I agree to the <a href="/terms-of-service">Terms of Service</a></span
-      >
+      <span>
+        I agree to the <a href="/terms-of-service">Terms of Service</a>
+      </span>
     </label>
 
     <!-- Turnstile -->

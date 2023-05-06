@@ -5,7 +5,8 @@ function createToastImpl(toast: ToastSettings) {
   if (!browser) return;
   toastStore.trigger(toast);
 }
-export function createErrorToast(message: string) {
+export function createErrorToast(message: string|null|undefined) {
+  if (!message) return;
   createToastImpl({
     message,
     autohide: true,

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { ValidationResultIcon, type ValidationResult } from '$types';
 
-  export let name: string;
+  export let name: string|undefined = undefined;
   export let title: string;
   export let placeholder: string | undefined = undefined;
   export let autocomplete: string | undefined = undefined;

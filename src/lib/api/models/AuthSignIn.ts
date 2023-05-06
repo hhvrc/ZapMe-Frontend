@@ -32,13 +32,6 @@ export interface AuthSignIn {
      */
     password?: string;
     /**
-     * Session name to remember this sign in by, e.g. "My home computer"
-     * This is for the users to be able to see which devices they have logged in their user settings
-     * @type {string}
-     * @memberof AuthSignIn
-     */
-    sessionName?: string | null;
-    /**
      * Make this login persist for a longer period of time
      * @type {boolean}
      * @memberof AuthSignIn
@@ -67,7 +60,6 @@ export function AuthSignInFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         
         'usernameOrEmail': !exists(json, 'usernameOrEmail') ? undefined : json['usernameOrEmail'],
         'password': !exists(json, 'password') ? undefined : json['password'],
-        'sessionName': !exists(json, 'sessionName') ? undefined : json['sessionName'],
         'rememberMe': !exists(json, 'rememberMe') ? undefined : json['rememberMe'],
     };
 }
@@ -83,7 +75,6 @@ export function AuthSignInToJSON(value?: AuthSignIn | null): any {
         
         'usernameOrEmail': value.usernameOrEmail,
         'password': value.password,
-        'sessionName': value.sessionName,
         'rememberMe': value.rememberMe,
     };
 }

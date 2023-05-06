@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { browser } from '$app/environment';
   import { enhance } from '$app/forms';
   import TextInput from '$components/TextInput.svelte';
   import Turnstile from '$components/Turnstile.svelte';
+  import { createErrorToast } from '$lib/toastHelpers';
   import type { Snapshot } from './$types';
-  import { focusTrap, toastStore } from '@skeletonlabs/skeleton';
+  import { focusTrap } from '@skeletonlabs/skeleton';
 
   export const snapshot: Snapshot = {
     capture: () => email,
@@ -18,14 +18,7 @@
 
   export let form;
 
-  $: if (browser && form?.error) {
-    toastStore.trigger({
-      message: form.message,
-      autohide: true,
-      timeout: 5000,
-      background: 'variant-filled-error',
-    });
-  }
+  $: createErrorToast(form?.error);
 </script>
 
 <svelte:head>
@@ -52,7 +45,6 @@
 
     <!-- Email -->
     <TextInput
-      name="email"
       title="Email"
       placeholder="john@example.com"
       autocomplete="email"

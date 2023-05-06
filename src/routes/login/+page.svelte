@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { browser } from '$app/environment';
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
   import PasswordInput from '$components/PasswordInput.svelte';
@@ -8,37 +7,36 @@
   import { OAuthProviderInfo } from '$lib/oauth';
   import { AccountStore } from '$lib/stores/accountStore.js';
   import { SessionTokenStore } from '$lib/stores/sessionTokenStore.js';
+  import { createErrorToast } from '$lib/toastHelpers';
   import { GetRedirectURL } from '$lib/utils/redirects.js';
   import type { Snapshot } from './$types';
-  import { focusTrap, toastStore } from '@skeletonlabs/skeleton';
+  import { focusTrap } from '@skeletonlabs/skeleton';
 
   export const snapshot: Snapshot = {
-    capture: () => username,
-    restore: (data) => (username = data),
+    capture: () => usernameOrEmail,
+    restore: (data) => (usernameOrEmail = data),
   };
 
-  let username = '';
+  let usernameOrEmail = '';
   let password = '';
   let passwordShown = false;
+  let rememberMe = false;
 
   let loading = false;
-  $: disabled = !username || !password || loading;
+  $: disabled = !usernameOrEmail || !password || loading;
 
   export let form;
 
-  $: if (browser && form?.error) {
-    toastStore.trigger({
-      message: form.message,
-      autohide: true,
-      timeout: 5000,
-      background: 'variant-filled-error',
-    });
-  }
+  $: createErrorToast(form?.error);
 
   async function handleSubmit() {
     try {
       const response = await authenticationApi.authSignIn({
-        authSignIn: formData,
+        authSignIn: {
+          usernameOrEmail,
+          password,
+          rememberMe,
+        },
       });
       if (!response.session || !response.account) {
         throw new Error('Invalid response');
@@ -94,15 +92,29 @@
 
     <!-- Username -->
     <TextInput
-      name="usernameOrEmail"
       title="Username Or Email"
       placeholder="John Doe / john@example.com"
       autocomplete="on"
-      bind:value={username}
+      bind:value={usernameOrEmail}
     />
 
     <!-- Password -->
-    <PasswordInput name="password" bind:value={password} bind:passwordShown />
+    <PasswordInput
+      autocomplete="current-password"
+      bind:password
+      bind:passwordShown
+    />
+
+    <!-- Remember me -->
+    <label class="flex items-center space-x-2">
+      <input
+        class="checkbox"
+        type="checkbox"
+        title="Remember Me"
+        bind:checked={rememberMe}
+      />
+      <span>Remember Me</span>
+    </label>
 
     <!-- Submit -->
     <button

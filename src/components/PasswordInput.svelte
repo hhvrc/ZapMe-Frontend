@@ -4,10 +4,9 @@
   export let name: string | undefined = undefined;
   export let title = 'Password';
   export let placeholder = 'Password';
-  export let autocomplete: 'new-password' | 'current-password' =
-    'current-password';
+  export let autocomplete: 'new-password' | 'current-password' | undefined = undefined;
+  export let password: string;
   export let passwordShown = false;
-  export let value: string;
   export let validationResult: ValidationResult | undefined = undefined;
 
   let errorIcon = 'fa-circle-check text-success-500';
@@ -27,10 +26,10 @@
       {title}
       {placeholder}
       {autocomplete}
-      {value}
+      value={password}
       on:input={(e) => {
         passwordShown = false;
-        value = e.currentTarget.value;
+        password = e.currentTarget.value;
       }}
     />
     <div>
