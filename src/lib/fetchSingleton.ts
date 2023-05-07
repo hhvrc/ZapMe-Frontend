@@ -14,7 +14,6 @@ import {
   ResponseError,
   RequiredError,
 } from '$lib/api';
-import { errors } from '@playwright/test';
 import { BuildRedirectURL, GetRedirectURL } from './utils/redirects';
 import { getReasonPhrase } from 'http-status-codes';
 
