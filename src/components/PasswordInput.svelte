@@ -1,10 +1,9 @@
 <script lang="ts">
   import { ValidationResultIcon, type ValidationResult } from '$types';
 
-  export let name: string | undefined = undefined;
   export let title = 'Password';
   export let placeholder = 'Password';
-  export let autocomplete: 'new-password' | 'current-password' | undefined = undefined;
+  export let autocomplete: 'new-password' | 'current-password';
   export let password: string;
   export let passwordShown = false;
   export let validationResult: ValidationResult | undefined = undefined;
@@ -22,7 +21,6 @@
     <input
       class="input"
       type={passwordShown ? 'text' : 'password'}
-      {name}
       {title}
       {placeholder}
       {autocomplete}
