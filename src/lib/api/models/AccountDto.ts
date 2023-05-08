@@ -55,7 +55,13 @@ export interface AccountDto {
      * @type {number}
      * @memberof AccountDto
      */
-    readonly acceptedTosVersion?: number;
+    readonly acceptedPrivacyPolicyVersion?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof AccountDto
+     */
+    readonly acceptedTermsOfServiceVersion?: number;
     /**
      * 
      * @type {string}
@@ -129,7 +135,8 @@ export function AccountDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'username': !exists(json, 'username') ? undefined : json['username'],
         'obscuredEmail': !exists(json, 'obscuredEmail') ? undefined : json['obscuredEmail'],
         'emailVerified': !exists(json, 'emailVerified') ? undefined : json['emailVerified'],
-        'acceptedTosVersion': !exists(json, 'acceptedTosVersion') ? undefined : json['acceptedTosVersion'],
+        'acceptedPrivacyPolicyVersion': !exists(json, 'acceptedPrivacyPolicyVersion') ? undefined : json['acceptedPrivacyPolicyVersion'],
+        'acceptedTermsOfServiceVersion': !exists(json, 'acceptedTermsOfServiceVersion') ? undefined : json['acceptedTermsOfServiceVersion'],
         'profilePictureUrl': !exists(json, 'profilePictureUrl') ? undefined : json['profilePictureUrl'],
         'status': !exists(json, 'status') ? undefined : UserStatusFromJSON(json['status']),
         'statusText': !exists(json, 'statusText') ? undefined : json['statusText'],

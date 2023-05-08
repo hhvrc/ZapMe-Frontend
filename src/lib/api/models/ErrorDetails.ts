@@ -27,19 +27,19 @@ import {
  */
 export interface ErrorDetails {
     /**
-     * Title for developer to understand what went wrong (not user friendly)
+     * Error code, this is a short string that can be used to identify the error (meant for developers)
      * @type {string}
      * @memberof ErrorDetails
      */
-    title?: string;
+    code?: string;
     /**
-     * More detailed description of what this error is about (not user friendly)
+     * Detailed description of what this error is about (meant for developers)
      * @type {string}
      * @memberof ErrorDetails
      */
     detail?: string;
     /**
-     * Suggestion to developer on how they might be able to midegate this error
+     * Suggestion on how to midegate this error (meant for developers)
      * @type {string}
      * @memberof ErrorDetails
      */
@@ -77,7 +77,7 @@ export function ErrorDetailsFromJSONTyped(json: any, ignoreDiscriminator: boolea
     }
     return {
         
-        'title': !exists(json, 'title') ? undefined : json['title'],
+        'code': !exists(json, 'code') ? undefined : json['code'],
         'detail': !exists(json, 'detail') ? undefined : json['detail'],
         'suggestion': !exists(json, 'suggestion') ? undefined : json['suggestion'],
         'fields': !exists(json, 'fields') ? undefined : json['fields'],
@@ -94,7 +94,7 @@ export function ErrorDetailsToJSON(value?: ErrorDetails | null): any {
     }
     return {
         
-        'title': value.title,
+        'code': value.code,
         'detail': value.detail,
         'suggestion': value.suggestion,
         'fields': value.fields,

@@ -2,6 +2,7 @@
   import PasswordInput from '$components/PasswordInput.svelte';
   import TextInput from '$components/TextInput.svelte';
   import Turnstile from '$components/Turnstile.svelte';
+  import { accountApi } from '$lib/fetchSingleton';
   import {
     validateEmail,
     validatePassword,
@@ -36,7 +37,38 @@
   let turnstileToken = '';
   let submitting = false;
 
-  async function handleSubmit() {}
+  async function handleSubmit() {
+    submitting = true;
+    try {
+      await accountApi.createAccount({ username, email, password });
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      submitting = false;
+    }
+    
+    const response = await fetch('/api/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username,
+        email,
+        password,
+        turnstileToken,
+      }),
+    });
+    submitting = false;
+    if (response.ok) {
+      const { token } = await response.json();
+      localStorage.setItem('token', token);
+      window.location.href = '/';
+    } else {
+      const { error } = await response.json();
+      alert(error);
+    }
+  }
 
   $: usernameError = validateUsername(username);
   $: emailError = validateEmail(email);

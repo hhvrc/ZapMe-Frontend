@@ -91,7 +91,7 @@ function isErrorDetails(data: unknown): data is ErrorDetails {
     Object.hasOwn(data, 'fields') &&
     Object.hasOwn(data, 'notification')
   ) {
-    const notification = data.notification;
+    const notification = (data as ErrorDetails).notification;
 
     if (notification) {
       return isUserNotification(notification);
@@ -111,7 +111,7 @@ function Panic(): RespNetworkError {
 }
 
 export async function ParseFetchError(
-  error: any
+  error: unknown
 ): Promise<RespServerError | RespNetworkError> {
   if (isFetchError(error)) {
     return Panic();

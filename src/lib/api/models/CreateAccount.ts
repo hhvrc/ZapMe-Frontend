@@ -42,7 +42,13 @@ export interface CreateAccount {
      * @type {number}
      * @memberof CreateAccount
      */
-    acceptedTosVersion?: number;
+    acceptedPrivacyPolicyVersion?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateAccount
+     */
+    acceptedTermsOfServiceVersion?: number;
     /**
      * Response from cloudflare turnstile request
      * @type {string}
@@ -73,7 +79,8 @@ export function CreateAccountFromJSONTyped(json: any, ignoreDiscriminator: boole
         'username': !exists(json, 'username') ? undefined : json['username'],
         'password': !exists(json, 'password') ? undefined : json['password'],
         'email': !exists(json, 'email') ? undefined : json['email'],
-        'acceptedTosVersion': !exists(json, 'acceptedTosVersion') ? undefined : json['acceptedTosVersion'],
+        'acceptedPrivacyPolicyVersion': !exists(json, 'acceptedPrivacyPolicyVersion') ? undefined : json['acceptedPrivacyPolicyVersion'],
+        'acceptedTermsOfServiceVersion': !exists(json, 'acceptedTermsOfServiceVersion') ? undefined : json['acceptedTermsOfServiceVersion'],
         'turnstileResponse': !exists(json, 'turnstileResponse') ? undefined : json['turnstileResponse'],
     };
 }
@@ -90,7 +97,8 @@ export function CreateAccountToJSON(value?: CreateAccount | null): any {
         'username': value.username,
         'password': value.password,
         'email': value.email,
-        'acceptedTosVersion': value.acceptedTosVersion,
+        'acceptedPrivacyPolicyVersion': value.acceptedPrivacyPolicyVersion,
+        'acceptedTermsOfServiceVersion': value.acceptedTermsOfServiceVersion,
         'turnstileResponse': value.turnstileResponse,
     };
 }
