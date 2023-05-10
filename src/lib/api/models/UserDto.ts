@@ -43,7 +43,7 @@ export interface UserDto {
      * @type {string}
      * @memberof UserDto
      */
-    profilePictureId: string;
+    profilePictureId?: string | null;
     /**
      * 
      * @type {UserStatus}
@@ -77,7 +77,6 @@ export function instanceOfUserDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "username" in value;
-    isInstance = isInstance && "profilePictureId" in value;
     isInstance = isInstance && "status" in value;
     isInstance = isInstance && "statusText" in value;
     isInstance = isInstance && "createdAt" in value;
@@ -98,7 +97,7 @@ export function UserDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): U
         
         'id': json['id'],
         'username': json['username'],
-        'profilePictureId': json['profilePictureId'],
+        'profilePictureId': !exists(json, 'profilePictureId') ? undefined : json['profilePictureId'],
         'status': UserStatusFromJSON(json['status']),
         'statusText': json['statusText'],
         'createdAt': (new Date(json['createdAt'])),
