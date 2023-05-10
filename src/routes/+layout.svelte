@@ -29,7 +29,7 @@
   }
 </script>
 
-<svelte:head>{@html `<script>${autoModeWatcher.toString()} autoModeWatcher();</script>`}3</svelte:head>
+<svelte:head>{@html `<script>${autoModeWatcher.toString()} autoModeWatcher();</script>`}</svelte:head>
 
 <Toast position="bl" max={5} />
 <AppShell>
