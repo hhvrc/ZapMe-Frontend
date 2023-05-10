@@ -13,18 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { ApiDisabledFeatures } from './ApiDisabledFeatures';
+import type { ApiConfigDisabledFeatures } from './ApiConfigDisabledFeatures';
 import {
-    ApiDisabledFeaturesFromJSON,
-    ApiDisabledFeaturesFromJSONTyped,
-    ApiDisabledFeaturesToJSON,
-} from './ApiDisabledFeatures';
-import type { AuthenticationConfig } from './AuthenticationConfig';
-import {
-    AuthenticationConfigFromJSON,
-    AuthenticationConfigFromJSONTyped,
-    AuthenticationConfigToJSON,
-} from './AuthenticationConfig';
+    ApiConfigDisabledFeaturesFromJSON,
+    ApiConfigDisabledFeaturesFromJSONTyped,
+    ApiConfigDisabledFeaturesToJSON,
+} from './ApiConfigDisabledFeatures';
 
 /**
  * 
@@ -37,38 +31,19 @@ export interface ApiConfig {
      * @type {number}
      * @memberof ApiConfig
      */
-    tosVersion?: number;
+    tosVersion: number;
     /**
      * The current Privacy Policy version, if the user has not accepted this version, they will be prompted to accept it
      * @type {number}
      * @memberof ApiConfig
      */
-    privacyVersion?: number;
-    /**
-     * The DSN for Sentry, used for error reporting
-     * If this is null, Sentry reporting is disabled
-     * @type {string}
-     * @memberof ApiConfig
-     */
-    sentryDsn?: string | null;
-    /**
-     * Trace sample rate for Sentry, used for performance monitoring
-     * @type {number}
-     * @memberof ApiConfig
-     */
-    sentryTraceSampleRate?: number;
+    privacyVersion: number;
     /**
      * 
-     * @type {AuthenticationConfig}
+     * @type {ApiConfigDisabledFeatures}
      * @memberof ApiConfig
      */
-    authentication?: AuthenticationConfig;
-    /**
-     * 
-     * @type {ApiDisabledFeatures}
-     * @memberof ApiConfig
-     */
-    disabledFeatures?: ApiDisabledFeatures;
+    disabledFeatures: ApiConfigDisabledFeatures;
 }
 
 /**
@@ -76,6 +51,9 @@ export interface ApiConfig {
  */
 export function instanceOfApiConfig(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "tosVersion" in value;
+    isInstance = isInstance && "privacyVersion" in value;
+    isInstance = isInstance && "disabledFeatures" in value;
 
     return isInstance;
 }
@@ -90,12 +68,9 @@ export function ApiConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     }
     return {
         
-        'tosVersion': !exists(json, 'tosVersion') ? undefined : json['tosVersion'],
-        'privacyVersion': !exists(json, 'privacyVersion') ? undefined : json['privacyVersion'],
-        'sentryDsn': !exists(json, 'sentryDsn') ? undefined : json['sentryDsn'],
-        'sentryTraceSampleRate': !exists(json, 'sentryTraceSampleRate') ? undefined : json['sentryTraceSampleRate'],
-        'authentication': !exists(json, 'authentication') ? undefined : AuthenticationConfigFromJSON(json['authentication']),
-        'disabledFeatures': !exists(json, 'disabledFeatures') ? undefined : ApiDisabledFeaturesFromJSON(json['disabledFeatures']),
+        'tosVersion': json['tosVersion'],
+        'privacyVersion': json['privacyVersion'],
+        'disabledFeatures': ApiConfigDisabledFeaturesFromJSON(json['disabledFeatures']),
     };
 }
 
@@ -110,10 +85,7 @@ export function ApiConfigToJSON(value?: ApiConfig | null): any {
         
         'tosVersion': value.tosVersion,
         'privacyVersion': value.privacyVersion,
-        'sentryDsn': value.sentryDsn,
-        'sentryTraceSampleRate': value.sentryTraceSampleRate,
-        'authentication': AuthenticationConfigToJSON(value.authentication),
-        'disabledFeatures': ApiDisabledFeaturesToJSON(value.disabledFeatures),
+        'disabledFeatures': ApiConfigDisabledFeaturesToJSON(value.disabledFeatures),
     };
 }
 

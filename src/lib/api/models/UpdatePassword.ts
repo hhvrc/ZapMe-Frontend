@@ -24,13 +24,13 @@ export interface UpdatePassword {
      * @type {string}
      * @memberof UpdatePassword
      */
-    passwordNew?: string;
+    passwordNew: string;
     /**
      * 
      * @type {string}
      * @memberof UpdatePassword
      */
-    passwordCurrent?: string;
+    passwordCurrent: string;
 }
 
 /**
@@ -38,6 +38,8 @@ export interface UpdatePassword {
  */
 export function instanceOfUpdatePassword(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "passwordNew" in value;
+    isInstance = isInstance && "passwordCurrent" in value;
 
     return isInstance;
 }
@@ -52,8 +54,8 @@ export function UpdatePasswordFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
-        'passwordNew': !exists(json, 'password_new') ? undefined : json['password_new'],
-        'passwordCurrent': !exists(json, 'password_current') ? undefined : json['password_current'],
+        'passwordNew': json['password_new'],
+        'passwordCurrent': json['password_current'],
     };
 }
 

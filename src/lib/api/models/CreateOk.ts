@@ -24,13 +24,13 @@ export interface CreateOk {
      * @type {string}
      * @memberof CreateOk
      */
-    id?: string;
+    id: string;
     /**
      * 
      * @type {string}
      * @memberof CreateOk
      */
-    message?: string;
+    message: string;
 }
 
 /**
@@ -38,6 +38,8 @@ export interface CreateOk {
  */
 export function instanceOfCreateOk(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "id" in value;
+    isInstance = isInstance && "message" in value;
 
     return isInstance;
 }
@@ -52,8 +54,8 @@ export function CreateOkFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     }
     return {
         
-        'id': !exists(json, 'id') ? undefined : json['id'],
-        'message': !exists(json, 'message') ? undefined : json['message'],
+        'id': json['id'],
+        'message': json['message'],
     };
 }
 

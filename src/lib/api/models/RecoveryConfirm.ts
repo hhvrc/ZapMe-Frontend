@@ -24,13 +24,13 @@ export interface RecoveryConfirm {
      * @type {string}
      * @memberof RecoveryConfirm
      */
-    newPassword?: string;
+    newPassword: string;
     /**
      * The token sent to the user's email address
      * @type {string}
      * @memberof RecoveryConfirm
      */
-    token?: string;
+    token: string;
 }
 
 /**
@@ -38,6 +38,8 @@ export interface RecoveryConfirm {
  */
 export function instanceOfRecoveryConfirm(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "newPassword" in value;
+    isInstance = isInstance && "token" in value;
 
     return isInstance;
 }
@@ -52,8 +54,8 @@ export function RecoveryConfirmFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
-        'newPassword': !exists(json, 'newPassword') ? undefined : json['newPassword'],
-        'token': !exists(json, 'token') ? undefined : json['token'],
+        'newPassword': json['newPassword'],
+        'token': json['token'],
     };
 }
 

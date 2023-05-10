@@ -10,9 +10,11 @@
         "output": "src/lib/api",
         "additionalProperties": {
           "supportsES6": true,
+          "stringEnums": true,
           "withInterfaces": true,
           "enumPropertyNaming": "camelCase",
-          "modelPropertyNaming": "camelCase"
+          "modelPropertyNaming": "camelCase",
+          "useSingleRequestParameter": false
         }
       }
     }

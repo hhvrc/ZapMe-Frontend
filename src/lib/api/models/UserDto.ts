@@ -31,43 +31,43 @@ export interface UserDto {
      * @type {string}
      * @memberof UserDto
      */
-    id?: string;
+    id: string;
     /**
      * 
      * @type {string}
      * @memberof UserDto
      */
-    username?: string;
+    username: string;
     /**
      * 
      * @type {string}
      * @memberof UserDto
      */
-    profilePictureId?: string;
+    profilePictureId?: string | null;
     /**
      * 
      * @type {UserStatus}
      * @memberof UserDto
      */
-    status?: UserStatus;
+    status: UserStatus;
     /**
      * 
      * @type {string}
      * @memberof UserDto
      */
-    statusText?: string;
+    statusText: string;
     /**
      * Date this user was created at
      * @type {Date}
      * @memberof UserDto
      */
-    createdAt?: Date;
+    createdAt: Date;
     /**
      * Last time this user was online
      * @type {Date}
      * @memberof UserDto
      */
-    lastOnline?: Date;
+    lastOnline: Date;
 }
 
 /**
@@ -75,6 +75,12 @@ export interface UserDto {
  */
 export function instanceOfUserDto(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "id" in value;
+    isInstance = isInstance && "username" in value;
+    isInstance = isInstance && "status" in value;
+    isInstance = isInstance && "statusText" in value;
+    isInstance = isInstance && "createdAt" in value;
+    isInstance = isInstance && "lastOnline" in value;
 
     return isInstance;
 }
@@ -89,13 +95,13 @@ export function UserDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): U
     }
     return {
         
-        'id': !exists(json, 'id') ? undefined : json['id'],
-        'username': !exists(json, 'username') ? undefined : json['username'],
+        'id': json['id'],
+        'username': json['username'],
         'profilePictureId': !exists(json, 'profilePictureId') ? undefined : json['profilePictureId'],
-        'status': !exists(json, 'status') ? undefined : UserStatusFromJSON(json['status']),
-        'statusText': !exists(json, 'statusText') ? undefined : json['statusText'],
-        'createdAt': !exists(json, 'createdAt') ? undefined : (new Date(json['createdAt'])),
-        'lastOnline': !exists(json, 'lastOnline') ? undefined : (new Date(json['lastOnline'])),
+        'status': UserStatusFromJSON(json['status']),
+        'statusText': json['statusText'],
+        'createdAt': (new Date(json['createdAt'])),
+        'lastOnline': (new Date(json['lastOnline'])),
     };
 }
 
@@ -113,8 +119,8 @@ export function UserDtoToJSON(value?: UserDto | null): any {
         'profilePictureId': value.profilePictureId,
         'status': UserStatusToJSON(value.status),
         'statusText': value.statusText,
-        'createdAt': value.createdAt === undefined ? undefined : (value.createdAt.toISOString()),
-        'lastOnline': value.lastOnline === undefined ? undefined : (value.lastOnline.toISOString()),
+        'createdAt': (value.createdAt.toISOString()),
+        'lastOnline': (value.lastOnline.toISOString()),
     };
 }
 

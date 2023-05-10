@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="viewport" content="width=device-width" />
 
     <link rel="manifest" href="%sveltekit.assets%/manifest.json" />
-    <link rel="stylesheet" href="%sveltekit.assets%/global.css" />
+    <link rel="stylesheet" href="/fa/css/all.css" />
 
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
 
@@ -21,9 +21,12 @@
       type="image/x-icon"
       href="%sveltekit.assets%/favicon.ico"
     />
+
     %sveltekit.head%
   </head>
-  <body>
-    <div style="display: contents">%sveltekit.body%</div>
+  <body data-sveltekit-preload-data="hover" data-theme="skeleton">
+    <div style="display: contents" class="h-full overflow-hidden">
+      %sveltekit.body%
+    </div>
   </body>
 </html>

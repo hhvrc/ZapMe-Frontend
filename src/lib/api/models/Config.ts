@@ -13,24 +13,24 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { ApiConfig } from './ApiConfig';
+import type { ConfigApi } from './ConfigApi';
 import {
-    ApiConfigFromJSON,
-    ApiConfigFromJSONTyped,
-    ApiConfigToJSON,
-} from './ApiConfig';
-import type { ContactConfig } from './ContactConfig';
+    ConfigApiFromJSON,
+    ConfigApiFromJSONTyped,
+    ConfigApiToJSON,
+} from './ConfigApi';
+import type { ConfigContact } from './ConfigContact';
 import {
-    ContactConfigFromJSON,
-    ContactConfigFromJSONTyped,
-    ContactConfigToJSON,
-} from './ContactConfig';
-import type { SocialsConfig } from './SocialsConfig';
+    ConfigContactFromJSON,
+    ConfigContactFromJSONTyped,
+    ConfigContactToJSON,
+} from './ConfigContact';
+import type { ConfigFounderSocials } from './ConfigFounderSocials';
 import {
-    SocialsConfigFromJSON,
-    SocialsConfigFromJSONTyped,
-    SocialsConfigToJSON,
-} from './SocialsConfig';
+    ConfigFounderSocialsFromJSON,
+    ConfigFounderSocialsFromJSONTyped,
+    ConfigFounderSocialsToJSON,
+} from './ConfigFounderSocials';
 
 /**
  * 
@@ -43,31 +43,31 @@ export interface Config {
      * @type {string}
      * @memberof Config
      */
-    appName?: string;
+    appName: string;
     /**
      * Version of the product, e.g. "1.0.0"
      * @type {string}
      * @memberof Config
      */
-    appVersion?: string;
+    appVersion: string;
     /**
      * 
-     * @type {ApiConfig}
+     * @type {ConfigApi}
      * @memberof Config
      */
-    api?: ApiConfig;
+    api: ConfigApi;
     /**
      * 
-     * @type {ContactConfig}
+     * @type {ConfigContact}
      * @memberof Config
      */
-    contact?: ContactConfig;
+    contact: ConfigContact;
     /**
      * 
-     * @type {SocialsConfig}
+     * @type {ConfigFounderSocials}
      * @memberof Config
      */
-    founderSocials?: SocialsConfig;
+    founderSocials: ConfigFounderSocials;
 }
 
 /**
@@ -75,6 +75,11 @@ export interface Config {
  */
 export function instanceOfConfig(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "appName" in value;
+    isInstance = isInstance && "appVersion" in value;
+    isInstance = isInstance && "api" in value;
+    isInstance = isInstance && "contact" in value;
+    isInstance = isInstance && "founderSocials" in value;
 
     return isInstance;
 }
@@ -89,11 +94,11 @@ export function ConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean): Co
     }
     return {
         
-        'appName': !exists(json, 'appName') ? undefined : json['appName'],
-        'appVersion': !exists(json, 'appVersion') ? undefined : json['appVersion'],
-        'api': !exists(json, 'api') ? undefined : ApiConfigFromJSON(json['api']),
-        'contact': !exists(json, 'contact') ? undefined : ContactConfigFromJSON(json['contact']),
-        'founderSocials': !exists(json, 'founderSocials') ? undefined : SocialsConfigFromJSON(json['founderSocials']),
+        'appName': json['appName'],
+        'appVersion': json['appVersion'],
+        'api': ConfigApiFromJSON(json['api']),
+        'contact': ConfigContactFromJSON(json['contact']),
+        'founderSocials': ConfigFounderSocialsFromJSON(json['founderSocials']),
     };
 }
 
@@ -108,9 +113,9 @@ export function ConfigToJSON(value?: Config | null): any {
         
         'appName': value.appName,
         'appVersion': value.appVersion,
-        'api': ApiConfigToJSON(value.api),
-        'contact': ContactConfigToJSON(value.contact),
-        'founderSocials': SocialsConfigToJSON(value.founderSocials),
+        'api': ConfigApiToJSON(value.api),
+        'contact': ConfigContactToJSON(value.contact),
+        'founderSocials': ConfigFounderSocialsToJSON(value.founderSocials),
     };
 }
 

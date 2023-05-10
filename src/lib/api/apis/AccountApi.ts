@@ -16,60 +16,60 @@
 import * as runtime from '../runtime';
 import type {
   AccountDto,
-  AccountOAuthAdd,
-  CreateAccount,
+  AccountRecoveryConfirmRequest,
+  AccountRecoveryRequestRequest,
+  AddOAuthProviderRequest,
+  CreateAccountRequest,
   CreateOk,
   ErrorDetails,
-  RecoveryConfirm,
-  RecoveryRequest,
-  UpdateEmail,
   UpdateEmailOk,
-  UpdatePassword,
+  UpdateEmailRequest,
+  UpdatePasswordRequest,
   UpdateProfilePictureOk,
-  UpdateUserName,
+  UpdateUserNameRequest,
 } from '../models';
 import {
     AccountDtoFromJSON,
     AccountDtoToJSON,
-    AccountOAuthAddFromJSON,
-    AccountOAuthAddToJSON,
-    CreateAccountFromJSON,
-    CreateAccountToJSON,
+    AccountRecoveryConfirmRequestFromJSON,
+    AccountRecoveryConfirmRequestToJSON,
+    AccountRecoveryRequestRequestFromJSON,
+    AccountRecoveryRequestRequestToJSON,
+    AddOAuthProviderRequestFromJSON,
+    AddOAuthProviderRequestToJSON,
+    CreateAccountRequestFromJSON,
+    CreateAccountRequestToJSON,
     CreateOkFromJSON,
     CreateOkToJSON,
     ErrorDetailsFromJSON,
     ErrorDetailsToJSON,
-    RecoveryConfirmFromJSON,
-    RecoveryConfirmToJSON,
-    RecoveryRequestFromJSON,
-    RecoveryRequestToJSON,
-    UpdateEmailFromJSON,
-    UpdateEmailToJSON,
     UpdateEmailOkFromJSON,
     UpdateEmailOkToJSON,
-    UpdatePasswordFromJSON,
-    UpdatePasswordToJSON,
+    UpdateEmailRequestFromJSON,
+    UpdateEmailRequestToJSON,
+    UpdatePasswordRequestFromJSON,
+    UpdatePasswordRequestToJSON,
     UpdateProfilePictureOkFromJSON,
     UpdateProfilePictureOkToJSON,
-    UpdateUserNameFromJSON,
-    UpdateUserNameToJSON,
+    UpdateUserNameRequestFromJSON,
+    UpdateUserNameRequestToJSON,
 } from '../models';
 
-export interface AccountRecoveryConfirmRequest {
-    recoveryConfirm?: RecoveryConfirm;
+export interface AccountRecoveryConfirmOperationRequest {
+    accountRecoveryConfirmRequest?: AccountRecoveryConfirmRequest;
 }
 
-export interface AccountRecoveryRequestRequest {
-    recoveryRequest?: RecoveryRequest;
+export interface AccountRecoveryRequestOperationRequest {
+    accountRecoveryRequestRequest?: AccountRecoveryRequestRequest;
 }
 
-export interface AddOAuthProviderRequest {
+export interface AddOAuthProviderOperationRequest {
     providerName: string;
-    accountOAuthAdd?: AccountOAuthAdd;
+    addOAuthProviderRequest?: AddOAuthProviderRequest;
 }
 
-export interface CreateAccountRequest {
-    createAccount?: CreateAccount;
+export interface CreateAccountOperationRequest {
+    createAccountRequest?: CreateAccountRequest;
 }
 
 export interface DeleteAccountRequest {
@@ -81,12 +81,12 @@ export interface RemoveOAuthProviderRequest {
     providerName: string;
 }
 
-export interface UpdateEmailRequest {
-    updateEmail?: UpdateEmail;
+export interface UpdateEmailOperationRequest {
+    updateEmailRequest?: UpdateEmailRequest;
 }
 
-export interface UpdatePasswordRequest {
-    updatePassword?: UpdatePassword;
+export interface UpdatePasswordOperationRequest {
+    updatePasswordRequest?: UpdatePasswordRequest;
 }
 
 export interface UpdateProfilePictureRequest {
@@ -94,8 +94,8 @@ export interface UpdateProfilePictureRequest {
     hashSha256?: string;
 }
 
-export interface UpdateUserNameRequest {
-    updateUserName?: UpdateUserName;
+export interface UpdateUserNameOperationRequest {
+    updateUserNameRequest?: UpdateUserNameRequest;
 }
 
 export interface VerifyEmailAddressRequest {
@@ -112,63 +112,63 @@ export interface AccountApiInterface {
     /**
      * 
      * @summary Complete the password reset request using the token that was received in the users email
-     * @param {RecoveryConfirm} [recoveryConfirm] 
+     * @param {AccountRecoveryConfirmRequest} [accountRecoveryConfirmRequest] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccountApiInterface
      */
-    accountRecoveryConfirmRaw(requestParameters: AccountRecoveryConfirmRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+    accountRecoveryConfirmRaw(requestParameters: AccountRecoveryConfirmOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
 
     /**
      * Complete the password reset request using the token that was received in the users email
      */
-    accountRecoveryConfirm(requestParameters: AccountRecoveryConfirmRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+    accountRecoveryConfirm(accountRecoveryConfirmRequest?: AccountRecoveryConfirmRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
     /**
      * 
      * @summary Request password recovery of a account, a recovery email will be sent to the user that makes a call to the /recovery-confirm endpoint
-     * @param {RecoveryRequest} [recoveryRequest] 
+     * @param {AccountRecoveryRequestRequest} [accountRecoveryRequestRequest] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccountApiInterface
      */
-    accountRecoveryRequestRaw(requestParameters: AccountRecoveryRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+    accountRecoveryRequestRaw(requestParameters: AccountRecoveryRequestOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
 
     /**
      * Request password recovery of a account, a recovery email will be sent to the user that makes a call to the /recovery-confirm endpoint
      */
-    accountRecoveryRequest(requestParameters: AccountRecoveryRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+    accountRecoveryRequest(accountRecoveryRequestRequest?: AccountRecoveryRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
     /**
      * 
      * @summary Add a oauth connection to account
      * @param {string} providerName 
-     * @param {AccountOAuthAdd} [accountOAuthAdd] 
+     * @param {AddOAuthProviderRequest} [addOAuthProviderRequest] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccountApiInterface
      */
-    addOAuthProviderRaw(requestParameters: AddOAuthProviderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+    addOAuthProviderRaw(requestParameters: AddOAuthProviderOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
 
     /**
      * Add a oauth connection to account
      */
-    addOAuthProvider(requestParameters: AddOAuthProviderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+    addOAuthProvider(providerName: string, addOAuthProviderRequest?: AddOAuthProviderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
     /**
      * 
      * @summary Create a new account
-     * @param {CreateAccount} [createAccount] 
+     * @param {CreateAccountRequest} [createAccountRequest] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccountApiInterface
      */
-    createAccountRaw(requestParameters: CreateAccountRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CreateOk>>;
+    createAccountRaw(requestParameters: CreateAccountOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CreateOk>>;
 
     /**
      * Create a new account
      */
-    createAccount(requestParameters: CreateAccountRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateOk>;
+    createAccount(createAccountRequest?: CreateAccountRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateOk>;
 
     /**
      * 
@@ -184,7 +184,7 @@ export interface AccountApiInterface {
     /**
      * Delete currently logged in account
      */
-    deleteAccount(requestParameters: DeleteAccountRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+    deleteAccount(password?: string, reason?: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
     /**
      * 
@@ -213,37 +213,37 @@ export interface AccountApiInterface {
     /**
      * Remove a oauth connection from account
      */
-    removeOAuthProvider(requestParameters: RemoveOAuthProviderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+    removeOAuthProvider(providerName: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
     /**
      * 
      * @summary Updates the account email
-     * @param {UpdateEmail} [updateEmail] 
+     * @param {UpdateEmailRequest} [updateEmailRequest] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccountApiInterface
      */
-    updateEmailRaw(requestParameters: UpdateEmailRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UpdateEmailOk>>;
+    updateEmailRaw(requestParameters: UpdateEmailOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UpdateEmailOk>>;
 
     /**
      * Updates the account email
      */
-    updateEmail(requestParameters: UpdateEmailRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UpdateEmailOk>;
+    updateEmail(updateEmailRequest?: UpdateEmailRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UpdateEmailOk>;
 
     /**
      * 
      * @summary Updates the account password
-     * @param {UpdatePassword} [updatePassword] 
+     * @param {UpdatePasswordRequest} [updatePasswordRequest] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccountApiInterface
      */
-    updatePasswordRaw(requestParameters: UpdatePasswordRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AccountDto>>;
+    updatePasswordRaw(requestParameters: UpdatePasswordOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AccountDto>>;
 
     /**
      * Updates the account password
      */
-    updatePassword(requestParameters: UpdatePasswordRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AccountDto>;
+    updatePassword(updatePasswordRequest?: UpdatePasswordRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AccountDto>;
 
     /**
      * 
@@ -259,22 +259,22 @@ export interface AccountApiInterface {
     /**
      * Updates the account profile picture
      */
-    updateProfilePicture(requestParameters: UpdateProfilePictureRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UpdateProfilePictureOk>;
+    updateProfilePicture(body: Blob, hashSha256?: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UpdateProfilePictureOk>;
 
     /**
      * 
      * @summary Updates the account username
-     * @param {UpdateUserName} [updateUserName] 
+     * @param {UpdateUserNameRequest} [updateUserNameRequest] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccountApiInterface
      */
-    updateUserNameRaw(requestParameters: UpdateUserNameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+    updateUserNameRaw(requestParameters: UpdateUserNameOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
 
     /**
      * Updates the account username
      */
-    updateUserName(requestParameters: UpdateUserNameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+    updateUserName(updateUserNameRequest?: UpdateUserNameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
     /**
      * 
@@ -289,7 +289,7 @@ export interface AccountApiInterface {
     /**
      * Verify the users email address
      */
-    verifyEmailAddress(requestParameters: VerifyEmailAddressRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+    verifyEmailAddress(token?: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
 }
 
@@ -301,7 +301,7 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
     /**
      * Complete the password reset request using the token that was received in the users email
      */
-    async accountRecoveryConfirmRaw(requestParameters: AccountRecoveryConfirmRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async accountRecoveryConfirmRaw(requestParameters: AccountRecoveryConfirmOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -313,7 +313,7 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: RecoveryConfirmToJSON(requestParameters.recoveryConfirm),
+            body: AccountRecoveryConfirmRequestToJSON(requestParameters.accountRecoveryConfirmRequest),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -322,14 +322,14 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
     /**
      * Complete the password reset request using the token that was received in the users email
      */
-    async accountRecoveryConfirm(requestParameters: AccountRecoveryConfirmRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.accountRecoveryConfirmRaw(requestParameters, initOverrides);
+    async accountRecoveryConfirm(accountRecoveryConfirmRequest?: AccountRecoveryConfirmRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.accountRecoveryConfirmRaw({ accountRecoveryConfirmRequest: accountRecoveryConfirmRequest }, initOverrides);
     }
 
     /**
      * Request password recovery of a account, a recovery email will be sent to the user that makes a call to the /recovery-confirm endpoint
      */
-    async accountRecoveryRequestRaw(requestParameters: AccountRecoveryRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async accountRecoveryRequestRaw(requestParameters: AccountRecoveryRequestOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -341,7 +341,7 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: RecoveryRequestToJSON(requestParameters.recoveryRequest),
+            body: AccountRecoveryRequestRequestToJSON(requestParameters.accountRecoveryRequestRequest),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -350,14 +350,14 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
     /**
      * Request password recovery of a account, a recovery email will be sent to the user that makes a call to the /recovery-confirm endpoint
      */
-    async accountRecoveryRequest(requestParameters: AccountRecoveryRequestRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.accountRecoveryRequestRaw(requestParameters, initOverrides);
+    async accountRecoveryRequest(accountRecoveryRequestRequest?: AccountRecoveryRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.accountRecoveryRequestRaw({ accountRecoveryRequestRequest: accountRecoveryRequestRequest }, initOverrides);
     }
 
     /**
      * Add a oauth connection to account
      */
-    async addOAuthProviderRaw(requestParameters: AddOAuthProviderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async addOAuthProviderRaw(requestParameters: AddOAuthProviderOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.providerName === null || requestParameters.providerName === undefined) {
             throw new runtime.RequiredError('providerName','Required parameter requestParameters.providerName was null or undefined when calling addOAuthProvider.');
         }
@@ -373,7 +373,7 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: AccountOAuthAddToJSON(requestParameters.accountOAuthAdd),
+            body: AddOAuthProviderRequestToJSON(requestParameters.addOAuthProviderRequest),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -382,14 +382,14 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
     /**
      * Add a oauth connection to account
      */
-    async addOAuthProvider(requestParameters: AddOAuthProviderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.addOAuthProviderRaw(requestParameters, initOverrides);
+    async addOAuthProvider(providerName: string, addOAuthProviderRequest?: AddOAuthProviderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.addOAuthProviderRaw({ providerName: providerName, addOAuthProviderRequest: addOAuthProviderRequest }, initOverrides);
     }
 
     /**
      * Create a new account
      */
-    async createAccountRaw(requestParameters: CreateAccountRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CreateOk>> {
+    async createAccountRaw(requestParameters: CreateAccountOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CreateOk>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -401,7 +401,7 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: CreateAccountToJSON(requestParameters.createAccount),
+            body: CreateAccountRequestToJSON(requestParameters.createAccountRequest),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => CreateOkFromJSON(jsonValue));
@@ -410,8 +410,8 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
     /**
      * Create a new account
      */
-    async createAccount(requestParameters: CreateAccountRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateOk> {
-        const response = await this.createAccountRaw(requestParameters, initOverrides);
+    async createAccount(createAccountRequest?: CreateAccountRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateOk> {
+        const response = await this.createAccountRaw({ createAccountRequest: createAccountRequest }, initOverrides);
         return await response.value();
     }
 
@@ -444,8 +444,8 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
     /**
      * Delete currently logged in account
      */
-    async deleteAccount(requestParameters: DeleteAccountRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.deleteAccountRaw(requestParameters, initOverrides);
+    async deleteAccount(password?: string, reason?: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.deleteAccountRaw({ password: password, reason: reason }, initOverrides);
     }
 
     /**
@@ -499,14 +499,14 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
     /**
      * Remove a oauth connection from account
      */
-    async removeOAuthProvider(requestParameters: RemoveOAuthProviderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.removeOAuthProviderRaw(requestParameters, initOverrides);
+    async removeOAuthProvider(providerName: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.removeOAuthProviderRaw({ providerName: providerName }, initOverrides);
     }
 
     /**
      * Updates the account email
      */
-    async updateEmailRaw(requestParameters: UpdateEmailRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UpdateEmailOk>> {
+    async updateEmailRaw(requestParameters: UpdateEmailOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UpdateEmailOk>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -518,7 +518,7 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: UpdateEmailToJSON(requestParameters.updateEmail),
+            body: UpdateEmailRequestToJSON(requestParameters.updateEmailRequest),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => UpdateEmailOkFromJSON(jsonValue));
@@ -527,15 +527,15 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
     /**
      * Updates the account email
      */
-    async updateEmail(requestParameters: UpdateEmailRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UpdateEmailOk> {
-        const response = await this.updateEmailRaw(requestParameters, initOverrides);
+    async updateEmail(updateEmailRequest?: UpdateEmailRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UpdateEmailOk> {
+        const response = await this.updateEmailRaw({ updateEmailRequest: updateEmailRequest }, initOverrides);
         return await response.value();
     }
 
     /**
      * Updates the account password
      */
-    async updatePasswordRaw(requestParameters: UpdatePasswordRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AccountDto>> {
+    async updatePasswordRaw(requestParameters: UpdatePasswordOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AccountDto>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -547,7 +547,7 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: UpdatePasswordToJSON(requestParameters.updatePassword),
+            body: UpdatePasswordRequestToJSON(requestParameters.updatePasswordRequest),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => AccountDtoFromJSON(jsonValue));
@@ -556,8 +556,8 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
     /**
      * Updates the account password
      */
-    async updatePassword(requestParameters: UpdatePasswordRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AccountDto> {
-        const response = await this.updatePasswordRaw(requestParameters, initOverrides);
+    async updatePassword(updatePasswordRequest?: UpdatePasswordRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AccountDto> {
+        const response = await this.updatePasswordRaw({ updatePasswordRequest: updatePasswordRequest }, initOverrides);
         return await response.value();
     }
 
@@ -593,15 +593,15 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
     /**
      * Updates the account profile picture
      */
-    async updateProfilePicture(requestParameters: UpdateProfilePictureRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UpdateProfilePictureOk> {
-        const response = await this.updateProfilePictureRaw(requestParameters, initOverrides);
+    async updateProfilePicture(body: Blob, hashSha256?: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UpdateProfilePictureOk> {
+        const response = await this.updateProfilePictureRaw({ body: body, hashSha256: hashSha256 }, initOverrides);
         return await response.value();
     }
 
     /**
      * Updates the account username
      */
-    async updateUserNameRaw(requestParameters: UpdateUserNameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async updateUserNameRaw(requestParameters: UpdateUserNameOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -613,7 +613,7 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: UpdateUserNameToJSON(requestParameters.updateUserName),
+            body: UpdateUserNameRequestToJSON(requestParameters.updateUserNameRequest),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -622,8 +622,8 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
     /**
      * Updates the account username
      */
-    async updateUserName(requestParameters: UpdateUserNameRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.updateUserNameRaw(requestParameters, initOverrides);
+    async updateUserName(updateUserNameRequest?: UpdateUserNameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.updateUserNameRaw({ updateUserNameRequest: updateUserNameRequest }, initOverrides);
     }
 
     /**
@@ -651,8 +651,8 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
     /**
      * Verify the users email address
      */
-    async verifyEmailAddress(requestParameters: VerifyEmailAddressRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.verifyEmailAddressRaw(requestParameters, initOverrides);
+    async verifyEmailAddress(token?: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.verifyEmailAddressRaw({ token: token }, initOverrides);
     }
 
 }

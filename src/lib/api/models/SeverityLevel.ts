@@ -12,17 +12,16 @@
  * Do not edit the class manually.
  */
 
-
 /**
  * 
  * @export
+ * @enum {string}
  */
-export const SeverityLevel = {
-    info: 'info',
-    warning: 'warning',
-    error: 'error'
-} as const;
-export type SeverityLevel = typeof SeverityLevel[keyof typeof SeverityLevel];
+export enum SeverityLevel {
+    info = 'info',
+    warning = 'warning',
+    error = 'error'
+}
 
 
 export function SeverityLevelFromJSON(json: any): SeverityLevel {

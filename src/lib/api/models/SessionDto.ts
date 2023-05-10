@@ -24,19 +24,19 @@ export interface SessionDto {
      * @type {string}
      * @memberof SessionDto
      */
-    id?: string;
+    id: string;
     /**
      * 
      * @type {Date}
      * @memberof SessionDto
      */
-    issuedAtUtc?: Date;
+    issuedAtUtc: Date;
     /**
      * 
      * @type {Date}
      * @memberof SessionDto
      */
-    expiresAtUtc?: Date;
+    expiresAtUtc: Date;
 }
 
 /**
@@ -44,6 +44,9 @@ export interface SessionDto {
  */
 export function instanceOfSessionDto(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "id" in value;
+    isInstance = isInstance && "issuedAtUtc" in value;
+    isInstance = isInstance && "expiresAtUtc" in value;
 
     return isInstance;
 }
@@ -58,9 +61,9 @@ export function SessionDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     }
     return {
         
-        'id': !exists(json, 'id') ? undefined : json['id'],
-        'issuedAtUtc': !exists(json, 'issuedAtUtc') ? undefined : (new Date(json['issuedAtUtc'])),
-        'expiresAtUtc': !exists(json, 'expiresAtUtc') ? undefined : (new Date(json['expiresAtUtc'])),
+        'id': json['id'],
+        'issuedAtUtc': (new Date(json['issuedAtUtc'])),
+        'expiresAtUtc': (new Date(json['expiresAtUtc'])),
     };
 }
 
@@ -74,8 +77,8 @@ export function SessionDtoToJSON(value?: SessionDto | null): any {
     return {
         
         'id': value.id,
-        'issuedAtUtc': value.issuedAtUtc === undefined ? undefined : (value.issuedAtUtc.toISOString()),
-        'expiresAtUtc': value.expiresAtUtc === undefined ? undefined : (value.expiresAtUtc.toISOString()),
+        'issuedAtUtc': (value.issuedAtUtc.toISOString()),
+        'expiresAtUtc': (value.expiresAtUtc.toISOString()),
     };
 }
 

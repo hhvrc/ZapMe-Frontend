@@ -1,16 +1,19 @@
-import type { UserDto } from '$lib/api';
-import { ParseFetchError, userApi, type Response } from '$lib/fetchSingleton';
+import { UserApi, type UserDto } from '$lib/api';
+import { RuntimeApiConfiguration } from '$lib/fetchSingleton';
+import { handleFetchError } from '$lib/helpers/errorDetailsHelpers.js';
+import type { Response } from '$types';
+
+const userApi = new UserApi(RuntimeApiConfiguration);
 
 export async function load({ params }) {
   const userId = params.userId ?? 'test';
 
   async function userRequestFunc(): Promise<Response<UserDto>> {
     try {
-      const response = await userApi.getUser({ userId });
-      return { code: 'ok', data: response };
+      const response = await userApi.getUser(userId);
+      return { error: false, data: response };
     } catch (error) {
-      const parsed = await ParseFetchError(error);
-      return parsed;
+      return (await handleFetchError(error)) ?? { error: true, status: 500, apiCode: 'unknown', apiFields: null };
     }
   }
 

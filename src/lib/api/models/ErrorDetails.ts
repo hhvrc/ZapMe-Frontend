@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { UserNotification } from './UserNotification';
+import type { ErrorDetailsNotification } from './ErrorDetailsNotification';
 import {
-    UserNotificationFromJSON,
-    UserNotificationFromJSONTyped,
-    UserNotificationToJSON,
-} from './UserNotification';
+    ErrorDetailsNotificationFromJSON,
+    ErrorDetailsNotificationFromJSONTyped,
+    ErrorDetailsNotificationToJSON,
+} from './ErrorDetailsNotification';
 
 /**
  * Details about the error
@@ -27,19 +27,19 @@ import {
  */
 export interface ErrorDetails {
     /**
-     * Title for developer to understand what went wrong (not user friendly)
+     * Error code, this is a short string that can be used to identify the error (meant for developers)
      * @type {string}
      * @memberof ErrorDetails
      */
-    title?: string;
+    code: string;
     /**
-     * More detailed description of what this error is about (not user friendly)
+     * Detailed description of what this error is about (meant for developers)
      * @type {string}
      * @memberof ErrorDetails
      */
-    detail?: string;
+    detail: string;
     /**
-     * Suggestion to developer on how they might be able to midegate this error
+     * Suggestion on how to midegate this error (meant for developers)
      * @type {string}
      * @memberof ErrorDetails
      */
@@ -52,10 +52,10 @@ export interface ErrorDetails {
     fields?: { [key: string]: Array<string>; } | null;
     /**
      * 
-     * @type {UserNotification}
+     * @type {ErrorDetailsNotification}
      * @memberof ErrorDetails
      */
-    notification?: UserNotification;
+    notification?: ErrorDetailsNotification | null;
 }
 
 /**
@@ -63,6 +63,8 @@ export interface ErrorDetails {
  */
 export function instanceOfErrorDetails(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "code" in value;
+    isInstance = isInstance && "detail" in value;
 
     return isInstance;
 }
@@ -77,11 +79,11 @@ export function ErrorDetailsFromJSONTyped(json: any, ignoreDiscriminator: boolea
     }
     return {
         
-        'title': !exists(json, 'title') ? undefined : json['title'],
-        'detail': !exists(json, 'detail') ? undefined : json['detail'],
+        'code': json['code'],
+        'detail': json['detail'],
         'suggestion': !exists(json, 'suggestion') ? undefined : json['suggestion'],
         'fields': !exists(json, 'fields') ? undefined : json['fields'],
-        'notification': !exists(json, 'notification') ? undefined : UserNotificationFromJSON(json['notification']),
+        'notification': !exists(json, 'notification') ? undefined : ErrorDetailsNotificationFromJSON(json['notification']),
     };
 }
 
@@ -94,11 +96,11 @@ export function ErrorDetailsToJSON(value?: ErrorDetails | null): any {
     }
     return {
         
-        'title': value.title,
+        'code': value.code,
         'detail': value.detail,
         'suggestion': value.suggestion,
         'fields': value.fields,
-        'notification': UserNotificationToJSON(value.notification),
+        'notification': ErrorDetailsNotificationToJSON(value.notification),
     };
 }
 

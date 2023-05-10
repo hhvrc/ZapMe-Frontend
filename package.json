@@ -6,59 +6,65 @@
   "scripts": {
     "dev": "vite dev",
     "sync": "svelte-kit sync",
-    "build": "run-s -l clean:api build:api build:app format",
+    "build": "run-s -l clean:api build:api build:app",
     "build:app": "vite build",
     "build:api": "openapi-generator-cli generate",
     "package": "svelte-kit package",
     "preview": "vite preview",
+    "test:all": "run-s -l check lint format:check test:ci",
     "test:ci": "run-s -l test:ui test:unit:ci",
     "test:ui": "playwright test",
     "test:unit": "vitest",
     "test:unit:ci": "vitest --run",
     "coverage": "vitest run --coverage",
-    "check": "svelte-kit sync && svelte-check",
-    "check:watch": "svelte-kit sync && svelte-check --watch",
-    "lint": "prettier --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
-    "format": "prettier --write --plugin-search-dir=. .",
-    "clean": "run-p -l clean:*",
+    "check": "svelte-kit sync && svelte-check --no-tsconfig --ignore src/lib/api/**/*",
+    "check:watch": "svelte-kit sync && svelte-check --watch --no-tsconfig --ignore src/lib/api/**/*",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "clean": "run-p clean:*",
     "clean:app": "rimraf .svelte-kit",
     "clean:api": "rimraf src/lib/api"
   },
   "devDependencies": {
+    "@floating-ui/dom": "^1.2.7",
     "@fontsource/montserrat": "^4.5.14",
+    "@ianvs/prettier-plugin-sort-imports": "^3.7.2",
     "@openapitools/openapi-generator-cli": "^2.6.0",
-    "@playwright/test": "^1.32.3",
-    "@sentry/svelte": "^7.49.0",
-    "@sentry/tracing": "^7.49.0",
-    "@sveltejs/adapter-auto": "^2.0.1",
-    "@sveltejs/adapter-cloudflare": "^2.2.0",
-    "@sveltejs/kit": "^1.15.8",
-    "@sveltejs/vite-plugin-svelte": "^2.1.0",
+    "@playwright/test": "^1.33.0",
+    "@sentry/browser": "^7.51.2",
+    "@sentry/svelte": "^7.51.2",
+    "@skeletonlabs/skeleton": "^1.5.1",
+    "@sveltejs/adapter-cloudflare": "^2.2.2",
+    "@sveltejs/kit": "^1.16.3",
+    "@tailwindcss/forms": "^0.5.3",
+    "@tailwindcss/typography": "^0.5.9",
     "@testing-library/svelte": "^3.2.2",
     "@tsconfig/svelte": "^4.0.1",
-    "@types/jest": "^29.5.1",
-    "@vitest/coverage-c8": "^0.30.1",
-    "@vitest/ui": "^0.30.1",
-    "cross-env": "^7.0.3",
+    "@typescript-eslint/eslint-plugin": "^5.59.5",
+    "@vitest/coverage-c8": "^0.31.0",
+    "@vitest/ui": "^0.31.0",
+    "autoprefixer": "^10.4.14",
+    "cssnano": "^6.0.1",
     "email-validator": "^2.0.4",
-    "eslint": "^8.39.0",
-    "eslint-plugin-svelte3": "^4.0.0",
+    "eslint": "^8.40.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-svelte": "^2.27.4",
     "http-status-codes": "^2.2.0",
-    "jsdom": "^21.1.1",
-    "material-symbols": "^0.5.5",
-    "npm-check-updates": "^16.10.9",
+    "npm-check-updates": "^16.10.12",
     "npm-run-all": "^4.1.5",
+    "postcss": "^8.4.23",
     "prettier": "^2.8.8",
     "prettier-plugin-svelte": "^2.10.0",
+    "prettier-plugin-tailwindcss": "^0.2.8",
     "rimraf": "^5.0.0",
-    "svelte": "^3.58.0",
-    "svelte-check": "^3.2.0",
-    "svelte-i18n": "^3.6.0",
+    "svelte": "^3.59.1",
+    "svelte-check": "^3.3.2",
     "svelte-local-storage-store": "^0.4.0",
-    "tslib": "^2.5.0",
+    "tailwindcss": "^3.3.2",
     "typescript": "^5.0.4",
-    "vite": "^4.3.1",
-    "vitest": "^0.30.1"
+    "vite": "^4.3.5",
+    "vitest": "^0.31.0"
   },
   "browserslist": {
     "production": [
@@ -86,9 +92,31 @@
     "insertPragma": false,
     "proseWrap": "preserve",
     "htmlWhitespaceSensitivity": "css",
-    "endOfLine": "lf",
+    "endOfLine": "crlf",
+    "svelteSortOrder": "options-scripts-markup-styles",
+    "svelteStrictMode": false,
+    "svelteAllowShorthand": true,
+    "importOrder": [
+      "^@skeletonlabs/skeleton/themes.+\\.css$",
+      "^@skeletonlabs/skeleton/styles.+\\.css$",
+      "^.+\\.postcss$",
+      "^."
+    ],
     "plugins": [
-      "prettier-plugin-svelte"
+      "prettier-plugin-svelte",
+      "@ianvs/prettier-plugin-sort-imports",
+      "prettier-plugin-tailwindcss"
+    ],
+    "pluginSearchDirs": [
+      "."
+    ],
+    "overrides": [
+      {
+        "files": "*.svelte",
+        "options": {
+          "parser": "svelte"
+        }
+      }
     ]
   }
 }

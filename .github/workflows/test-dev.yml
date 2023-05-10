@@ -27,9 +27,19 @@ jobs:
 
       - name: Build
         uses: ./.github/actions/build
+        env:
+          PUBLIC_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          TURNSTILE_SECRET_KEY: ${{ secrets.TURNSTILE_SECRET_KEY }}
+          PUBLIC_TURNSTILE_SITE_KEY: ${{ secrets.TURNSTILE_SITE_KEY }}
 
-      - name: Run checks
+      - name: Check svelte files
         run: npm run check
+
+      - name: Check TypeScript files
+        run: npm run lint
+
+      - name: Check formatting
+        run: npm run format:check
 
       - name: Run tests
         run: npm run test:ci

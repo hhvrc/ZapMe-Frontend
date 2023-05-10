@@ -1,172 +1,170 @@
 <script lang="ts">
-  import { goto } from '$app/navigation';
-  import { page } from '$app/stores';
-  import NamedInput from '$components/NamedInput.svelte';
-  import Form from '$components/Form.svelte';
-  import FormButton from '$components/FormButton.svelte';
-  import type { Snapshot } from './$types';
+  import PasswordInput from '$components/PasswordInput.svelte';
+  import TextInput from '$components/TextInput.svelte';
+  import Turnstile from '$components/Turnstile.svelte';
+  import { AccountApi } from '$lib/api';
+  import { RuntimeApiConfiguration } from '$lib/fetchSingleton';
+  import { ApiConfigStore } from '$lib/stores';
   import {
-    validateUsername,
     validateEmail,
     validatePassword,
+    validatePasswordMatch,
+    validateUsername,
   } from '$lib/validators';
-  import NamedCheckBox from '$components/NamedCheckBox.svelte';
-  import { accountApi, ParseFetchError } from '$lib/fetchSingleton';
-  import { ForwardRedirectURL } from '$lib/utils/redirects';
-  import { ApiConfigStore } from '$lib/stores';
-  import Turnstile from '$components/Turnstile.svelte';
+  import type { Snapshot } from './$types';
+  import { focusTrap } from '@skeletonlabs/skeleton';
+  import { handleFetchError } from '$lib/helpers/errorDetailsHelpers';
 
-  let formData = {
-    username: '',
-    email: '',
-    password: '',
-    confirmedPassword: '',
-  };
+  const accountApi = new AccountApi(RuntimeApiConfiguration);
+
   export const snapshot: Snapshot = {
-    capture: () => formData,
-    restore: (value) => (formData = value),
+    capture: () => {
+      return {
+        username,
+        email,
+        acceptedTerms,
+      };
+    },
+    restore: (data) => {
+      username = data.username;
+      email = data.email;
+      acceptedTerms = data.acceptedTerms;
+    },
   };
 
-  let tosAccepted = false;
-  $: acceptedTosVersion = tosAccepted
-    ? $ApiConfigStore?.api?.tosVersion
-    : undefined;
-  let turnstileResponse: string | null = null;
-  let isSubmitting = false;
+  let username = '';
+  let email = '';
+  let password = '';
+  let passwordShown = false;
+  let passwordMatch = '';
+  let passwordMatchShown = false;
+  let acceptedTerms = false;
+  let turnstileResponse = '';
+  let submitting = false;
+
+  $: acceptedPrivacyPolicyVersion = acceptedTerms ? $ApiConfigStore?.api.privacyVersion ?? 0 : 0;
+  $: acceptedTermsOfServiceVersion = acceptedTerms ? $ApiConfigStore?.api.tosVersion ?? 0 : 0;
 
   async function handleSubmit() {
-    if (!turnstileResponse) return;
-
+    submitting = true;
     try {
-      isSubmitting = true;
       await accountApi.createAccount({
-        createAccount: {
-          username: formData.username,
-          email: formData.email,
-          password: formData.password,
-          acceptedTosVersion: acceptedTosVersion,
-          turnstileResponse,
-        },
+        username,
+        password,
+        email,
+        acceptedPrivacyPolicyVersion,
+        acceptedTermsOfServiceVersion,
+        turnstileResponse,
       });
-
-      goto(ForwardRedirectURL($page.url, '/sign-in'));
     } catch (error) {
-      const responseData = await ParseFetchError(error);
-      if (responseData.code == 'err_network') {
-        window.alert('Network error');
-        return;
-      }
-      let response = responseData.details;
-      if (!response) {
-        if (error instanceof Error) {
-          window.alert(error.message);
-        } else {
-          window.alert('An unknown error occurred.');
+      const response = await handleFetchError(error);
+      if (!response) return;
+      
+      const fields = response.apiFields;
+      if (fields) {
+        if (fields.username) {
+          window.alert(fields.username);
         }
-        return;
-      }
-
-      if (response.notification) {
-        window.alert(
-          response.notification.title + ': ' + response.notification.message
-        );
-      }
-
-      if (response.fields) {
-        usernameError = response.fields.username?.[0] ?? null;
-        emailError = response.fields.email?.[0] ?? null;
-        passwordError = response.fields.password?.[0] ?? null;
-        confirmedPasswordError = response.fields.confirmedPassword?.[0] ?? null;
+        if (fields.password) {
+          window.alert(fields.password);
+        }
       }
     } finally {
-      isSubmitting = false;
-      turnstileResponse = null;
+      submitting = false;
     }
   }
 
-  let formValid = false;
-  let usernameError: string | null = null;
-  let emailError: string | null = null;
-  let passwordError: string | null = null;
-  let confirmedPasswordError: string | null = null;
-  $: {
-    const { username, email, password, confirmedPassword } = formData;
+  $: usernameError = validateUsername(username);
+  $: emailError = validateEmail(email);
+  $: passwordError = validatePassword(password);
+  $: passwordMatchError = validatePasswordMatch(password, passwordMatch);
+  $: acceptedTermsError = acceptedTerms
+    ? { valid: true, message: null }
+    : { valid: false, message: 'You must accept the terms.' };
 
-    const usernameValidation = validateUsername(username);
-    usernameError = usernameValidation.message;
-
-    const emailValidation = validateEmail(email);
-    emailError = emailValidation.message;
-
-    const passwordValidation = validatePassword(password);
-    passwordError = passwordValidation.message;
-
-    const confirmedPasswordValid = password === confirmedPassword;
-    confirmedPasswordError = confirmedPasswordValid
-      ? null
-      : 'Passwords do not match';
-
-    formValid =
-      usernameValidation.valid &&
-      emailValidation.valid &&
-      passwordValidation.valid &&
-      confirmedPasswordValid &&
-      tosAccepted &&
-      turnstileResponse != null;
-  }
-
-  $: disabled = isSubmitting;
+  $: disabled = !(
+    usernameError.valid &&
+    emailError.valid &&
+    passwordError.valid &&
+    passwordMatchError.valid &&
+    acceptedTermsError.valid &&
+    turnstileResponse &&
+    !submitting
+  );
 </script>
 
 <svelte:head>
   <title>ZapMe - Register</title>
 </svelte:head>
 
-<Form on:submit={handleSubmit} title="Register">
-  <NamedInput
-    type="text"
-    autocomplete="username"
-    icon="badge"
-    displayname="Username"
-    bind:value={formData.username}
-    error={usernameError}
-    {disabled}
-  />
-  <NamedInput
-    type="email"
-    displayname="Email"
-    bind:value={formData.email}
-    error={emailError}
-    {disabled}
-  />
-  <NamedInput
-    type="password"
-    autocomplete="new-password"
-    displayname="Password"
-    bind:value={formData.password}
-    error={passwordError}
-    {disabled}
-  />
-  <NamedInput
-    type="password"
-    autocomplete="new-password"
-    displayname="Confirm Password"
-    placeholder="Password"
-    bind:value={formData.confirmedPassword}
-    error={confirmedPasswordError}
-    {disabled}
-  />
-  <NamedCheckBox bind:checked={tosAccepted} {disabled}
-    >I accept the <a href="/tos">Terms of Service</a></NamedCheckBox
+<!-- Register Form -->
+<div class="card mx-auto my-8 w-1/2 max-w-xl p-4">
+  <form
+    class="flex flex-col space-y-4"
+    on:submit|preventDefault={handleSubmit}
+    use:focusTrap={true}
   >
+    <!-- Title -->
+    <h2>Register</h2>
 
-  <Turnstile action="register" bind:response={turnstileResponse} />
+    <!-- Username -->
+    <TextInput
+      title="Username"
+      placeholder="John Doe"
+      autocomplete="username"
+      bind:value={username}
+      validationResult={usernameError}
+    />
 
-  <FormButton disabled={!formValid || disabled} content="Register" />
-</Form>
+    <!-- Email -->
+    <TextInput
+      title="Email"
+      placeholder="john@example.com"
+      autocomplete="email"
+      bind:value={email}
+      validationResult={emailError}
+    />
 
-<style>
-  a {
-    color: var(--color-primary);
-  }
-</style>
+    <!-- Password -->
+    <PasswordInput
+      title="Password"
+      autocomplete="new-password"
+      bind:password
+      bind:passwordShown
+      validationResult={passwordError}
+    />
+    <PasswordInput
+      title="Confirm Password"
+      autocomplete="new-password"
+      bind:password={passwordMatch}
+      bind:passwordShown={passwordMatchShown}
+      validationResult={passwordMatchError}
+    />
+
+    <!-- Terms of Service -->
+    <label class="flex items-center space-x-2">
+      <input
+        class="checkbox"
+        type="checkbox"
+        title="Agree to terms of service"
+        bind:checked={acceptedTerms}
+      />
+      <span>
+        I agree to the <a href="/terms-of-service">Terms of Service</a>
+      </span>
+    </label>
+
+    <!-- Turnstile -->
+    <Turnstile action="register" bind:response={turnstileResponse} />
+
+    <!-- Submit -->
+    <button
+      type="submit"
+      class="btn variant-filled w-1/2 self-center"
+      {disabled}
+    >
+      <span class="hidden md:inline-block">🚀</span>
+      <span>Register</span>
+    </button>
+  </form>
+</div>

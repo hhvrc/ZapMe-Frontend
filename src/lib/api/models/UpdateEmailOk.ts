@@ -24,7 +24,7 @@ export interface UpdateEmailOk {
      * @type {string}
      * @memberof UpdateEmailOk
      */
-    message?: string;
+    message: string;
 }
 
 /**
@@ -32,6 +32,7 @@ export interface UpdateEmailOk {
  */
 export function instanceOfUpdateEmailOk(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "message" in value;
 
     return isInstance;
 }
@@ -46,7 +47,7 @@ export function UpdateEmailOkFromJSONTyped(json: any, ignoreDiscriminator: boole
     }
     return {
         
-        'message': !exists(json, 'message') ? undefined : json['message'],
+        'message': json['message'],
     };
 }
 

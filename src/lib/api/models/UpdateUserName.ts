@@ -24,13 +24,13 @@ export interface UpdateUserName {
      * @type {string}
      * @memberof UpdateUserName
      */
-    newUsername?: string;
+    newUsername: string;
     /**
      * 
      * @type {string}
      * @memberof UpdateUserName
      */
-    password?: string;
+    password: string;
 }
 
 /**
@@ -38,6 +38,8 @@ export interface UpdateUserName {
  */
 export function instanceOfUpdateUserName(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "newUsername" in value;
+    isInstance = isInstance && "password" in value;
 
     return isInstance;
 }
@@ -52,8 +54,8 @@ export function UpdateUserNameFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
-        'newUsername': !exists(json, 'newUsername') ? undefined : json['newUsername'],
-        'password': !exists(json, 'password') ? undefined : json['password'],
+        'newUsername': json['newUsername'],
+        'password': json['password'],
     };
 }
 

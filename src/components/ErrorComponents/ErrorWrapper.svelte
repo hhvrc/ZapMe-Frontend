@@ -1,11 +1,11 @@
 <script lang="ts">
-  import type { Response } from '$lib/fetchSingleton';
   import {
     ExceptionDetails,
     NetworkErrorDetails,
     ServerErrorDetails,
   } from '$components/ErrorComponents';
-  import LoadingWidget from '$components/LoadingWidget.svelte';
+  import { ProgressRadial } from '@skeletonlabs/skeleton';
+  import type { Response } from '$types';
 
   type T = $$Generic;
 
@@ -15,7 +15,7 @@
 
 {#await request()}
   <slot name="loading">
-    <LoadingWidget />
+    <ProgressRadial />
   </slot>
 {:then response}
   {#if response.code == 'ok'}

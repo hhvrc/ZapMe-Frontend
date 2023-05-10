@@ -1,3 +1,5 @@
+import type { ValidationResult } from '$types';
+
 const CommonBadPasswordRegex =
   /^(?:(?:(?:\d+|.{1,3})?(?:.assword|p.ssword|pa.sword|pas.word|pass.ord|passw.rd|passwo.d|passwor.|(?:qw|qwe|qwer|qwert|qwerty|qwertyuiop)?(?:as|asd|asdf|asdfg|asdfgh|asdfghjkl)?(?:zx|zxc|zxcv|zxcvb|zxcvbn|zxcvbnm)?)+(?:\d+|.{1,3})?|(.{1,6})\1+)|\d*.{1,5}\d*)$/;
 const ReallyBadPasswords = new Set([
@@ -1003,43 +1005,76 @@ const ReallyBadPasswords = new Set([
   'piankova72',
 ]);
 
-function validatePassword(password: string): {
-  valid: boolean;
-  message: string | null;
-} {
-  if (password.length == 0) {
-    return { valid: false, message: null };
-  }
-  if (password.length < 10) {
-    return { valid: false, message: 'Password is too short' };
-  }
-  if (password.length > 256) {
+export function validatePassword(value: string): ValidationResult {
+  if (value.length == 0) {
     return {
       valid: false,
-      message: `Seriously? ${password.length} characters? That's too much`,
+      message: '',
     };
   }
-  const trimmedLength = password.trim().length;
+
+  if (value.length < 10) {
+    return {
+      valid: false,
+      message: 'Password is too short',
+    };
+  }
+
+  if (value.length > 256) {
+    return {
+      valid: false,
+      message: `Seriously? ${value.length} characters? That's too much`,
+    };
+  }
+
+  const trimmedLength = value.trim().length;
   if (trimmedLength == 0) {
     return {
       valid: false,
       message: 'Password cannot consist of only whitespaces',
     };
   }
-  if (trimmedLength != password.length) {
+
+  if (trimmedLength != value.length) {
     return {
       valid: false,
       message: 'Password cannot start or end with whitespace',
     };
   }
-  if (
-    CommonBadPasswordRegex.test(password) ||
-    ReallyBadPasswords.has(password)
-  ) {
-    return { valid: false, message: 'This password is really bad™' };
+
+  if (CommonBadPasswordRegex.test(value) || ReallyBadPasswords.has(value)) {
+    return {
+      valid: false,
+      message: 'This password is really bad™',
+    };
   }
 
-  return { valid: true, message: null };
+  return {
+    valid: true,
+    message: '',
+  };
 }
 
-export { validatePassword };
+export function validatePasswordMatch(
+  password: string,
+  passwordConfirmation: string
+): ValidationResult {
+  if (password.length == 0) {
+    return {
+      valid: false,
+      message: '',
+    };
+  }
+
+  if (password != passwordConfirmation) {
+    return {
+      valid: false,
+      message: 'Passwords do not match',
+    };
+  }
+
+  return {
+    valid: true,
+    message: '',
+  };
+}

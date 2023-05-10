@@ -1,81 +1,101 @@
 <script lang="ts">
-  import Header from '$components/Header.svelte';
-  import Footer from '$components/Footer.svelte';
-  import TwitterTags from '$components/MetaTags/TwitterTags.svelte';
-  import OpenGraphTags from '$components/MetaTags/OpenGraphTags.svelte';
-  import DefaultTags from '$components/MetaTags/DefaultTags.svelte';
-  import SideBar from '$components/SideBar.svelte';
+  import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
+  import '@skeletonlabs/skeleton/styles/all.css';
+  import '../app.postcss';
+  import ThemeSwitch from '$components/ThemeSwitch.svelte';
+  import {
+    computePosition,
+    autoUpdate,
+    flip,
+    shift,
+    offset,
+    arrow,
+  } from '@floating-ui/dom';
+  import '@fontsource/montserrat';
+  import type { Config } from '$lib/api';
+  import { ApiConfigStore } from '$lib/stores';
+  import { AppShell, AppBar, AppRail, Toast } from '@skeletonlabs/skeleton';
+  import { storePopup } from '@skeletonlabs/skeleton';
 
-  const WebsiteURL = 'https://www.zapme.app';
-  const WebsiteTitle = 'ZapMe | Control collars remotely';
-  const WebsiteDescription =
-    'ZapMe allows you to control your Submissives shock collars from anywhere in the world with low latency, realtime networking.';
-  const WebsiteLogo = 'https://www.zapme.app/logo-512.png';
-  const WebsiteLogoAlt = 'ZapMe Logo';
+  storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
-  let sidebarOpen = false;
+  const year = new Date().getFullYear();
+
+  let config: Config;
+  export let data;
+  $: {
+    config = data.config;
+    ApiConfigStore.set(data.config);
+  }
 </script>
 
-<DefaultTags title={WebsiteTitle} description={WebsiteDescription} />
-<TwitterTags
-  card="summary_large_image"
-  creatorHandle="@hhvrc"
-  description={WebsiteDescription}
-  image={{ src: WebsiteLogo, alt: WebsiteLogoAlt }}
-/>
-<OpenGraphTags
-  type="website"
-  title={WebsiteTitle}
-  description={WebsiteDescription}
-  image={{ src: WebsiteLogo, alt: WebsiteLogoAlt }}
-  url={WebsiteURL}
-/>
-
-<Header bind:sidebarOpen />
-<SideBar isOpen={sidebarOpen} />
-<main>
+<Toast position="bl" max={5} />
+<AppShell>
+  <svelte:fragment slot="header">
+    <AppBar>
+      <svelte:fragment slot="lead">
+        <div class="flex items-center space-x-4">
+          <!-- Logo -->
+          <a
+            href="/"
+            class="w-[32px] overflow-hidden lg:!ml-0 lg:w-auto"
+            data-sveltekit-preload-data="hover"
+          >
+            <img
+              class="inline-block h-10"
+              src="/logo-128.png"
+              alt="ZapMe Logo"
+            />
+            <strong
+              class="hidden align-middle text-3xl uppercase tracking-widest md:inline-block"
+              style="font-family: Montserrat,sans-serif"
+            >
+              {config.appName}
+            </strong>
+          </a>
+        </div>
+      </svelte:fragment>
+      <svelte:fragment slot="trail">
+        <ThemeSwitch />
+        <a
+          href="/login"
+          class="btn btn-sm variant-ghost-surface"
+          data-sveltekit-preload-data="hover">Login</a
+        >
+        <a
+          href="/register"
+          class="btn btn-sm variant-ghost-surface"
+          data-sveltekit-preload-data="hover">Register</a
+        >
+      </svelte:fragment>
+    </AppBar>
+  </svelte:fragment>
   <slot />
-  <div class="scroll-cover" />
-  <Footer />
-</main>
-
-<style>
-  main {
-    position: fixed;
-    top: var(--header-height);
-    left: 0;
-    right: 0;
-    margin: 0;
-    height: calc(100vh - var(--header-height));
-    padding-left: var(--scrollbar-width);
-    overflow-y: scroll;
-    overflow-x: hidden;
-
-    display: grid;
-    grid-template-rows: 1fr auto;
-    grid-template-columns: 1fr;
-    justify-items: center;
-    align-items: center;
-  }
-  .scroll-cover {
-    position: fixed;
-    top: var(--header-height);
-    right: 0;
-    width: var(--scrollbar-width);
-    height: calc(100vh - var(--header-height));
-    background: var(--thm-bg);
-
-    pointer-events: none;
-
-    opacity: 1;
-    transition: opacity 0.5s;
-    transition-delay: 1s;
-    -webkit-transition: opacity 0.5s;
-    -webkit-transition-delay: 1s;
-  }
-  main:hover .scroll-cover {
-    opacity: 0;
-    transition: opacity 0.5s;
-    -webkit-transition: opacity 0.5s;
-  }
-</style>
+  <svelte:fragment slot="sidebarLeft">
+    <AppRail />
+  </svelte:fragment>
+  <svelte:fragment slot="pageFooter">
+    <div class="m-2 flex items-center justify-center sm:justify-between">
+      <div>
+        Made with <span style="color: #e25555;">&#9829;</span> by {config.founderSocials.discordUsername}
+      </div>
+      <div class="hidden lg:block">Copyright ©{year} | All Rights Reserved</div>
+      <div class="hidden items-center space-x-2 sm:flex">
+        <a
+          href="/privacy"
+          class="select-none"
+          data-sveltekit-preload-data="hover"
+        >
+          Privacy Policy
+        </a>
+        <a
+          href="/terms-of-service"
+          class="select-none"
+          data-sveltekit-preload-data="hover"
+        >
+          Terms of Service
+        </a>
+      </div>
+    </div>
+  </svelte:fragment>
+</AppShell>

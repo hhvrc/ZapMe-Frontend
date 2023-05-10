@@ -1,3 +1,13 @@
 {
-  "recommendations": ["svelte.svelte-vscode"]
+  "recommendations": [
+    "svelte.svelte-vscode",
+    "fivethree.vscode-svelte-snippets",
+
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+
+    "wix.vscode-import-cost",
+    "yoavbls.pretty-ts-errors",
+    "bradlc.vscode-tailwindcss"
+  ]
 }

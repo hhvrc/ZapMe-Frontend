@@ -18,8 +18,8 @@ import type {
   ErrorDetails,
   FriendRequestList,
   ProblemDetails,
+  ReportUserRequest,
   UserDto,
-  UserReport,
 } from '../models';
 import {
     ErrorDetailsFromJSON,
@@ -28,10 +28,10 @@ import {
     FriendRequestListToJSON,
     ProblemDetailsFromJSON,
     ProblemDetailsToJSON,
+    ReportUserRequestFromJSON,
+    ReportUserRequestToJSON,
     UserDtoFromJSON,
     UserDtoToJSON,
-    UserReportFromJSON,
-    UserReportToJSON,
 } from '../models';
 
 export interface AcceptFriendRequestRequest {
@@ -50,8 +50,8 @@ export interface LookUpUserRequest {
     userName: string;
 }
 
-export interface ReportUserRequest {
-    userReport?: UserReport;
+export interface ReportUserOperationRequest {
+    reportUserRequest?: ReportUserRequest;
 }
 
 export interface SendFriendRequestRequest {
@@ -78,7 +78,7 @@ export interface UserApiInterface {
     /**
      * Accept incoming friend request
      */
-    acceptFriendRequest(requestParameters: AcceptFriendRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto>;
+    acceptFriendRequest(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto>;
 
     /**
      * 
@@ -93,7 +93,7 @@ export interface UserApiInterface {
     /**
      * Delete outgoing/Reject incoming friend request
      */
-    denyFriendRequest(requestParameters: DenyFriendRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto>;
+    denyFriendRequest(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto>;
 
     /**
      * 
@@ -108,7 +108,7 @@ export interface UserApiInterface {
     /**
      * Get user
      */
-    getUser(requestParameters: GetUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto>;
+    getUser(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto>;
 
     /**
      * 
@@ -137,22 +137,22 @@ export interface UserApiInterface {
     /**
      * Look up user by name
      */
-    lookUpUser(requestParameters: LookUpUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto>;
+    lookUpUser(userName: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto>;
 
     /**
      * 
      * @summary Report a user
-     * @param {UserReport} [userReport] 
+     * @param {ReportUserRequest} [reportUserRequest] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    reportUserRaw(requestParameters: ReportUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+    reportUserRaw(requestParameters: ReportUserOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
 
     /**
      * Report a user
      */
-    reportUser(requestParameters: ReportUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+    reportUser(reportUserRequest?: ReportUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
     /**
      * 
@@ -167,7 +167,7 @@ export interface UserApiInterface {
     /**
      * Send friend request
      */
-    sendFriendRequest(requestParameters: SendFriendRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+    sendFriendRequest(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
 }
 
@@ -201,8 +201,8 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
     /**
      * Accept incoming friend request
      */
-    async acceptFriendRequest(requestParameters: AcceptFriendRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto> {
-        const response = await this.acceptFriendRequestRaw(requestParameters, initOverrides);
+    async acceptFriendRequest(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto> {
+        const response = await this.acceptFriendRequestRaw({ userId: userId }, initOverrides);
         return await response.value();
     }
 
@@ -231,8 +231,8 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
     /**
      * Delete outgoing/Reject incoming friend request
      */
-    async denyFriendRequest(requestParameters: DenyFriendRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto> {
-        const response = await this.denyFriendRequestRaw(requestParameters, initOverrides);
+    async denyFriendRequest(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto> {
+        const response = await this.denyFriendRequestRaw({ userId: userId }, initOverrides);
         return await response.value();
     }
 
@@ -261,8 +261,8 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
     /**
      * Get user
      */
-    async getUser(requestParameters: GetUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto> {
-        const response = await this.getUserRaw(requestParameters, initOverrides);
+    async getUser(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto> {
+        const response = await this.getUserRaw({ userId: userId }, initOverrides);
         return await response.value();
     }
 
@@ -317,15 +317,15 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
     /**
      * Look up user by name
      */
-    async lookUpUser(requestParameters: LookUpUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto> {
-        const response = await this.lookUpUserRaw(requestParameters, initOverrides);
+    async lookUpUser(userName: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto> {
+        const response = await this.lookUpUserRaw({ userName: userName }, initOverrides);
         return await response.value();
     }
 
     /**
      * Report a user
      */
-    async reportUserRaw(requestParameters: ReportUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async reportUserRaw(requestParameters: ReportUserOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -337,7 +337,7 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: UserReportToJSON(requestParameters.userReport),
+            body: ReportUserRequestToJSON(requestParameters.reportUserRequest),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -346,8 +346,8 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
     /**
      * Report a user
      */
-    async reportUser(requestParameters: ReportUserRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.reportUserRaw(requestParameters, initOverrides);
+    async reportUser(reportUserRequest?: ReportUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.reportUserRaw({ reportUserRequest: reportUserRequest }, initOverrides);
     }
 
     /**
@@ -375,8 +375,8 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
     /**
      * Send friend request
      */
-    async sendFriendRequest(requestParameters: SendFriendRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.sendFriendRequestRaw(requestParameters, initOverrides);
+    async sendFriendRequest(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.sendFriendRequestRaw({ userId: userId }, initOverrides);
     }
 
 }

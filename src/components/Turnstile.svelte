@@ -1,69 +1,43 @@
 <script lang="ts">
-  import { selectedTheme } from '$lib/ThemeContext';
-  import { ApiConfigStore } from '$lib/stores';
+  import { PUBLIC_TURNSTILE_SITE_KEY } from '$env/static/public';
+  import type { TurnstileInstance } from '$types/TurnstileInstance';
+  import { modeCurrent } from '@skeletonlabs/skeleton';
   import { onMount } from 'svelte';
 
   export let action: string;
   export let cData: string | undefined = undefined;
   export let response: string | null = null;
 
-  $: sitekey = $ApiConfigStore?.api?.authentication?.turnstileSiteKey ?? null;
-
-  let element: HTMLDivElement | null = null;
-
-  function callback(token: string) {
-    response = token;
-  }
-
+  let element: HTMLDivElement;
   function resetResponse() {
     response = null;
+    // Reset the widget after 1 second to prevent the user from spamming the button
+    setTimeout(() => turnstile?.reset(element), 1000);
   }
 
-  let turnstile: any = null;
+  // If turstile doesnt load, then the index.html is proabably missing the script tag (https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/#explicitly-render-the-turnstile-widget)
+  let turnstile: TurnstileInstance | undefined;
+  onMount(() => (turnstile = window.turnstile));
+
   let isLoaded = false;
-  onMount(() => {
-    turnstile = window.turnstile;
-    if (!turnstile)
-      throw new Error(
-        'CloudFlare Turnstile is not loaded, did you forget to include the script tag?'
-      );
-  });
+  $: if (turnstile && !isLoaded) turnstile.ready(() => (isLoaded = true));
 
-  $: if (!!turnstile && !!sitekey) {
-    turnstile.ready(() => (isLoaded = true));
-  }
-
-  let theme: 'light' | 'dark' | 'auto' = 'auto';
-  $: {
-    switch ($selectedTheme) {
-      case 'light':
-        theme = 'light';
-        break;
-      case 'dark':
-        theme = 'dark';
-        break;
-      default:
-        theme = 'auto';
-        break;
-    }
-
-    if (!!turnstile && !!element && !!sitekey) {
-      turnstile.render(element, {
-        sitekey,
-        action,
-        cData,
-        theme,
-        callback,
-        'expired-callback': resetResponse,
-        'timeout-callback': resetResponse,
-        'error-callback': resetResponse,
-      });
-    }
+  $: if (turnstile && isLoaded) {
+    turnstile.render(element, {
+      sitekey: PUBLIC_TURNSTILE_SITE_KEY,
+      action,
+      cData,
+      theme: $modeCurrent ? 'light' : 'dark',
+      callback: (token) => (response = token),
+      'expired-callback': resetResponse,
+      'timeout-callback': resetResponse,
+      'error-callback': resetResponse,
+    });
   }
 </script>
 
 <!-- see: https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/#widget-size -->
-<div bind:this={element} style="width: 300px; height: 65px;">
+<div class="h-[65px] w-[300px]" bind:this={element}>
   {#if !isLoaded}
     <p>Loading...</p>
   {/if}

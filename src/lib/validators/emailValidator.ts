@@ -1,20 +1,30 @@
+import type { ValidationResult } from '$types';
 import { validate } from 'email-validator';
 
-function validateEmail(email: string): {
-  valid: boolean;
-  message: string | null;
-} {
-  if (email.length == 0) {
-    return { valid: false, message: null };
-  }
-  if (!validate(email)) {
-    return { valid: false, message: 'Invalid email' };
-  }
-  if (email.includes('+')) {
-    return { valid: false, message: 'Email cannot contain aliases' };
+export function validateEmail(value: string): ValidationResult {
+  if (value.length == 0) {
+    return {
+      valid: false,
+      message: '',
+    };
   }
 
-  return { valid: true, message: null };
+  if (!validate(value)) {
+    return {
+      valid: false,
+      message: 'Invalid email',
+    };
+  }
+
+  if (value.includes('+')) {
+    return {
+      valid: false,
+      message: 'Email cannot contain aliases',
+    };
+  }
+
+  return {
+    valid: true,
+    message: '',
+  };
 }
-
-export { validateEmail };

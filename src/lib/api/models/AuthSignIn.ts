@@ -24,26 +24,19 @@ export interface AuthSignIn {
      * @type {string}
      * @memberof AuthSignIn
      */
-    usernameOrEmail?: string;
+    usernameOrEmail: string;
     /**
      * Password
      * @type {string}
      * @memberof AuthSignIn
      */
-    password?: string;
-    /**
-     * Session name to remember this sign in by, e.g. "My home computer"
-     * This is for the users to be able to see which devices they have logged in their user settings
-     * @type {string}
-     * @memberof AuthSignIn
-     */
-    sessionName?: string | null;
+    password: string;
     /**
      * Make this login persist for a longer period of time
      * @type {boolean}
      * @memberof AuthSignIn
      */
-    rememberMe?: boolean;
+    rememberMe: boolean;
 }
 
 /**
@@ -51,6 +44,9 @@ export interface AuthSignIn {
  */
 export function instanceOfAuthSignIn(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "usernameOrEmail" in value;
+    isInstance = isInstance && "password" in value;
+    isInstance = isInstance && "rememberMe" in value;
 
     return isInstance;
 }
@@ -65,10 +61,9 @@ export function AuthSignInFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     }
     return {
         
-        'usernameOrEmail': !exists(json, 'usernameOrEmail') ? undefined : json['usernameOrEmail'],
-        'password': !exists(json, 'password') ? undefined : json['password'],
-        'sessionName': !exists(json, 'sessionName') ? undefined : json['sessionName'],
-        'rememberMe': !exists(json, 'rememberMe') ? undefined : json['rememberMe'],
+        'usernameOrEmail': json['usernameOrEmail'],
+        'password': json['password'],
+        'rememberMe': json['rememberMe'],
     };
 }
 
@@ -83,7 +78,6 @@ export function AuthSignInToJSON(value?: AuthSignIn | null): any {
         
         'usernameOrEmail': value.usernameOrEmail,
         'password': value.password,
-        'sessionName': value.sessionName,
         'rememberMe': value.rememberMe,
     };
 }

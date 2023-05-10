@@ -1,0 +1,21 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:svelte/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["svelte","@typescript-eslint"],
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": "latest",
+    "extraFileExtensions": [".svelte"]
+  },
+  "overrides": [{
+    "files": ["*.svelte"],
+    "parser": "svelte-eslint-parser",
+    "parserOptions": {
+      "parser": "@typescript-eslint/parser"
+    }
+  }]
+}

@@ -32,19 +32,13 @@ export interface UserNotification {
      * @type {SeverityLevel}
      * @memberof UserNotification
      */
-    severity?: SeverityLevel;
+    severity: SeverityLevel;
     /**
-     * Message title to display to the user
+     * Content of the notification, might be HTML
      * @type {string}
      * @memberof UserNotification
      */
-    title?: string;
-    /**
-     * User friendly message about this notification
-     * @type {string}
-     * @memberof UserNotification
-     */
-    message?: string | null;
+    content: string;
 }
 
 /**
@@ -52,6 +46,8 @@ export interface UserNotification {
  */
 export function instanceOfUserNotification(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "severity" in value;
+    isInstance = isInstance && "content" in value;
 
     return isInstance;
 }
@@ -66,9 +62,8 @@ export function UserNotificationFromJSONTyped(json: any, ignoreDiscriminator: bo
     }
     return {
         
-        'severity': !exists(json, 'severity') ? undefined : SeverityLevelFromJSON(json['severity']),
-        'title': !exists(json, 'title') ? undefined : json['title'],
-        'message': !exists(json, 'message') ? undefined : json['message'],
+        'severity': SeverityLevelFromJSON(json['severity']),
+        'content': json['content'],
     };
 }
 
@@ -82,8 +77,7 @@ export function UserNotificationToJSON(value?: UserNotification | null): any {
     return {
         
         'severity': SeverityLevelToJSON(value.severity),
-        'title': value.title,
-        'message': value.message,
+        'content': value.content,
     };
 }
 
