@@ -1,5 +1,7 @@
-import type { Config } from '$lib/api';
-import { configApi } from '$lib/fetchSingleton.js';
+import { ConfigApi, type Config } from '$lib/api';
+import { RuntimeApiConfiguration } from '$lib/fetchSingleton';
+
+const configApi = new ConfigApi(RuntimeApiConfiguration);
 
 let config: Config | null = null;
 

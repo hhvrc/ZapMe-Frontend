@@ -1,6 +1,8 @@
-import type { AccountDto } from '$lib/api';
-import { accountApi } from '$lib/fetchSingleton';
+import { AccountApi, type AccountDto } from '$lib/api';
+import { RuntimeApiConfiguration } from '$lib/fetchSingleton';
 import { writable } from 'svelte/store';
+
+const accountApi = new AccountApi(RuntimeApiConfiguration);
 
 const store = writable({
   account: null as AccountDto | null,

@@ -3,14 +3,18 @@
   import { page } from '$app/stores';
   import PasswordInput from '$components/PasswordInput.svelte';
   import TextInput from '$components/TextInput.svelte';
-  import { ParseFetchError, authenticationApi } from '$lib/fetchSingleton.js';
+  import { AuthenticationApi } from '$lib/api';
+  import { RuntimeApiConfiguration } from '$lib/fetchSingleton.js';
   import { OAuthProviderInfo } from '$lib/oauth';
   import { AccountStore } from '$lib/stores/accountStore.js';
   import { SessionTokenStore } from '$lib/stores/sessionTokenStore.js';
-  import { createErrorToast } from '$lib/toastHelpers';
+  import { createErrorToast } from '$lib/helpers/toastHelpers';
   import { GetRedirectURL } from '$lib/utils/redirects.js';
   import type { Snapshot } from './$types';
   import { focusTrap } from '@skeletonlabs/skeleton';
+  import { handleFetchError } from '$lib/helpers/errorDetailsHelpers';
+  
+  const authenticationApi = new AuthenticationApi(RuntimeApiConfiguration);
 
   export const snapshot: Snapshot = {
     capture: () => usernameOrEmail,
@@ -36,40 +40,11 @@
           password,
           rememberMe,
         });
-      if (!response.session || !response.account) {
-        throw new Error('Invalid response');
-      }
       AccountStore.set({ account: response.account, lastFetch: Date.now() });
       SessionTokenStore.set(response.session);
       goto(GetRedirectURL($page.url, '/home'));
     } catch (error) {
-      const responseData = await ParseFetchError(error);
-      if (responseData.code == 'err_network') {
-        window.alert('Network error');
-        return;
-      }
-      const response = responseData.details;
-      if (!response) {
-        if (error instanceof Error) {
-          window.alert(error.message);
-        } else {
-          window.alert('An unknown error occurred.');
-        }
-        return;
-      }
-      if (response.notification) {
-        window.alert(
-          response.notification.title + ': ' + response.notification.message
-        );
-      }
-      if (response.fields) {
-        if (response.fields.username) {
-          window.alert(response.fields.username);
-        }
-        if (response.fields.password) {
-          window.alert(response.fields.password);
-        }
-      }
+      await handleFetchError(error, { dontRedirect: [ 401 ] });
     }
   }
 </script>

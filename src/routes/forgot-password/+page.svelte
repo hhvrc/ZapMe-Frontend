@@ -2,7 +2,7 @@
   import { enhance } from '$app/forms';
   import TextInput from '$components/TextInput.svelte';
   import Turnstile from '$components/Turnstile.svelte';
-  import { createErrorToast } from '$lib/toastHelpers';
+  import { createErrorToast } from '$lib/helpers/toastHelpers';
   import type { Snapshot } from './$types';
   import { focusTrap } from '@skeletonlabs/skeleton';
 

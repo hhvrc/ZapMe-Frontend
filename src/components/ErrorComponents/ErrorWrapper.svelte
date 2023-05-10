@@ -4,8 +4,8 @@
     NetworkErrorDetails,
     ServerErrorDetails,
   } from '$components/ErrorComponents';
-  import type { Response } from '$lib/fetchSingleton';
   import { ProgressRadial } from '@skeletonlabs/skeleton';
+  import type { Response } from '$types';
 
   type T = $$Generic;
 

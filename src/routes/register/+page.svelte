@@ -2,7 +2,8 @@
   import PasswordInput from '$components/PasswordInput.svelte';
   import TextInput from '$components/TextInput.svelte';
   import Turnstile from '$components/Turnstile.svelte';
-  import { accountApi } from '$lib/fetchSingleton';
+  import { AccountApi } from '$lib/api';
+  import { RuntimeApiConfiguration } from '$lib/fetchSingleton';
   import { ApiConfigStore } from '$lib/stores';
   import {
     validateEmail,
@@ -12,6 +13,9 @@
   } from '$lib/validators';
   import type { Snapshot } from './$types';
   import { focusTrap } from '@skeletonlabs/skeleton';
+  import { handleFetchError } from '$lib/helpers/errorDetailsHelpers';
+
+  const accountApi = new AccountApi(RuntimeApiConfiguration);
 
   export const snapshot: Snapshot = {
     capture: () => {
@@ -53,7 +57,18 @@
         turnstileResponse,
       });
     } catch (error) {
-      alert(error);
+      const response = await handleFetchError(error);
+      if (!response) return;
+      
+      const fields = response.apiFields;
+      if (fields) {
+        if (fields.username) {
+          window.alert(fields.username);
+        }
+        if (fields.password) {
+          window.alert(fields.password);
+        }
+      }
     } finally {
       submitting = false;
     }
