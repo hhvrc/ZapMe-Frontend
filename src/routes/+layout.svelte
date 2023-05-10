@@ -14,7 +14,7 @@
   import '@fontsource/montserrat';
   import type { Config } from '$lib/api';
   import { ApiConfigStore } from '$lib/stores';
-  import { AppShell, AppBar, AppRail, Toast } from '@skeletonlabs/skeleton';
+  import { AppShell, AppBar, AppRail, Toast, autoModeWatcher } from '@skeletonlabs/skeleton';
   import { storePopup } from '@skeletonlabs/skeleton';
 
   storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
@@ -28,6 +28,8 @@
     ApiConfigStore.set(data.config);
   }
 </script>
+
+<svelte:head>{@html `<script>${autoModeWatcher.toString()} autoModeWatcher();</script>`}3</svelte:head>
 
 <Toast position="bl" max={5} />
 <AppShell>
