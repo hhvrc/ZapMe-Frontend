@@ -1,3 +1,9 @@
+const CORS_HEADERS = {
+  Origin: 'https://google.com, https://cloudflareinsights.com',
+  Methods: '*',
+  Headers: '*',
+};
+
 /** @type {import('@sveltejs/kit').Handle} */
 export async function handle({ event, resolve }) {
   if (event.url.pathname.startsWith('/api/')) {
@@ -15,16 +21,16 @@ export async function handle({ event, resolve }) {
     return handleOptions(event);
   }
 
-  response.headers.append('Access-Control-Allow-Origin', `https://google.com`);
+  response.headers.append('Access-Control-Allow-Origin', CORS_HEADERS.Origin);
 
   return response;
 }
 
 async function handleOptions(event) {
   const headers = {
-    'Access-Control-Allow-Origin': 'https://google.com',
-    'Access-Control-Allow-Methods': '*',
-    'Access-Control-Allow-Headers': '*',
+    'Access-Control-Allow-Origin': CORS_HEADERS.Origin,
+    'Access-Control-Allow-Methods': CORS_HEADERS.Methods,
+    'Access-Control-Allow-Headers': CORS_HEADERS.Headers,
   };
 
   // Add CORS for ReCAPTCHA
