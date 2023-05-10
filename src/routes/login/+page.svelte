@@ -42,7 +42,7 @@
         });
       AccountStore.set({ account: response.account, lastFetch: Date.now() });
       SessionTokenStore.set(response.session);
-      goto(GetRedirectURL($page.url, '/home'));
+      goto(GetRedirectURL($page.url, '/'));
     } catch (error) {
       await handleFetchError(error, { dontRedirect: [ 401 ] });
     }

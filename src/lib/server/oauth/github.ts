@@ -4,7 +4,7 @@ export async function handleGithubOAuthInitialize(
   cookies: Cookies,
   url: URL
 ): Promise<Response> {
-  return redirect(302, '/home');
+  return redirect(302, '/');
 }
 
 export async function handleGithubOAuthCallback(
@@ -42,5 +42,5 @@ export async function handleGithubOAuthCallback(
   cookies.set('access_token', access_token);
 
   // Redirect to home page
-  return redirect(302, '/home');
+  return redirect(302, '/');
 }

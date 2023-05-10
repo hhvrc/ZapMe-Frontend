@@ -13,13 +13,16 @@
   } from '@floating-ui/dom';
   import '@fontsource/montserrat';
   import type { Config } from '$lib/api';
-  import { ApiConfigStore } from '$lib/stores';
-  import { AppShell, AppBar, AppRail, Toast, autoModeWatcher } from '@skeletonlabs/skeleton';
+  import { ApiConfigStore, SessionTokenStore } from '$lib/stores';
+  import { AppShell, AppBar, AppRail, Toast, autoModeWatcher, AppRailTile } from '@skeletonlabs/skeleton';
   import { storePopup } from '@skeletonlabs/skeleton';
+  import { derived } from 'svelte/store';
+  import { page } from '$app/stores';
 
   storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
   const year = new Date().getFullYear();
+  const selected = derived(page, $page => $page.url.pathname);
 
   let config: Config;
   export let data;
@@ -27,6 +30,8 @@
     config = data.config;
     ApiConfigStore.set(data.config);
   }
+
+  $: loggedIn = !!$SessionTokenStore;
 </script>
 
 <svelte:head>{@html `<script>${autoModeWatcher.toString()} autoModeWatcher();</script>`}</svelte:head>
@@ -59,22 +64,49 @@
       </svelte:fragment>
       <svelte:fragment slot="trail">
         <ThemeSwitch />
-        <a
-          href="/login"
-          class="btn btn-sm variant-ghost-surface"
-          data-sveltekit-preload-data="hover">Login</a
-        >
-        <a
-          href="/register"
-          class="btn btn-sm variant-ghost-surface"
-          data-sveltekit-preload-data="hover">Register</a
-        >
+        {#if loggedIn}
+          <a
+            href="/profile"
+            class="btn btn-sm variant-ghost-surface"
+            data-sveltekit-preload-data="hover">Profile</a
+          >
+          <a
+            href="logout"
+            class="btn btn-sm variant-ghost-surface"
+            data-sveltekit-preload-data="hover">Logout</a
+          >
+        {:else}
+          <a
+            href="/login"
+            class="btn btn-sm variant-ghost-surface"
+            data-sveltekit-preload-data="hover">Login</a
+          >
+          <a
+            href="/register"
+            class="btn btn-sm variant-ghost-surface"
+            data-sveltekit-preload-data="hover">Register</a
+          >
+        {/if}
       </svelte:fragment>
     </AppBar>
   </svelte:fragment>
   <slot />
   <svelte:fragment slot="sidebarLeft">
-    <AppRail />
+    {#if loggedIn}
+      <AppRail> <!-- {selected}> -->
+        <svelte:fragment slot="lead">
+          <AppRailTile label="Home" tag="a" href="/"><i class="fa-solid fa-house fa-xl"/></AppRailTile>
+          <AppRailTile label="Devices" tag="a" href="/devices"><i class="fa-solid fa-microchip fa-xl"/></AppRailTile>
+          <AppRailTile label="Messages" tag="a" href="/messages"><i class="fa-solid fa-envelope fa-xl"/></AppRailTile>
+          <AppRailTile label="Friends" tag="a" href="/friends"><i class="fa-solid fa-user-friends fa-xl"/></AppRailTile>
+        </svelte:fragment>
+        <svelte:fragment slot="trail">
+          <AppRailTile label="Profile" tag="a" href="/profile"><i class="fa-solid fa-user fa-xl"/></AppRailTile>
+          <AppRailTile label="Settings" tag="a" href="/settings"><i class="fa-solid fa-cog fa-xl"/></AppRailTile>
+          <AppRailTile label="Logout" tag="a" href="/logout"><i class="fa-solid fa-sign-out fa-xl"/></AppRailTile>
+        </svelte:fragment>
+      </AppRail>
+    {/if}
   </svelte:fragment>
   <svelte:fragment slot="pageFooter">
     <div class="m-2 flex items-center justify-center sm:justify-between">

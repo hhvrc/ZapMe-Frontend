@@ -86,11 +86,11 @@ export async function handleFetchError(
     switch (status) {
       case 401:
         createErrorToast('Login missing or expired');
-        goto(BuildRedirectURL('/login', GetRedirectURL(url, '/home')));
+        goto(BuildRedirectURL('/login', GetRedirectURL(url, '/')));
         return null;
       case 403:
         createErrorToast('You do not have permission to access this resource');
-        goto('/home');
+        goto('/');
         return null;
       case 503:
         goto('/503');

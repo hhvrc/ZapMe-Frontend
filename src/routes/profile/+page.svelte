@@ -2,19 +2,14 @@
   import { browser } from '$app/environment';
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
-  import { AccountApi, type AccountDto } from '$lib/api';
-  import { RuntimeApiConfiguration } from '$lib/fetchSingleton';
-  import { SessionTokenStore } from '$lib/stores';
+  import { AccountStore, SessionTokenStore } from '$lib/stores';
   import { BuildRedirectURL } from '$lib/utils/redirects';
-
-  const accountApi = new AccountApi(RuntimeApiConfiguration);
 
   if (browser && !$SessionTokenStore) {
     goto(BuildRedirectURL('/login', $page.url));
   }
 
-  let account: AccountDto;
-  accountApi.getAccount().then(a => account = a).catch(() => null);
+  $: account = $AccountStore?.account;
 </script>
 
 <svelte:head>

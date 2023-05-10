@@ -4,7 +4,7 @@ export async function handleTwitterOAuthInitialize(
   cookies: Cookies,
   url: URL
 ): Promise<Response> {
-  return redirect(302, '/home');
+  return redirect(302, '/');
 }
 
 export async function handleTwitterOAuthCallback(
@@ -43,5 +43,5 @@ export async function handleTwitterOAuthCallback(
   cookies.set('access_token', access_token);
 
   // Redirect to home page
-  return redirect(302, '/home');
+  return redirect(302, '/');
 }

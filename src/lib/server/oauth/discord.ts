@@ -4,7 +4,7 @@ export async function handleDiscordOAuthInitialize(
   cookies: Cookies,
   url: URL
 ): Promise<Response> {
-  return redirect(302, '/home');
+  return redirect(302, '/');
 }
 
 export async function handleDiscordOAuthCallback(
@@ -47,5 +47,5 @@ export async function handleDiscordOAuthCallback(
   cookies.set('token_type', token_type);
 
   // Redirect to home page
-  return redirect(302, '/home');
+  return redirect(302, '/');
 }

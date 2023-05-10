@@ -4,7 +4,7 @@ export async function handleGoogleOAuthInitialize(
   cookies: Cookies,
   url: URL
 ): Promise<Response> {
-  return redirect(302, '/home');
+  return redirect(302, '/');
 }
 
 // Tokens can vary in size, up to the following limits:
@@ -47,5 +47,5 @@ export async function handleGoogleOAuthCallback(
   cookies.set('access_token', access_token);
 
   // Redirect to home page
-  return redirect(302, '/home');
+  return redirect(302, '/');
 }
