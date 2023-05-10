@@ -83,23 +83,29 @@ export async function handleFetchError(
 
   if (!(options?.dontRedirect?.includes(status) ?? false))
   {
-    if (status === 503) {
-      goto('/503');
-      return null;
-    }
-    if (status === 401) {
-      createErrorToast('Login missing or expired');
-      goto(BuildRedirectURL('/login', GetRedirectURL(url, '/home')));
-      return null;
-    } else if (status === 403) {
-      createErrorToast('You do not have permission to access this resource');
-      goto('/home');
-      return null;
+    switch (status) {
+      case 401:
+        createErrorToast('Login missing or expired');
+        goto(BuildRedirectURL('/login', GetRedirectURL(url, '/home')));
+        return null;
+      case 403:
+        createErrorToast('You do not have permission to access this resource');
+        goto('/home');
+        return null;
+      case 503:
+        goto('/503');
+        return null;
+      default:
+        break;
     }
   }
 
   if (!details) {
-    createErrorToast('HTTP: ' + getReasonPhrase(status));
+    if (status === 500) {
+      createErrorToast('Internal server error, please try again later');
+    } else {
+      createErrorToast(getReasonPhrase(status));
+    }
     return null;
   }
 
@@ -111,7 +117,7 @@ export async function handleFetchError(
 
   if (details.notification)
   {
-    createErrorToast(details.notification.message);
+    createErrorToast(details.notification.content);
   }
 
   return {

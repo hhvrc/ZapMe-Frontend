@@ -34,17 +34,11 @@ export interface ErrorDetailsNotification {
      */
     severity: SeverityLevel;
     /**
-     * Message title to display to the user
+     * Content of the notification, might be HTML
      * @type {string}
      * @memberof ErrorDetailsNotification
      */
-    title: string;
-    /**
-     * User friendly message about this notification
-     * @type {string}
-     * @memberof ErrorDetailsNotification
-     */
-    message?: string | null;
+    content: string;
 }
 
 /**
@@ -53,7 +47,7 @@ export interface ErrorDetailsNotification {
 export function instanceOfErrorDetailsNotification(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "severity" in value;
-    isInstance = isInstance && "title" in value;
+    isInstance = isInstance && "content" in value;
 
     return isInstance;
 }
@@ -69,8 +63,7 @@ export function ErrorDetailsNotificationFromJSONTyped(json: any, ignoreDiscrimin
     return {
         
         'severity': SeverityLevelFromJSON(json['severity']),
-        'title': json['title'],
-        'message': !exists(json, 'message') ? undefined : json['message'],
+        'content': json['content'],
     };
 }
 
@@ -84,8 +77,7 @@ export function ErrorDetailsNotificationToJSON(value?: ErrorDetailsNotification 
     return {
         
         'severity': SeverityLevelToJSON(value.severity),
-        'title': value.title,
-        'message': value.message,
+        'content': value.content,
     };
 }
 
