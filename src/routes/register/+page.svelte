@@ -3,6 +3,7 @@
   import TextInput from '$components/TextInput.svelte';
   import Turnstile from '$components/Turnstile.svelte';
   import { accountApi } from '$lib/fetchSingleton';
+  import { ApiConfigStore } from '$lib/stores';
   import {
     validateEmail,
     validatePassword,
@@ -37,10 +38,20 @@
   let turnstileToken = '';
   let submitting = false;
 
+  $: acceptedPrivacyPolicyVersion = acceptedTerms ? $ApiConfigStore?.api?.privacyPolicyVersion ?? 0 : 0;
+  $: acceptedTermsOfServiceVersion = acceptedTerms ? $ApiConfigStore?.api?.tosVersion ?? 0 : 0;
+
   async function handleSubmit() {
     submitting = true;
     try {
-      await accountApi.createAccount({ username, email, password });
+      await accountApi.createAccount({ createAccount: {
+        username,
+        password,
+        email,
+        acceptedPrivacyPolicyVersion, // TODO: Update this when we have a privacy policy
+        acceptedTermsOfServiceVersion, // TODO: Update this when we have a terms of service
+        turnstileResponse: turnstileToken,
+      } });
     } catch (error) {
       alert(error.message);
     } finally {
