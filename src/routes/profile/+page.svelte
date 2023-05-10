@@ -2,14 +2,19 @@
   import { browser } from '$app/environment';
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
-  import { AccountStore, SessionTokenStore } from '$lib/stores';
+  import { AccountApi, type AccountDto } from '$lib/api';
+  import { RuntimeApiConfiguration } from '$lib/fetchSingleton';
+  import { SessionTokenStore } from '$lib/stores';
   import { BuildRedirectURL } from '$lib/utils/redirects';
+
+  const accountApi = new AccountApi(RuntimeApiConfiguration);
 
   if (browser && !$SessionTokenStore) {
     goto(BuildRedirectURL('/login', $page.url));
   }
 
-  $: account = $AccountStore.account;
+  let account: AccountDto;
+  accountApi.getAccount().then(a => account = a).catch(() => null);
 </script>
 
 <svelte:head>
@@ -28,7 +33,7 @@
     <p>StatusText: {account.statusText}</p>
     <p>CreatedAt: {account.createdAt}</p>
     <p>LastOnline: {account.lastOnline}</p>
-    <p>Accepted TOS Version: {account.acceptedTosVersion}</p>
+    <p>Accepted TOS Version: {account.acceptedTermsOfServiceVersion}</p>
     <div>
       <h2>Friends:</h2>
       {#each account.friends ?? [] as friend}
