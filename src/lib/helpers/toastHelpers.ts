@@ -11,7 +11,7 @@ export function createInfoToast(message: string) {
     message,
     autohide: true,
     timeout: 5000,
-    background: 'variant-filled-info',
+    background: 'variant-filled-success',
   });
 }
 export function createErrorToast(message: string) {

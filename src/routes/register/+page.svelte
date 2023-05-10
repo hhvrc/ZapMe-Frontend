@@ -14,6 +14,8 @@
   import type { Snapshot } from './$types';
   import { focusTrap } from '@skeletonlabs/skeleton';
   import { handleFetchError } from '$lib/helpers/errorDetailsHelpers';
+  import { createInfoToast } from '$lib/helpers';
+  import { goto } from '$app/navigation';
 
   const accountApi = new AccountApi(RuntimeApiConfiguration);
 
@@ -48,7 +50,7 @@
   async function handleSubmit() {
     submitting = true;
     try {
-      await accountApi.createAccount({
+      const result = await accountApi.createAccount({
         username,
         password,
         email,
@@ -56,6 +58,9 @@
         acceptedTermsOfServiceVersion,
         turnstileResponse,
       });
+
+      createInfoToast('Account created successfully. Please check your email to verify your account.');
+      goto('/login');
     } catch (error) {
       const response = await handleFetchError(error);
       if (!response) return;
