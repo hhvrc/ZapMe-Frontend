@@ -35,7 +35,7 @@
   let passwordMatch = '';
   let passwordMatchShown = false;
   let acceptedTerms = false;
-  let turnstileToken = '';
+  let turnstileResponse = '';
   let submitting = false;
 
   $: acceptedPrivacyPolicyVersion = acceptedTerms ? $ApiConfigStore?.api.privacyVersion ?? 0 : 0;
@@ -48,36 +48,14 @@
         username,
         password,
         email,
-        acceptedPrivacyPolicyVersion, // TODO: Update this when we have a privacy policy
-        acceptedTermsOfServiceVersion, // TODO: Update this when we have a terms of service
-        turnstileResponse: turnstileToken,
+        acceptedPrivacyPolicyVersion,
+        acceptedTermsOfServiceVersion,
+        turnstileResponse,
       });
     } catch (error) {
-      alert(error.message);
+      alert(error);
     } finally {
       submitting = false;
-    }
-    
-    const response = await fetch('/api/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username,
-        email,
-        password,
-        turnstileToken,
-      }),
-    });
-    submitting = false;
-    if (response.ok) {
-      const { token } = await response.json();
-      localStorage.setItem('token', token);
-      window.location.href = '/';
-    } else {
-      const { error } = await response.json();
-      alert(error);
     }
   }
 
@@ -95,7 +73,7 @@
     passwordError.valid &&
     passwordMatchError.valid &&
     acceptedTermsError.valid &&
-    turnstileToken &&
+    turnstileResponse &&
     !submitting
   );
 </script>
@@ -162,7 +140,7 @@
     </label>
 
     <!-- Turnstile -->
-    <Turnstile action="register" bind:response={turnstileToken} />
+    <Turnstile action="register" bind:response={turnstileResponse} />
 
     <!-- Submit -->
     <button
