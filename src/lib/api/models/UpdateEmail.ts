@@ -24,13 +24,13 @@ export interface UpdateEmail {
      * @type {string}
      * @memberof UpdateEmail
      */
-    newEmail?: string;
+    newEmail: string;
     /**
      * 
      * @type {string}
      * @memberof UpdateEmail
      */
-    password?: string;
+    password: string;
 }
 
 /**
@@ -38,6 +38,8 @@ export interface UpdateEmail {
  */
 export function instanceOfUpdateEmail(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "newEmail" in value;
+    isInstance = isInstance && "password" in value;
 
     return isInstance;
 }
@@ -52,8 +54,8 @@ export function UpdateEmailFromJSONTyped(json: any, ignoreDiscriminator: boolean
     }
     return {
         
-        'newEmail': !exists(json, 'newEmail') ? undefined : json['newEmail'],
-        'password': !exists(json, 'password') ? undefined : json['password'],
+        'newEmail': json['newEmail'],
+        'password': json['password'],
     };
 }
 

@@ -24,19 +24,19 @@ export interface AuthSignIn {
      * @type {string}
      * @memberof AuthSignIn
      */
-    usernameOrEmail?: string;
+    usernameOrEmail: string;
     /**
      * Password
      * @type {string}
      * @memberof AuthSignIn
      */
-    password?: string;
+    password: string;
     /**
      * Make this login persist for a longer period of time
      * @type {boolean}
      * @memberof AuthSignIn
      */
-    rememberMe?: boolean;
+    rememberMe: boolean;
 }
 
 /**
@@ -44,6 +44,9 @@ export interface AuthSignIn {
  */
 export function instanceOfAuthSignIn(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "usernameOrEmail" in value;
+    isInstance = isInstance && "password" in value;
+    isInstance = isInstance && "rememberMe" in value;
 
     return isInstance;
 }
@@ -58,9 +61,9 @@ export function AuthSignInFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     }
     return {
         
-        'usernameOrEmail': !exists(json, 'usernameOrEmail') ? undefined : json['usernameOrEmail'],
-        'password': !exists(json, 'password') ? undefined : json['password'],
-        'rememberMe': !exists(json, 'rememberMe') ? undefined : json['rememberMe'],
+        'usernameOrEmail': json['usernameOrEmail'],
+        'password': json['password'],
+        'rememberMe': json['rememberMe'],
     };
 }
 

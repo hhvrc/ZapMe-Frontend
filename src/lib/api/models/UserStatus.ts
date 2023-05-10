@@ -12,19 +12,18 @@
  * Do not edit the class manually.
  */
 
-
 /**
  * 
  * @export
+ * @enum {string}
  */
-export const UserStatus = {
-    offline: 'offline',
-    doNotDisturb: 'doNotDisturb',
-    inactive: 'inactive',
-    online: 'online',
-    downBad: 'downBad'
-} as const;
-export type UserStatus = typeof UserStatus[keyof typeof UserStatus];
+export enum UserStatus {
+    offline = 'offline',
+    doNotDisturb = 'doNotDisturb',
+    inactive = 'inactive',
+    online = 'online',
+    downBad = 'downBad'
+}
 
 
 export function UserStatusFromJSON(json: any): UserStatus {

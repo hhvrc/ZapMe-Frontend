@@ -37,13 +37,13 @@ export interface SignInOk {
      * @type {SessionDto}
      * @memberof SignInOk
      */
-    session?: SessionDto;
+    session: SessionDto;
     /**
      * 
      * @type {AccountDto}
      * @memberof SignInOk
      */
-    account?: AccountDto;
+    account: AccountDto;
 }
 
 /**
@@ -51,6 +51,8 @@ export interface SignInOk {
  */
 export function instanceOfSignInOk(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "session" in value;
+    isInstance = isInstance && "account" in value;
 
     return isInstance;
 }
@@ -65,8 +67,8 @@ export function SignInOkFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     }
     return {
         
-        'session': !exists(json, 'session') ? undefined : SessionDtoFromJSON(json['session']),
-        'account': !exists(json, 'account') ? undefined : AccountDtoFromJSON(json['account']),
+        'session': SessionDtoFromJSON(json['session']),
+        'account': AccountDtoFromJSON(json['account']),
     };
 }
 

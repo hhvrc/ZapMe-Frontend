@@ -6,7 +6,7 @@ export async function load({ params }) {
 
   async function userRequestFunc(): Promise<Response<UserDto>> {
     try {
-      const response = await userApi.getUser({ userId });
+      const response = await userApi.getUser(userId);
       return { code: 'ok', data: response };
     } catch (error) {
       const parsed = await ParseFetchError(error);

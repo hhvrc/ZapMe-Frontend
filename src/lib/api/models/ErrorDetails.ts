@@ -31,13 +31,13 @@ export interface ErrorDetails {
      * @type {string}
      * @memberof ErrorDetails
      */
-    code?: string;
+    code: string;
     /**
      * Detailed description of what this error is about (meant for developers)
      * @type {string}
      * @memberof ErrorDetails
      */
-    detail?: string;
+    detail: string;
     /**
      * Suggestion on how to midegate this error (meant for developers)
      * @type {string}
@@ -55,7 +55,7 @@ export interface ErrorDetails {
      * @type {UserNotification}
      * @memberof ErrorDetails
      */
-    notification?: UserNotification;
+    notification: UserNotification;
 }
 
 /**
@@ -63,6 +63,9 @@ export interface ErrorDetails {
  */
 export function instanceOfErrorDetails(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "code" in value;
+    isInstance = isInstance && "detail" in value;
+    isInstance = isInstance && "notification" in value;
 
     return isInstance;
 }
@@ -77,11 +80,11 @@ export function ErrorDetailsFromJSONTyped(json: any, ignoreDiscriminator: boolea
     }
     return {
         
-        'code': !exists(json, 'code') ? undefined : json['code'],
-        'detail': !exists(json, 'detail') ? undefined : json['detail'],
+        'code': json['code'],
+        'detail': json['detail'],
         'suggestion': !exists(json, 'suggestion') ? undefined : json['suggestion'],
         'fields': !exists(json, 'fields') ? undefined : json['fields'],
-        'notification': !exists(json, 'notification') ? undefined : UserNotificationFromJSON(json['notification']),
+        'notification': UserNotificationFromJSON(json['notification']),
     };
 }
 

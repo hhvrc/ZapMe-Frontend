@@ -32,12 +32,10 @@
   async function handleSubmit() {
     try {
       const response = await authenticationApi.authSignIn({
-        authSignIn: {
           usernameOrEmail,
           password,
           rememberMe,
-        },
-      });
+        });
       if (!response.session || !response.account) {
         throw new Error('Invalid response');
       }

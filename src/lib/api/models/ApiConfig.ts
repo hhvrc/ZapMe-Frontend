@@ -31,19 +31,19 @@ export interface ApiConfig {
      * @type {number}
      * @memberof ApiConfig
      */
-    tosVersion?: number;
+    tosVersion: number;
     /**
      * The current Privacy Policy version, if the user has not accepted this version, they will be prompted to accept it
      * @type {number}
      * @memberof ApiConfig
      */
-    privacyVersion?: number;
+    privacyVersion: number;
     /**
      * 
      * @type {ApiDisabledFeatures}
      * @memberof ApiConfig
      */
-    disabledFeatures?: ApiDisabledFeatures;
+    disabledFeatures: ApiDisabledFeatures;
 }
 
 /**
@@ -51,6 +51,9 @@ export interface ApiConfig {
  */
 export function instanceOfApiConfig(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "tosVersion" in value;
+    isInstance = isInstance && "privacyVersion" in value;
+    isInstance = isInstance && "disabledFeatures" in value;
 
     return isInstance;
 }
@@ -65,9 +68,9 @@ export function ApiConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     }
     return {
         
-        'tosVersion': !exists(json, 'tosVersion') ? undefined : json['tosVersion'],
-        'privacyVersion': !exists(json, 'privacyVersion') ? undefined : json['privacyVersion'],
-        'disabledFeatures': !exists(json, 'disabledFeatures') ? undefined : ApiDisabledFeaturesFromJSON(json['disabledFeatures']),
+        'tosVersion': json['tosVersion'],
+        'privacyVersion': json['privacyVersion'],
+        'disabledFeatures': ApiDisabledFeaturesFromJSON(json['disabledFeatures']),
     };
 }
 

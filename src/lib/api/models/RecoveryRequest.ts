@@ -24,13 +24,13 @@ export interface RecoveryRequest {
      * @type {string}
      * @memberof RecoveryRequest
      */
-    email?: string;
+    email: string;
     /**
      * Response from cloudflare turnstile request
      * @type {string}
      * @memberof RecoveryRequest
      */
-    turnstileResponse?: string;
+    turnstileResponse: string;
 }
 
 /**
@@ -38,6 +38,8 @@ export interface RecoveryRequest {
  */
 export function instanceOfRecoveryRequest(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "email" in value;
+    isInstance = isInstance && "turnstileResponse" in value;
 
     return isInstance;
 }
@@ -52,8 +54,8 @@ export function RecoveryRequestFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
-        'email': !exists(json, 'email') ? undefined : json['email'],
-        'turnstileResponse': !exists(json, 'turnstileResponse') ? undefined : json['turnstileResponse'],
+        'email': json['email'],
+        'turnstileResponse': json['turnstileResponse'],
     };
 }
 

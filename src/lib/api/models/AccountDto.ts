@@ -31,85 +31,85 @@ export interface AccountDto {
      * @type {string}
      * @memberof AccountDto
      */
-    readonly id?: string;
+    readonly id: string;
     /**
      * 
      * @type {string}
      * @memberof AccountDto
      */
-    readonly username?: string;
+    readonly username: string;
     /**
      * Obfuscated email of your account
      * @type {string}
      * @memberof AccountDto
      */
-    readonly obscuredEmail?: string;
+    readonly obscuredEmail: string;
     /**
      * 
      * @type {boolean}
      * @memberof AccountDto
      */
-    readonly emailVerified?: boolean;
+    readonly emailVerified: boolean;
     /**
      * 
      * @type {number}
      * @memberof AccountDto
      */
-    readonly acceptedPrivacyPolicyVersion?: number;
+    readonly acceptedPrivacyPolicyVersion: number;
     /**
      * 
      * @type {number}
      * @memberof AccountDto
      */
-    readonly acceptedTermsOfServiceVersion?: number;
+    readonly acceptedTermsOfServiceVersion: number;
     /**
      * 
      * @type {string}
      * @memberof AccountDto
      */
-    readonly profilePictureUrl?: string;
+    readonly profilePictureUrl: string;
     /**
      * 
      * @type {UserStatus}
      * @memberof AccountDto
      */
-    status?: UserStatus;
+    status: UserStatus;
     /**
      * 
      * @type {string}
      * @memberof AccountDto
      */
-    readonly statusText?: string;
+    readonly statusText: string;
     /**
      * Id of friends this account has
      * @type {Array<string>}
      * @memberof AccountDto
      */
-    readonly friends?: Array<string>;
+    readonly friends: Array<string>;
     /**
      * OAuth2 providers this account is connected to
      * @type {Array<string>}
      * @memberof AccountDto
      */
-    readonly oauthConnections?: Array<string>;
+    readonly oauthConnections: Array<string>;
     /**
      * Date this user was created at
      * @type {Date}
      * @memberof AccountDto
      */
-    readonly createdAt?: Date;
+    readonly createdAt: Date;
     /**
      * Last time this user was updated
      * @type {Date}
      * @memberof AccountDto
      */
-    readonly updatedAt?: Date;
+    readonly updatedAt: Date;
     /**
      * Last time this user was online
      * @type {Date}
      * @memberof AccountDto
      */
-    readonly lastOnline?: Date;
+    readonly lastOnline: Date;
 }
 
 /**
@@ -117,6 +117,20 @@ export interface AccountDto {
  */
 export function instanceOfAccountDto(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "id" in value;
+    isInstance = isInstance && "username" in value;
+    isInstance = isInstance && "obscuredEmail" in value;
+    isInstance = isInstance && "emailVerified" in value;
+    isInstance = isInstance && "acceptedPrivacyPolicyVersion" in value;
+    isInstance = isInstance && "acceptedTermsOfServiceVersion" in value;
+    isInstance = isInstance && "profilePictureUrl" in value;
+    isInstance = isInstance && "status" in value;
+    isInstance = isInstance && "statusText" in value;
+    isInstance = isInstance && "friends" in value;
+    isInstance = isInstance && "oauthConnections" in value;
+    isInstance = isInstance && "createdAt" in value;
+    isInstance = isInstance && "updatedAt" in value;
+    isInstance = isInstance && "lastOnline" in value;
 
     return isInstance;
 }
@@ -131,20 +145,20 @@ export function AccountDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     }
     return {
         
-        'id': !exists(json, 'id') ? undefined : json['id'],
-        'username': !exists(json, 'username') ? undefined : json['username'],
-        'obscuredEmail': !exists(json, 'obscuredEmail') ? undefined : json['obscuredEmail'],
-        'emailVerified': !exists(json, 'emailVerified') ? undefined : json['emailVerified'],
-        'acceptedPrivacyPolicyVersion': !exists(json, 'acceptedPrivacyPolicyVersion') ? undefined : json['acceptedPrivacyPolicyVersion'],
-        'acceptedTermsOfServiceVersion': !exists(json, 'acceptedTermsOfServiceVersion') ? undefined : json['acceptedTermsOfServiceVersion'],
-        'profilePictureUrl': !exists(json, 'profilePictureUrl') ? undefined : json['profilePictureUrl'],
-        'status': !exists(json, 'status') ? undefined : UserStatusFromJSON(json['status']),
-        'statusText': !exists(json, 'statusText') ? undefined : json['statusText'],
-        'friends': !exists(json, 'friends') ? undefined : json['friends'],
-        'oauthConnections': !exists(json, 'oauthConnections') ? undefined : json['oauthConnections'],
-        'createdAt': !exists(json, 'createdAt') ? undefined : (new Date(json['createdAt'])),
-        'updatedAt': !exists(json, 'updatedAt') ? undefined : (new Date(json['updatedAt'])),
-        'lastOnline': !exists(json, 'lastOnline') ? undefined : (new Date(json['lastOnline'])),
+        'id': json['id'],
+        'username': json['username'],
+        'obscuredEmail': json['obscuredEmail'],
+        'emailVerified': json['emailVerified'],
+        'acceptedPrivacyPolicyVersion': json['acceptedPrivacyPolicyVersion'],
+        'acceptedTermsOfServiceVersion': json['acceptedTermsOfServiceVersion'],
+        'profilePictureUrl': json['profilePictureUrl'],
+        'status': UserStatusFromJSON(json['status']),
+        'statusText': json['statusText'],
+        'friends': json['friends'],
+        'oauthConnections': json['oauthConnections'],
+        'createdAt': (new Date(json['createdAt'])),
+        'updatedAt': (new Date(json['updatedAt'])),
+        'lastOnline': (new Date(json['lastOnline'])),
     };
 }
 

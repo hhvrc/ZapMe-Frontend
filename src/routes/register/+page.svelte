@@ -38,20 +38,20 @@
   let turnstileToken = '';
   let submitting = false;
 
-  $: acceptedPrivacyPolicyVersion = acceptedTerms ? $ApiConfigStore?.api?.privacyPolicyVersion ?? 0 : 0;
-  $: acceptedTermsOfServiceVersion = acceptedTerms ? $ApiConfigStore?.api?.tosVersion ?? 0 : 0;
+  $: acceptedPrivacyPolicyVersion = acceptedTerms ? $ApiConfigStore?.api.privacyVersion ?? 0 : 0;
+  $: acceptedTermsOfServiceVersion = acceptedTerms ? $ApiConfigStore?.api.tosVersion ?? 0 : 0;
 
   async function handleSubmit() {
     submitting = true;
     try {
-      await accountApi.createAccount({ createAccount: {
+      await accountApi.createAccount({
         username,
         password,
         email,
         acceptedPrivacyPolicyVersion, // TODO: Update this when we have a privacy policy
         acceptedTermsOfServiceVersion, // TODO: Update this when we have a terms of service
         turnstileResponse: turnstileToken,
-      } });
+      });
     } catch (error) {
       alert(error.message);
     } finally {

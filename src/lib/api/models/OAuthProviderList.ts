@@ -24,7 +24,7 @@ export interface OAuthProviderList {
      * @type {Array<string>}
      * @memberof OAuthProviderList
      */
-    providers?: Array<string>;
+    providers: Array<string>;
 }
 
 /**
@@ -32,6 +32,7 @@ export interface OAuthProviderList {
  */
 export function instanceOfOAuthProviderList(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "providers" in value;
 
     return isInstance;
 }
@@ -46,7 +47,7 @@ export function OAuthProviderListFromJSONTyped(json: any, ignoreDiscriminator: b
     }
     return {
         
-        'providers': !exists(json, 'providers') ? undefined : json['providers'],
+        'providers': json['providers'],
     };
 }
 

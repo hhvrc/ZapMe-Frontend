@@ -24,19 +24,19 @@ export interface ApiDisabledFeatures {
      * @type {boolean}
      * @memberof ApiDisabledFeatures
      */
-    webRTC?: boolean;
+    webRTC: boolean;
     /**
      * If true, WebSockets are disabled
      * @type {boolean}
      * @memberof ApiDisabledFeatures
      */
-    webSockets?: boolean;
+    webSockets: boolean;
     /**
      * List of disabled endpoints, if an endpoint is in this list, it will return a "503 Service Unavailable"
      * @type {Array<string>}
      * @memberof ApiDisabledFeatures
      */
-    endpoints?: Array<string>;
+    endpoints: Array<string>;
 }
 
 /**
@@ -44,6 +44,9 @@ export interface ApiDisabledFeatures {
  */
 export function instanceOfApiDisabledFeatures(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "webRTC" in value;
+    isInstance = isInstance && "webSockets" in value;
+    isInstance = isInstance && "endpoints" in value;
 
     return isInstance;
 }
@@ -58,9 +61,9 @@ export function ApiDisabledFeaturesFromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
-        'webRTC': !exists(json, 'webRTC') ? undefined : json['webRTC'],
-        'webSockets': !exists(json, 'webSockets') ? undefined : json['webSockets'],
-        'endpoints': !exists(json, 'endpoints') ? undefined : json['endpoints'],
+        'webRTC': json['webRTC'],
+        'webSockets': json['webSockets'],
+        'endpoints': json['endpoints'],
     };
 }
 

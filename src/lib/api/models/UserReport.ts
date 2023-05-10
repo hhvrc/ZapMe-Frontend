@@ -24,19 +24,19 @@ export interface UserReport {
      * @type {string}
      * @memberof UserReport
      */
-    userId?: string;
+    userId: string;
     /**
      * 
      * @type {string}
      * @memberof UserReport
      */
-    title?: string;
+    title: string;
     /**
      * 
      * @type {string}
      * @memberof UserReport
      */
-    explenation?: string;
+    explenation: string;
 }
 
 /**
@@ -44,6 +44,9 @@ export interface UserReport {
  */
 export function instanceOfUserReport(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "userId" in value;
+    isInstance = isInstance && "title" in value;
+    isInstance = isInstance && "explenation" in value;
 
     return isInstance;
 }
@@ -58,9 +61,9 @@ export function UserReportFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     }
     return {
         
-        'userId': !exists(json, 'userId') ? undefined : json['userId'],
-        'title': !exists(json, 'title') ? undefined : json['title'],
-        'explenation': !exists(json, 'explenation') ? undefined : json['explenation'],
+        'userId': json['userId'],
+        'title': json['title'],
+        'explenation': json['explenation'],
     };
 }
 

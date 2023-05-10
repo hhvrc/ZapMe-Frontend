@@ -43,31 +43,31 @@ export interface Config {
      * @type {string}
      * @memberof Config
      */
-    appName?: string;
+    appName: string;
     /**
      * Version of the product, e.g. "1.0.0"
      * @type {string}
      * @memberof Config
      */
-    appVersion?: string;
+    appVersion: string;
     /**
      * 
      * @type {ApiConfig}
      * @memberof Config
      */
-    api?: ApiConfig;
+    api: ApiConfig;
     /**
      * 
      * @type {ContactConfig}
      * @memberof Config
      */
-    contact?: ContactConfig;
+    contact: ContactConfig;
     /**
      * 
      * @type {SocialsConfig}
      * @memberof Config
      */
-    founderSocials?: SocialsConfig;
+    founderSocials: SocialsConfig;
 }
 
 /**
@@ -75,6 +75,11 @@ export interface Config {
  */
 export function instanceOfConfig(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "appName" in value;
+    isInstance = isInstance && "appVersion" in value;
+    isInstance = isInstance && "api" in value;
+    isInstance = isInstance && "contact" in value;
+    isInstance = isInstance && "founderSocials" in value;
 
     return isInstance;
 }
@@ -89,11 +94,11 @@ export function ConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean): Co
     }
     return {
         
-        'appName': !exists(json, 'appName') ? undefined : json['appName'],
-        'appVersion': !exists(json, 'appVersion') ? undefined : json['appVersion'],
-        'api': !exists(json, 'api') ? undefined : ApiConfigFromJSON(json['api']),
-        'contact': !exists(json, 'contact') ? undefined : ContactConfigFromJSON(json['contact']),
-        'founderSocials': !exists(json, 'founderSocials') ? undefined : SocialsConfigFromJSON(json['founderSocials']),
+        'appName': json['appName'],
+        'appVersion': json['appVersion'],
+        'api': ApiConfigFromJSON(json['api']),
+        'contact': ContactConfigFromJSON(json['contact']),
+        'founderSocials': SocialsConfigFromJSON(json['founderSocials']),
     };
 }
 

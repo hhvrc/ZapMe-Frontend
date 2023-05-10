@@ -24,13 +24,13 @@ export interface FriendRequestList {
      * @type {Array<string>}
      * @memberof FriendRequestList
      */
-    incoming?: Array<string>;
+    incoming: Array<string>;
     /**
      * UserId's of users that this user has sent friend requests to
      * @type {Array<string>}
      * @memberof FriendRequestList
      */
-    outgoing?: Array<string>;
+    outgoing: Array<string>;
 }
 
 /**
@@ -38,6 +38,8 @@ export interface FriendRequestList {
  */
 export function instanceOfFriendRequestList(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "incoming" in value;
+    isInstance = isInstance && "outgoing" in value;
 
     return isInstance;
 }
@@ -52,8 +54,8 @@ export function FriendRequestListFromJSONTyped(json: any, ignoreDiscriminator: b
     }
     return {
         
-        'incoming': !exists(json, 'incoming') ? undefined : json['incoming'],
-        'outgoing': !exists(json, 'outgoing') ? undefined : json['outgoing'],
+        'incoming': json['incoming'],
+        'outgoing': json['outgoing'],
     };
 }
 

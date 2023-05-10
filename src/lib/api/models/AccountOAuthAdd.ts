@@ -24,7 +24,7 @@ export interface AccountOAuthAdd {
      * @type {string}
      * @memberof AccountOAuthAdd
      */
-    oauthCode?: string;
+    oauthCode: string;
 }
 
 /**
@@ -32,6 +32,7 @@ export interface AccountOAuthAdd {
  */
 export function instanceOfAccountOAuthAdd(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "oauthCode" in value;
 
     return isInstance;
 }
@@ -46,7 +47,7 @@ export function AccountOAuthAddFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
-        'oauthCode': !exists(json, 'oauthCode') ? undefined : json['oauthCode'],
+        'oauthCode': json['oauthCode'],
     };
 }
 

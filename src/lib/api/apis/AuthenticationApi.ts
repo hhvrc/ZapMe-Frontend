@@ -73,7 +73,7 @@ export interface AuthenticationApiInterface {
     /**
      * 
      */
-    authSignIn(requestParameters: AuthSignInRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SignInOk>;
+    authSignIn(authSignIn?: AuthSignIn, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SignInOk>;
 
     /**
      * 
@@ -88,7 +88,7 @@ export interface AuthenticationApiInterface {
     /**
      * 
      */
-    authSignInOAuth(requestParameters: AuthSignInOAuthRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SignInOk>;
+    authSignInOAuth(provider?: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SignInOk>;
 
     /**
      * 
@@ -161,8 +161,8 @@ export class AuthenticationApi extends runtime.BaseAPI implements Authentication
     /**
      * 
      */
-    async authSignIn(requestParameters: AuthSignInRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SignInOk> {
-        const response = await this.authSignInRaw(requestParameters, initOverrides);
+    async authSignIn(authSignIn?: AuthSignIn, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SignInOk> {
+        const response = await this.authSignInRaw({ authSignIn: authSignIn }, initOverrides);
         return await response.value();
     }
 
@@ -191,8 +191,8 @@ export class AuthenticationApi extends runtime.BaseAPI implements Authentication
     /**
      * 
      */
-    async authSignInOAuth(requestParameters: AuthSignInOAuthRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SignInOk> {
-        const response = await this.authSignInOAuthRaw(requestParameters, initOverrides);
+    async authSignInOAuth(provider?: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SignInOk> {
+        const response = await this.authSignInOAuthRaw({ provider: provider }, initOverrides);
         return await response.value();
     }
 

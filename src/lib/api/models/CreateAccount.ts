@@ -24,37 +24,37 @@ export interface CreateAccount {
      * @type {string}
      * @memberof CreateAccount
      */
-    username?: string;
+    username: string;
     /**
      * 
      * @type {string}
      * @memberof CreateAccount
      */
-    password?: string;
+    password: string;
     /**
      * 
      * @type {string}
      * @memberof CreateAccount
      */
-    email?: string;
+    email: string;
     /**
      * 
      * @type {number}
      * @memberof CreateAccount
      */
-    acceptedPrivacyPolicyVersion?: number;
+    acceptedPrivacyPolicyVersion: number;
     /**
      * 
      * @type {number}
      * @memberof CreateAccount
      */
-    acceptedTermsOfServiceVersion?: number;
+    acceptedTermsOfServiceVersion: number;
     /**
      * Response from cloudflare turnstile request
      * @type {string}
      * @memberof CreateAccount
      */
-    turnstileResponse?: string;
+    turnstileResponse: string;
 }
 
 /**
@@ -62,6 +62,12 @@ export interface CreateAccount {
  */
 export function instanceOfCreateAccount(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "username" in value;
+    isInstance = isInstance && "password" in value;
+    isInstance = isInstance && "email" in value;
+    isInstance = isInstance && "acceptedPrivacyPolicyVersion" in value;
+    isInstance = isInstance && "acceptedTermsOfServiceVersion" in value;
+    isInstance = isInstance && "turnstileResponse" in value;
 
     return isInstance;
 }
@@ -76,12 +82,12 @@ export function CreateAccountFromJSONTyped(json: any, ignoreDiscriminator: boole
     }
     return {
         
-        'username': !exists(json, 'username') ? undefined : json['username'],
-        'password': !exists(json, 'password') ? undefined : json['password'],
-        'email': !exists(json, 'email') ? undefined : json['email'],
-        'acceptedPrivacyPolicyVersion': !exists(json, 'acceptedPrivacyPolicyVersion') ? undefined : json['acceptedPrivacyPolicyVersion'],
-        'acceptedTermsOfServiceVersion': !exists(json, 'acceptedTermsOfServiceVersion') ? undefined : json['acceptedTermsOfServiceVersion'],
-        'turnstileResponse': !exists(json, 'turnstileResponse') ? undefined : json['turnstileResponse'],
+        'username': json['username'],
+        'password': json['password'],
+        'email': json['email'],
+        'acceptedPrivacyPolicyVersion': json['acceptedPrivacyPolicyVersion'],
+        'acceptedTermsOfServiceVersion': json['acceptedTermsOfServiceVersion'],
+        'turnstileResponse': json['turnstileResponse'],
     };
 }
 

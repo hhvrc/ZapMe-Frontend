@@ -24,19 +24,19 @@ export interface ContactConfig {
      * @type {string}
      * @memberof ContactConfig
      */
-    emailSupport?: string;
+    emailSupport: string;
     /**
      * Email address to contact the owner of the service
      * @type {string}
      * @memberof ContactConfig
      */
-    emailContact?: string;
+    emailContact: string;
     /**
      * Invite URL to the Discord server where users can get support
      * @type {string}
      * @memberof ContactConfig
      */
-    discordInviteUrl?: string;
+    discordInviteUrl: string;
 }
 
 /**
@@ -44,6 +44,9 @@ export interface ContactConfig {
  */
 export function instanceOfContactConfig(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "emailSupport" in value;
+    isInstance = isInstance && "emailContact" in value;
+    isInstance = isInstance && "discordInviteUrl" in value;
 
     return isInstance;
 }
@@ -58,9 +61,9 @@ export function ContactConfigFromJSONTyped(json: any, ignoreDiscriminator: boole
     }
     return {
         
-        'emailSupport': !exists(json, 'emailSupport') ? undefined : json['emailSupport'],
-        'emailContact': !exists(json, 'emailContact') ? undefined : json['emailContact'],
-        'discordInviteUrl': !exists(json, 'discordInviteUrl') ? undefined : json['discordInviteUrl'],
+        'emailSupport': json['emailSupport'],
+        'emailContact': json['emailContact'],
+        'discordInviteUrl': json['discordInviteUrl'],
     };
 }
 

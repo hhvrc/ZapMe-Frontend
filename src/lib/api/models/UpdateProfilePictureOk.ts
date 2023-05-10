@@ -24,19 +24,19 @@ export interface UpdateProfilePictureOk {
      * @type {string}
      * @memberof UpdateProfilePictureOk
      */
-    imageId?: string;
+    imageId: string;
     /**
      * 
      * @type {string}
      * @memberof UpdateProfilePictureOk
      */
-    imageUrl?: string;
+    imageUrl: string;
     /**
      * 
      * @type {string}
      * @memberof UpdateProfilePictureOk
      */
-    imageHash?: string;
+    imageHash: string;
 }
 
 /**
@@ -44,6 +44,9 @@ export interface UpdateProfilePictureOk {
  */
 export function instanceOfUpdateProfilePictureOk(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "imageId" in value;
+    isInstance = isInstance && "imageUrl" in value;
+    isInstance = isInstance && "imageHash" in value;
 
     return isInstance;
 }
@@ -58,9 +61,9 @@ export function UpdateProfilePictureOkFromJSONTyped(json: any, ignoreDiscriminat
     }
     return {
         
-        'imageId': !exists(json, 'imageId') ? undefined : json['imageId'],
-        'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
-        'imageHash': !exists(json, 'imageHash') ? undefined : json['imageHash'],
+        'imageId': json['imageId'],
+        'imageUrl': json['imageUrl'],
+        'imageHash': json['imageHash'],
     };
 }
 
