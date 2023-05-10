@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { UserNotification } from './UserNotification';
+import type { ErrorDetailsNotification } from './ErrorDetailsNotification';
 import {
-    UserNotificationFromJSON,
-    UserNotificationFromJSONTyped,
-    UserNotificationToJSON,
-} from './UserNotification';
+    ErrorDetailsNotificationFromJSON,
+    ErrorDetailsNotificationFromJSONTyped,
+    ErrorDetailsNotificationToJSON,
+} from './ErrorDetailsNotification';
 
 /**
  * Details about the error
@@ -52,10 +52,10 @@ export interface ErrorDetails {
     fields?: { [key: string]: Array<string>; } | null;
     /**
      * 
-     * @type {UserNotification}
+     * @type {ErrorDetailsNotification}
      * @memberof ErrorDetails
      */
-    notification: UserNotification;
+    notification?: ErrorDetailsNotification | null;
 }
 
 /**
@@ -65,7 +65,6 @@ export function instanceOfErrorDetails(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "code" in value;
     isInstance = isInstance && "detail" in value;
-    isInstance = isInstance && "notification" in value;
 
     return isInstance;
 }
@@ -84,7 +83,7 @@ export function ErrorDetailsFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'detail': json['detail'],
         'suggestion': !exists(json, 'suggestion') ? undefined : json['suggestion'],
         'fields': !exists(json, 'fields') ? undefined : json['fields'],
-        'notification': UserNotificationFromJSON(json['notification']),
+        'notification': !exists(json, 'notification') ? undefined : ErrorDetailsNotificationFromJSON(json['notification']),
     };
 }
 
@@ -101,7 +100,7 @@ export function ErrorDetailsToJSON(value?: ErrorDetails | null): any {
         'detail': value.detail,
         'suggestion': value.suggestion,
         'fields': value.fields,
-        'notification': UserNotificationToJSON(value.notification),
+        'notification': ErrorDetailsNotificationToJSON(value.notification),
     };
 }
 

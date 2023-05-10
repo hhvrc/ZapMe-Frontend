@@ -15,14 +15,14 @@
 
 import * as runtime from '../runtime';
 import type {
-  AuthSignIn,
+  AuthSignInRequest,
   ErrorDetails,
   OAuthProviderList,
   SignInOk,
 } from '../models';
 import {
-    AuthSignInFromJSON,
-    AuthSignInToJSON,
+    AuthSignInRequestFromJSON,
+    AuthSignInRequestToJSON,
     ErrorDetailsFromJSON,
     ErrorDetailsToJSON,
     OAuthProviderListFromJSON,
@@ -31,8 +31,8 @@ import {
     SignInOkToJSON,
 } from '../models';
 
-export interface AuthSignInRequest {
-    authSignIn?: AuthSignIn;
+export interface AuthSignInOperationRequest {
+    authSignInRequest?: AuthSignInRequest;
 }
 
 export interface AuthSignInOAuthRequest {
@@ -63,17 +63,17 @@ export interface AuthenticationApiInterface {
     /**
      * 
      * @summary 
-     * @param {AuthSignIn} [authSignIn] 
+     * @param {AuthSignInRequest} [authSignInRequest] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AuthenticationApiInterface
      */
-    authSignInRaw(requestParameters: AuthSignInRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SignInOk>>;
+    authSignInRaw(requestParameters: AuthSignInOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SignInOk>>;
 
     /**
      * 
      */
-    authSignIn(authSignIn?: AuthSignIn, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SignInOk>;
+    authSignIn(authSignInRequest?: AuthSignInRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SignInOk>;
 
     /**
      * 
@@ -140,7 +140,7 @@ export class AuthenticationApi extends runtime.BaseAPI implements Authentication
     /**
      * 
      */
-    async authSignInRaw(requestParameters: AuthSignInRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SignInOk>> {
+    async authSignInRaw(requestParameters: AuthSignInOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SignInOk>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -152,7 +152,7 @@ export class AuthenticationApi extends runtime.BaseAPI implements Authentication
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: AuthSignInToJSON(requestParameters.authSignIn),
+            body: AuthSignInRequestToJSON(requestParameters.authSignInRequest),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => SignInOkFromJSON(jsonValue));
@@ -161,8 +161,8 @@ export class AuthenticationApi extends runtime.BaseAPI implements Authentication
     /**
      * 
      */
-    async authSignIn(authSignIn?: AuthSignIn, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SignInOk> {
-        const response = await this.authSignInRaw({ authSignIn: authSignIn }, initOverrides);
+    async authSignIn(authSignInRequest?: AuthSignInRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SignInOk> {
+        const response = await this.authSignInRaw({ authSignInRequest: authSignInRequest }, initOverrides);
         return await response.value();
     }
 

@@ -21,101 +21,101 @@ import {
 } from './UserStatus';
 
 /**
- * Account object, this can only retrieved for the user you are logged in as
+ * 
  * @export
- * @interface AccountDto
+ * @interface SignInOkAccount
  */
-export interface AccountDto {
+export interface SignInOkAccount {
     /**
      * 
      * @type {string}
-     * @memberof AccountDto
+     * @memberof SignInOkAccount
      */
     readonly id: string;
     /**
      * 
      * @type {string}
-     * @memberof AccountDto
+     * @memberof SignInOkAccount
      */
     readonly username: string;
     /**
      * Obfuscated email of your account
      * @type {string}
-     * @memberof AccountDto
+     * @memberof SignInOkAccount
      */
     readonly obscuredEmail: string;
     /**
      * 
      * @type {boolean}
-     * @memberof AccountDto
+     * @memberof SignInOkAccount
      */
     readonly emailVerified: boolean;
     /**
      * 
      * @type {number}
-     * @memberof AccountDto
+     * @memberof SignInOkAccount
      */
     readonly acceptedPrivacyPolicyVersion: number;
     /**
      * 
      * @type {number}
-     * @memberof AccountDto
+     * @memberof SignInOkAccount
      */
     readonly acceptedTermsOfServiceVersion: number;
     /**
      * 
      * @type {string}
-     * @memberof AccountDto
+     * @memberof SignInOkAccount
      */
     readonly profilePictureUrl: string;
     /**
      * 
      * @type {UserStatus}
-     * @memberof AccountDto
+     * @memberof SignInOkAccount
      */
     readonly status: UserStatus;
     /**
      * 
      * @type {string}
-     * @memberof AccountDto
+     * @memberof SignInOkAccount
      */
     readonly statusText: string;
     /**
      * Id of friends this account has
      * @type {Array<string>}
-     * @memberof AccountDto
+     * @memberof SignInOkAccount
      */
     readonly friends: Array<string>;
     /**
      * OAuth2 providers this account is connected to
      * @type {Array<string>}
-     * @memberof AccountDto
+     * @memberof SignInOkAccount
      */
     readonly oauthConnections: Array<string>;
     /**
      * Date this user was created at
      * @type {Date}
-     * @memberof AccountDto
+     * @memberof SignInOkAccount
      */
     readonly createdAt: Date;
     /**
      * Last time this user was updated
      * @type {Date}
-     * @memberof AccountDto
+     * @memberof SignInOkAccount
      */
     readonly updatedAt: Date;
     /**
      * Last time this user was online
      * @type {Date}
-     * @memberof AccountDto
+     * @memberof SignInOkAccount
      */
     readonly lastOnline: Date;
 }
 
 /**
- * Check if a given object implements the AccountDto interface.
+ * Check if a given object implements the SignInOkAccount interface.
  */
-export function instanceOfAccountDto(value: object): boolean {
+export function instanceOfSignInOkAccount(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "username" in value;
@@ -135,11 +135,11 @@ export function instanceOfAccountDto(value: object): boolean {
     return isInstance;
 }
 
-export function AccountDtoFromJSON(json: any): AccountDto {
-    return AccountDtoFromJSONTyped(json, false);
+export function SignInOkAccountFromJSON(json: any): SignInOkAccount {
+    return SignInOkAccountFromJSONTyped(json, false);
 }
 
-export function AccountDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): AccountDto {
+export function SignInOkAccountFromJSONTyped(json: any, ignoreDiscriminator: boolean): SignInOkAccount {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -162,7 +162,7 @@ export function AccountDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     };
 }
 
-export function AccountDtoToJSON(value?: AccountDto | null): any {
+export function SignInOkAccountToJSON(value?: SignInOkAccount | null): any {
     if (value === undefined) {
         return undefined;
     }

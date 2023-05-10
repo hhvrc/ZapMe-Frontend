@@ -21,35 +21,35 @@ import {
 } from './ApiConfigDisabledFeatures';
 
 /**
- * 
+ * Api configuration, e.g. version, etc.
  * @export
- * @interface ApiConfig
+ * @interface ConfigApi
  */
-export interface ApiConfig {
+export interface ConfigApi {
     /**
      * The current Terms of Service version, if the user has not accepted this version, they will be prompted to accept it
      * @type {number}
-     * @memberof ApiConfig
+     * @memberof ConfigApi
      */
     tosVersion: number;
     /**
      * The current Privacy Policy version, if the user has not accepted this version, they will be prompted to accept it
      * @type {number}
-     * @memberof ApiConfig
+     * @memberof ConfigApi
      */
     privacyVersion: number;
     /**
      * 
      * @type {ApiConfigDisabledFeatures}
-     * @memberof ApiConfig
+     * @memberof ConfigApi
      */
     disabledFeatures: ApiConfigDisabledFeatures;
 }
 
 /**
- * Check if a given object implements the ApiConfig interface.
+ * Check if a given object implements the ConfigApi interface.
  */
-export function instanceOfApiConfig(value: object): boolean {
+export function instanceOfConfigApi(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "tosVersion" in value;
     isInstance = isInstance && "privacyVersion" in value;
@@ -58,11 +58,11 @@ export function instanceOfApiConfig(value: object): boolean {
     return isInstance;
 }
 
-export function ApiConfigFromJSON(json: any): ApiConfig {
-    return ApiConfigFromJSONTyped(json, false);
+export function ConfigApiFromJSON(json: any): ConfigApi {
+    return ConfigApiFromJSONTyped(json, false);
 }
 
-export function ApiConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean): ApiConfig {
+export function ConfigApiFromJSONTyped(json: any, ignoreDiscriminator: boolean): ConfigApi {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -74,7 +74,7 @@ export function ApiConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     };
 }
 
-export function ApiConfigToJSON(value?: ApiConfig | null): any {
+export function ConfigApiToJSON(value?: ConfigApi | null): any {
     if (value === undefined) {
         return undefined;
     }

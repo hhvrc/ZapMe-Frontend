@@ -13,18 +13,18 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { AccountDto } from './AccountDto';
+import type { SignInOkAccount } from './SignInOkAccount';
 import {
-    AccountDtoFromJSON,
-    AccountDtoFromJSONTyped,
-    AccountDtoToJSON,
-} from './AccountDto';
-import type { SessionDto } from './SessionDto';
+    SignInOkAccountFromJSON,
+    SignInOkAccountFromJSONTyped,
+    SignInOkAccountToJSON,
+} from './SignInOkAccount';
+import type { SignInOkSession } from './SignInOkSession';
 import {
-    SessionDtoFromJSON,
-    SessionDtoFromJSONTyped,
-    SessionDtoToJSON,
-} from './SessionDto';
+    SignInOkSessionFromJSON,
+    SignInOkSessionFromJSONTyped,
+    SignInOkSessionToJSON,
+} from './SignInOkSession';
 
 /**
  * 
@@ -34,16 +34,16 @@ import {
 export interface SignInOk {
     /**
      * 
-     * @type {SessionDto}
+     * @type {SignInOkSession}
      * @memberof SignInOk
      */
-    session: SessionDto;
+    session: SignInOkSession;
     /**
      * 
-     * @type {AccountDto}
+     * @type {SignInOkAccount}
      * @memberof SignInOk
      */
-    account: AccountDto;
+    account: SignInOkAccount;
 }
 
 /**
@@ -67,8 +67,8 @@ export function SignInOkFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     }
     return {
         
-        'session': SessionDtoFromJSON(json['session']),
-        'account': AccountDtoFromJSON(json['account']),
+        'session': SignInOkSessionFromJSON(json['session']),
+        'account': SignInOkAccountFromJSON(json['account']),
     };
 }
 
@@ -81,8 +81,8 @@ export function SignInOkToJSON(value?: SignInOk | null): any {
     }
     return {
         
-        'session': SessionDtoToJSON(value.session),
-        'account': AccountDtoToJSON(value.account),
+        'session': SignInOkSessionToJSON(value.session),
+        'account': SignInOkAccountToJSON(value.account),
     };
 }
 

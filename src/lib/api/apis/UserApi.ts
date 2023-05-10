@@ -18,8 +18,8 @@ import type {
   ErrorDetails,
   FriendRequestList,
   ProblemDetails,
+  ReportUserRequest,
   UserDto,
-  UserReport,
 } from '../models';
 import {
     ErrorDetailsFromJSON,
@@ -28,10 +28,10 @@ import {
     FriendRequestListToJSON,
     ProblemDetailsFromJSON,
     ProblemDetailsToJSON,
+    ReportUserRequestFromJSON,
+    ReportUserRequestToJSON,
     UserDtoFromJSON,
     UserDtoToJSON,
-    UserReportFromJSON,
-    UserReportToJSON,
 } from '../models';
 
 export interface AcceptFriendRequestRequest {
@@ -50,8 +50,8 @@ export interface LookUpUserRequest {
     userName: string;
 }
 
-export interface ReportUserRequest {
-    userReport?: UserReport;
+export interface ReportUserOperationRequest {
+    reportUserRequest?: ReportUserRequest;
 }
 
 export interface SendFriendRequestRequest {
@@ -142,17 +142,17 @@ export interface UserApiInterface {
     /**
      * 
      * @summary Report a user
-     * @param {UserReport} [userReport] 
+     * @param {ReportUserRequest} [reportUserRequest] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    reportUserRaw(requestParameters: ReportUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+    reportUserRaw(requestParameters: ReportUserOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
 
     /**
      * Report a user
      */
-    reportUser(userReport?: UserReport, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+    reportUser(reportUserRequest?: ReportUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
     /**
      * 
@@ -325,7 +325,7 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
     /**
      * Report a user
      */
-    async reportUserRaw(requestParameters: ReportUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async reportUserRaw(requestParameters: ReportUserOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -337,7 +337,7 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: UserReportToJSON(requestParameters.userReport),
+            body: ReportUserRequestToJSON(requestParameters.reportUserRequest),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -346,8 +346,8 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
     /**
      * Report a user
      */
-    async reportUser(userReport?: UserReport, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.reportUserRaw({ userReport: userReport }, initOverrides);
+    async reportUser(reportUserRequest?: ReportUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.reportUserRaw({ reportUserRequest: reportUserRequest }, initOverrides);
     }
 
     /**
