@@ -53,7 +53,7 @@
 </svelte:head>
 
 {#if account}
-  <div class="float-left w-1/2 h-full py-4 pl-4 pr-2">
+  <div class="py-4 px-4">
     <div class="card overflow-hidden">
       <!-- Profile banner -->
       <img src="https://i.pinimg.com/originals/31/c3/e3/31c3e3f032a177d0b0c983b8262de8f9.gif" alt="ProfileBanner" class="w-full h-32 object-cover select-none"/>
@@ -69,12 +69,11 @@
           />
         </div>
 
-        <!-- Profile name -->
-        <h2 class="text-2xl font-bold">{account.username}</h2>
-        
-        <!-- Profile status (place at end center) -->
-        <div class="flex items-center ml-auto text-sm">
-          <div class={`w-3 h-3 rounded-full ${onlineStatusColor} mr-2`}></div>
+        <div>
+          <!-- Profile name -->
+          <h2 class="text-2xl font-bold">{account.username}</h2>
+
+          <!-- Profile status (place at end center) -->
           <p class="text-sm">{onlineStatusText}</p>
         </div>
       </div>
@@ -90,12 +89,6 @@
           <p>{oauthConnection}</p>
         {/each}
       </div>
-    </div>
-  </div>
-  <div class="float-right w-1/2 h-full py-4 pl-2 pr-4">
-    <div class="card p-3">
-      <h1>Settings</h1>
-      <p>Coming soon...</p>
     </div>
   </div>
 {:else}
