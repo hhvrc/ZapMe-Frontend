@@ -2,8 +2,10 @@
   import { browser } from '$app/environment';
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
+  import ProfilePicture from '$components/ProfilePicture.svelte';
   import { UserStatus } from '$lib/api';
   import { AccountStore, SessionTokenStore } from '$lib/stores';
+  import { GetUsernameInitials } from '$lib/utils/initials';
   import { BuildRedirectURL } from '$lib/utils/redirects';
 
   if (browser && !$SessionTokenStore) {
@@ -56,10 +58,17 @@
       <!-- Profile banner -->
       <img src="https://i.pinimg.com/originals/31/c3/e3/31c3e3f032a177d0b0c983b8262de8f9.gif" alt="ProfileBanner" class="w-full h-32 object-cover select-none"/>
       
-      <div class="flex justify-start place-items-start px-4 py-2 h-12 mb-4">
+      <div class="flex justify-start place-items-start px-4 py-2 h-16 mb-4">
         <!-- Profile picture -->
-        <img src="https://i.pinimg.com/originals/49/07/13/4907130d5ddcd50beff46f78c9744a49.png" alt="ProfilePicture" class="rounded-full relative -top-16 w-28 h-28 border-4 border-surface-800 select-none" />
-      
+        <div class="relative w-[120px] h-[120px] -top-[60px] rounded-full ring-4 bg-surface-800 ring-surface-800 select-none mr-2">
+          <ProfilePicture
+            src="https://i.pinimg.com/originals/49/07/13/4907130d5ddcd50beff46f78c9744a49.png"
+            initials={GetUsernameInitials(account.username)}
+            onlineStatus={account?.status ?? UserStatus.offline}
+            scale="large"
+          />
+        </div>
+
         <!-- Profile name -->
         <h2 class="text-2xl font-bold">{account.username}</h2>
         

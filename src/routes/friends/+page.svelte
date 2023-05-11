@@ -41,7 +41,13 @@
 <div class="bg-slate-800">
   <ul>
     {#each users as { id, name, status, statusText, pfp } (id)}
-      <UserEntry {name} imageUrl={pfp} imageAlt={name} onlineStatus={status} onlineStatusText={statusText}/>
+      <UserEntry
+        {name}
+        imageUrl={pfp}
+        onlineStatus={status}
+        onlineStatusText={statusText}
+        scale="small"
+      />
     {/each}
   </ul>
 </div>
