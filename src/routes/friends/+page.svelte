@@ -43,10 +43,10 @@
 <div class="bg-surface-100 dark:bg-surface-800">
   <dl class="list-dl">
     {#each users as { id, name, status, statusText, pfp } (id)}
-      <div class="cursor-pointer h-12">
-        <span class="relative inline-block">
+      <div class="cursor-pointer h-12 bg-surface-100 hover:bg-surface-50 border-surface-100 hover:border-surface-50 dark:bg-surface-800 dark:hover:bg-surface-700 dark:border-surface-800 dark:hover:border-surface-700">
+        <span class="relative inline-block -left-1 rounded-full bg-inherit border-inherit">
           <Avatar initials={GetUsernameInitials(name)} src={pfp} rounded="rounded-full" width="w-[42px]" />
-          <span class="absolute bottom-0 right-0 rounded-full border-2 bg-surface-100 border-surface-100 dark:bg-surface-800 dark:border-surface-800">
+          <span class="absolute bottom-0 right-0 rounded-full border-2 bg-inherit border-inherit">
             <StatusIndicator onlineStatus={status} scale="small" />
           </span>
         </span>

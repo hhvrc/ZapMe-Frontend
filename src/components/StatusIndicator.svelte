@@ -1,6 +1,10 @@
 <script lang="ts">
   export let onlineStatus: 'online' | 'doNotDisturb' | 'inactive' | 'downBad' | 'offline';
   export let scale: 'small' | 'medium' | 'large';
+
+  /*
+    TODO: The indicator's cutout does not adapt to its background color.
+  */
 </script>
 
 <span class={onlineStatus + " " + scale}/>
@@ -45,18 +49,18 @@
   span.doNotDisturb:after {
     content: '';
     width: var(--detailSize);
-    @apply h-[2px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-black;
+    @apply h-[2px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-surface-100 dark:bg-surface-800;
   }
   span.inactive:after {
     content: '';
     height: var(--detailSize);
     width: var(--detailSize);
-    @apply absolute top-0 left-0 rounded-full bg-slate-800;
+    @apply absolute top-0 left-0 rounded-full bg-surface-100 dark:bg-surface-800;
   }
   span.offline:after {
     content: '';
     height: var(--detailSize);
     width: var(--detailSize);
-    @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full bg-gray-800;
+    @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full bg-surface-100 dark:bg-surface-800;
   }
 </style>
