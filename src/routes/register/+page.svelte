@@ -14,7 +14,7 @@
   import type { Snapshot } from './$types';
   import { focusTrap } from '@skeletonlabs/skeleton';
   import { handleFetchError } from '$lib/helpers/errorDetailsHelpers';
-  import { createInfoToast } from '$lib/helpers';
+  import { createSuccessToast } from '$lib/helpers';
   import { goto } from '$app/navigation';
 
   const accountApi = new AccountApi(RuntimeApiConfiguration);
@@ -59,7 +59,7 @@
         turnstileResponse,
       });
 
-      createInfoToast('Account created successfully. Please check your email to verify your account.');
+      createSuccessToast('Account created successfully. Please check your email to verify your account.');
       goto('/login');
     } catch (error) {
       const response = await handleFetchError(error);

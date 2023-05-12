@@ -5,7 +5,7 @@ function createToastImpl(toast: ToastSettings) {
   if (!browser) return;
   toastStore.trigger(toast);
 }
-export function createInfoToast(message: string) {
+export function createSuccessToast(message: string) {
   if (!message) return;
   createToastImpl({
     message,

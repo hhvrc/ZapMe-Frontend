@@ -8,7 +8,6 @@
   import { OAuthProviderInfo } from '$lib/oauth';
   import { AccountStore } from '$lib/stores/accountStore.js';
   import { SessionTokenStore } from '$lib/stores/sessionTokenStore.js';
-  import { createErrorToast } from '$lib/helpers/toastHelpers';
   import { GetRedirectURL } from '$lib/utils/redirects.js';
   import type { Snapshot } from './$types';
   import { focusTrap } from '@skeletonlabs/skeleton';
@@ -28,10 +27,6 @@
 
   let loading = false;
   $: disabled = !usernameOrEmail || !password || loading;
-
-  export let form;
-
-  $: createErrorToast(form?.error);
 
   async function handleSubmit() {
     try {
