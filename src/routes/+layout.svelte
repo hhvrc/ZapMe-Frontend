@@ -45,7 +45,7 @@
           <!-- Logo -->
           <a
             href="/"
-            class="w-[32px] overflow-hidden lg:!ml-0 lg:w-auto"
+            class="overflow-hidden lg:!ml-0 lg:w-auto"
             data-sveltekit-preload-data="hover"
           >
             <img
@@ -54,7 +54,7 @@
               alt="ZapMe Logo"
             />
             <strong
-              class="hidden align-middle text-3xl uppercase tracking-widest md:inline-block"
+              class="hidden align-middle text-3xl uppercase tracking-widest sm:inline-block"
               style="font-family: Montserrat,sans-serif"
             >
               {config.appName}
@@ -64,18 +64,7 @@
       </svelte:fragment>
       <svelte:fragment slot="trail">
         <ThemeSwitch />
-        {#if loggedIn}
-          <a
-            href="/profile"
-            class="btn btn-sm variant-ghost-surface"
-            data-sveltekit-preload-data="hover">Profile</a
-          >
-          <a
-            href="logout"
-            class="btn btn-sm variant-ghost-surface"
-            data-sveltekit-preload-data="hover">Logout</a
-          >
-        {:else}
+        {#if !loggedIn}
           <a
             href="/login"
             class="btn btn-sm variant-ghost-surface"
