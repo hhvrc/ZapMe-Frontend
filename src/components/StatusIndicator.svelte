@@ -28,19 +28,19 @@
     --detailSize: 15px;
   }
   span.downBad {
-    @apply bg-purple-400;
+    @apply bg-purple-500;
   }
   span.online {
-    @apply bg-green-400;
+    @apply bg-green-500;
   }
   span.doNotDisturb {
     @apply bg-red-500;
   }
   span.inactive {
-    @apply bg-yellow-400;
+    @apply bg-yellow-500;
   }
   span.offline {
-    @apply bg-gray-400;
+    @apply bg-gray-500;
   }
   span.doNotDisturb:after {
     content: '';

@@ -1,6 +1,8 @@
 <script lang="ts">
-  import UserEntry from "$components/UserEntry.svelte";
+  import StatusIndicator from "$components/StatusIndicator.svelte";
   import { UserStatus } from "$lib/api";
+  import { GetUsernameInitials } from "$lib/utils/initials";
+  import { Avatar } from "@skeletonlabs/skeleton";
   import { onMount } from "svelte";
 
   let users: { id: string, name: string, status: UserStatus, statusText: string, pfp: string }[] = [];
@@ -38,16 +40,21 @@
   <title>ZapMe - Friends</title>
 </svelte:head>
 
-<div class="bg-slate-800">
-  <ul>
+<div class="bg-surface-100 dark:bg-surface-800">
+  <dl class="list-dl">
     {#each users as { id, name, status, statusText, pfp } (id)}
-      <UserEntry
-        {name}
-        imageUrl={pfp}
-        onlineStatus={status}
-        onlineStatusText={statusText}
-        scale="small"
-      />
+      <div class="cursor-pointer h-12">
+        <span class="relative inline-block">
+          <Avatar initials={GetUsernameInitials(name)} src={pfp} rounded="rounded-full" width="w-[42px]" />
+          <span class="absolute bottom-0 right-0 rounded-full border-2 bg-surface-100 border-surface-100 dark:bg-surface-800 dark:border-surface-800">
+            <StatusIndicator onlineStatus={status} scale="small" />
+          </span>
+        </span>
+        <span class="flex-auto">
+          <dt class="font-bold">{name}</dt>
+          <dd class="text-sm opacity-50">{statusText}</dd>
+        </span>
+      </div>
     {/each}
-  </ul>
+  </dl>
 </div>
