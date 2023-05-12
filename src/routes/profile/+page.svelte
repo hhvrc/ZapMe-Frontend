@@ -62,7 +62,7 @@
       
       <div class="flex justify-start place-items-start px-4 py-2 h-16 mb-4">
         <!-- Profile picture -->
-        <div class="relative w-[120px] h-[120px] -top-[60px] rounded-800 select-none mr-2">
+        <div class="relative w-[128px] h-[128px] -top-[60px] rounded-full border-4 bg-surface-100 border-surface-100 dark:bg-surface-800 dark:border-surface-800 select-none mr-2">
           <Avatar {initials} src={profileSrc} fallback={profileFallback} rounded="rounded-full" width="w-[120px]"/>
           <div class="absolute bottom-0 right-0 rounded-full border-4 bg-surface-100 border-surface-100 dark:bg-surface-800 dark:border-surface-800">
             <StatusIndicator {onlineStatus} scale="large" />
