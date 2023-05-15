@@ -1,46 +1,9 @@
 import { goto } from '$app/navigation';
-import {
-  type ErrorDetails,
-  FetchError,
-  ResponseError,
-  RequiredError,
-  instanceOfErrorDetails,
-} from '$lib/api';
 import { BuildRedirectURL, GetRedirectURL } from '$lib/utils/redirects';
 import { getReasonPhrase } from 'http-status-codes';
 import { createErrorToast } from './toastHelpers';
 import type { ApiErrorResponse } from '$types';
-
-function isObject(data: unknown): data is object {
-  return typeof data === 'object' && data !== null;
-}
-function isNamedError(error: unknown): error is { name: string, message: string, stack: string } {
-  if (!isObject(error)) return false;
-
-  return (
-    Object.hasOwn(error, 'name') &&
-    Object.hasOwn(error, 'message') &&
-    Object.hasOwn(error, 'stack')
-  );
-}
-function isResponseError(error: unknown): error is ResponseError {
-  if (!isNamedError(error)) return false;
-
-  return error.name === 'ResponseError' && Object.hasOwn(error, 'response');
-}
-function isFetchError(error: unknown): error is FetchError {
-  if (!isNamedError(error)) return false;
-
-  return error.name === 'FetchError' && Object.hasOwn(error, 'cause');
-}
-function isRequiredError(error: unknown): error is RequiredError {
-  if (!isNamedError(error)) return false;
-
-  return error.name === 'RequiredError' && Object.hasOwn(error, 'field');
-}
-function isErrorDetails(data: unknown): data is ErrorDetails {
-  return isObject(data) && instanceOfErrorDetails(data);
-}
+import { isErrorDetails, isFetchError, isRequiredError, isResponseError } from '$lib/typeGuards';
 
 export async function handleFetchError(
   error: unknown,

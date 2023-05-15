@@ -1,6 +1,5 @@
-function isString(value: unknown): value is string {
-  return typeof value === 'string' || value instanceof String;
-}
+import { isString } from "$lib/typeGuards";
+
 function ensureRelativePath(value: string | URL): string {
   if (!isString(value)) {
     return value.pathname + value.search;
