@@ -18,6 +18,9 @@
   import { storePopup } from '@skeletonlabs/skeleton';
   import { derived } from 'svelte/store';
   import { page } from '$app/stores';
+  import TwitterTags from '$components/MetaTags/TwitterTags.svelte';
+  import OpenGraphTags from '$components/MetaTags/OpenGraphTags.svelte';
+  import TwitterSummaryTags from '$components/MetaTags/Twitter/TwitterSummaryTags.svelte';
 
   storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
@@ -35,6 +38,22 @@
 </script>
 
 <svelte:head>{@html `<script>${autoModeWatcher.toString()} autoModeWatcher();</script>`}</svelte:head>
+
+<TwitterSummaryTags
+  type="summary_large_image"
+  title="ZapMe"
+  description="Take Control of Your Submissives from Anywhere in the World."
+  image={{src: 'https://zapme.app/logo-512.png', alt: 'ZapMe Logo'}}
+  site={{name: 'ZapMe', handle: '@zapme_app'}}
+  creator={{id: 'HentaiHeavenVR', handle: '@hhvrc'}}
+/>
+<OpenGraphTags
+  type="website"
+  title="ZapMe"
+  description="Take Control of Your Submissives from Anywhere in the World."
+  image={{src: 'https://zapme.app/logo-512.png', alt: 'ZapMe Logo'}}
+  url="https://zapme.app/"
+/>
 
 <Toast position="bl" max={5} />
 <AppShell>
