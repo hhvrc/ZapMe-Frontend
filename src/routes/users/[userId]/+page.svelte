@@ -20,7 +20,7 @@
     <p>{user.status}</p>
     <p>{user.statusText}</p>
     <p>{user.createdAt}</p>
-    <p>{user.lastOnline}</p>
+    <p>{user.lastSeenAt}</p>
   </div>
 {:catch exception}
   <ErrorWrapper {exception} />
