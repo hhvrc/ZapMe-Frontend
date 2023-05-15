@@ -1,24 +1,29 @@
 <script lang="ts">
+  import { isTwitterHandle } from "$lib/typeGuards";
+
   export let type: 'summary' | 'summary_large_image';
-  export let site: string | undefined = undefined;
-  export let siteId: string | undefined = undefined;
-  export let creator: { id: string; handle: string } | undefined = undefined;
-  export let description: string | undefined = undefined;
   export let title: string | undefined = undefined;
+  export let description: string | undefined = undefined;
   export let image: { src: string; alt: string } | undefined = undefined;
+  export let site: string | number | undefined = undefined;
+  export let creator: string | number | undefined = undefined;
 </script>
 
 <svelte:head>
   <meta name="twitter:card" content={type} />
   {#if site}
-    <meta name="twitter:site" content={site} />
-  {/if}
-  {#if siteId}
-    <meta name="twitter:site:id" content={siteId} />
+    {#if isTwitterHandle(site)}
+      <meta name="twitter:site" content={site} />
+    {:else}
+      <meta name="twitter:site:id" content={site.toString()} />
+    {/if}
   {/if}
   {#if creator}
-    <meta name="twitter:creator:id" content={creator.id} />
-    <meta name="twitter:creator" content={creator.handle} />
+    {#if isTwitterHandle(creator)}
+      <meta name="twitter:creator" content={creator} />
+    {:else}
+      <meta name="twitter:creator:id" content={creator.toString()} />
+    {/if}
   {/if}
   {#if description}
     <meta name="twitter:description" content={description} />

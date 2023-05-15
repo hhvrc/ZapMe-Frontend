@@ -1,6 +1,7 @@
 <script lang="ts">
-  export let site: string | undefined = undefined;
-  export let siteId: string | undefined = undefined;
+  import { isTwitterHandle } from "$lib/typeGuards";
+
+  export let site: string | number | undefined = undefined;
   export let description: string | undefined = undefined;
   export let title: string | undefined = undefined;
   export let image: { src: string; alt: string } | undefined = undefined;
@@ -12,10 +13,11 @@
 <svelte:head>
   <meta name="twitter:card" content="player" />
   {#if site}
-    <meta name="twitter:site" content={site} />
-  {/if}
-  {#if siteId}
-    <meta name="twitter:site:id" content={siteId} />
+    {#if isTwitterHandle(site)}
+      <meta name="twitter:site" content={site} />
+    {:else}
+      <meta name="twitter:site:id" content={site.toString()} />
+    {/if}
   {/if}
   {#if description}
     <meta name="twitter:description" content={description} />
