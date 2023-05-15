@@ -1,4 +1,4 @@
-export * from './ApiResponse';
+export * from './ApiErrorResponse';
 export * from './AuthenticationMethod';
 export * from './Channel';
 export * from './Guild';

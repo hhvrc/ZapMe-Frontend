@@ -1,18 +1,18 @@
 <script lang="ts">
-  import type { RespServerError } from '$lib/fetchSingleton';
+  import type { ApiErrorResponse } from '$types';
   import { getReasonPhrase } from 'http-status-codes';
 
-  export let error: RespServerError;
-  const { status, details } = error;
+  export let error: ApiErrorResponse;
+  const { status, apiCode, apiFields, details } = error;
 
   let showCat = false;
 
-  $: title = details?.title ?? getReasonPhrase(status);
+  $: code = details?.code ?? getReasonPhrase(status);
 </script>
 
 {#if details}
   <div>
-    <h1>{details.title}</h1>
+    <h1>{details.code}</h1>
     {#if details.detail} <h2>{details.detail}</h2> {/if}
     {#if details.suggestion} <h4>{details.suggestion}</h4> {/if}
     {#if details.notification} <h5>{details.notification}</h5> {/if}
@@ -28,10 +28,10 @@
 {:else}
   <div class="http-status">
     {#if showCat}
-      <img src="https://http.cat/{status}" alt="{status} {title}" />
+      <img src="https://http.cat/{status}" alt="{status} {code}" />
     {:else}
       <h1>{status}</h1>
-      <h4>{title}</h4>
+      <h4>{code}</h4>
     {/if}
     <button on:click={() => (showCat = !showCat)}>
       {showCat ? 'Hide' : 'Show'} funny cat

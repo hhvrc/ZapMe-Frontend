@@ -1,7 +1,6 @@
 import { goto } from '$app/navigation';
 import {
   type ErrorDetails,
-  type UserNotification,
   FetchError,
   ResponseError,
   RequiredError,
@@ -10,7 +9,7 @@ import {
 import { BuildRedirectURL, GetRedirectURL } from '$lib/utils/redirects';
 import { getReasonPhrase } from 'http-status-codes';
 import { createErrorToast } from './toastHelpers';
-import type { RespServerError } from '$types';
+import type { ApiErrorResponse } from '$types';
 
 function isObject(data: unknown): data is object {
   return typeof data === 'object' && data !== null;
@@ -48,7 +47,7 @@ export async function handleFetchError(
   options?: {
     dontRedirect?: number[]
   }
-): Promise<RespServerError | null> {
+): Promise<ApiErrorResponse | null> {
   if (isFetchError(error)) {
     createErrorToast('Network error');
     return null;
@@ -57,7 +56,6 @@ export async function handleFetchError(
   if (isRequiredError(error)) {
     createErrorToast(error.message);
     return {
-      error: true,
       status: 400,
       apiCode: 'BadRequest',
       apiFields: {
@@ -121,9 +119,9 @@ export async function handleFetchError(
   }
 
   return {
-    error: true,
     status,
     apiCode: details.code,
-    apiFields: details.fields
+    apiFields: details.fields,
+    details
   };
 }

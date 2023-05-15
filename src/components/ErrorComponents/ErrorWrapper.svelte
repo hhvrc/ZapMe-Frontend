@@ -4,41 +4,45 @@
     NetworkErrorDetails,
     ServerErrorDetails,
   } from '$components/ErrorComponents';
+  import { handleFetchError } from '$lib/helpers/errorDetailsHelpers';
+  import type { ApiErrorResponse } from '$types';
   import { ProgressRadial } from '@skeletonlabs/skeleton';
-  import type { Response } from '$types';
 
-  type T = $$Generic;
+  export let exception: unknown;
 
-  export let request: () => Promise<Response<T>>;
-  export let data: T;
+  let loaded = false;
+  let parsed: ApiErrorResponse | null = null;
+  $: {
+    loaded = false;
+    handleFetchError(exception)
+    .then((parsedError) => {
+      parsed = parsedError;
+    })
+    .finally(() => {
+      loaded = true;
+    });
+  }
 </script>
 
-{#await request()}
-  <slot name="loading">
-    <ProgressRadial />
-  </slot>
-{:then response}
-  {#if response.code == 'ok'}
-    {() => (data = response.data)}
-    <slot />
-  {:else if response.code == 'err_network'}
-    <slot name="networkError">
-      <NetworkErrorDetails />
-    </slot>
-  {:else if response.status == 404}
-    <slot name="notFound">
-      <h1>Not found</h1>
-    </slot>
-  {:else if response.code == 'err_server'}
-    <slot name="serverError">
-      <ServerErrorDetails error={response} />
-    </slot>
-  {/if}
-{:catch exception}
+{#if !loaded}
+  <ProgressRadial />
+{:else if !parsed}
   <slot name="exceptionError">
     <ExceptionDetails {exception} />
   </slot>
-{/await}
+{:else if parsed.code === 'err_network'}
+  <slot name="networkError">
+    <NetworkErrorDetails />
+  </slot>
+{:else if parsed.status === 404}
+  <slot name="notFound">
+    <h1>Not found</h1>
+  </slot>
+{:else if parsed.code === 'err_server'}
+  <slot name="serverError">
+    <ServerErrorDetails error={parsed} />
+  </slot>
+{/if}
 
 <style>
 </style>
