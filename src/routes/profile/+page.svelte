@@ -20,7 +20,7 @@
 
   $: onlineStatus = account?.status ?? UserStatus.offline;
   let onlineStatusText = 'Offline';
-  
+
   $: if (account) {
     const { status } = account;
     switch (status) {
@@ -44,10 +44,13 @@
   }
 
   $: initials = GetUsernameInitials(account?.username ?? '');
-  const bannerSrc = "https://i.pinimg.com/originals/31/c3/e3/31c3e3f032a177d0b0c983b8262de8f9.gif";
-  const bannerAlt = "ProfileBanner";
-  const profileSrc = "https://i.pinimg.com/originals/49/07/13/4907130d5ddcd50beff46f78c9744a49.png";
-  const profileFallback = "https://i.pinimg.com/originals/49/07/13/4907130d5ddcd50beff46f78c9744a49.png";
+  const bannerSrc =
+    'https://i.pinimg.com/originals/31/c3/e3/31c3e3f032a177d0b0c983b8262de8f9.gif';
+  const bannerAlt = 'ProfileBanner';
+  const profileSrc =
+    'https://i.pinimg.com/originals/49/07/13/4907130d5ddcd50beff46f78c9744a49.png';
+  const profileFallback =
+    'https://i.pinimg.com/originals/49/07/13/4907130d5ddcd50beff46f78c9744a49.png';
 </script>
 
 <svelte:head>
@@ -55,16 +58,30 @@
 </svelte:head>
 
 {#if account}
-  <div class="py-4 px-4">
+  <div class="px-4 py-4">
     <div class="card overflow-hidden">
       <!-- Profile banner -->
-      <img src={bannerSrc} alt={bannerAlt} class="w-full h-32 object-cover select-none"/>
-      
-      <div class="flex justify-start place-items-start px-4 py-2 h-16 mb-4">
+      <img
+        src={bannerSrc}
+        alt={bannerAlt}
+        class="h-32 w-full select-none object-cover"
+      />
+
+      <div class="mb-4 flex h-16 place-items-start justify-start px-4 py-2">
         <!-- Profile picture -->
-        <div class="relative w-[128px] h-[128px] -top-[60px] rounded-full border-4 bg-surface-100 border-surface-100 dark:bg-surface-800 dark:border-surface-800 select-none mr-2">
-          <Avatar {initials} src={profileSrc} fallback={profileFallback} rounded="rounded-full" width="w-[120px]"/>
-          <div class="absolute bottom-0 right-0 rounded-full border-4 bg-surface-100 border-surface-100 dark:bg-surface-800 dark:border-surface-800">
+        <div
+          class="relative -top-[60px] mr-2 h-[128px] w-[128px] select-none rounded-full border-4 border-surface-100 bg-surface-100 dark:border-surface-800 dark:bg-surface-800"
+        >
+          <Avatar
+            {initials}
+            src={profileSrc}
+            fallback={profileFallback}
+            rounded="rounded-full"
+            width="w-[120px]"
+          />
+          <div
+            class="absolute bottom-0 right-0 rounded-full border-4 border-surface-100 bg-surface-100 dark:border-surface-800 dark:bg-surface-800"
+          >
             <StatusIndicator {onlineStatus} scale="large" />
           </div>
         </div>
@@ -77,12 +94,12 @@
           <p class="text-sm">{onlineStatusText}</p>
         </div>
       </div>
-      <div class="bg-surface-50 dark:bg-surface-900 m-4 p-4 rounded-lg">
+      <div class="m-4 rounded-lg bg-surface-50 p-4 dark:bg-surface-900">
         <h3 class="text-xl font-bold">About</h3>
         <p>Status: {account.statusText}</p>
         <p>Created: {new Date(account.createdAt).toLocaleString()}</p>
       </div>
-      <hr>
+      <hr />
       <div class="p-4">
         <h5>Connected OAuth Accounts:</h5>
         {#each account.oauthConnections ?? [] as oauthConnection}

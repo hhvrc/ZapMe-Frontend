@@ -12,19 +12,26 @@
     arrow,
   } from '@floating-ui/dom';
   import '@fontsource/montserrat';
-  import type { Config } from '$lib/api';
-  import { ApiConfigStore, SessionTokenStore } from '$lib/stores';
-  import { AppShell, AppBar, AppRail, Toast, autoModeWatcher, AppRailTile } from '@skeletonlabs/skeleton';
-  import { storePopup } from '@skeletonlabs/skeleton';
-  import { derived } from 'svelte/store';
   import { page } from '$app/stores';
   import OpenGraphTags from '$components/MetaTags/OpenGraphTags.svelte';
   import TwitterSummaryTags from '$components/MetaTags/Twitter/TwitterSummaryTags.svelte';
+  import type { Config } from '$lib/api';
+  import { ApiConfigStore, SessionTokenStore } from '$lib/stores';
+  import {
+    AppShell,
+    AppBar,
+    AppRail,
+    Toast,
+    autoModeWatcher,
+    AppRailTile,
+  } from '@skeletonlabs/skeleton';
+  import { storePopup } from '@skeletonlabs/skeleton';
+  import { derived } from 'svelte/store';
 
   storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
   const year = new Date().getFullYear();
-  const selected = derived(page, $page => $page.url.pathname);
+  const selected = derived(page, ($page) => $page.url.pathname);
 
   let config: Config;
   export let data;
@@ -36,13 +43,15 @@
   $: loggedIn = !!$SessionTokenStore;
 </script>
 
-<svelte:head>{@html `<script>${autoModeWatcher.toString()} autoModeWatcher();</script>`}</svelte:head>
+<svelte:head
+  >{@html `<script>${autoModeWatcher.toString()} autoModeWatcher();</script>`}</svelte:head
+>
 
 <TwitterSummaryTags
   type="summary_large_image"
   title="ZapMe"
   description="Take Control of Your Submissives from Anywhere in the World."
-  image={{src: 'https://zapme.app/logo-512.png', alt: 'ZapMe Logo'}}
+  image={{ src: 'https://zapme.app/logo-512.png', alt: 'ZapMe Logo' }}
   site="@zapme_app"
   creator="@hhvrc"
 />
@@ -50,7 +59,7 @@
   type="website"
   title="ZapMe"
   description="Take Control of Your Submissives from Anywhere in the World."
-  image={{src: 'https://zapme.app/logo-512.png', alt: 'ZapMe Logo'}}
+  image={{ src: 'https://zapme.app/logo-512.png', alt: 'ZapMe Logo' }}
   url="https://zapme.app/"
 />
 
@@ -100,18 +109,35 @@
   <slot />
   <svelte:fragment slot="sidebarLeft">
     {#if loggedIn}
-      <AppRail> <!-- {selected}> -->
+      <AppRail>
+        <!-- {selected}> -->
         <svelte:fragment slot="lead">
-          <AppRailTile label="Home" tag="a" href="/"><i class="fa-solid fa-house fa-xl"/></AppRailTile>
-          <AppRailTile label="Devices" tag="a" href="/devices"><i class="fa-solid fa-microchip fa-xl"/></AppRailTile>
-          <AppRailTile label="Messages" tag="a" href="/messages"><i class="fa-solid fa-envelope fa-xl"/></AppRailTile>
-          <AppRailTile label="Friends" tag="a" href="/friends"><i class="fa-solid fa-user-friends fa-xl"/></AppRailTile>
-          <AppRailTile label="Users" tag="a" href="/users"><i class="fa-solid fa-user fa-xl"/></AppRailTile>
+          <AppRailTile label="Home" tag="a" href="/"
+            ><i class="fa-solid fa-house fa-xl" /></AppRailTile
+          >
+          <AppRailTile label="Devices" tag="a" href="/devices"
+            ><i class="fa-solid fa-microchip fa-xl" /></AppRailTile
+          >
+          <AppRailTile label="Messages" tag="a" href="/messages"
+            ><i class="fa-solid fa-envelope fa-xl" /></AppRailTile
+          >
+          <AppRailTile label="Friends" tag="a" href="/friends"
+            ><i class="fa-solid fa-user-friends fa-xl" /></AppRailTile
+          >
+          <AppRailTile label="Users" tag="a" href="/users"
+            ><i class="fa-solid fa-user fa-xl" /></AppRailTile
+          >
         </svelte:fragment>
         <svelte:fragment slot="trail">
-          <AppRailTile label="Profile" tag="a" href="/profile"><i class="fa-solid fa-user fa-xl"/></AppRailTile>
-          <AppRailTile label="Settings" tag="a" href="/settings"><i class="fa-solid fa-cog fa-xl"/></AppRailTile>
-          <AppRailTile label="Logout" tag="a" href="/logout"><i class="fa-solid fa-sign-out fa-xl"/></AppRailTile>
+          <AppRailTile label="Profile" tag="a" href="/profile"
+            ><i class="fa-solid fa-user fa-xl" /></AppRailTile
+          >
+          <AppRailTile label="Settings" tag="a" href="/settings"
+            ><i class="fa-solid fa-cog fa-xl" /></AppRailTile
+          >
+          <AppRailTile label="Logout" tag="a" href="/logout"
+            ><i class="fa-solid fa-sign-out fa-xl" /></AppRailTile
+          >
         </svelte:fragment>
       </AppRail>
     {/if}
@@ -119,7 +145,8 @@
   <svelte:fragment slot="pageFooter">
     <div class="m-2 flex items-center justify-center sm:justify-between">
       <div>
-        Made with <span style="color: #e25555;">&#9829;</span> by {config.founderSocials.discordUsername}
+        Made with <span style="color: #e25555;">&#9829;</span> by {config
+          .founderSocials.discordUsername}
       </div>
       <div class="hidden lg:block">Copyright ©{year} | All Rights Reserved</div>
       <div class="hidden items-center space-x-2 sm:flex">

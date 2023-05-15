@@ -43,8 +43,8 @@
       <PasswordInput
         title="Password"
         autocomplete="new-password"
-        bind:password={password}
-        bind:passwordShown={passwordShown}
+        bind:password
+        bind:passwordShown
         validationResult={passwordError}
       />
       <PasswordInput

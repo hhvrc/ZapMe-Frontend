@@ -21,5 +21,5 @@ function fetchAccount() {
 export const AccountStore = {
   ...store,
   setAccount,
-  fetchAccount
-}
+  fetchAccount,
+};

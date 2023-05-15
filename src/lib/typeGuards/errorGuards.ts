@@ -1,7 +1,15 @@
-import { type ErrorDetails, FetchError, RequiredError, ResponseError, instanceOfErrorDetails } from "$lib/api";
-import { isObject } from "./basicGuards";
+import {
+  type ErrorDetails,
+  FetchError,
+  RequiredError,
+  ResponseError,
+  instanceOfErrorDetails,
+} from '$lib/api';
+import { isObject } from './basicGuards';
 
-export function isNamedError(error: unknown): error is { name: string, message: string, stack: string } {
+export function isNamedError(
+  error: unknown
+): error is { name: string; message: string; stack: string } {
   if (!isObject(error)) return false;
 
   return (

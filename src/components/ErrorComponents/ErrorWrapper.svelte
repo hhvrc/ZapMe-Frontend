@@ -15,12 +15,12 @@
   $: {
     loaded = false;
     handleFetchError(exception)
-    .then((parsedError) => {
-      parsed = parsedError;
-    })
-    .finally(() => {
-      loaded = true;
-    });
+      .then((parsedError) => {
+        parsed = parsedError;
+      })
+      .finally(() => {
+        loaded = true;
+      });
   }
 </script>
 

@@ -1,14 +1,19 @@
 import { goto } from '$app/navigation';
+import {
+  isErrorDetails,
+  isFetchError,
+  isRequiredError,
+  isResponseError,
+} from '$lib/typeGuards';
 import { BuildRedirectURL, GetRedirectURL } from '$lib/utils/redirects';
-import { getReasonPhrase } from 'http-status-codes';
-import { createErrorToast } from './toastHelpers';
 import type { ApiErrorResponse } from '$types';
-import { isErrorDetails, isFetchError, isRequiredError, isResponseError } from '$lib/typeGuards';
+import { createErrorToast } from './toastHelpers';
+import { getReasonPhrase } from 'http-status-codes';
 
 export async function handleFetchError(
   error: unknown,
   options?: {
-    dontRedirect?: number[]
+    dontRedirect?: number[];
   }
 ): Promise<ApiErrorResponse | null> {
   if (isFetchError(error)) {
@@ -23,7 +28,7 @@ export async function handleFetchError(
       apiCode: 'BadRequest',
       apiFields: {
         [error.field]: ['required'],
-      }
+      },
     };
   }
 
@@ -42,8 +47,7 @@ export async function handleFetchError(
     })
     .catch(() => null);
 
-  if (!(options?.dontRedirect?.includes(status) ?? false))
-  {
+  if (!(options?.dontRedirect?.includes(status) ?? false)) {
     switch (status) {
       case 401:
         createErrorToast('Login missing or expired');
@@ -76,8 +80,7 @@ export async function handleFetchError(
     return null;
   }
 
-  if (details.notification)
-  {
+  if (details.notification) {
     createErrorToast(details.notification.content);
   }
 
@@ -85,6 +88,6 @@ export async function handleFetchError(
     status,
     apiCode: details.code,
     apiFields: details.fields,
-    details
+    details,
   };
 }

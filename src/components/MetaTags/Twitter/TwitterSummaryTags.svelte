@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { isTwitterHandle } from "$lib/typeGuards";
+  import { isTwitterHandle } from '$lib/typeGuards';
 
   export let type: 'summary' | 'summary_large_image';
   export let title: string | undefined = undefined;

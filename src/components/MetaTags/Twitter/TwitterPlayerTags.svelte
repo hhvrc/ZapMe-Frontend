@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { isTwitterHandle } from "$lib/typeGuards";
+  import { isTwitterHandle } from '$lib/typeGuards';
 
   export let site: string | number | undefined = undefined;
   export let description: string | undefined = undefined;
   export let title: string | undefined = undefined;
   export let image: { src: string; alt: string } | undefined = undefined;
   export let player:
-    | { type: 'iframe' | 'stream', src: string; width: number; height: number }
+    | { type: 'iframe' | 'stream'; src: string; width: number; height: number }
     | undefined = undefined;
 </script>
 

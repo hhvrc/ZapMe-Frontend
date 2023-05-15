@@ -5,14 +5,14 @@
   import TextInput from '$components/TextInput.svelte';
   import { AuthenticationApi } from '$lib/api';
   import { RuntimeApiConfiguration } from '$lib/fetchSingleton.js';
+  import { handleFetchError } from '$lib/helpers/errorDetailsHelpers';
   import { OAuthProviderInfo } from '$lib/oauth';
   import { AccountStore } from '$lib/stores/accountStore.js';
   import { SessionTokenStore } from '$lib/stores/sessionTokenStore.js';
   import { GetRedirectURL } from '$lib/utils/redirects.js';
   import type { Snapshot } from './$types';
   import { focusTrap } from '@skeletonlabs/skeleton';
-  import { handleFetchError } from '$lib/helpers/errorDetailsHelpers';
-  
+
   const authenticationApi = new AuthenticationApi(RuntimeApiConfiguration);
 
   export const snapshot: Snapshot = {
@@ -31,15 +31,15 @@
   async function handleSubmit() {
     try {
       const response = await authenticationApi.authSignIn({
-          usernameOrEmail,
-          password,
-          rememberMe,
-        });
+        usernameOrEmail,
+        password,
+        rememberMe,
+      });
       AccountStore.set({ account: response.account, lastFetch: Date.now() });
       SessionTokenStore.set(response.session);
       goto(GetRedirectURL($page.url, '/'));
     } catch (error) {
-      await handleFetchError(error, { dontRedirect: [ 401 ] });
+      await handleFetchError(error, { dontRedirect: [401] });
     }
   }
 </script>

@@ -1,9 +1,10 @@
 <script lang="ts">
-  import { SessionTokenStore } from "$lib/stores";
+  import { SessionTokenStore } from '$lib/stores';
 
   $: loggedIn = !!$SessionTokenStore;
-  $: title = loggedIn ? "ZapMe - Home" : "ZapMe";
-  let description = "ZapMe allows you to control your Submissives shock collars from anywhere in the world with low latency, realtime networking.";
+  $: title = loggedIn ? 'ZapMe - Home' : 'ZapMe';
+  let description =
+    'ZapMe allows you to control your Submissives shock collars from anywhere in the world with low latency, realtime networking.';
 </script>
 
 <svelte:head>

@@ -1,4 +1,3 @@
-
 <svelte:head>
   <title>ZapMe - Messages</title>
 </svelte:head>

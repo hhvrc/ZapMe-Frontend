@@ -1,5 +1,10 @@
 <script lang="ts">
-  export let onlineStatus: 'online' | 'doNotDisturb' | 'inactive' | 'downBad' | 'offline';
+  export let onlineStatus:
+    | 'online'
+    | 'doNotDisturb'
+    | 'inactive'
+    | 'downBad'
+    | 'offline';
   export let scale: 'small' | 'medium' | 'large';
 
   /*
@@ -7,7 +12,7 @@
   */
 </script>
 
-<span class={onlineStatus + " " + scale}/>
+<span class={onlineStatus + ' ' + scale} />
 
 <style lang="postcss">
   span {
@@ -49,18 +54,18 @@
   span.doNotDisturb:after {
     content: '';
     width: var(--detailSize);
-    @apply h-[2px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-surface-100 dark:bg-surface-800;
+    @apply absolute left-1/2 top-1/2 h-[2px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-surface-100 dark:bg-surface-800;
   }
   span.inactive:after {
     content: '';
     height: var(--detailSize);
     width: var(--detailSize);
-    @apply absolute top-0 left-0 rounded-full bg-surface-100 dark:bg-surface-800;
+    @apply absolute left-0 top-0 rounded-full bg-surface-100 dark:bg-surface-800;
   }
   span.offline:after {
     content: '';
     height: var(--detailSize);
     width: var(--detailSize);
-    @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full bg-surface-100 dark:bg-surface-800;
+    @apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform rounded-full bg-surface-100 dark:bg-surface-800;
   }
 </style>

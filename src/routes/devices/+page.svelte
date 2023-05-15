@@ -1,4 +1,3 @@
-
 <svelte:head>
   <title>ZapMe - Devices</title>
 </svelte:head>

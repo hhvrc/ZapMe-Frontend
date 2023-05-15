@@ -1,4 +1,4 @@
-import { isString } from "$lib/typeGuards";
+import { isString } from '$lib/typeGuards';
 
 function ensureRelativePath(value: string | URL): string {
   if (!isString(value)) {

@@ -4,7 +4,7 @@
   import { AccountApi } from '$lib/api/index.js';
   import { RuntimeApiConfiguration } from '$lib/fetchSingleton.js';
   import { handleFetchError } from '$lib/helpers/errorDetailsHelpers';
-  
+
   const accountApi = new AccountApi(RuntimeApiConfiguration);
 
   let loading = true;
@@ -12,14 +12,15 @@
   if (browser) {
     const token = $page.url.searchParams.get('token');
     if (token) {
-      accountApi.verifyEmailAddress(token)
-      .catch(async (error) => {
-        const result = await handleFetchError(error);
-        error = result?.apiCode ?? 'An unknown error occurred.';
-      })
-      .finally(() => {
-        loading = false;
-      });
+      accountApi
+        .verifyEmailAddress(token)
+        .catch(async (error) => {
+          const result = await handleFetchError(error);
+          error = result?.apiCode ?? 'An unknown error occurred.';
+        })
+        .finally(() => {
+          loading = false;
+        });
     } else {
       error = 'Looks like the link is broken. Please try again.';
       loading = false;

@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { page } from "$app/stores";
-  import { ErrorWrapper } from "$components/ErrorComponents";
-  import { UserApi } from "$lib/api";
-  import { RuntimeApiConfiguration } from "$lib/fetchSingleton";
-  import { ProgressRadial } from "@skeletonlabs/skeleton";
+  import { page } from '$app/stores';
+  import { ErrorWrapper } from '$components/ErrorComponents';
+  import { UserApi } from '$lib/api';
+  import { RuntimeApiConfiguration } from '$lib/fetchSingleton';
+  import { ProgressRadial } from '@skeletonlabs/skeleton';
 
   const userApi = new UserApi(RuntimeApiConfiguration);
 
@@ -12,7 +12,7 @@
 
 {#await response}
   <ProgressRadial />
-{:then user} 
+{:then user}
   <div>
     <p>{user.id}</p>
     <p>{user.username}</p>

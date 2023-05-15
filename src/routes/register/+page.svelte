@@ -1,9 +1,12 @@
 <script lang="ts">
+  import { goto } from '$app/navigation';
   import PasswordInput from '$components/PasswordInput.svelte';
   import TextInput from '$components/TextInput.svelte';
   import Turnstile from '$components/Turnstile.svelte';
   import { AccountApi } from '$lib/api';
   import { RuntimeApiConfiguration } from '$lib/fetchSingleton';
+  import { createSuccessToast } from '$lib/helpers';
+  import { handleFetchError } from '$lib/helpers/errorDetailsHelpers';
   import { ApiConfigStore } from '$lib/stores';
   import {
     validateEmail,
@@ -13,9 +16,6 @@
   } from '$lib/validators';
   import type { Snapshot } from './$types';
   import { focusTrap } from '@skeletonlabs/skeleton';
-  import { handleFetchError } from '$lib/helpers/errorDetailsHelpers';
-  import { createSuccessToast } from '$lib/helpers';
-  import { goto } from '$app/navigation';
 
   const accountApi = new AccountApi(RuntimeApiConfiguration);
 
@@ -44,8 +44,12 @@
   let turnstileResponse = '';
   let submitting = false;
 
-  $: acceptedPrivacyPolicyVersion = acceptedTerms ? $ApiConfigStore?.api.privacyVersion ?? 0 : 0;
-  $: acceptedTermsOfServiceVersion = acceptedTerms ? $ApiConfigStore?.api.tosVersion ?? 0 : 0;
+  $: acceptedPrivacyPolicyVersion = acceptedTerms
+    ? $ApiConfigStore?.api.privacyVersion ?? 0
+    : 0;
+  $: acceptedTermsOfServiceVersion = acceptedTerms
+    ? $ApiConfigStore?.api.tosVersion ?? 0
+    : 0;
 
   async function handleSubmit() {
     submitting = true;
@@ -59,12 +63,14 @@
         turnstileResponse,
       });
 
-      createSuccessToast('Account created successfully. Please check your email to verify your account.');
+      createSuccessToast(
+        'Account created successfully. Please check your email to verify your account.'
+      );
       goto('/login');
     } catch (error) {
       const response = await handleFetchError(error);
       if (!response) return;
-      
+
       const fields = response.apiFields;
       if (fields) {
         if (fields.username) {

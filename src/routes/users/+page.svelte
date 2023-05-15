@@ -21,12 +21,14 @@
 
   function handleSubmit() {
     loading = true;
-    userApi.lookUpUser(search).then((value) => {
-      user = value;
-    })
-    .finally(() => {
-      loading = false;
-    });
+    userApi
+      .lookUpUser(search)
+      .then((value) => {
+        user = value;
+      })
+      .finally(() => {
+        loading = false;
+      });
   }
 </script>
 
@@ -70,7 +72,12 @@
       <p>{JSON.stringify(user)}</p>
 
       <div>
-        <button class="btn variant-filled w-1/2 self-center" on:click={() => { if (user) userApi.sendFriendRequest(user.id); }}>
+        <button
+          class="btn variant-filled w-1/2 self-center"
+          on:click={() => {
+            if (user) userApi.sendFriendRequest(user.id);
+          }}
+        >
           <span>Send friend request</span>
         </button>
       </div>
