@@ -1,5 +1,4 @@
 <script lang="ts">
-  import TextInput from "$components/TextInput.svelte";
 import { AccountStore, SessionTokenStore } from "$lib/stores";
 
   $: account = $AccountStore?.account;
