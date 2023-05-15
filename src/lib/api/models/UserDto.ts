@@ -63,11 +63,11 @@ export interface UserDto {
      */
     createdAt: Date;
     /**
-     * Last time this user was online
+     * Last time this user was seen online
      * @type {Date}
      * @memberof UserDto
      */
-    lastOnline: Date;
+    lastSeenAt: Date;
 }
 
 /**
@@ -80,7 +80,7 @@ export function instanceOfUserDto(value: object): boolean {
     isInstance = isInstance && "status" in value;
     isInstance = isInstance && "statusText" in value;
     isInstance = isInstance && "createdAt" in value;
-    isInstance = isInstance && "lastOnline" in value;
+    isInstance = isInstance && "lastSeenAt" in value;
 
     return isInstance;
 }
@@ -101,7 +101,7 @@ export function UserDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): U
         'status': UserStatusFromJSON(json['status']),
         'statusText': json['statusText'],
         'createdAt': (new Date(json['createdAt'])),
-        'lastOnline': (new Date(json['lastOnline'])),
+        'lastSeenAt': (new Date(json['lastSeenAt'])),
     };
 }
 
@@ -120,7 +120,7 @@ export function UserDtoToJSON(value?: UserDto | null): any {
         'status': UserStatusToJSON(value.status),
         'statusText': value.statusText,
         'createdAt': (value.createdAt.toISOString()),
-        'lastOnline': (value.lastOnline.toISOString()),
+        'lastSeenAt': (value.lastSeenAt.toISOString()),
     };
 }
 

@@ -88,6 +88,7 @@
           <AppRailTile label="Devices" tag="a" href="/devices"><i class="fa-solid fa-microchip fa-xl"/></AppRailTile>
           <AppRailTile label="Messages" tag="a" href="/messages"><i class="fa-solid fa-envelope fa-xl"/></AppRailTile>
           <AppRailTile label="Friends" tag="a" href="/friends"><i class="fa-solid fa-user-friends fa-xl"/></AppRailTile>
+          <AppRailTile label="Users" tag="a" href="/users"><i class="fa-solid fa-user fa-xl"/></AppRailTile>
         </svelte:fragment>
         <svelte:fragment slot="trail">
           <AppRailTile label="Profile" tag="a" href="/profile"><i class="fa-solid fa-user fa-xl"/></AppRailTile>
