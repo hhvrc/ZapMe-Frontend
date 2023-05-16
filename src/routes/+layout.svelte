@@ -48,7 +48,7 @@
 >
 
 <TwitterSummaryTags
-  type="summary_large_image"
+  type="summary"
   title="ZapMe"
   description="Take Control of Your Submissives from Anywhere in the World."
   image={{ src: 'https://zapme.app/logo-512.png', alt: 'ZapMe Logo' }}
