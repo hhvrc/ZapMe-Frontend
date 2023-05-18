@@ -7,7 +7,7 @@
   import { AccountStore, SessionTokenStore } from '$lib/stores';
   import { GetUsernameInitials } from '$lib/utils/initials';
   import { BuildRedirectURL } from '$lib/utils/redirects';
-  import { Avatar } from '@skeletonlabs/skeleton';
+  import { Avatar, modalStore } from '@skeletonlabs/skeleton';
 
   if (browser && !$SessionTokenStore) {
     goto(BuildRedirectURL('/login', $page.url));
@@ -61,24 +61,47 @@
   <div class="px-4 py-4">
     <div class="card overflow-hidden">
       <!-- Profile banner -->
-      <img
-        src={bannerSrc}
-        alt={bannerAlt}
-        class="h-32 w-full select-none object-cover"
-      />
+      <div
+        class="group relative h-32 w-full cursor-pointer select-none"
+        on:mousedown={() =>
+          modalStore.trigger({ type: 'component', component: 'file' })}
+      >
+        <img
+          class="transition-brightness h-32 w-full object-cover group-hover:brightness-50"
+          src={bannerSrc}
+          alt={bannerAlt}
+        />
+        <p
+          class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none text-center text-xl font-medium uppercase text-white opacity-0 transition-opacity group-hover:opacity-100"
+        >
+          Change banner
+        </p>
+      </div>
 
       <div class="mb-4 flex h-16 place-items-start justify-start px-4 py-2">
         <!-- Profile picture -->
         <div
           class="relative -top-[60px] mr-2 h-[128px] w-[128px] select-none rounded-full border-4 border-surface-100 bg-surface-100 dark:border-surface-800 dark:bg-surface-800"
         >
-          <Avatar
-            {initials}
-            src={profileSrc}
-            fallback={profileFallback}
-            rounded="rounded-full"
-            width="w-[120px]"
-          />
+          <div
+            class="group relative h-[120px] w-[120px] cursor-pointer rounded-full"
+            on:mousedown={() =>
+              modalStore.trigger({ type: 'component', component: 'file' })}
+          >
+            <Avatar
+              {initials}
+              src={profileSrc}
+              fallback={profileFallback}
+              rounded="rounded-full"
+              width="w-[120px]"
+              class="transition-brightness group-hover:brightness-50"
+            />
+            <p
+              class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none text-center text-xl font-medium uppercase text-white opacity-0 transition-opacity group-hover:opacity-100"
+            >
+              Change avatar
+            </p>
+          </div>
           <div
             class="absolute bottom-0 right-0 rounded-full border-4 border-surface-100 bg-surface-100 dark:border-surface-800 dark:bg-surface-800"
           >

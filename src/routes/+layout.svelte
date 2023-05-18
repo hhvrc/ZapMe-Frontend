@@ -15,6 +15,7 @@
   import { page } from '$app/stores';
   import OpenGraphTags from '$components/MetaTags/OpenGraphTags.svelte';
   import TwitterSummaryTags from '$components/MetaTags/Twitter/TwitterSummaryTags.svelte';
+  import { modalComponentRegistry } from '$components/modals';
   import type { Config } from '$lib/api';
   import { ApiConfigStore, SessionTokenStore } from '$lib/stores';
   import {
@@ -24,6 +25,7 @@
     Toast,
     autoModeWatcher,
     AppRailTile,
+    Modal,
   } from '@skeletonlabs/skeleton';
   import { storePopup } from '@skeletonlabs/skeleton';
   import { derived } from 'svelte/store';
@@ -63,6 +65,7 @@
   url="https://zapme.app/"
 />
 
+<Modal components={modalComponentRegistry} />
 <Toast position="bl" max={5} />
 <AppShell>
   <svelte:fragment slot="header">
