@@ -7,7 +7,6 @@ export * from './OAuthCallbackHandler';
 export * from './OAuthInitializeHandler';
 export * from './Role';
 export * from './SessionToken';
-export * from './SupportedOAuthProviders';
 export * from './User';
 export * from './UserSettings';
 export * from './ValidationResult';

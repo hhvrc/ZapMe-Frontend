@@ -28,9 +28,7 @@ models/CreateOk.ts
 models/ErrorDetails.ts
 models/ErrorDetailsNotification.ts
 models/FriendRequestList.ts
-models/HttpValidationProblemDetails.ts
 models/OAuthProviderList.ts
-models/ProblemDetails.ts
 models/RecoveryConfirm.ts
 models/RecoveryRequest.ts
 models/ReportUserRequest.ts
