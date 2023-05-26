@@ -17,7 +17,6 @@ import * as runtime from '../runtime';
 import type {
   ErrorDetails,
   FriendRequestList,
-  ProblemDetails,
   ReportUserRequest,
   UserDto,
 } from '../models';
@@ -26,8 +25,6 @@ import {
     ErrorDetailsToJSON,
     FriendRequestListFromJSON,
     FriendRequestListToJSON,
-    ProblemDetailsFromJSON,
-    ProblemDetailsToJSON,
     ReportUserRequestFromJSON,
     ReportUserRequestToJSON,
     UserDtoFromJSON,

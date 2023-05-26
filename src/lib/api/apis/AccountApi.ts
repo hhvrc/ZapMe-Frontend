@@ -309,7 +309,7 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/v1/Account/recover-confirm`,
+            path: `/api/v1/account/recover-confirm`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -337,7 +337,7 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/v1/Account/recover`,
+            path: `/api/v1/account/recover`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -369,7 +369,7 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/v1/Account/oauth/{providerName}`.replace(`{${"providerName"}}`, encodeURIComponent(String(requestParameters.providerName))),
+            path: `/api/v1/account/oauth/{providerName}`.replace(`{${"providerName"}}`, encodeURIComponent(String(requestParameters.providerName))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -397,7 +397,7 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/v1/Account`,
+            path: `/api/v1/account`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -432,7 +432,7 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
         }
 
         const response = await this.request({
-            path: `/api/v1/Account`,
+            path: `/api/v1/account`,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -457,7 +457,7 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/api/v1/Account`,
+            path: `/api/v1/account`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -487,7 +487,7 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/api/v1/Account/oauth/{providerName}`.replace(`{${"providerName"}}`, encodeURIComponent(String(requestParameters.providerName))),
+            path: `/api/v1/account/oauth/{providerName}`.replace(`{${"providerName"}}`, encodeURIComponent(String(requestParameters.providerName))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -514,7 +514,7 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/v1/Account/email`,
+            path: `/api/v1/account/email`,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
@@ -543,7 +543,7 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/v1/Account/password`,
+            path: `/api/v1/account/password`,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
@@ -580,7 +580,7 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
         }
 
         const response = await this.request({
-            path: `/api/v1/Account/pfp`,
+            path: `/api/v1/account/pfp`,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
@@ -609,7 +609,7 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/v1/Account/username`,
+            path: `/api/v1/account/username`,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
@@ -639,7 +639,7 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/api/v1/Account/email/verify`,
+            path: `/api/v1/account/email/verify`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,

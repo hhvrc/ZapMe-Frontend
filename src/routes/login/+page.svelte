@@ -3,7 +3,7 @@
   import { page } from '$app/stores';
   import PasswordInput from '$components/PasswordInput.svelte';
   import TextInput from '$components/TextInput.svelte';
-  import { AuthenticationApi } from '$lib/api';
+  import { AuthApi } from '$lib/api';
   import { RuntimeApiConfiguration } from '$lib/fetchSingleton.js';
   import { handleFetchError } from '$lib/helpers/errorDetailsHelpers';
   import { OAuthProviderInfo } from '$lib/oauth';
@@ -13,7 +13,7 @@
   import type { Snapshot } from './$types';
   import { focusTrap } from '@skeletonlabs/skeleton';
 
-  const authenticationApi = new AuthenticationApi(RuntimeApiConfiguration);
+  const authApi = new AuthApi(RuntimeApiConfiguration);
 
   export const snapshot: Snapshot = {
     capture: () => usernameOrEmail,
@@ -30,7 +30,7 @@
 
   async function handleSubmit() {
     try {
-      const response = await authenticationApi.authSignIn({
+      const response = await authApi.authSignIn({
         usernameOrEmail,
         password,
         rememberMe,
