@@ -1,10 +1,13 @@
 <script lang="ts">
   import { browser } from '$app/environment';
+  import { goto } from '$app/navigation';
   import { page } from '$app/stores';
+  import CountdownText from '$components/CountdownText.svelte';
   import PasswordInput from '$components/PasswordInput.svelte';
   import TextInput from '$components/TextInput.svelte';
   import { OAuthApi } from '$lib/api';
   import { RuntimeApiConfiguration } from '$lib/fetchSingleton';
+  import { createErrorToast } from '$lib/helpers';
   import { handleFetchError } from '$lib/helpers/errorDetailsHelpers';
   import { AccountStore, ApiConfigStore, SessionTokenStore } from '$lib/stores';
   import {
@@ -15,16 +18,22 @@
   } from '$lib/validators';
   import { focusTrap } from '@skeletonlabs/skeleton';
 
-  const oauthApi = new OAuthApi(RuntimeApiConfiguration);
+  const searchParams = $page.url.searchParams;
+  const nameValue = searchParams.get('name');
+  const emailValue = searchParams.get('email');
+  const ticketValue = searchParams.get('ticket');
+  const expiresAtValue = searchParams.get('expiresAt');
+  const profilePictureUrlValue = searchParams.get('profilePictureUrl');
 
-  let disabled = true;
+  if (browser && (!ticketValue || !expiresAtValue)) {
+    createErrorToast('Invalid OAuth ticket.');
+    goto('/login', { replaceState: true });
+  }
 
-  const ticket = $page.url.searchParams.get('ticket');
-  const expiresAt = $page.url.searchParams.get('expiresAt');
-  const profilePictureUrl = $page.url.searchParams.get('profilePictureUrl');
+  const expiresAtUtc = expiresAtValue ? Date.parse(expiresAtValue) : 0;
 
-  let username = $page.url.searchParams.get('name') ?? '';
-  let email = $page.url.searchParams.get('email') ?? '';
+  let username = nameValue ?? '';
+  let email = emailValue ?? '';
   let password = '';
   let passwordShown = false;
   let passwordMatch = '';
@@ -39,23 +48,31 @@
     ? $ApiConfigStore?.api.tosVersion ?? 0
     : 0;
 
+  const oauthApi = new OAuthApi(RuntimeApiConfiguration);
+
   async function handleSubmit() {
-    if (!ticket) return;
+    if (!ticketValue) return;
     submitting = true;
     try {
-      const response = await oauthApi.oAuthCreateAccount({
-        oAuthTicket: ticket,
+      const response = await oauthApi.completeOAuthAccountCreation({
+        oAuthTicket: ticketValue,
         acceptedPrivacyPolicyVersion,
         acceptedTermsOfServiceVersion,
         password
       });
       AccountStore.set({ account: response.account, lastFetch: Date.now() });
       SessionTokenStore.set(response.session);
+      goto('/', { replaceState: true });
     } catch (error) {
       handleFetchError(error);
+      goto('/login', { replaceState: true });
     } finally {
       submitting = false;
     }
+  }
+  async function handleExpired() {
+    createErrorToast('OAuth ticket expired, please try again.');
+    goto('/login', { replaceState: true });
   }
   
   $: usernameError = validateUsername(username);
@@ -87,7 +104,10 @@
     use:focusTrap={true}
   >
     <!-- Title -->
-    <h2>Complete OAuth Account Creation</h2>
+    <h2>Account Creation</h2>
+  
+    <p>We successfully authenticated with external provider, but we need a few more details to complete your account creation.</p>
+    <p class="text-sm text-red-500">For security reasons, this request will expire in <CountdownText {expiresAtUtc} on:expired={handleExpired} /></p>
 
     <!-- Username -->
     <TextInput
