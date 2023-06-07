@@ -308,6 +308,10 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
 
         headerParameters['Content-Type'] = 'application/json';
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
         const response = await this.request({
             path: `/api/v1/account/recover-confirm`,
             method: 'POST',
@@ -335,6 +339,10 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
 
         const response = await this.request({
             path: `/api/v1/account/recover`,
@@ -368,6 +376,10 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
 
         headerParameters['Content-Type'] = 'application/json';
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
         const response = await this.request({
             path: `/api/v1/account/oauth/{providerName}`.replace(`{${"providerName"}}`, encodeURIComponent(String(requestParameters.providerName))),
             method: 'POST',
@@ -395,6 +407,10 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
 
         const response = await this.request({
             path: `/api/v1/account`,
@@ -431,6 +447,10 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
             headerParameters['reason'] = String(requestParameters.reason);
         }
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
         const response = await this.request({
             path: `/api/v1/account`,
             method: 'DELETE',
@@ -455,6 +475,10 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
 
         const response = await this.request({
             path: `/api/v1/account`,
@@ -486,6 +510,10 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
         const response = await this.request({
             path: `/api/v1/account/oauth/{providerName}`.replace(`{${"providerName"}}`, encodeURIComponent(String(requestParameters.providerName))),
             method: 'DELETE',
@@ -512,6 +540,10 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
 
         const response = await this.request({
             path: `/api/v1/account/email`,
@@ -541,6 +573,10 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
 
         const response = await this.request({
             path: `/api/v1/account/password`,
@@ -579,6 +615,10 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
             headerParameters['Hash-Sha256'] = String(requestParameters.hashSha256);
         }
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
         const response = await this.request({
             path: `/api/v1/account/pfp`,
             method: 'PUT',
@@ -607,6 +647,10 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
 
         const response = await this.request({
             path: `/api/v1/account/username`,
@@ -637,6 +681,10 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
 
         const response = await this.request({
             path: `/api/v1/account/email/verify`,

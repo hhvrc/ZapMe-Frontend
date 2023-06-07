@@ -7,8 +7,7 @@
   import { RuntimeApiConfiguration } from '$lib/fetchSingleton.js';
   import { handleFetchError } from '$lib/helpers/errorDetailsHelpers';
   import { OAuthProviderInfo } from '$lib/oauth';
-  import { AccountStore } from '$lib/stores/accountStore.js';
-  import { SessionTokenStore } from '$lib/stores/sessionTokenStore.js';
+  import { AccountStore, SessionTokenStore } from '$lib/stores';
   import { GetRedirectURL } from '$lib/utils/redirects.js';
   import type { Snapshot } from './$types';
   import { focusTrap } from '@skeletonlabs/skeleton';

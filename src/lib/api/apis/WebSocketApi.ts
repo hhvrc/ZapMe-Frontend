@@ -58,6 +58,10 @@ export class WebSocketApi extends runtime.BaseAPI implements WebSocketApiInterfa
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
         const response = await this.request({
             path: `/ws`,
             method: 'GET',

@@ -17,7 +17,6 @@ import * as runtime from '../runtime';
 import type {
   AuthSignInRequest,
   ErrorDetails,
-  OAuthProviderList,
   SignInOk,
 } from '../models';
 import {
@@ -25,22 +24,12 @@ import {
     AuthSignInRequestToJSON,
     ErrorDetailsFromJSON,
     ErrorDetailsToJSON,
-    OAuthProviderListFromJSON,
-    OAuthProviderListToJSON,
     SignInOkFromJSON,
     SignInOkToJSON,
 } from '../models';
 
 export interface AuthSignInOperationRequest {
     authSignInRequest?: AuthSignInRequest;
-}
-
-export interface OAuthAuthorizeRequest {
-    providerName: string;
-}
-
-export interface OAuthCallbackRequest {
-    providerName: string;
 }
 
 /**
@@ -79,50 +68,6 @@ export interface AuthApiInterface {
      */
     authSignOut(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
-    /**
-     * 
-     * @summary 
-     * @param {string} providerName 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AuthApiInterface
-     */
-    oAuthAuthorizeRaw(requestParameters: OAuthAuthorizeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
-
-    /**
-     * 
-     */
-    oAuthAuthorize(providerName: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
-
-    /**
-     * 
-     * @summary 
-     * @param {string} providerName 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AuthApiInterface
-     */
-    oAuthCallbackRaw(requestParameters: OAuthCallbackRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
-
-    /**
-     * 
-     */
-    oAuthCallback(providerName: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
-
-    /**
-     * 
-     * @summary 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AuthApiInterface
-     */
-    oAuthListProvidersRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<OAuthProviderList>>;
-
-    /**
-     * 
-     */
-    oAuthListProviders(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<OAuthProviderList>;
-
 }
 
 /**
@@ -139,6 +84,10 @@ export class AuthApi extends runtime.BaseAPI implements AuthApiInterface {
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
 
         const response = await this.request({
             path: `/api/v1/auth/signin`,
@@ -167,6 +116,10 @@ export class AuthApi extends runtime.BaseAPI implements AuthApiInterface {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
         const response = await this.request({
             path: `/api/v1/auth/signout`,
             method: 'POST',
@@ -182,90 +135,6 @@ export class AuthApi extends runtime.BaseAPI implements AuthApiInterface {
      */
     async authSignOut(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.authSignOutRaw(initOverrides);
-    }
-
-    /**
-     * 
-     */
-    async oAuthAuthorizeRaw(requestParameters: OAuthAuthorizeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.providerName === null || requestParameters.providerName === undefined) {
-            throw new runtime.RequiredError('providerName','Required parameter requestParameters.providerName was null or undefined when calling oAuthAuthorize.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/api/v1/auth/o/req/{providerName}`.replace(`{${"providerName"}}`, encodeURIComponent(String(requestParameters.providerName))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * 
-     */
-    async oAuthAuthorize(providerName: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.oAuthAuthorizeRaw({ providerName: providerName }, initOverrides);
-    }
-
-    /**
-     * 
-     */
-    async oAuthCallbackRaw(requestParameters: OAuthCallbackRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.providerName === null || requestParameters.providerName === undefined) {
-            throw new runtime.RequiredError('providerName','Required parameter requestParameters.providerName was null or undefined when calling oAuthCallback.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/api/v1/auth/o/cb/{providerName}`.replace(`{${"providerName"}}`, encodeURIComponent(String(requestParameters.providerName))),
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * 
-     */
-    async oAuthCallback(providerName: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.oAuthCallbackRaw({ providerName: providerName }, initOverrides);
-    }
-
-    /**
-     * 
-     */
-    async oAuthListProvidersRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<OAuthProviderList>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/api/v1/auth/o/list`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => OAuthProviderListFromJSON(jsonValue));
-    }
-
-    /**
-     * 
-     */
-    async oAuthListProviders(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<OAuthProviderList> {
-        const response = await this.oAuthListProvidersRaw(initOverrides);
-        return await response.value();
     }
 
 }

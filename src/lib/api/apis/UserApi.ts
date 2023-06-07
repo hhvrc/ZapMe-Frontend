@@ -185,6 +185,10 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
         const response = await this.request({
             path: `/api/v1/user/i/{userId}/friendrequest`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
             method: 'PUT',
@@ -214,6 +218,10 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
 
         const response = await this.request({
             path: `/api/v1/user/i/{userId}/friendrequest`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
@@ -245,6 +253,10 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
         const response = await this.request({
             path: `/api/v1/user/i/{userId}`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
             method: 'GET',
@@ -270,6 +282,10 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
 
         const response = await this.request({
             path: `/api/v1/user/friendrequests`,
@@ -301,6 +317,10 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
         const response = await this.request({
             path: `/api/v1/user/u/{userName}`.replace(`{${"userName"}}`, encodeURIComponent(String(requestParameters.userName))),
             method: 'GET',
@@ -328,6 +348,10 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
 
         const response = await this.request({
             path: `/api/v1/user/report`,
@@ -358,6 +382,10 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
 
         const response = await this.request({
             path: `/api/v1/user/i/{userId}/friendrequest`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),

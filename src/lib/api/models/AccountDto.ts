@@ -31,85 +31,85 @@ export interface AccountDto {
      * @type {string}
      * @memberof AccountDto
      */
-    readonly id: string;
+    id: string;
     /**
      * 
      * @type {string}
      * @memberof AccountDto
      */
-    readonly username: string;
+    username: string;
     /**
      * Obfuscated email of your account
      * @type {string}
      * @memberof AccountDto
      */
-    readonly obscuredEmail: string;
+    obscuredEmail: string;
     /**
      * 
      * @type {boolean}
      * @memberof AccountDto
      */
-    readonly emailVerified: boolean;
+    emailVerified: boolean;
     /**
      * 
      * @type {number}
      * @memberof AccountDto
      */
-    readonly acceptedPrivacyPolicyVersion: number;
+    acceptedPrivacyPolicyVersion: number;
     /**
      * 
      * @type {number}
      * @memberof AccountDto
      */
-    readonly acceptedTermsOfServiceVersion: number;
+    acceptedTermsOfServiceVersion: number;
     /**
      * 
      * @type {string}
      * @memberof AccountDto
      */
-    readonly profilePictureUrl: string;
+    profilePictureUrl: string;
     /**
      * 
      * @type {UserStatus}
      * @memberof AccountDto
      */
-    readonly status: UserStatus;
+    status: UserStatus;
     /**
      * 
      * @type {string}
      * @memberof AccountDto
      */
-    readonly statusText: string;
+    statusText: string;
     /**
      * Id of friends this account has
      * @type {Array<string>}
      * @memberof AccountDto
      */
-    readonly friends: Array<string>;
+    friends: Array<string>;
     /**
      * OAuth2 providers this account is connected to
      * @type {Array<string>}
      * @memberof AccountDto
      */
-    readonly oauthConnections: Array<string>;
+    oauthConnections: Array<string>;
     /**
      * Date this user was created at
      * @type {Date}
      * @memberof AccountDto
      */
-    readonly createdAt: Date;
+    createdAt: Date;
     /**
      * Last time this user was updated
      * @type {Date}
      * @memberof AccountDto
      */
-    readonly updatedAt: Date;
+    updatedAt: Date;
     /**
      * Last time this user was online
      * @type {Date}
      * @memberof AccountDto
      */
-    readonly lastOnline: Date;
+    lastOnline: Date;
 }
 
 /**
@@ -171,6 +171,20 @@ export function AccountDtoToJSON(value?: AccountDto | null): any {
     }
     return {
         
+        'id': value.id,
+        'username': value.username,
+        'obscuredEmail': value.obscuredEmail,
+        'emailVerified': value.emailVerified,
+        'acceptedPrivacyPolicyVersion': value.acceptedPrivacyPolicyVersion,
+        'acceptedTermsOfServiceVersion': value.acceptedTermsOfServiceVersion,
+        'profilePictureUrl': value.profilePictureUrl,
+        'status': UserStatusToJSON(value.status),
+        'statusText': value.statusText,
+        'friends': value.friends,
+        'oauthConnections': value.oauthConnections,
+        'createdAt': (value.createdAt.toISOString()),
+        'updatedAt': (value.updatedAt.toISOString()),
+        'lastOnline': (value.lastOnline.toISOString()),
     };
 }
 

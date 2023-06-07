@@ -51,6 +51,10 @@ export class HealthApi extends runtime.BaseAPI implements HealthApiInterface {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
         const response = await this.request({
             path: `/api/v1/health`,
             method: 'GET',

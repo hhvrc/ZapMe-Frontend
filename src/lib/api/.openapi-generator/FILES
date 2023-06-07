@@ -3,6 +3,7 @@ apis/AccountApi.ts
 apis/AuthApi.ts
 apis/ConfigApi.ts
 apis/HealthApi.ts
+apis/OAuthApi.ts
 apis/UserApi.ts
 apis/WebSocketApi.ts
 apis/index.ts
@@ -17,6 +18,7 @@ models/ApiConfigDisabledFeatures.ts
 models/ApiDisabledFeatures.ts
 models/AuthSignIn.ts
 models/AuthSignInRequest.ts
+models/CompleteOAuthAccountCreationRequest.ts
 models/Config.ts
 models/ConfigApi.ts
 models/ConfigContact.ts
@@ -28,7 +30,12 @@ models/CreateOk.ts
 models/ErrorDetails.ts
 models/ErrorDetailsNotification.ts
 models/FriendRequestList.ts
+models/OAuthFinishAccountCreation.ts
 models/OAuthProviderList.ts
+models/OAuthResult.ts
+models/OAuthResultSignInOk.ts
+models/OAuthResultType.ts
+models/OAuthTicket.ts
 models/RecoveryConfirm.ts
 models/RecoveryRequest.ts
 models/ReportUserRequest.ts
