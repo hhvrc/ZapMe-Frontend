@@ -4,7 +4,7 @@
   import PasswordInput from '$components/PasswordInput.svelte';
   import TextInput from '$components/TextInput.svelte';
   import { OAuthApi } from '$lib/api';
-  import { RuntimeApiConfiguration } from '$lib/fetchSingleton.js';
+  import { RuntimeApiConfiguration } from '$lib/fetchSingleton';
   import { handleFetchError } from '$lib/helpers/errorDetailsHelpers';
   import { AccountStore, ApiConfigStore, SessionTokenStore } from '$lib/stores';
   import {

@@ -4,11 +4,11 @@
   import PasswordInput from '$components/PasswordInput.svelte';
   import TextInput from '$components/TextInput.svelte';
   import { AuthApi } from '$lib/api';
-  import { RuntimeApiConfiguration } from '$lib/fetchSingleton.js';
+  import { RuntimeApiConfiguration } from '$lib/fetchSingleton';
   import { handleFetchError } from '$lib/helpers/errorDetailsHelpers';
   import { OAuthProviderInfo } from '$lib/oauth';
   import { AccountStore, SessionTokenStore } from '$lib/stores';
-  import { GetRedirectURL } from '$lib/utils/redirects.js';
+  import { GetRedirectURL } from '$lib/utils/redirects';
   import type { Snapshot } from './$types';
   import { focusTrap } from '@skeletonlabs/skeleton';
 

@@ -1,8 +1,8 @@
 <script lang="ts">
   import { browser } from '$app/environment';
   import { page } from '$app/stores';
-  import { AccountApi } from '$lib/api/index.js';
-  import { RuntimeApiConfiguration } from '$lib/fetchSingleton.js';
+  import { AccountApi } from '$lib/api';
+  import { RuntimeApiConfiguration } from '$lib/fetchSingleton';
   import { handleFetchError } from '$lib/helpers/errorDetailsHelpers';
 
   const accountApi = new AccountApi(RuntimeApiConfiguration);
