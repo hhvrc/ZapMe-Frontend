@@ -154,7 +154,7 @@
       <div class="hidden lg:block">Copyright ©{year} | All Rights Reserved</div>
       <div class="hidden items-center space-x-2 sm:flex">
         <a
-          href="/privacy"
+          href="/privacy-policy"
           class="select-none"
           data-sveltekit-preload-data="hover"
         >
