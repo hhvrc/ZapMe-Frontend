@@ -18,7 +18,6 @@ import type {
   AccountDto,
   AccountRecoveryConfirmRequest,
   AccountRecoveryRequestRequest,
-  AddOAuthProviderRequest,
   CreateAccountRequest,
   CreateOk,
   ErrorDetails,
@@ -35,8 +34,6 @@ import {
     AccountRecoveryConfirmRequestToJSON,
     AccountRecoveryRequestRequestFromJSON,
     AccountRecoveryRequestRequestToJSON,
-    AddOAuthProviderRequestFromJSON,
-    AddOAuthProviderRequestToJSON,
     CreateAccountRequestFromJSON,
     CreateAccountRequestToJSON,
     CreateOkFromJSON,
@@ -63,9 +60,8 @@ export interface AccountRecoveryRequestOperationRequest {
     accountRecoveryRequestRequest?: AccountRecoveryRequestRequest;
 }
 
-export interface AddOAuthProviderOperationRequest {
-    providerName: string;
-    addOAuthProviderRequest?: AddOAuthProviderRequest;
+export interface ConnectSSOProviderRequest {
+    ssoToken?: string;
 }
 
 export interface CreateAccountOperationRequest {
@@ -77,8 +73,8 @@ export interface DeleteAccountRequest {
     reason?: string;
 }
 
-export interface RemoveOAuthProviderRequest {
-    providerName: string;
+export interface DisconnectSSOProviderRequest {
+    providerName?: string;
 }
 
 export interface UpdateEmailOperationRequest {
@@ -141,19 +137,18 @@ export interface AccountApiInterface {
 
     /**
      * 
-     * @summary Add a oauth connection to account
-     * @param {string} providerName 
-     * @param {AddOAuthProviderRequest} [addOAuthProviderRequest] 
+     * @summary Add a sso connection to account
+     * @param {string} [ssoToken] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccountApiInterface
      */
-    addOAuthProviderRaw(requestParameters: AddOAuthProviderOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+    connectSSOProviderRaw(requestParameters: ConnectSSOProviderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
 
     /**
-     * Add a oauth connection to account
+     * Add a sso connection to account
      */
-    addOAuthProvider(providerName: string, addOAuthProviderRequest?: AddOAuthProviderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+    connectSSOProvider(ssoToken?: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
     /**
      * 
@@ -188,6 +183,21 @@ export interface AccountApiInterface {
 
     /**
      * 
+     * @summary Remove a sso connection from account
+     * @param {string} [providerName] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AccountApiInterface
+     */
+    disconnectSSOProviderRaw(requestParameters: DisconnectSSOProviderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+
+    /**
+     * Remove a sso connection from account
+     */
+    disconnectSSOProvider(providerName?: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+
+    /**
+     * 
      * @summary 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -199,21 +209,6 @@ export interface AccountApiInterface {
      * 
      */
     getAccount(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AccountDto>;
-
-    /**
-     * 
-     * @summary Remove a oauth connection from account
-     * @param {string} providerName 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AccountApiInterface
-     */
-    removeOAuthProviderRaw(requestParameters: RemoveOAuthProviderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
-
-    /**
-     * Remove a oauth connection from account
-     */
-    removeOAuthProvider(providerName: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
     /**
      * 
@@ -363,39 +358,36 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
     }
 
     /**
-     * Add a oauth connection to account
+     * Add a sso connection to account
      */
-    async addOAuthProviderRaw(requestParameters: AddOAuthProviderOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.providerName === null || requestParameters.providerName === undefined) {
-            throw new runtime.RequiredError('providerName','Required parameter requestParameters.providerName was null or undefined when calling addOAuthProvider.');
-        }
-
+    async connectSSOProviderRaw(requestParameters: ConnectSSOProviderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         const queryParameters: any = {};
 
-        const headerParameters: runtime.HTTPHeaders = {};
+        if (requestParameters.ssoToken !== undefined) {
+            queryParameters['ssoToken'] = requestParameters.ssoToken;
+        }
 
-        headerParameters['Content-Type'] = 'application/json';
+        const headerParameters: runtime.HTTPHeaders = {};
 
         if (this.configuration && this.configuration.apiKey) {
             headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
         }
 
         const response = await this.request({
-            path: `/api/v1/account/oauth/{providerName}`.replace(`{${"providerName"}}`, encodeURIComponent(String(requestParameters.providerName))),
+            path: `/api/v1/account/sso`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: AddOAuthProviderRequestToJSON(requestParameters.addOAuthProviderRequest),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
 
     /**
-     * Add a oauth connection to account
+     * Add a sso connection to account
      */
-    async addOAuthProvider(providerName: string, addOAuthProviderRequest?: AddOAuthProviderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.addOAuthProviderRaw({ providerName: providerName, addOAuthProviderRequest: addOAuthProviderRequest }, initOverrides);
+    async connectSSOProvider(ssoToken?: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.connectSSOProviderRaw({ ssoToken: ssoToken }, initOverrides);
     }
 
     /**
@@ -469,6 +461,39 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
     }
 
     /**
+     * Remove a sso connection from account
+     */
+    async disconnectSSOProviderRaw(requestParameters: DisconnectSSOProviderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: any = {};
+
+        if (requestParameters.providerName !== undefined) {
+            queryParameters['providerName'] = requestParameters.providerName;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
+        const response = await this.request({
+            path: `/api/v1/account/sso`,
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Remove a sso connection from account
+     */
+    async disconnectSSOProvider(providerName?: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.disconnectSSOProviderRaw({ providerName: providerName }, initOverrides);
+    }
+
+    /**
      * 
      */
     async getAccountRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AccountDto>> {
@@ -496,39 +521,6 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
     async getAccount(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AccountDto> {
         const response = await this.getAccountRaw(initOverrides);
         return await response.value();
-    }
-
-    /**
-     * Remove a oauth connection from account
-     */
-    async removeOAuthProviderRaw(requestParameters: RemoveOAuthProviderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.providerName === null || requestParameters.providerName === undefined) {
-            throw new runtime.RequiredError('providerName','Required parameter requestParameters.providerName was null or undefined when calling removeOAuthProvider.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
-        }
-
-        const response = await this.request({
-            path: `/api/v1/account/oauth/{providerName}`.replace(`{${"providerName"}}`, encodeURIComponent(String(requestParameters.providerName))),
-            method: 'DELETE',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * Remove a oauth connection from account
-     */
-    async removeOAuthProvider(providerName: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.removeOAuthProviderRaw({ providerName: providerName }, initOverrides);
     }
 
     /**

@@ -1,6 +1,6 @@
 import { PUBLIC_BACKEND_URL } from "$env/static/public";
 
-const OAuthPath = PUBLIC_BACKEND_URL + '/api/v1/oauth/';
+const OAuthPath = PUBLIC_BACKEND_URL + '/api/v1/sso/';
 
 export const OAuthProviderInfo: {
   [key: string]: {
@@ -9,7 +9,8 @@ export const OAuthProviderInfo: {
     href: string;
   }
 } = {
-  discord: { name: 'Discord', icon: 'fa-discord', href: OAuthPath + 'discord/auth' },
-  github: { name: 'Github', icon: 'fa-github', href: OAuthPath + 'github/auth' },
-  twitter: { name: 'Twitter', icon: 'fa-twitter', href: OAuthPath + 'twitter/auth' },
+  discord: { name: 'Discord', icon: 'fa-discord', href: OAuthPath + 'discord' },
+  github: { name: 'Github', icon: 'fa-github', href: OAuthPath + 'github' },
+  twitter: { name: 'Twitter', icon: 'fa-twitter', href: OAuthPath + 'twitter' },
+  google: { name: 'Google', icon: 'fa-google', href: OAuthPath + 'google' },
 };

@@ -7,7 +7,7 @@
   import { RuntimeApiConfiguration } from '$lib/fetchSingleton';
   import { handleFetchError } from '$lib/helpers/errorDetailsHelpers';
   import { OAuthProviderInfo } from '$lib/oauth';
-  import { AccountStore, SessionTokenStore } from '$lib/stores';
+  import { SessionTokenStore } from '$lib/stores';
   import { GetRedirectURL } from '$lib/utils/redirects';
   import type { Snapshot } from './$types';
   import { focusTrap } from '@skeletonlabs/skeleton';
@@ -34,8 +34,7 @@
         password,
         rememberMe,
       });
-      AccountStore.set({ account: response.account, lastFetch: Date.now() });
-      SessionTokenStore.set(response.session);
+      SessionTokenStore.set(response);
       goto(GetRedirectURL($page.url, '/'));
     } catch (error) {
       await handleFetchError(error, { dontRedirect: [401] });

@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { CreateOkSession } from './CreateOkSession';
+import {
+    CreateOkSessionFromJSON,
+    CreateOkSessionFromJSONTyped,
+    CreateOkSessionToJSON,
+} from './CreateOkSession';
+
 /**
  * 
  * @export
@@ -20,17 +27,23 @@ import { exists, mapValues } from '../runtime';
  */
 export interface CreateOk {
     /**
-     * 
+     * The account id of the newly created account
      * @type {string}
      * @memberof CreateOk
      */
-    id: string;
+    accountId: string;
     /**
      * 
-     * @type {string}
+     * @type {CreateOkSession}
      * @memberof CreateOk
      */
-    message: string;
+    session?: CreateOkSession | null;
+    /**
+     * If true then the email is already verified by 3rd party
+     * @type {boolean}
+     * @memberof CreateOk
+     */
+    emailVerificationRequired: boolean;
 }
 
 /**
@@ -38,8 +51,8 @@ export interface CreateOk {
  */
 export function instanceOfCreateOk(value: object): boolean {
     let isInstance = true;
-    isInstance = isInstance && "id" in value;
-    isInstance = isInstance && "message" in value;
+    isInstance = isInstance && "accountId" in value;
+    isInstance = isInstance && "emailVerificationRequired" in value;
 
     return isInstance;
 }
@@ -54,8 +67,9 @@ export function CreateOkFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     }
     return {
         
-        'id': json['id'],
-        'message': json['message'],
+        'accountId': json['accountId'],
+        'session': !exists(json, 'session') ? undefined : CreateOkSessionFromJSON(json['session']),
+        'emailVerificationRequired': json['emailVerificationRequired'],
     };
 }
 
@@ -68,8 +82,9 @@ export function CreateOkToJSON(value?: CreateOk | null): any {
     }
     return {
         
-        'id': value.id,
-        'message': value.message,
+        'accountId': value.accountId,
+        'session': CreateOkSessionToJSON(value.session),
+        'emailVerificationRequired': value.emailVerificationRequired,
     };
 }
 

@@ -1,11 +1,14 @@
 <script lang="ts">
+  import { browser } from '$app/environment';
   import { goto } from '$app/navigation';
+  import { page } from '$app/stores';
+  import CountdownText from '$components/CountdownText.svelte';
   import PasswordInput from '$components/PasswordInput.svelte';
   import TextInput from '$components/TextInput.svelte';
   import Turnstile from '$components/Turnstile.svelte';
-  import { AccountApi } from '$lib/api';
+  import { AccountApi, SingleSignOnApi, type ProviderDataDto } from '$lib/api';
   import { RuntimeApiConfiguration } from '$lib/fetchSingleton';
-  import { createSuccessToast } from '$lib/helpers';
+  import { createErrorToast, createSuccessToast } from '$lib/helpers';
   import { handleFetchError } from '$lib/helpers/errorDetailsHelpers';
   import { ApiConfigStore } from '$lib/stores';
   import {
@@ -43,6 +46,24 @@
   let acceptedTerms = false;
   let turnstileResponse = '';
   let submitting = false;
+  let ssoToken: string | null = null;
+  let ssoData: ProviderDataDto | null = null;
+  if (browser) {
+    ssoToken = $page.url.searchParams.get('ssoToken');
+    if (ssoToken) {
+      const ssoApi = new SingleSignOnApi(RuntimeApiConfiguration);
+      ssoApi.sSOGetProviderData(ssoToken)
+        .then((response) => {
+          ssoData = response;
+          username = ssoData.userName;
+          email = ssoData.email;
+          createErrorToast(`Your ${ssoData.providerName} account is not linked to a ZapMe account. Create or log in to your ZapMe account to link it.`, 15000);
+        })
+        .catch((error) => {
+          handleFetchError(error);
+        });
+    }
+  }
 
   $: acceptedPrivacyPolicyVersion = acceptedTerms
     ? $ApiConfigStore?.api.privacyVersion ?? 0
@@ -61,10 +82,11 @@
         acceptedPrivacyPolicyVersion,
         acceptedTermsOfServiceVersion,
         turnstileResponse,
+        ssoToken
       });
 
       createSuccessToast(
-        'Account created successfully. Please check your email to verify your account.'
+        'Account created successfully.' + (ssoData?.emailVerified ? '' : ' Please check your email to verify your account.')
       );
       goto('/login');
     } catch (error) {
@@ -117,6 +139,18 @@
   >
     <!-- Title -->
     <h2>Register</h2>
+
+    {#if ssoData}
+      <p class="text-sm">
+        We have received your information from {ssoData.providerName}.
+      </p>
+      <p class="text-sm">
+        Please edit and fill out the rest of the form to complete your account.
+      </p>
+      <p class="text-sm text-red-500">
+        This request will expire in <CountdownText expiresAtUtc={ssoData.expiresAtUtc}/>
+      </p>
+    {/if}
 
     <!-- Username -->
     <TextInput

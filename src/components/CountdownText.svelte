@@ -3,13 +3,15 @@
 	import { onMount, onDestroy } from 'svelte';
 	const dispatch = createEventDispatcher();
 	
-  let nowUtc = Date.now();
-  export let expiresAtUtc: number;
+  export let expiresAtUtc: Date;
+  
+  let nowUtcEpoc = Date.now();
+  $: expiresAtUtcEpoc = expiresAtUtc.getTime();
 	
   let timer: NodeJS.Timer;
 	onMount(() => {
 		timer = setInterval(() => {
-			nowUtc = Date.now();
+			nowUtcEpoc = Date.now();
 	  }, 250);
 	});
 	onDestroy(() => {
@@ -24,13 +26,13 @@
   let days: number;
 
 	$: {
-    let diffMs = expiresAtUtc - nowUtc;
+    let diffMs = expiresAtUtcEpoc - nowUtcEpoc;
 		if (diffMs <= 0 && timer) {
 			clearInterval(timer);
       dispatch('expired');
 
 			timer = null;
-      nowUtc = expiresAtUtc;
+      nowUtcEpoc = expiresAtUtcEpoc;
       diffMs = 0;
 		}
 

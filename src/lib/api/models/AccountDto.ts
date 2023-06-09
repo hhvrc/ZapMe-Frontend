@@ -87,11 +87,11 @@ export interface AccountDto {
      */
     friends: Array<string>;
     /**
-     * OAuth2 providers this account is connected to
+     * SSO providers this account is connected to
      * @type {Array<string>}
      * @memberof AccountDto
      */
-    oauthConnections: Array<string>;
+    ssoConnections: Array<string>;
     /**
      * Date this user was created at
      * @type {Date}
@@ -127,7 +127,7 @@ export function instanceOfAccountDto(value: object): boolean {
     isInstance = isInstance && "status" in value;
     isInstance = isInstance && "statusText" in value;
     isInstance = isInstance && "friends" in value;
-    isInstance = isInstance && "oauthConnections" in value;
+    isInstance = isInstance && "ssoConnections" in value;
     isInstance = isInstance && "createdAt" in value;
     isInstance = isInstance && "updatedAt" in value;
     isInstance = isInstance && "lastOnline" in value;
@@ -155,7 +155,7 @@ export function AccountDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'status': UserStatusFromJSON(json['status']),
         'statusText': json['statusText'],
         'friends': json['friends'],
-        'oauthConnections': json['oauthConnections'],
+        'ssoConnections': json['ssoConnections'],
         'createdAt': (new Date(json['createdAt'])),
         'updatedAt': (new Date(json['updatedAt'])),
         'lastOnline': (new Date(json['lastOnline'])),
@@ -181,7 +181,7 @@ export function AccountDtoToJSON(value?: AccountDto | null): any {
         'status': UserStatusToJSON(value.status),
         'statusText': value.statusText,
         'friends': value.friends,
-        'oauthConnections': value.oauthConnections,
+        'ssoConnections': value.ssoConnections,
         'createdAt': (value.createdAt.toISOString()),
         'updatedAt': (value.updatedAt.toISOString()),
         'lastOnline': (value.lastOnline.toISOString()),

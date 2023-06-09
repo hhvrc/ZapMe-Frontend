@@ -14,60 +14,60 @@
 
 import { exists, mapValues } from '../runtime';
 /**
- * 
+ * If the account was created using OAuth and in a way that ensures the email address is valid, a session will be created and returned here
  * @export
- * @interface SignInOkSession
+ * @interface CreateOkSession
  */
-export interface SignInOkSession {
+export interface CreateOkSession {
     /**
      * 
      * @type {string}
-     * @memberof SignInOkSession
+     * @memberof CreateOkSession
      */
-    id: string;
+    sessionToken: string;
     /**
      * 
      * @type {Date}
-     * @memberof SignInOkSession
+     * @memberof CreateOkSession
      */
     issuedAtUtc: Date;
     /**
      * 
      * @type {Date}
-     * @memberof SignInOkSession
+     * @memberof CreateOkSession
      */
     expiresAtUtc: Date;
 }
 
 /**
- * Check if a given object implements the SignInOkSession interface.
+ * Check if a given object implements the CreateOkSession interface.
  */
-export function instanceOfSignInOkSession(value: object): boolean {
+export function instanceOfCreateOkSession(value: object): boolean {
     let isInstance = true;
-    isInstance = isInstance && "id" in value;
+    isInstance = isInstance && "sessionToken" in value;
     isInstance = isInstance && "issuedAtUtc" in value;
     isInstance = isInstance && "expiresAtUtc" in value;
 
     return isInstance;
 }
 
-export function SignInOkSessionFromJSON(json: any): SignInOkSession {
-    return SignInOkSessionFromJSONTyped(json, false);
+export function CreateOkSessionFromJSON(json: any): CreateOkSession {
+    return CreateOkSessionFromJSONTyped(json, false);
 }
 
-export function SignInOkSessionFromJSONTyped(json: any, ignoreDiscriminator: boolean): SignInOkSession {
+export function CreateOkSessionFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateOkSession {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'id': json['id'],
+        'sessionToken': json['sessionToken'],
         'issuedAtUtc': (new Date(json['issuedAtUtc'])),
         'expiresAtUtc': (new Date(json['expiresAtUtc'])),
     };
 }
 
-export function SignInOkSessionToJSON(value?: SignInOkSession | null): any {
+export function CreateOkSessionToJSON(value?: CreateOkSession | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -76,7 +76,7 @@ export function SignInOkSessionToJSON(value?: SignInOkSession | null): any {
     }
     return {
         
-        'id': value.id,
+        'sessionToken': value.sessionToken,
         'issuedAtUtc': (value.issuedAtUtc.toISOString()),
         'expiresAtUtc': (value.expiresAtUtc.toISOString()),
     };

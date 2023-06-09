@@ -55,6 +55,12 @@ export interface CreateAccountRequest {
      * @memberof CreateAccountRequest
      */
     turnstileResponse: string;
+    /**
+     * SSO token from OAuth flow, this is optional and only used when creating an account from the OAuth flow
+     * @type {string}
+     * @memberof CreateAccountRequest
+     */
+    ssoToken?: string | null;
 }
 
 /**
@@ -88,6 +94,7 @@ export function CreateAccountRequestFromJSONTyped(json: any, ignoreDiscriminator
         'acceptedPrivacyPolicyVersion': json['acceptedPrivacyPolicyVersion'],
         'acceptedTermsOfServiceVersion': json['acceptedTermsOfServiceVersion'],
         'turnstileResponse': json['turnstileResponse'],
+        'ssoToken': !exists(json, 'ssoToken') ? undefined : json['ssoToken'],
     };
 }
 
@@ -106,6 +113,7 @@ export function CreateAccountRequestToJSON(value?: CreateAccountRequest | null):
         'acceptedPrivacyPolicyVersion': value.acceptedPrivacyPolicyVersion,
         'acceptedTermsOfServiceVersion': value.acceptedTermsOfServiceVersion,
         'turnstileResponse': value.turnstileResponse,
+        'ssoToken': value.ssoToken,
     };
 }
 
