@@ -37,7 +37,7 @@
 </script>
 
 <!-- see: https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/#widget-size -->
-<div class="h-[65px] w-[300px]" bind:this={element}>
+<div class="h-[65px] w-[300px] mx-auto" bind:this={element}>
   {#if !isLoaded}
     <p>Loading...</p>
   {/if}

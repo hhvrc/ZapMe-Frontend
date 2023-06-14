@@ -52,12 +52,10 @@
   <title>ZapMe - Friends</title>
 </svelte:head>
 
-<div class="bg-surface-100 dark:bg-surface-800">
+<div class="bg-surface-100-800-token">
   <dl class="list-dl">
     {#each users as { id, name, presence: status, statusText, pfp } (id)}
-      <div
-        class="h-12 cursor-pointer border-surface-100 bg-surface-100 hover:border-surface-50 hover:bg-surface-50 dark:border-surface-800 dark:bg-surface-800 dark:hover:border-surface-700 dark:hover:bg-surface-700"
-      >
+      <div class="user-container">
         <span
           class="relative -left-1 inline-block rounded-full border-inherit bg-inherit"
         >
@@ -81,3 +79,23 @@
     {/each}
   </dl>
 </div>
+
+<style lang="postcss">
+  .user-container {
+    @apply h-12 cursor-pointer;
+    background-color: rgb(var(--color-surface-100));
+    border-color: rgb(var(--color-surface-100));
+  }
+  :global(.dark) .user-container {
+    background-color: rgb(var(--color-surface-800));
+    border-color: rgb(var(--color-surface-800));
+  }
+  .user-container:hover {
+    background-color: rgb(var(--color-surface-50));
+    border-color: rgb(var(--color-surface-50));
+  }
+  :global(.dark) .user-container:hover {
+    background-color: rgb(var(--color-surface-700));
+    border-color: rgb(var(--color-surface-700));
+  }
+</style>

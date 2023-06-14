@@ -1,20 +1,26 @@
-<script lang="ts">
-</script>
-
-<div>
+<div class="card">
   <slot/>
 </div>
 
 <style lang="postcss">
   div {
-    @apply h-full w-full max-w-full mx-auto m-0 p-8 rounded-none bg-surface-100;
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+    margin: auto;
+    padding: 2rem;
+    border-radius: 0;
+    @apply bg-surface-100-800-token;
   }
-  :global(.dark) div {
-    @apply bg-surface-800;
-  }
-  @media (min-width: 768px) {
+  @media (min-width: 700px) {
     div {
-      @apply h-auto w-1/2 max-w-xl my-8 p-4 card;
+      height: auto;
+      width: 50%;
+      max-width: 40rem;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      padding: 1rem;
+      border-radius: 1rem;
     }
   }
 </style>

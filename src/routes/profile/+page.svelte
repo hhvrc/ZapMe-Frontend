@@ -75,7 +75,7 @@
       <div class="mb-4 flex h-16 place-items-start justify-start px-4 py-2">
         <!-- Profile picture -->
         <div
-          class="relative -top-[60px] mr-2 h-[128px] w-[128px] select-none rounded-full border-4 border-surface-100 bg-surface-100 dark:border-surface-800 dark:bg-surface-800"
+          class="relative -top-[60px] mr-2 h-[128px] w-[128px] select-none rounded-full border-4 bg-surface-100-800-token border-surface-100-800-token"
         >
           <div
             class="group relative h-[120px] w-[120px] cursor-pointer rounded-full"
@@ -97,7 +97,7 @@
             </p>
           </div>
           <div
-            class="absolute bottom-0 right-0 rounded-full border-4 border-surface-100 bg-surface-100 dark:border-surface-800 dark:bg-surface-800"
+            class="absolute bottom-0 right-0 rounded-full border-4 bg-surface-100-800-token border-surface-100-800-token"
           >
             <StatusIndicator {onlineStatus} scale="large" />
           </div>
@@ -111,7 +111,7 @@
           <p class="text-sm">{onlineStatusText}</p>
         </div>
       </div>
-      <div class="m-4 rounded-lg bg-surface-50 p-4 dark:bg-surface-900">
+      <div class="m-4 rounded-lg p-4 bg-surface-50-900-token">
         <h3 class="text-xl font-bold">About</h3>
         <p>Status: {account.statusText}</p>
         <p>Created: {new Date(account.createdAt).toLocaleString()}</p>

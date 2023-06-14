@@ -53,18 +53,18 @@
   span.doNotDisturb:after {
     content: '';
     width: var(--detailSize);
-    @apply absolute left-1/2 top-1/2 h-[2px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-surface-100 dark:bg-surface-800;
+    @apply absolute left-1/2 top-1/2 h-[2px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-surface-100-800-token;
   }
   span.inactive:after {
     content: '';
     height: var(--detailSize);
     width: var(--detailSize);
-    @apply absolute left-0 top-0 rounded-full bg-surface-100 dark:bg-surface-800;
+    @apply absolute left-0 top-0 rounded-full bg-surface-100-800-token;
   }
   span.offline:after {
     content: '';
     height: var(--detailSize);
     width: var(--detailSize);
-    @apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform rounded-full bg-surface-100 dark:bg-surface-800;
+    @apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform rounded-full bg-surface-100-800-token;
   }
 </style>
