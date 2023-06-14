@@ -4,6 +4,7 @@
   import { page } from '$app/stores';
   import CountdownText from '$components/CountdownText.svelte';
   import PasswordInput from '$components/PasswordInput.svelte';
+  import ResponsiveCard from '$components/ResponsiveCard.svelte';
   import TextInput from '$components/TextInput.svelte';
   import Turnstile from '$components/Turnstile.svelte';
   import { type ProviderDataDto } from '$lib/api';
@@ -135,7 +136,7 @@
 </svelte:head>
 
 <!-- Register Form -->
-<div class="card mx-auto my-8 w-1/2 max-w-xl p-4">
+<ResponsiveCard>
   <form
     class="flex flex-col space-y-4"
     on:submit|preventDefault={handleSubmit}
@@ -216,4 +217,4 @@
       <span>Register</span>
     </button>
   </form>
-</div>
+</ResponsiveCard>

@@ -2,6 +2,7 @@
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
   import PasswordInput from '$components/PasswordInput.svelte';
+  import ResponsiveCard from '$components/ResponsiveCard.svelte';
   import TextInput from '$components/TextInput.svelte';
   import { authenticationApi } from '$lib/fetchSingleton';
   import { handleFetchError } from '$lib/helpers/errorDetailsHelpers';
@@ -49,7 +50,7 @@
 </svelte:head>
 
 <!-- Login Form -->
-<div class="card mx-auto my-8 w-1/2 max-w-xl p-4">
+<ResponsiveCard>
   <form
     class="flex flex-col space-y-4"
     on:submit|preventDefault={handleSubmit}
@@ -116,4 +117,4 @@
       {/each}
     </div>
   </form>
-</div>
+</ResponsiveCard>
