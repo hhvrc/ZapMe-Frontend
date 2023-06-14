@@ -3,7 +3,7 @@
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
   import StatusIndicator from '$components/StatusIndicator.svelte';
-  import { UserPresence } from '$lib/api';
+  import { UserStatus } from '$lib/api';
   import { AccountStore, SessionTokenStore } from '$lib/stores';
   import { GetUsernameInitials } from '$lib/utils/initials';
   import { BuildRedirectURL } from '$lib/utils/redirects';
@@ -18,26 +18,23 @@
     AccountStore.fetchAccount();
   }
 
-  $: onlineStatus = account?.status ?? UserPresence.offline;
+  $: onlineStatus = account?.status ?? UserStatus.offline;
   let onlineStatusText = 'Offline';
 
-  $: if (account) {
-    const { status } = account;
-    switch (status) {
-      case UserPresence.doNotDisturb:
-        onlineStatusText = 'Do Not Disturb';
-        break;
-      case UserPresence.inactive:
-        onlineStatusText = 'Idle';
-        break;
-      case UserPresence.online:
-        onlineStatusText = 'Online';
-        break;
-      case UserPresence.offline:
-      default:
-        onlineStatusText = 'Offline';
-        break;
-    }
+  $: switch (onlineStatus) {
+    case UserStatus.doNotDisturb:
+      onlineStatusText = 'Do Not Disturb';
+      break;
+    case UserStatus.inactive:
+      onlineStatusText = 'Idle';
+      break;
+    case UserStatus.online:
+      onlineStatusText = 'Online';
+      break;
+    case UserStatus.offline:
+    default:
+      onlineStatusText = 'Offline';
+      break;
   }
 
   $: initials = GetUsernameInitials(account?.username ?? '');

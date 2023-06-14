@@ -13,10 +13,10 @@
   <div>
     <p>{user.id}</p>
     <p>{user.username}</p>
-    <p>{user.profilePictureUrl}</p>
-    <p>{user.profileBannerUrl}</p>
-    <p>{user.presence}</p>
-    <p>{user.statusMessage}</p>
+    <p>{user.avatarUrl}</p>
+    <p>{user.bannerUrl}</p>
+    <p>{user.status}</p>
+    <p>{user.statusText}</p>
     <p>{user.createdAt}</p>
     <p>{user.lastSeenAt}</p>
   </div>

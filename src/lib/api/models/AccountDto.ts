@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { UserPresence } from './UserPresence';
+import type { UserStatus } from './UserStatus';
 import {
-    UserPresenceFromJSON,
-    UserPresenceFromJSONTyped,
-    UserPresenceToJSON,
-} from './UserPresence';
+    UserStatusFromJSON,
+    UserStatusFromJSONTyped,
+    UserStatusToJSON,
+} from './UserStatus';
 
 /**
  * Account object, this can only retrieved for the user you are logged in as
@@ -67,13 +67,19 @@ export interface AccountDto {
      * @type {string}
      * @memberof AccountDto
      */
-    profilePictureUrl: string;
+    avatarUrl?: string | null;
     /**
      * 
-     * @type {UserPresence}
+     * @type {string}
      * @memberof AccountDto
      */
-    status: UserPresence;
+    bannerUrl?: string | null;
+    /**
+     * 
+     * @type {UserStatus}
+     * @memberof AccountDto
+     */
+    status: UserStatus;
     /**
      * 
      * @type {string}
@@ -123,7 +129,6 @@ export function instanceOfAccountDto(value: object): boolean {
     isInstance = isInstance && "emailVerified" in value;
     isInstance = isInstance && "acceptedPrivacyPolicyVersion" in value;
     isInstance = isInstance && "acceptedTermsOfServiceVersion" in value;
-    isInstance = isInstance && "profilePictureUrl" in value;
     isInstance = isInstance && "status" in value;
     isInstance = isInstance && "statusText" in value;
     isInstance = isInstance && "friends" in value;
@@ -151,8 +156,9 @@ export function AccountDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'emailVerified': json['emailVerified'],
         'acceptedPrivacyPolicyVersion': json['acceptedPrivacyPolicyVersion'],
         'acceptedTermsOfServiceVersion': json['acceptedTermsOfServiceVersion'],
-        'profilePictureUrl': json['profilePictureUrl'],
-        'status': UserPresenceFromJSON(json['status']),
+        'avatarUrl': !exists(json, 'avatarUrl') ? undefined : json['avatarUrl'],
+        'bannerUrl': !exists(json, 'bannerUrl') ? undefined : json['bannerUrl'],
+        'status': UserStatusFromJSON(json['status']),
         'statusText': json['statusText'],
         'friends': json['friends'],
         'ssoConnections': json['ssoConnections'],
@@ -177,8 +183,9 @@ export function AccountDtoToJSON(value?: AccountDto | null): any {
         'emailVerified': value.emailVerified,
         'acceptedPrivacyPolicyVersion': value.acceptedPrivacyPolicyVersion,
         'acceptedTermsOfServiceVersion': value.acceptedTermsOfServiceVersion,
-        'profilePictureUrl': value.profilePictureUrl,
-        'status': UserPresenceToJSON(value.status),
+        'avatarUrl': value.avatarUrl,
+        'bannerUrl': value.bannerUrl,
+        'status': UserStatusToJSON(value.status),
         'statusText': value.statusText,
         'friends': value.friends,
         'ssoConnections': value.ssoConnections,

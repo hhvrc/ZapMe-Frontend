@@ -1,6 +1,6 @@
 <script lang="ts">
   import StatusIndicator from '$components/StatusIndicator.svelte';
-  import { UserPresence } from '$lib/api';
+  import { UserStatus } from '$lib/api';
   import { GetUsernameInitials } from '$lib/utils/initials';
   import { Avatar } from '@skeletonlabs/skeleton';
   import { onMount } from 'svelte';
@@ -8,17 +8,17 @@
   let users: {
     id: string;
     name: string;
-    presence: UserPresence;
+    presence: UserStatus;
     statusText: string;
     pfp: string;
   }[] = [];
 
-  function randomStatus(): UserPresence {
+  function randomStatus(): UserStatus {
     const statuses = [
-      UserPresence.doNotDisturb,
-      UserPresence.inactive,
-      UserPresence.online,
-      UserPresence.offline,
+      UserStatus.doNotDisturb,
+      UserStatus.inactive,
+      UserStatus.online,
+      UserStatus.offline,
     ];
 
     return statuses[Math.floor(Math.random() * statuses.length)];
@@ -41,7 +41,7 @@
       .catch((err) => console.error(err)) as unknown as {
       id: string;
       name: string;
-      status: UserPresence;
+      status: UserStatus;
       statusText: string;
       pfp: string;
     }[];

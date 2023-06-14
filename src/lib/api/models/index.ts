@@ -37,5 +37,5 @@ export * from './UpdateUserName';
 export * from './UpdateUserNameRequest';
 export * from './UserDto';
 export * from './UserNotification';
-export * from './UserPresence';
 export * from './UserReport';
+export * from './UserStatus';

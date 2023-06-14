@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 apis/AccountApi.ts
 apis/AuthApi.ts
 apis/ConfigApi.ts
@@ -45,7 +44,7 @@ models/UpdateUserName.ts
 models/UpdateUserNameRequest.ts
 models/UserDto.ts
 models/UserNotification.ts
-models/UserPresence.ts
 models/UserReport.ts
+models/UserStatus.ts
 models/index.ts
 runtime.ts

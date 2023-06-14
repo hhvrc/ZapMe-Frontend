@@ -17,7 +17,7 @@
  * @export
  * @enum {string}
  */
-export enum UserPresence {
+export enum UserStatus {
     offline = 'offline',
     doNotDisturb = 'doNotDisturb',
     inactive = 'inactive',
@@ -25,15 +25,15 @@ export enum UserPresence {
 }
 
 
-export function UserPresenceFromJSON(json: any): UserPresence {
-    return UserPresenceFromJSONTyped(json, false);
+export function UserStatusFromJSON(json: any): UserStatus {
+    return UserStatusFromJSONTyped(json, false);
 }
 
-export function UserPresenceFromJSONTyped(json: any, ignoreDiscriminator: boolean): UserPresence {
-    return json as UserPresence;
+export function UserStatusFromJSONTyped(json: any, ignoreDiscriminator: boolean): UserStatus {
+    return json as UserStatus;
 }
 
-export function UserPresenceToJSON(value?: UserPresence | null): any {
+export function UserStatusToJSON(value?: UserStatus | null): any {
     return value as any;
 }
 
