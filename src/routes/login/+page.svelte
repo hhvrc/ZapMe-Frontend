@@ -28,6 +28,7 @@
     if (disabled) return;
     
     try {
+      loading = true;
       const response = await authenticationApi.authSignIn({
         usernameOrEmail,
         password,
@@ -37,6 +38,8 @@
       goto(GetRedirectURL($page.url, '/'));
     } catch (error) {
       await handleFetchError(error, { dontRedirect: [401] });
+    } finally {
+      loading = false;
     }
   }
 </script>
