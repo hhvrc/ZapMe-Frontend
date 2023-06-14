@@ -3,7 +3,6 @@
     | 'online'
     | 'doNotDisturb'
     | 'inactive'
-    | 'downBad'
     | 'offline';
   export let scale: 'small' | 'medium' | 'large';
 

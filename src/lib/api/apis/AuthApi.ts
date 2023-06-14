@@ -16,16 +16,16 @@
 import * as runtime from '../runtime';
 import type {
   AuthSignInRequest,
+  AuthenticationResponse,
   ErrorDetails,
-  SessionDto,
 } from '../models';
 import {
     AuthSignInRequestFromJSON,
     AuthSignInRequestToJSON,
+    AuthenticationResponseFromJSON,
+    AuthenticationResponseToJSON,
     ErrorDetailsFromJSON,
     ErrorDetailsToJSON,
-    SessionDtoFromJSON,
-    SessionDtoToJSON,
 } from '../models';
 
 export interface AuthSignInOperationRequest {
@@ -47,12 +47,12 @@ export interface AuthApiInterface {
      * @throws {RequiredError}
      * @memberof AuthApiInterface
      */
-    authSignInRaw(requestParameters: AuthSignInOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SessionDto>>;
+    authSignInRaw(requestParameters: AuthSignInOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AuthenticationResponse>>;
 
     /**
      * 
      */
-    authSignIn(authSignInRequest?: AuthSignInRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SessionDto>;
+    authSignIn(authSignInRequest?: AuthSignInRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AuthenticationResponse>;
 
     /**
      * 
@@ -78,7 +78,7 @@ export class AuthApi extends runtime.BaseAPI implements AuthApiInterface {
     /**
      * 
      */
-    async authSignInRaw(requestParameters: AuthSignInOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SessionDto>> {
+    async authSignInRaw(requestParameters: AuthSignInOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AuthenticationResponse>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -97,13 +97,13 @@ export class AuthApi extends runtime.BaseAPI implements AuthApiInterface {
             body: AuthSignInRequestToJSON(requestParameters.authSignInRequest),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SessionDtoFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => AuthenticationResponseFromJSON(jsonValue));
     }
 
     /**
      * 
      */
-    async authSignIn(authSignInRequest?: AuthSignInRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SessionDto> {
+    async authSignIn(authSignInRequest?: AuthSignInRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AuthenticationResponse> {
         const response = await this.authSignInRaw({ authSignInRequest: authSignInRequest }, initOverrides);
         return await response.value();
     }

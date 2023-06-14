@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { SeverityLevel } from './SeverityLevel';
+import type { NotificationSeverityLevel } from './NotificationSeverityLevel';
 import {
-    SeverityLevelFromJSON,
-    SeverityLevelFromJSONTyped,
-    SeverityLevelToJSON,
-} from './SeverityLevel';
+    NotificationSeverityLevelFromJSON,
+    NotificationSeverityLevelFromJSONTyped,
+    NotificationSeverityLevelToJSON,
+} from './NotificationSeverityLevel';
 
 /**
  * This is a user friendly error message, might help the user understand what went wrong and how to fix it
@@ -29,10 +29,10 @@ import {
 export interface ErrorDetailsNotification {
     /**
      * 
-     * @type {SeverityLevel}
+     * @type {NotificationSeverityLevel}
      * @memberof ErrorDetailsNotification
      */
-    severity: SeverityLevel;
+    severity: NotificationSeverityLevel;
     /**
      * Content of the notification, might be HTML
      * @type {string}
@@ -62,7 +62,7 @@ export function ErrorDetailsNotificationFromJSONTyped(json: any, ignoreDiscrimin
     }
     return {
         
-        'severity': SeverityLevelFromJSON(json['severity']),
+        'severity': NotificationSeverityLevelFromJSON(json['severity']),
         'content': json['content'],
     };
 }
@@ -76,7 +76,7 @@ export function ErrorDetailsNotificationToJSON(value?: ErrorDetailsNotification 
     }
     return {
         
-        'severity': SeverityLevelToJSON(value.severity),
+        'severity': NotificationSeverityLevelToJSON(value.severity),
         'content': value.content,
     };
 }

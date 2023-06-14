@@ -1,10 +1,19 @@
 <script lang="ts">
+  import { browser } from '$app/environment';
+  import { goto } from '$app/navigation';
   import { page } from '$app/stores';
   import PasswordInput from '$components/PasswordInput.svelte';
+  import { accountApi } from '$lib/fetchSingleton';
+  import { createErrorToast, handleFetchError } from '$lib/helpers';
   import { validatePassword, validatePasswordMatch } from '$lib/validators';
   import { focusTrap } from '@skeletonlabs/skeleton';
 
   const token = $page.url.searchParams.get('token');
+  if (browser && !token) {
+    createErrorToast('You have not been provided with a token. Please check your email and try again.');
+    goto('/');
+  }
+
   let password = '';
   let passwordShown = false;
   $: passwordError = validatePassword(password);
@@ -13,9 +22,21 @@
   let passwordMatchShown = false;
   $: passwordMatchError = validatePasswordMatch(password, passwordMatch);
 
-  async function handleSubmit() {}
+  let loading = false;
+  $: disabled = !passwordError.valid || !passwordMatchError.valid || loading;
 
-  let disabled = false;
+  async function handleSubmit() {
+    if (disabled || !token) return;
+
+    try {
+      await accountApi.accountRecoveryConfirm({
+        newPassword: password,
+        token
+      });
+    } catch (error) {
+      await handleFetchError(error, { dontRedirect: [401] });
+    }
+  }
 </script>
 
 <svelte:head>

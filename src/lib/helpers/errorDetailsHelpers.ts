@@ -6,6 +6,7 @@ import {
   isResponseError,
 } from '$lib/typeGuards';
 import { BuildRedirectURL, GetRedirectURL } from '$lib/utils/redirects';
+import { SessionTokenStore } from '$lib/stores';
 import type { ApiErrorResponse } from '$types';
 import { createErrorToast } from './toastHelpers';
 import { getReasonPhrase } from 'http-status-codes';
@@ -51,6 +52,7 @@ export async function handleFetchError(
     switch (status) {
       case 401:
         createErrorToast('Login missing or expired');
+        SessionTokenStore.set(null);
         goto(BuildRedirectURL('/login', GetRedirectURL(url, '/')));
         return null;
       case 403:

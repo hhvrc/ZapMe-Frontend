@@ -1,11 +1,8 @@
 <script lang="ts">
   import { page } from '$app/stores';
   import { ErrorWrapper } from '$components/ErrorComponents';
-  import { UserApi } from '$lib/api';
-  import { RuntimeApiConfiguration } from '$lib/fetchSingleton';
+  import { userApi } from '$lib/fetchSingleton';
   import { ProgressRadial } from '@skeletonlabs/skeleton';
-
-  const userApi = new UserApi(RuntimeApiConfiguration);
 
   const response = userApi.getUser($page.params.userId);
 </script>
@@ -16,9 +13,10 @@
   <div>
     <p>{user.id}</p>
     <p>{user.username}</p>
-    <p>{user.profilePictureId}</p>
-    <p>{user.status}</p>
-    <p>{user.statusText}</p>
+    <p>{user.profilePictureUrl}</p>
+    <p>{user.profileBannerUrl}</p>
+    <p>{user.presence}</p>
+    <p>{user.statusMessage}</p>
     <p>{user.createdAt}</p>
     <p>{user.lastSeenAt}</p>
   </div>

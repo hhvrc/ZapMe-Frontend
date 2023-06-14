@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { UserStatus } from './UserStatus';
+import type { UserPresence } from './UserPresence';
 import {
-    UserStatusFromJSON,
-    UserStatusFromJSONTyped,
-    UserStatusToJSON,
-} from './UserStatus';
+    UserPresenceFromJSON,
+    UserPresenceFromJSONTyped,
+    UserPresenceToJSON,
+} from './UserPresence';
 
 /**
  * Account object, this can only retrieved for the user you are logged in as
@@ -70,10 +70,10 @@ export interface AccountDto {
     profilePictureUrl: string;
     /**
      * 
-     * @type {UserStatus}
+     * @type {UserPresence}
      * @memberof AccountDto
      */
-    status: UserStatus;
+    status: UserPresence;
     /**
      * 
      * @type {string}
@@ -152,7 +152,7 @@ export function AccountDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'acceptedPrivacyPolicyVersion': json['acceptedPrivacyPolicyVersion'],
         'acceptedTermsOfServiceVersion': json['acceptedTermsOfServiceVersion'],
         'profilePictureUrl': json['profilePictureUrl'],
-        'status': UserStatusFromJSON(json['status']),
+        'status': UserPresenceFromJSON(json['status']),
         'statusText': json['statusText'],
         'friends': json['friends'],
         'ssoConnections': json['ssoConnections'],
@@ -178,7 +178,7 @@ export function AccountDtoToJSON(value?: AccountDto | null): any {
         'acceptedPrivacyPolicyVersion': value.acceptedPrivacyPolicyVersion,
         'acceptedTermsOfServiceVersion': value.acceptedTermsOfServiceVersion,
         'profilePictureUrl': value.profilePictureUrl,
-        'status': UserStatusToJSON(value.status),
+        'status': UserPresenceToJSON(value.status),
         'statusText': value.statusText,
         'friends': value.friends,
         'ssoConnections': value.ssoConnections,

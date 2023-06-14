@@ -14,34 +14,34 @@
 
 import { exists, mapValues } from '../runtime';
 /**
- * If the account was created using OAuth and in a way that ensures the email address is valid, a session will be created and returned here
+ * 
  * @export
- * @interface CreateOkSession
+ * @interface AuthenticationResponse
  */
-export interface CreateOkSession {
+export interface AuthenticationResponse {
     /**
      * 
      * @type {string}
-     * @memberof CreateOkSession
+     * @memberof AuthenticationResponse
      */
     jwtToken: string;
 }
 
 /**
- * Check if a given object implements the CreateOkSession interface.
+ * Check if a given object implements the AuthenticationResponse interface.
  */
-export function instanceOfCreateOkSession(value: object): boolean {
+export function instanceOfAuthenticationResponse(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "jwtToken" in value;
 
     return isInstance;
 }
 
-export function CreateOkSessionFromJSON(json: any): CreateOkSession {
-    return CreateOkSessionFromJSONTyped(json, false);
+export function AuthenticationResponseFromJSON(json: any): AuthenticationResponse {
+    return AuthenticationResponseFromJSONTyped(json, false);
 }
 
-export function CreateOkSessionFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateOkSession {
+export function AuthenticationResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): AuthenticationResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -51,7 +51,7 @@ export function CreateOkSessionFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function CreateOkSessionToJSON(value?: CreateOkSession | null): any {
+export function AuthenticationResponseToJSON(value?: AuthenticationResponse | null): any {
     if (value === undefined) {
         return undefined;
     }

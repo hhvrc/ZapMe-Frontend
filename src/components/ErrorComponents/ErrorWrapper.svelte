@@ -30,7 +30,7 @@
   <slot name="exceptionError">
     <ExceptionDetails {exception} />
   </slot>
-{:else if parsed.code === 'err_network'}
+{:else if parsed.apiCode === 'err_network'}
   <slot name="networkError">
     <NetworkErrorDetails />
   </slot>
@@ -38,7 +38,7 @@
   <slot name="notFound">
     <h1>Not found</h1>
   </slot>
-{:else if parsed.code === 'err_server'}
+{:else if parsed.apiCode === 'err_server'}
   <slot name="serverError">
     <ServerErrorDetails error={parsed} />
   </slot>

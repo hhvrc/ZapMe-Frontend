@@ -6,11 +6,11 @@
   import PasswordInput from '$components/PasswordInput.svelte';
   import TextInput from '$components/TextInput.svelte';
   import Turnstile from '$components/Turnstile.svelte';
-  import { AccountApi, SingleSignOnApi, type ProviderDataDto } from '$lib/api';
-  import { RuntimeApiConfiguration } from '$lib/fetchSingleton';
+  import { type ProviderDataDto } from '$lib/api';
+  import { accountApi, singleSignOnApi } from '$lib/fetchSingleton';
   import { createErrorToast, createSuccessToast } from '$lib/helpers';
   import { handleFetchError } from '$lib/helpers/errorDetailsHelpers';
-  import { ApiConfigStore } from '$lib/stores';
+  import { ApiConfigStore, SessionTokenStore } from '$lib/stores';
   import {
     validateEmail,
     validatePassword,
@@ -19,8 +19,6 @@
   } from '$lib/validators';
   import type { Snapshot } from './$types';
   import { focusTrap } from '@skeletonlabs/skeleton';
-
-  const accountApi = new AccountApi(RuntimeApiConfiguration);
 
   export const snapshot: Snapshot = {
     capture: () => {
@@ -51,8 +49,7 @@
   if (browser) {
     ssoToken = $page.url.searchParams.get('ssoToken');
     if (ssoToken) {
-      const ssoApi = new SingleSignOnApi(RuntimeApiConfiguration);
-      ssoApi.sSOGetProviderData(ssoToken)
+      singleSignOnApi.sSOGetProviderData(ssoToken)
         .then((response) => {
           ssoData = response;
           username = ssoData.userName;
@@ -86,9 +83,16 @@
       });
 
       createSuccessToast(
-        'Account created successfully.' + (ssoData?.emailVerified ? '' : ' Please check your email to verify your account.')
+        'Account created successfully.' + (result.emailVerificationRequired ? ' Please check your email to verify your account.' : '')
       );
-      goto('/login');
+      
+      const session = result.session;
+      if (session) {
+        SessionTokenStore.set(session);
+        goto('/');
+      } else {
+        goto('/login');
+      }
     } catch (error) {
       const response = await handleFetchError(error);
       if (!response) return;

@@ -24,16 +24,59 @@
     AppRail,
     Toast,
     autoModeWatcher,
-    AppRailTile,
     Modal,
+    AppRailAnchor,
   } from '@skeletonlabs/skeleton';
   import { storePopup } from '@skeletonlabs/skeleton';
-  import { derived } from 'svelte/store';
 
   storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
   const year = new Date().getFullYear();
-  const selected = derived(page, ($page) => $page.url.pathname);
+
+  const LeadingTiles: { title: string, icon: string, href: string }[] = [
+    {
+      title: 'Home',
+      icon: 'fa-house',
+      href: '/',
+    },
+    {
+      title: 'Devices',
+      icon: 'fa-microchip',
+      href: '/devices',
+    },
+    {
+      title: 'Messages',
+      icon: 'fa-envelope',
+      href: '/messages',
+    },
+    {
+      title: 'Friends',
+      icon: 'fa-user-friends',
+      href: '/friends',
+    },
+    {
+      title: 'Users',
+      icon: 'fa-user',
+      href: '/users',
+    },
+  ];
+  const TrailingTiles: { title: string, icon: string, href: string }[] = [
+    {
+      title: 'Profile',
+      icon: 'fa-user',
+      href: '/profile',
+    },
+    {
+      title: 'Settings',
+      icon: 'fa-cog',
+      href: '/settings',
+    },
+    {
+      title: 'Logout',
+      icon: 'fa-sign-out',
+      href: '/logout',
+    },
+  ];
 
   let config: Config;
   export let data;
@@ -115,32 +158,24 @@
       <AppRail>
         <!-- {selected}> -->
         <svelte:fragment slot="lead">
-          <AppRailTile label="Home" tag="a" href="/"
-            ><i class="fa-solid fa-house fa-xl" /></AppRailTile
-          >
-          <AppRailTile label="Devices" tag="a" href="/devices"
-            ><i class="fa-solid fa-microchip fa-xl" /></AppRailTile
-          >
-          <AppRailTile label="Messages" tag="a" href="/messages"
-            ><i class="fa-solid fa-envelope fa-xl" /></AppRailTile
-          >
-          <AppRailTile label="Friends" tag="a" href="/friends"
-            ><i class="fa-solid fa-user-friends fa-xl" /></AppRailTile
-          >
-          <AppRailTile label="Users" tag="a" href="/users"
-            ><i class="fa-solid fa-user fa-xl" /></AppRailTile
-          >
+          {#each LeadingTiles as tile}
+            <AppRailAnchor
+              href={tile.href}
+              selected={$page.url.pathname == tile.href}
+            >
+              <i class={`fa-solid ${tile.icon} fa-xl`} />
+            </AppRailAnchor>
+          {/each}
         </svelte:fragment>
         <svelte:fragment slot="trail">
-          <AppRailTile label="Profile" tag="a" href="/profile"
-            ><i class="fa-solid fa-user fa-xl" /></AppRailTile
-          >
-          <AppRailTile label="Settings" tag="a" href="/settings"
-            ><i class="fa-solid fa-cog fa-xl" /></AppRailTile
-          >
-          <AppRailTile label="Logout" tag="a" href="/logout"
-            ><i class="fa-solid fa-sign-out fa-xl" /></AppRailTile
-          >
+          {#each TrailingTiles as tile}
+            <AppRailAnchor
+              href={tile.href}
+              selected={$page.url.pathname == tile.href}
+            >
+              <i class={`fa-solid ${tile.icon} fa-xl`} />
+            </AppRailAnchor>
+          {/each}
         </svelte:fragment>
       </AppRail>
     {/if}

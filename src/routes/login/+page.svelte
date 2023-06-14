@@ -3,16 +3,13 @@
   import { page } from '$app/stores';
   import PasswordInput from '$components/PasswordInput.svelte';
   import TextInput from '$components/TextInput.svelte';
-  import { AuthApi } from '$lib/api';
-  import { RuntimeApiConfiguration } from '$lib/fetchSingleton';
+  import { authenticationApi } from '$lib/fetchSingleton';
   import { handleFetchError } from '$lib/helpers/errorDetailsHelpers';
   import { OAuthProviderInfo } from '$lib/oauth';
   import { SessionTokenStore } from '$lib/stores';
   import { GetRedirectURL } from '$lib/utils/redirects';
   import type { Snapshot } from './$types';
   import { focusTrap } from '@skeletonlabs/skeleton';
-
-  const authApi = new AuthApi(RuntimeApiConfiguration);
 
   export const snapshot: Snapshot = {
     capture: () => usernameOrEmail,
@@ -28,8 +25,10 @@
   $: disabled = !usernameOrEmail || !password || loading;
 
   async function handleSubmit() {
+    if (disabled) return;
+    
     try {
-      const response = await authApi.authSignIn({
+      const response = await authenticationApi.authSignIn({
         usernameOrEmail,
         password,
         rememberMe,

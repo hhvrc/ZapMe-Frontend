@@ -8,11 +8,11 @@
   let nowUtcEpoc = Date.now();
   $: expiresAtUtcEpoc = expiresAtUtc.getTime();
 	
-  let timer: NodeJS.Timer;
+  let timer: ReturnType<typeof setInterval> | null = null;
 	onMount(() => {
 		timer = setInterval(() => {
 			nowUtcEpoc = Date.now();
-	  }, 250);
+    }, 250);
 	});
 	onDestroy(() => {
 		if (timer) {

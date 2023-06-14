@@ -18,7 +18,7 @@ export async function handle({ event, resolve }) {
 
   // Options request, handle in different function
   if (event.request.method === 'OPTIONS') {
-    return handleOptions(event);
+    return handleOptions();
   }
 
   response.headers.append('Access-Control-Allow-Origin', CORS_HEADERS.Origin);
@@ -26,7 +26,7 @@ export async function handle({ event, resolve }) {
   return response;
 }
 
-async function handleOptions(event) {
+async function handleOptions() {
   const headers = {
     'Access-Control-Allow-Origin': CORS_HEADERS.Origin,
     'Access-Control-Allow-Methods': CORS_HEADERS.Methods,

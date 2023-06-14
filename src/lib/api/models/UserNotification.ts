@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { SeverityLevel } from './SeverityLevel';
+import type { NotificationSeverityLevel } from './NotificationSeverityLevel';
 import {
-    SeverityLevelFromJSON,
-    SeverityLevelFromJSONTyped,
-    SeverityLevelToJSON,
-} from './SeverityLevel';
+    NotificationSeverityLevelFromJSON,
+    NotificationSeverityLevelFromJSONTyped,
+    NotificationSeverityLevelToJSON,
+} from './NotificationSeverityLevel';
 
 /**
  * System notification to be displayed to the user, do not confuse with user notifications
@@ -29,10 +29,10 @@ import {
 export interface UserNotification {
     /**
      * 
-     * @type {SeverityLevel}
+     * @type {NotificationSeverityLevel}
      * @memberof UserNotification
      */
-    severity: SeverityLevel;
+    severity: NotificationSeverityLevel;
     /**
      * Content of the notification, might be HTML
      * @type {string}
@@ -62,7 +62,7 @@ export function UserNotificationFromJSONTyped(json: any, ignoreDiscriminator: bo
     }
     return {
         
-        'severity': SeverityLevelFromJSON(json['severity']),
+        'severity': NotificationSeverityLevelFromJSON(json['severity']),
         'content': json['content'],
     };
 }
@@ -76,7 +76,7 @@ export function UserNotificationToJSON(value?: UserNotification | null): any {
     }
     return {
         
-        'severity': SeverityLevelToJSON(value.severity),
+        'severity': NotificationSeverityLevelToJSON(value.severity),
         'content': value.content,
     };
 }

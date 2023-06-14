@@ -3,7 +3,7 @@
   import { getReasonPhrase } from 'http-status-codes';
 
   export let error: ApiErrorResponse;
-  const { status, apiCode, apiFields, details } = error;
+  const { status, apiCode, details } = error;
 
   let showCat = false;
 
@@ -32,6 +32,7 @@
     {:else}
       <h1>{status}</h1>
       <h4>{code}</h4>
+      <h2>{apiCode}</h2>
     {/if}
     <button on:click={() => (showCat = !showCat)}>
       {showCat ? 'Hide' : 'Show'} funny cat

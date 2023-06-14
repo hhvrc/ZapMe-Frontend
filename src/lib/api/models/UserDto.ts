@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { UserStatus } from './UserStatus';
+import type { UserPresence } from './UserPresence';
 import {
-    UserStatusFromJSON,
-    UserStatusFromJSONTyped,
-    UserStatusToJSON,
-} from './UserStatus';
+    UserPresenceFromJSON,
+    UserPresenceFromJSONTyped,
+    UserPresenceToJSON,
+} from './UserPresence';
 
 /**
  * 
@@ -43,19 +43,25 @@ export interface UserDto {
      * @type {string}
      * @memberof UserDto
      */
-    profilePictureId?: string | null;
-    /**
-     * 
-     * @type {UserStatus}
-     * @memberof UserDto
-     */
-    status: UserStatus;
+    profilePictureUrl?: string | null;
     /**
      * 
      * @type {string}
      * @memberof UserDto
      */
-    statusText: string;
+    profileBannerUrl?: string | null;
+    /**
+     * 
+     * @type {UserPresence}
+     * @memberof UserDto
+     */
+    presence: UserPresence;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserDto
+     */
+    statusMessage: string;
     /**
      * Date this user was created at
      * @type {Date}
@@ -77,8 +83,8 @@ export function instanceOfUserDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "username" in value;
-    isInstance = isInstance && "status" in value;
-    isInstance = isInstance && "statusText" in value;
+    isInstance = isInstance && "presence" in value;
+    isInstance = isInstance && "statusMessage" in value;
     isInstance = isInstance && "createdAt" in value;
     isInstance = isInstance && "lastSeenAt" in value;
 
@@ -97,9 +103,10 @@ export function UserDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): U
         
         'id': json['id'],
         'username': json['username'],
-        'profilePictureId': !exists(json, 'profilePictureId') ? undefined : json['profilePictureId'],
-        'status': UserStatusFromJSON(json['status']),
-        'statusText': json['statusText'],
+        'profilePictureUrl': !exists(json, 'profilePictureUrl') ? undefined : json['profilePictureUrl'],
+        'profileBannerUrl': !exists(json, 'profileBannerUrl') ? undefined : json['profileBannerUrl'],
+        'presence': UserPresenceFromJSON(json['presence']),
+        'statusMessage': json['statusMessage'],
         'createdAt': (new Date(json['createdAt'])),
         'lastSeenAt': (new Date(json['lastSeenAt'])),
     };
@@ -116,9 +123,10 @@ export function UserDtoToJSON(value?: UserDto | null): any {
         
         'id': value.id,
         'username': value.username,
-        'profilePictureId': value.profilePictureId,
-        'status': UserStatusToJSON(value.status),
-        'statusText': value.statusText,
+        'profilePictureUrl': value.profilePictureUrl,
+        'profileBannerUrl': value.profileBannerUrl,
+        'presence': UserPresenceToJSON(value.presence),
+        'statusMessage': value.statusMessage,
         'createdAt': (value.createdAt.toISOString()),
         'lastSeenAt': (value.lastSeenAt.toISOString()),
     };

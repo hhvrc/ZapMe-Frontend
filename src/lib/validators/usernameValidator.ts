@@ -1,6 +1,8 @@
 import type { ValidationResult } from '$types';
 import { validateEmail } from './emailValidator';
 
+/* eslint-disable no-misleading-character-class */
+
 // This is taken from https://github.com/hhvrc/ZapMe-Backend/blob/master/backend/Utils/CharsetMatchers.cs#L82
 const MultipleWhiteSpaceRegex = /\s{2,}/;
 const UnwantedCharacterRegex =

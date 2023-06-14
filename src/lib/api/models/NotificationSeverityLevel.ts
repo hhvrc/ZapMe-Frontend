@@ -17,22 +17,22 @@
  * @export
  * @enum {string}
  */
-export enum SeverityLevel {
+export enum NotificationSeverityLevel {
     info = 'info',
     warning = 'warning',
     error = 'error'
 }
 
 
-export function SeverityLevelFromJSON(json: any): SeverityLevel {
-    return SeverityLevelFromJSONTyped(json, false);
+export function NotificationSeverityLevelFromJSON(json: any): NotificationSeverityLevel {
+    return NotificationSeverityLevelFromJSONTyped(json, false);
 }
 
-export function SeverityLevelFromJSONTyped(json: any, ignoreDiscriminator: boolean): SeverityLevel {
-    return json as SeverityLevel;
+export function NotificationSeverityLevelFromJSONTyped(json: any, ignoreDiscriminator: boolean): NotificationSeverityLevel {
+    return json as NotificationSeverityLevel;
 }
 
-export function SeverityLevelToJSON(value?: SeverityLevel | null): any {
+export function NotificationSeverityLevelToJSON(value?: NotificationSeverityLevel | null): any {
     return value as any;
 }
 

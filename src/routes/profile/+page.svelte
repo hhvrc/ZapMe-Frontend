@@ -3,7 +3,7 @@
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
   import StatusIndicator from '$components/StatusIndicator.svelte';
-  import { UserStatus } from '$lib/api';
+  import { UserPresence } from '$lib/api';
   import { AccountStore, SessionTokenStore } from '$lib/stores';
   import { GetUsernameInitials } from '$lib/utils/initials';
   import { BuildRedirectURL } from '$lib/utils/redirects';
@@ -18,25 +18,22 @@
     AccountStore.fetchAccount();
   }
 
-  $: onlineStatus = account?.status ?? UserStatus.offline;
+  $: onlineStatus = account?.status ?? UserPresence.offline;
   let onlineStatusText = 'Offline';
 
   $: if (account) {
     const { status } = account;
     switch (status) {
-      case UserStatus.doNotDisturb:
+      case UserPresence.doNotDisturb:
         onlineStatusText = 'Do Not Disturb';
         break;
-      case UserStatus.inactive:
+      case UserPresence.inactive:
         onlineStatusText = 'Idle';
         break;
-      case UserStatus.online:
+      case UserPresence.online:
         onlineStatusText = 'Online';
         break;
-      case UserStatus.downBad:
-        onlineStatusText = 'Down Bad';
-        break;
-      case UserStatus.offline:
+      case UserPresence.offline:
       default:
         onlineStatusText = 'Offline';
         break;
@@ -125,7 +122,7 @@
       <hr />
       <div class="p-4">
         <h5>Connected OAuth Accounts:</h5>
-        {#each account.oauthConnections ?? [] as oauthConnection}
+        {#each account.ssoConnections ?? [] as oauthConnection}
           <p>{oauthConnection}</p>
         {/each}
       </div>

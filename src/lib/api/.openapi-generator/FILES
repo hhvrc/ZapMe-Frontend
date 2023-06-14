@@ -16,6 +16,7 @@ models/ApiConfigDisabledFeatures.ts
 models/ApiDisabledFeatures.ts
 models/AuthSignIn.ts
 models/AuthSignInRequest.ts
+models/AuthenticationResponse.ts
 models/Config.ts
 models/ConfigApi.ts
 models/ConfigContact.ts
@@ -28,12 +29,11 @@ models/CreateOkSession.ts
 models/ErrorDetails.ts
 models/ErrorDetailsNotification.ts
 models/FriendRequestList.ts
+models/NotificationSeverityLevel.ts
 models/ProviderDataDto.ts
 models/RecoveryConfirm.ts
 models/RecoveryRequest.ts
 models/ReportUserRequest.ts
-models/SessionDto.ts
-models/SeverityLevel.ts
 models/SocialsConfig.ts
 models/UpdateEmail.ts
 models/UpdateEmailOk.ts
@@ -45,7 +45,7 @@ models/UpdateUserName.ts
 models/UpdateUserNameRequest.ts
 models/UserDto.ts
 models/UserNotification.ts
+models/UserPresence.ts
 models/UserReport.ts
-models/UserStatus.ts
 models/index.ts
 runtime.ts
