@@ -17,26 +17,23 @@
   span {
     @apply block rounded-full;
   }
-  span.small {
+  :global(span.small) {
     width: 10px;
     height: 10px;
     --imgSize: 32px;
     --detailSize: 6px;
   }
-  span.medium {
+  :global(span.medium) {
     width: 16px;
     height: 16px;
     --imgSize: 80px;
     --detailSize: 10px;
   }
-  span.large {
+  :global(span.large) {
     width: 24px;
     height: 24px;
     --imgSize: 120px;
     --detailSize: 15px;
-  }
-  span.downBad {
-    @apply bg-purple-500;
   }
   span.online {
     @apply bg-green-500;
@@ -50,18 +47,18 @@
   span.offline {
     @apply bg-gray-500;
   }
-  span.doNotDisturb:after {
+  :global(span.doNotDisturb:after) {
     content: '';
     width: var(--detailSize);
     @apply absolute left-1/2 top-1/2 h-[2px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-surface-100-800-token;
   }
-  span.inactive:after {
+  :global(span.inactive:after) {
     content: '';
     height: var(--detailSize);
     width: var(--detailSize);
     @apply absolute left-0 top-0 rounded-full bg-surface-100-800-token;
   }
-  span.offline:after {
+  :global(span.offline:after) {
     content: '';
     height: var(--detailSize);
     width: var(--detailSize);

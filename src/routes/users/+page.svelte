@@ -3,6 +3,7 @@
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
   import TextInput from '$components/TextInput.svelte';
+  import UserProfile from '$components/UserProfile.svelte';
   import { type UserDto } from '$lib/api';
   import { userApi } from '$lib/fetchSingleton';
   import { SessionTokenStore } from '$lib/stores';
@@ -58,28 +59,27 @@
   </form>
 
   {#if !loading && user}
-    <div>
-      <p>{user.id}</p>
-      <p>{user.username}</p>
-      <p>{user.avatarUrl}</p>
-      <p>{user.bannerUrl}</p>
-      <p>{user.status}</p>
-      <p>{user.statusText}</p>
-      <p>{user.createdAt}</p>
-      <p>{user.lastSeenAt}</p>
-
-      <p>{JSON.stringify(user)}</p>
-
-      <div>
-        <button
-          class="btn variant-filled w-1/2 self-center"
-          on:click={() => {
-            if (user) userApi.sendFriendRequest(user.id);
-          }}
-        >
-          <span>Send friend request</span>
-        </button>
-      </div>
+    <div class="mt-4">
+      <UserProfile user={user}>
+        <div slot="after" class="flex flew-col gap-4">
+          <button
+            class="btn variant-filled w-1/2 self-center"
+            on:click={() => {
+              if (user) userApi.sendFriendRequest(user.id);
+            }}
+          >
+            <span>Send friend request</span>
+          </button>
+          <button
+            class="btn variant-filled w-1/2 self-center"
+            on:click={() => {
+              if (user) userApi.blockUser(user.id);
+            }}
+          >
+            <span>Block</span>
+          </button>
+        </div>
+      </UserProfile>
     </div>
   {/if}
 </div>

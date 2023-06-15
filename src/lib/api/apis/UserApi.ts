@@ -35,6 +35,10 @@ export interface AcceptFriendRequestRequest {
     userId: string;
 }
 
+export interface BlockUserRequest {
+    userId: string;
+}
+
 export interface DenyFriendRequestRequest {
     userId: string;
 }
@@ -76,6 +80,21 @@ export interface UserApiInterface {
      * Accept incoming friend request
      */
     acceptFriendRequest(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto>;
+
+    /**
+     * 
+     * @summary Block a user
+     * @param {string} userId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApiInterface
+     */
+    blockUserRaw(requestParameters: BlockUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+
+    /**
+     * Block a user
+     */
+    blockUser(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
     /**
      * 
@@ -205,6 +224,39 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
     async acceptFriendRequest(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto> {
         const response = await this.acceptFriendRequestRaw({ userId: userId }, initOverrides);
         return await response.value();
+    }
+
+    /**
+     * Block a user
+     */
+    async blockUserRaw(requestParameters: BlockUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.userId === null || requestParameters.userId === undefined) {
+            throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling blockUser.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
+        const response = await this.request({
+            path: `/api/v1/user/block`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Block a user
+     */
+    async blockUser(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.blockUserRaw({ userId: userId }, initOverrides);
     }
 
     /**

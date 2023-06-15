@@ -46,31 +46,3 @@ export const SessionTokenStore: FastReadWriteable<AuthenticationResponse |  null
     return value;
   }
 }
-
-/*
-export function GetSession(): AuthenticationResponse | null {
-  try {
-    if (!browser) return null;
-    if (_AuthenticationResponse) return _AuthenticationResponse;
-
-    const sessionStr = localStorage?.getItem('session');
-    if (!sessionStr || sessionStr === "null") return null;
-
-    const { token, issued, expires } = JSON.parse(sessionStr);
-    if (!isString(token) || !isNumber(issued) || !isNumber(expires) || Date.now() > expires)
-    {
-      localStorage?.removeItem('session');
-      return null;
-    }
-
-    const session: AuthenticationResponse = {
-      jwtToken: token,
-    };
-    _AuthenticationResponse = session;
-    return session;
-  } catch {
-    localStorage?.removeItem('session');
-    return null;
-  }
-}
-*/
