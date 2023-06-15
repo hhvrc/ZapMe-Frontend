@@ -244,7 +244,7 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
 
         const response = await this.request({
             path: `/api/v1/user/block`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
-            method: 'POST',
+            method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
         }, initOverrides);
