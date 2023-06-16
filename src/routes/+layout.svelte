@@ -88,9 +88,9 @@
   $: loggedIn = !!$SessionTokenStore;
 </script>
 
-<svelte:head
-  >{@html `<script>${autoModeWatcher.toString()} autoModeWatcher();</script>`}</svelte:head
->
+<svelte:head>
+  {@html `<script>${autoModeWatcher.toString()} autoModeWatcher();</script>`}
+</svelte:head>
 
 <TwitterSummaryTags
   type="summary"

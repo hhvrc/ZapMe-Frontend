@@ -1,7 +1,4 @@
 <script lang="ts">
-  import BasicTags from '$components/MetaTags/BasicTags.svelte';
-  import OpenGraphTags from '$components/MetaTags/OpenGraphTags.svelte';
-  import TwitterSummaryTags from '$components/MetaTags/Twitter/TwitterSummaryTags.svelte';
   import { SessionTokenStore } from '$lib/stores';
 
   $: loggedIn = !!$SessionTokenStore;
@@ -15,22 +12,6 @@
     },
   };
 </script>
-
-<BasicTags {...meta} />
-<TwitterSummaryTags
-  type="summary"
-  {...meta}
-  site="@zapme_dev"
-  creator="@hhvrc"
-/>
-<OpenGraphTags
-  type="website"
-  {...meta}
-  url="https://zapme.dev"
-  siteName="ZapMe"
-  determiner="auto"
-  metaLocale="en_US"
-/>
 
 {#if loggedIn}
   <div>
