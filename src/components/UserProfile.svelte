@@ -31,7 +31,7 @@
   <!-- Profile banner -->
   <div class="group relative h-32 w-full select-none">
     <img
-      class="transition-brightness h-32 w-full object-cover group-hover:brightness-50"
+      class="h-32 w-full object-cover"
       src={user.bannerUrl ??
         'https://i.pinimg.com/originals/31/c3/e3/31c3e3f032a177d0b0c983b8262de8f9.gif'}
       alt="ProfileBanner"
@@ -50,7 +50,6 @@
             'https://i.pinimg.com/originals/49/07/13/4907130d5ddcd50beff46f78c9744a49.png'}
           rounded="rounded-full"
           width="w-[120px]"
-          class="transition-brightness group-hover:brightness-50"
         />
       </div>
       <div
