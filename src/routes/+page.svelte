@@ -1,16 +1,36 @@
 <script lang="ts">
+  import BasicTags from '$components/MetaTags/BasicTags.svelte';
+  import OpenGraphTags from '$components/MetaTags/OpenGraphTags.svelte';
+  import TwitterSummaryTags from '$components/MetaTags/Twitter/TwitterSummaryTags.svelte';
   import { SessionTokenStore } from '$lib/stores';
 
   $: loggedIn = !!$SessionTokenStore;
-  $: title = loggedIn ? 'ZapMe - Home' : 'ZapMe';
-  let description =
-    'ZapMe allows you to control your Submissives shock collars from anywhere in the world with low latency, realtime networking.';
+  $: meta = {
+    title: loggedIn ? 'ZapMe - Home' : 'ZapMe',
+    description:
+      'ZapMe allows you to control your Submissives shock collars from anywhere in the world with low latency, realtime networking.',
+    image: {
+      src: '/logo-512.png',
+      alt: 'ZapMe Logo',
+    },
+  };
 </script>
 
-<svelte:head>
-  <title>{title}</title>
-  <meta name="description" content={description} />
-</svelte:head>
+<BasicTags {...meta} />
+<TwitterSummaryTags
+  type="summary"
+  {...meta}
+  site="@zapme_dev"
+  creator="@hhvrc"
+/>
+<OpenGraphTags
+  type="website"
+  {...meta}
+  url="https://zapme.dev"
+  siteName="ZapMe"
+  determiner="auto"
+  metaLocale="en_US"
+/>
 
 {#if loggedIn}
   <div>
@@ -25,7 +45,7 @@
     </h1>
     <br />
     <h2 class="text-center !font-normal">
-      {description}
+      {meta.description}
     </h2>
   </div>
 {/if}

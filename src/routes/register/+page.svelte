@@ -5,6 +5,9 @@
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
   import CountdownText from '$components/CountdownText.svelte';
+  import BasicTags from '$components/MetaTags/BasicTags.svelte';
+  import OpenGraphTags from '$components/MetaTags/OpenGraphTags.svelte';
+  import TwitterSummaryTags from '$components/MetaTags/Twitter/TwitterSummaryTags.svelte';
   import PasswordInput from '$components/PasswordInput.svelte';
   import ResponsiveCard from '$components/ResponsiveCard.svelte';
   import TextInput from '$components/TextInput.svelte';
@@ -136,11 +139,32 @@
     turnstileResponse &&
     !submitting
   );
+
+  $: meta = {
+    title: 'ZapMe - Register',
+    description: 'Register for a ZapMe account.',
+    image: {
+      src: '/logo-512.png',
+      alt: 'ZapMe Logo',
+    },
+  };
 </script>
 
-<svelte:head>
-  <title>ZapMe - Register</title>
-</svelte:head>
+<BasicTags {...meta} />
+<TwitterSummaryTags
+  type="summary"
+  {...meta}
+  site="@zapme_dev"
+  creator="@hhvrc"
+/>
+<OpenGraphTags
+  type="website"
+  {...meta}
+  url="https://zapme.dev"
+  siteName="ZapMe"
+  determiner="auto"
+  metaLocale="en_US"
+/>
 
 <!-- Register Form -->
 <ResponsiveCard>
