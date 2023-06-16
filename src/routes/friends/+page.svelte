@@ -1,8 +1,8 @@
 <script lang="ts">
+  import { Avatar } from '@skeletonlabs/skeleton';
   import StatusIndicator from '$components/StatusIndicator.svelte';
   import { UserStatus } from '$lib/api';
   import { GetUsernameInitials } from '$lib/utils/initials';
-  import { Avatar } from '@skeletonlabs/skeleton';
   import { onMount } from 'svelte';
 
   let users: {

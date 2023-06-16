@@ -1,6 +1,6 @@
 <script lang="ts">
+  import { focusTrap, LightSwitch, popup } from '@skeletonlabs/skeleton';
   import { ThemeStore } from '$lib/stores';
-  import { LightSwitch, focusTrap, popup } from '@skeletonlabs/skeleton';
 
   const themes = [
     { type: 'skeleton', name: 'Skeleton', icon: '💀' },
@@ -20,7 +20,7 @@
 <div class="select-none">
   <!-- trigger -->
   <button
-    class="btn hover:variant-soft-primary"
+    class="hover:variant-soft-primary btn"
     use:popup={{ event: 'click', target: 'theme' }}
   >
     <i class="fa-solid fa-palette text-lg" />

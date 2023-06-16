@@ -60,8 +60,8 @@
 
   {#if !loading && user}
     <div class="mt-4">
-      <UserProfile user={user}>
-        <div slot="after" class="flex flew-col gap-4">
+      <UserProfile {user}>
+        <div slot="after" class="flew-col flex gap-4">
           <button
             class="btn variant-filled w-1/2 self-center"
             on:click={() => {

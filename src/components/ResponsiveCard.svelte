@@ -1,5 +1,5 @@
 <div class="card">
-  <slot/>
+  <slot />
 </div>
 
 <style lang="postcss">

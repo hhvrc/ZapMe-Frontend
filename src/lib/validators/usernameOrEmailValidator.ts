@@ -1,6 +1,6 @@
-import type { ValidationResult } from '$types';
 import { validateEmail } from './emailValidator';
 import { validateUsername } from './usernameValidator';
+import type { ValidationResult } from '$types';
 
 export function validateUsernameOrEmail(value: string): ValidationResult {
   if (value.length == 0) {

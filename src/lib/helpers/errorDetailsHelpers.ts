@@ -1,4 +1,6 @@
+import { createErrorToast } from './toastHelpers';
 import { goto } from '$app/navigation';
+import { SessionTokenStore } from '$lib/stores';
 import {
   isErrorDetails,
   isFetchError,
@@ -6,9 +8,7 @@ import {
   isResponseError,
 } from '$lib/typeGuards';
 import { BuildRedirectURL, GetRedirectURL } from '$lib/utils/redirects';
-import { SessionTokenStore } from '$lib/stores';
 import type { ApiErrorResponse } from '$types';
-import { createErrorToast } from './toastHelpers';
 import { getReasonPhrase } from 'http-status-codes';
 
 export async function handleFetchError(

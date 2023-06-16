@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { Avatar } from "@skeletonlabs/skeleton";
-  import StatusIndicator from "./StatusIndicator.svelte";
-  import { UserStatus, type UserDto } from "$lib/api";
-  import { GetUsernameInitials } from "$lib/utils/initials";
+  import StatusIndicator from './StatusIndicator.svelte';
+  import { Avatar } from '@skeletonlabs/skeleton';
+  import { UserStatus, type UserDto } from '$lib/api';
+  import { GetUsernameInitials } from '$lib/utils/initials';
 
   export let user: UserDto;
 
@@ -32,7 +32,8 @@
   <div class="group relative h-32 w-full select-none">
     <img
       class="transition-brightness h-32 w-full object-cover group-hover:brightness-50"
-      src={user.bannerUrl ?? 'https://i.pinimg.com/originals/31/c3/e3/31c3e3f032a177d0b0c983b8262de8f9.gif'}
+      src={user.bannerUrl ??
+        'https://i.pinimg.com/originals/31/c3/e3/31c3e3f032a177d0b0c983b8262de8f9.gif'}
       alt="ProfileBanner"
     />
   </div>
@@ -45,7 +46,8 @@
       <div class="group relative h-[120px] w-[120px] rounded-full">
         <Avatar
           {initials}
-          src={user.avatarUrl ?? 'https://i.pinimg.com/originals/49/07/13/4907130d5ddcd50beff46f78c9744a49.png'}
+          src={user.avatarUrl ??
+            'https://i.pinimg.com/originals/49/07/13/4907130d5ddcd50beff46f78c9744a49.png'}
           rounded="rounded-full"
           width="w-[120px]"
           class="transition-brightness group-hover:brightness-50"

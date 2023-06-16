@@ -1,9 +1,5 @@
 <script lang="ts">
-  export let onlineStatus:
-    | 'online'
-    | 'doNotDisturb'
-    | 'inactive'
-    | 'offline';
+  export let onlineStatus: 'online' | 'doNotDisturb' | 'inactive' | 'offline';
   export let scale: 'small' | 'medium' | 'large';
 
   /*

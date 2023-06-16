@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { Snapshot } from './$types';
+  import { focusTrap } from '@skeletonlabs/skeleton';
   import { browser } from '$app/environment';
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
@@ -18,8 +20,6 @@
     validatePasswordMatch,
     validateUsername,
   } from '$lib/validators';
-  import type { Snapshot } from './$types';
-  import { focusTrap } from '@skeletonlabs/skeleton';
 
   export const snapshot: Snapshot = {
     capture: () => {
@@ -50,12 +50,16 @@
   if (browser) {
     ssoToken = $page.url.searchParams.get('ssoToken');
     if (ssoToken) {
-      singleSignOnApi.sSOGetProviderData(ssoToken)
+      singleSignOnApi
+        .sSOGetProviderData(ssoToken)
         .then((response) => {
           ssoData = response;
           username = ssoData.userName;
           email = ssoData.email;
-          createErrorToast(`Your ${ssoData.providerName} account is not linked to a ZapMe account. Create or log in to your ZapMe account to link it.`, 15000);
+          createErrorToast(
+            `Your ${ssoData.providerName} account is not linked to a ZapMe account. Create or log in to your ZapMe account to link it.`,
+            15000
+          );
         })
         .catch((error) => {
           handleFetchError(error);
@@ -80,13 +84,16 @@
         acceptedPrivacyPolicyVersion,
         acceptedTermsOfServiceVersion,
         turnstileResponse,
-        ssoToken
+        ssoToken,
       });
 
       createSuccessToast(
-        'Account created successfully.' + (result.emailVerificationRequired ? ' Please check your email to verify your account.' : '')
+        'Account created successfully.' +
+          (result.emailVerificationRequired
+            ? ' Please check your email to verify your account.'
+            : '')
       );
-      
+
       const session = result.session;
       if (session) {
         SessionTokenStore.set(session);
@@ -153,7 +160,9 @@
         Please edit and fill out the rest of the form to complete your account.
       </p>
       <p class="text-sm text-red-500">
-        This request will expire in <CountdownText expiresAtUtc={ssoData.expiresAtUtc}/>
+        This request will expire in <CountdownText
+          expiresAtUtc={ssoData.expiresAtUtc}
+        />
       </p>
     {/if}
 

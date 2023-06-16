@@ -1,4 +1,4 @@
-import { PUBLIC_BACKEND_URL } from "$env/static/public";
+import { PUBLIC_BACKEND_URL } from '$env/static/public';
 
 const OAuthPath = PUBLIC_BACKEND_URL + '/api/v1/sso/';
 
@@ -7,7 +7,7 @@ export const OAuthProviderInfo: {
     name: string;
     icon: string;
     href: string;
-  }
+  };
 } = {
   discord: { name: 'Discord', icon: 'fa-discord', href: OAuthPath + 'discord' },
   github: { name: 'Github', icon: 'fa-github', href: OAuthPath + 'github' },

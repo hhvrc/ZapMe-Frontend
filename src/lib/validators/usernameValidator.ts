@@ -1,5 +1,5 @@
-import type { ValidationResult } from '$types';
 import { validateEmail } from './emailValidator';
+import type { ValidationResult } from '$types';
 
 /* eslint-disable no-misleading-character-class */
 

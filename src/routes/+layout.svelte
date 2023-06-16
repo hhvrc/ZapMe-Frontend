@@ -2,38 +2,38 @@
   import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
   import '@skeletonlabs/skeleton/styles/all.css';
   import '../app.postcss';
-  import ThemeSwitch from '$components/ThemeSwitch.svelte';
   import {
-    computePosition,
-    autoUpdate,
-    flip,
-    shift,
-    offset,
     arrow,
+    autoUpdate,
+    computePosition,
+    flip,
+    offset,
+    shift,
   } from '@floating-ui/dom';
+  import ThemeSwitch from '$components/ThemeSwitch.svelte';
   import '@fontsource/montserrat';
+  import {
+    AppBar,
+    AppRail,
+    AppRailAnchor,
+    AppShell,
+    autoModeWatcher,
+    Modal,
+    storePopup,
+    Toast,
+  } from '@skeletonlabs/skeleton';
   import { page } from '$app/stores';
   import OpenGraphTags from '$components/MetaTags/OpenGraphTags.svelte';
   import TwitterSummaryTags from '$components/MetaTags/Twitter/TwitterSummaryTags.svelte';
   import { modalComponentRegistry } from '$components/modals';
   import type { Config } from '$lib/api';
   import { ApiConfigStore, SessionTokenStore } from '$lib/stores';
-  import {
-    AppShell,
-    AppBar,
-    AppRail,
-    Toast,
-    autoModeWatcher,
-    Modal,
-    AppRailAnchor,
-  } from '@skeletonlabs/skeleton';
-  import { storePopup } from '@skeletonlabs/skeleton';
 
   storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
   const year = new Date().getFullYear();
 
-  const LeadingTiles: { title: string, icon: string, href: string }[] = [
+  const LeadingTiles: { title: string; icon: string; href: string }[] = [
     {
       title: 'Home',
       icon: 'fa-house',
@@ -60,7 +60,7 @@
       href: '/users',
     },
   ];
-  const TrailingTiles: { title: string, icon: string, href: string }[] = [
+  const TrailingTiles: { title: string; icon: string; href: string }[] = [
     {
       title: 'Profile',
       icon: 'fa-user',

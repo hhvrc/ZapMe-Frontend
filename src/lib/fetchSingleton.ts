@@ -1,7 +1,16 @@
+import { SessionTokenStore } from './stores';
 import { browser } from '$app/environment';
 import { PUBLIC_BACKEND_URL } from '$env/static/public';
-import { AccountApi, AuthApi, ConfigApi, Configuration, HealthApi, SingleSignOnApi, UserApi, WebSocketApi } from '$lib/api';
-import { SessionTokenStore } from './stores';
+import {
+  AccountApi,
+  AuthApi,
+  ConfigApi,
+  Configuration,
+  HealthApi,
+  SingleSignOnApi,
+  UserApi,
+  WebSocketApi,
+} from '$lib/api';
 
 export const DefaultApiConfiguration = new Configuration({
   basePath: PUBLIC_BACKEND_URL,
@@ -12,7 +21,6 @@ export const DefaultApiConfiguration = new Configuration({
     return session ? `Bearer ${session.jwtToken}` : '';
   },
 });
-
 
 export const accountApi = new AccountApi(DefaultApiConfiguration);
 export const authenticationApi = new AuthApi(DefaultApiConfiguration);

@@ -1,11 +1,11 @@
+import { isObject } from './basicGuards';
 import {
-  type ErrorDetails,
   FetchError,
+  instanceOfErrorDetails,
   RequiredError,
   ResponseError,
-  instanceOfErrorDetails,
+  type ErrorDetails,
 } from '$lib/api';
-import { isObject } from './basicGuards';
 
 export function isNamedError(
   error: unknown

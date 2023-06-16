@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { focusTrap } from '@skeletonlabs/skeleton';
   import { browser } from '$app/environment';
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
@@ -6,11 +7,12 @@
   import { accountApi } from '$lib/fetchSingleton';
   import { createErrorToast, handleFetchError } from '$lib/helpers';
   import { validatePassword, validatePasswordMatch } from '$lib/validators';
-  import { focusTrap } from '@skeletonlabs/skeleton';
 
   const token = $page.url.searchParams.get('token');
   if (browser && !token) {
-    createErrorToast('You have not been provided with a token. Please check your email and try again.');
+    createErrorToast(
+      'You have not been provided with a token. Please check your email and try again.'
+    );
     goto('/');
   }
 
@@ -31,7 +33,7 @@
     try {
       await accountApi.accountRecoveryConfirm({
         newPassword: password,
-        token
+        token,
       });
     } catch (error) {
       await handleFetchError(error, { dontRedirect: [401] });

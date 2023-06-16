@@ -1,9 +1,9 @@
 <script lang="ts">
+  import type { Snapshot } from './$types';
+  import { focusTrap } from '@skeletonlabs/skeleton';
   import { enhance } from '$app/forms';
   import TextInput from '$components/TextInput.svelte';
   import Turnstile from '$components/Turnstile.svelte';
-  import type { Snapshot } from './$types';
-  import { focusTrap } from '@skeletonlabs/skeleton';
 
   export const snapshot: Snapshot = {
     capture: () => email,

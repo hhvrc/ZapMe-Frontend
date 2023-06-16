@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { Snapshot } from './$types';
+  import { focusTrap } from '@skeletonlabs/skeleton';
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
   import PasswordInput from '$components/PasswordInput.svelte';
@@ -9,8 +11,6 @@
   import { OAuthProviderInfo } from '$lib/oauth';
   import { SessionTokenStore } from '$lib/stores';
   import { GetRedirectURL } from '$lib/utils/redirects';
-  import type { Snapshot } from './$types';
-  import { focusTrap } from '@skeletonlabs/skeleton';
 
   export const snapshot: Snapshot = {
     capture: () => usernameOrEmail,
@@ -27,7 +27,7 @@
 
   async function handleSubmit() {
     if (disabled) return;
-    
+
     try {
       loading = true;
       const response = await authenticationApi.authSignIn({

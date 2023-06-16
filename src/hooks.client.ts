@@ -1,14 +1,14 @@
-import {
-  PUBLIC_SENTRY_DSN,
-  PUBLIC_SENTRY_TRACES_SAMPLERATE,
-  PUBLIC_REPLAYS_SESSION_SAMPLERATE,
-  PUBLIC_REPLAYS_ONERROR_SAMPLERATE,
-} from '$env/static/public';
 import { BrowserTracing, Replay } from '@sentry/browser';
 import {
-  init as SentryInit,
   captureException as SentryCaptureException,
+  init as SentryInit,
 } from '@sentry/svelte';
+import {
+  PUBLIC_REPLAYS_ONERROR_SAMPLERATE,
+  PUBLIC_REPLAYS_SESSION_SAMPLERATE,
+  PUBLIC_SENTRY_DSN,
+  PUBLIC_SENTRY_TRACES_SAMPLERATE,
+} from '$env/static/public';
 
 // Initialize Sentry for error and performance monitoring
 SentryInit({

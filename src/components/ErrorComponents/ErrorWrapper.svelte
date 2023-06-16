@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { ProgressRadial } from '@skeletonlabs/skeleton';
   import {
     ExceptionDetails,
     NetworkErrorDetails,
@@ -6,7 +7,6 @@
   } from '$components/ErrorComponents';
   import { handleFetchError } from '$lib/helpers/errorDetailsHelpers';
   import type { ApiErrorResponse } from '$types';
-  import { ProgressRadial } from '@skeletonlabs/skeleton';
 
   export let exception: unknown;
 
