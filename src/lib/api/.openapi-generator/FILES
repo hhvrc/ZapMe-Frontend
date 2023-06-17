@@ -2,6 +2,7 @@
 apis/AccountApi.ts
 apis/AuthApi.ts
 apis/ConfigApi.ts
+apis/DeviceApi.ts
 apis/HealthApi.ts
 apis/SingleSignOnApi.ts
 apis/UserApi.ts
@@ -28,6 +29,7 @@ models/CreateOk.ts
 models/CreateOkSession.ts
 models/ErrorDetails.ts
 models/ErrorDetailsNotification.ts
+models/FriendDto.ts
 models/FriendRequestList.ts
 models/NotificationSeverityLevel.ts
 models/ProviderDataDto.ts
@@ -45,6 +47,7 @@ models/UpdateUserName.ts
 models/UpdateUserNameRequest.ts
 models/UserDto.ts
 models/UserNotification.ts
+models/UserRelationType.ts
 models/UserReport.ts
 models/UserStatus.ts
 models/index.ts

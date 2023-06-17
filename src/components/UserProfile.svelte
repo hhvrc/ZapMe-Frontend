@@ -61,7 +61,7 @@
 
     <div>
       <!-- Profile name -->
-      <h2 class="text-2xl font-bold">{user.username}</h2>
+      <h2 class="text-2xl font-bold">{user.nickName ? `${user.nickName} (${user.username})` : user.username}</h2>
 
       <!-- Profile status (place at end center) -->
       <p class="text-sm">{onlineStatusText}</p>
@@ -71,6 +71,8 @@
     <h3 class="text-xl font-bold">About</h3>
     <p>Status: {user.statusText}</p>
     <p>Created: {new Date(user.createdAt).toLocaleString()}</p>
+    <p>Relation: {user.relationType}</p>
+    <p>Notes: {user.notes ?? ''}</p>
     <slot name="about" />
   </div>
   {#if $$slots.after}

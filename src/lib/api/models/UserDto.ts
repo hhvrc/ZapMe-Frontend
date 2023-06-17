@@ -13,6 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { UserRelationType } from './UserRelationType';
+import {
+    UserRelationTypeFromJSON,
+    UserRelationTypeFromJSONTyped,
+    UserRelationTypeToJSON,
+} from './UserRelationType';
 import type { UserStatus } from './UserStatus';
 import {
     UserStatusFromJSON,
@@ -63,6 +69,24 @@ export interface UserDto {
      */
     statusText: string;
     /**
+     * 
+     * @type {UserRelationType}
+     * @memberof UserDto
+     */
+    relationType: UserRelationType;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserDto
+     */
+    nickName?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserDto
+     */
+    notes?: string | null;
+    /**
      * Date this user was created at
      * @type {Date}
      * @memberof UserDto
@@ -85,6 +109,7 @@ export function instanceOfUserDto(value: object): boolean {
     isInstance = isInstance && "username" in value;
     isInstance = isInstance && "status" in value;
     isInstance = isInstance && "statusText" in value;
+    isInstance = isInstance && "relationType" in value;
     isInstance = isInstance && "createdAt" in value;
     isInstance = isInstance && "lastSeenAt" in value;
 
@@ -107,6 +132,9 @@ export function UserDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): U
         'bannerUrl': !exists(json, 'bannerUrl') ? undefined : json['bannerUrl'],
         'status': UserStatusFromJSON(json['status']),
         'statusText': json['statusText'],
+        'relationType': UserRelationTypeFromJSON(json['relationType']),
+        'nickName': !exists(json, 'nickName') ? undefined : json['nickName'],
+        'notes': !exists(json, 'notes') ? undefined : json['notes'],
         'createdAt': (new Date(json['createdAt'])),
         'lastSeenAt': (new Date(json['lastSeenAt'])),
     };
@@ -127,6 +155,9 @@ export function UserDtoToJSON(value?: UserDto | null): any {
         'bannerUrl': value.bannerUrl,
         'status': UserStatusToJSON(value.status),
         'statusText': value.statusText,
+        'relationType': UserRelationTypeToJSON(value.relationType),
+        'nickName': value.nickName,
+        'notes': value.notes,
         'createdAt': (value.createdAt.toISOString()),
         'lastSeenAt': (value.lastSeenAt.toISOString()),
     };

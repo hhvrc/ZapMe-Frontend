@@ -13,6 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { FriendDto } from './FriendDto';
+import {
+    FriendDtoFromJSON,
+    FriendDtoFromJSONTyped,
+    FriendDtoToJSON,
+} from './FriendDto';
 import type { UserStatus } from './UserStatus';
 import {
     UserStatusFromJSON,
@@ -88,10 +94,10 @@ export interface AccountDto {
     statusText: string;
     /**
      * Id of friends this account has
-     * @type {Array<string>}
+     * @type {Array<FriendDto>}
      * @memberof AccountDto
      */
-    friends: Array<string>;
+    friends: Array<FriendDto>;
     /**
      * SSO providers this account is connected to
      * @type {Array<string>}
@@ -160,7 +166,7 @@ export function AccountDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'bannerUrl': !exists(json, 'bannerUrl') ? undefined : json['bannerUrl'],
         'status': UserStatusFromJSON(json['status']),
         'statusText': json['statusText'],
-        'friends': json['friends'],
+        'friends': ((json['friends'] as Array<any>).map(FriendDtoFromJSON)),
         'ssoConnections': json['ssoConnections'],
         'createdAt': (new Date(json['createdAt'])),
         'updatedAt': (new Date(json['updatedAt'])),
@@ -187,7 +193,7 @@ export function AccountDtoToJSON(value?: AccountDto | null): any {
         'bannerUrl': value.bannerUrl,
         'status': UserStatusToJSON(value.status),
         'statusText': value.statusText,
-        'friends': value.friends,
+        'friends': ((value.friends as Array<any>).map(FriendDtoToJSON)),
         'ssoConnections': value.ssoConnections,
         'createdAt': (value.createdAt.toISOString()),
         'updatedAt': (value.updatedAt.toISOString()),
