@@ -68,10 +68,10 @@
   }
 
   $: acceptedPrivacyPolicyVersion = acceptedTerms
-    ? $ApiConfigStore?.api.privacyVersion ?? 0
+    ? $ApiConfigStore?.privacyPolicyVersion ?? 0
     : 0;
   $: acceptedTermsOfServiceVersion = acceptedTerms
-    ? $ApiConfigStore?.api.tosVersion ?? 0
+    ? $ApiConfigStore?.termsOfServiceVersion ?? 0
     : 0;
 
   async function handleSubmit() {

@@ -51,6 +51,30 @@ export interface Config {
      */
     appVersion: string;
     /**
+     * The current Privacy Policy version, if the user has not accepted this version, they will be prompted to accept it
+     * @type {number}
+     * @memberof Config
+     */
+    privacyPolicyVersion: number;
+    /**
+     * Markdown of the Privacy Policy
+     * @type {string}
+     * @memberof Config
+     */
+    privacyPolicyMarkdown: string;
+    /**
+     * The current Terms of Service version, if the user has not accepted this version, they will be prompted to accept it
+     * @type {number}
+     * @memberof Config
+     */
+    termsOfServiceVersion: number;
+    /**
+     * Markdown of the Terms of Service
+     * @type {string}
+     * @memberof Config
+     */
+    termsOfServiceMarkdown: string;
+    /**
      * 
      * @type {ConfigApi}
      * @memberof Config
@@ -77,6 +101,10 @@ export function instanceOfConfig(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "appName" in value;
     isInstance = isInstance && "appVersion" in value;
+    isInstance = isInstance && "privacyPolicyVersion" in value;
+    isInstance = isInstance && "privacyPolicyMarkdown" in value;
+    isInstance = isInstance && "termsOfServiceVersion" in value;
+    isInstance = isInstance && "termsOfServiceMarkdown" in value;
     isInstance = isInstance && "api" in value;
     isInstance = isInstance && "contact" in value;
     isInstance = isInstance && "founderSocials" in value;
@@ -96,6 +124,10 @@ export function ConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean): Co
         
         'appName': json['appName'],
         'appVersion': json['appVersion'],
+        'privacyPolicyVersion': json['privacyPolicyVersion'],
+        'privacyPolicyMarkdown': json['privacyPolicyMarkdown'],
+        'termsOfServiceVersion': json['termsOfServiceVersion'],
+        'termsOfServiceMarkdown': json['termsOfServiceMarkdown'],
         'api': ConfigApiFromJSON(json['api']),
         'contact': ConfigContactFromJSON(json['contact']),
         'founderSocials': ConfigFounderSocialsFromJSON(json['founderSocials']),
@@ -113,6 +145,10 @@ export function ConfigToJSON(value?: Config | null): any {
         
         'appName': value.appName,
         'appVersion': value.appVersion,
+        'privacyPolicyVersion': value.privacyPolicyVersion,
+        'privacyPolicyMarkdown': value.privacyPolicyMarkdown,
+        'termsOfServiceVersion': value.termsOfServiceVersion,
+        'termsOfServiceMarkdown': value.termsOfServiceMarkdown,
         'api': ConfigApiToJSON(value.api),
         'contact': ConfigContactToJSON(value.contact),
         'founderSocials': ConfigFounderSocialsToJSON(value.founderSocials),

@@ -27,18 +27,6 @@ import {
  */
 export interface ApiConfig {
     /**
-     * The current Terms of Service version, if the user has not accepted this version, they will be prompted to accept it
-     * @type {number}
-     * @memberof ApiConfig
-     */
-    tosVersion: number;
-    /**
-     * The current Privacy Policy version, if the user has not accepted this version, they will be prompted to accept it
-     * @type {number}
-     * @memberof ApiConfig
-     */
-    privacyVersion: number;
-    /**
      * 
      * @type {ApiConfigDisabledFeatures}
      * @memberof ApiConfig
@@ -51,8 +39,6 @@ export interface ApiConfig {
  */
 export function instanceOfApiConfig(value: object): boolean {
     let isInstance = true;
-    isInstance = isInstance && "tosVersion" in value;
-    isInstance = isInstance && "privacyVersion" in value;
     isInstance = isInstance && "disabledFeatures" in value;
 
     return isInstance;
@@ -68,8 +54,6 @@ export function ApiConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     }
     return {
         
-        'tosVersion': json['tosVersion'],
-        'privacyVersion': json['privacyVersion'],
         'disabledFeatures': ApiConfigDisabledFeaturesFromJSON(json['disabledFeatures']),
     };
 }
@@ -83,8 +67,6 @@ export function ApiConfigToJSON(value?: ApiConfig | null): any {
     }
     return {
         
-        'tosVersion': value.tosVersion,
-        'privacyVersion': value.privacyVersion,
         'disabledFeatures': ApiConfigDisabledFeaturesToJSON(value.disabledFeatures),
     };
 }
