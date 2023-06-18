@@ -108,10 +108,10 @@
       const fields = response.apiFields;
       if (fields) {
         if (fields.username) {
-          window.alert(fields.username);
+          usernameError = { valid: false, message: fields.username[0] };
         }
         if (fields.password) {
-          window.alert(fields.password);
+          passwordError = { valid: false, message: fields.password[0] };
         }
       }
     } finally {
@@ -136,15 +136,6 @@
     turnstileResponse &&
     !submitting
   );
-
-  $: meta = {
-    title: 'ZapMe - Register',
-    description: 'Register for a ZapMe account.',
-    image: {
-      src: '/logo-512.png',
-      alt: 'ZapMe Logo',
-    },
-  };
 </script>
 
 <!-- Register Form -->

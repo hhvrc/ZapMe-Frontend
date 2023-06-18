@@ -43,15 +43,6 @@
       loading = false;
     }
   }
-
-  $: meta = {
-    title: 'ZapMe - Login',
-    description: 'Login to your ZapMe account',
-    image: {
-      src: '/logo-512.png',
-      alt: 'ZapMe Logo',
-    },
-  };
 </script>
 
 <!-- Login Form -->

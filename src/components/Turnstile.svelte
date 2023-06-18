@@ -91,7 +91,4 @@
     @apply mb-auto ml-auto h-7 w-auto;
     @apply text-[#666] dark:text-[#999];
   }
-  #logo svg {
-    @apply my-auto inline-block h-full w-auto;
-  }
 </style>
