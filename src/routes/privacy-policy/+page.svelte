@@ -1,6 +1,7 @@
 <script lang="ts">
   /* eslint-disable svelte/no-at-html-tags */
 
+  import { browser } from '$app/environment';
   import { ApiConfigStore } from '$lib/stores';
   import showdown from 'showdown';
 
@@ -17,7 +18,9 @@
   <title>ZapMe - Privacy Policy</title>
 </svelte:head>
 
-<div class="p-2 lg:p-4">
-  <!-- There is no risk of XSS here, as the markdown can only be set by a system administrator -->
-  {@html converter.makeHtml($ApiConfigStore?.privacyPolicyMarkdown ?? '')}
-</div>
+{#if browser}
+  <div class="p-2 lg:p-4">
+    <!-- There is no risk of XSS here, as the markdown can only be set by a system administrator -->
+    {@html converter.makeHtml($ApiConfigStore?.privacyPolicyMarkdown ?? '')}
+  </div>
+{/if}
