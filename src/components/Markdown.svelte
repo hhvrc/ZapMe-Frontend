@@ -39,7 +39,7 @@
   }
 </script>
 
-<div class="unstyled">
+<div class="markdown unstyled">
   {@html rendered}
 </div>
 
