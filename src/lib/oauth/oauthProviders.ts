@@ -1,6 +1,6 @@
-import { PUBLIC_BACKEND_URL } from '$env/static/public';
+import { PUBLIC_BACKEND_API_BASE_URL } from '$env/static/public';
 
-const OAuthPath = PUBLIC_BACKEND_URL + '/api/v1/sso/';
+const OAuthPath = PUBLIC_BACKEND_API_BASE_URL + '/api/v1/sso/';
 
 export const OAuthProviderInfo: {
   [key: string]: {

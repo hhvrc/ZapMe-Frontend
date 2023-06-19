@@ -1,5 +1,7 @@
 <script lang="ts">
+  import { browser } from '$app/environment';
   import { SessionTokenStore } from '$lib/stores';
+  import { WebSocketClient } from '$lib/realtime/client';
 
   $: loggedIn = !!$SessionTokenStore;
   $: meta = {
@@ -11,6 +13,12 @@
       alt: 'ZapMe Logo',
     },
   };
+
+  $: jwtToken = $SessionTokenStore?.jwtToken;
+  $: if (browser && jwtToken) {
+    let cli = new WebSocketClient(jwtToken);
+    console.log(cli);
+  }
 </script>
 
 {#if loggedIn}

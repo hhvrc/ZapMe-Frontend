@@ -1,6 +1,6 @@
 import { SessionTokenStore } from './stores';
 import { browser } from '$app/environment';
-import { PUBLIC_BACKEND_URL } from '$env/static/public';
+import { PUBLIC_BACKEND_API_BASE_URL } from '$env/static/public';
 import {
   AccountApi,
   AuthApi,
@@ -13,7 +13,7 @@ import {
 } from '$lib/api';
 
 export const DefaultApiConfiguration = new Configuration({
-  basePath: PUBLIC_BACKEND_URL,
+  basePath: PUBLIC_BACKEND_API_BASE_URL,
   credentials: 'include',
   apiKey: (key) => {
     if (!browser || key !== 'Authorization') return '';
