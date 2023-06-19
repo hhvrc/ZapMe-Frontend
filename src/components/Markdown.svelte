@@ -1,14 +1,14 @@
 <script lang="ts">
   import Showdown from "showdown";
 
-  // #############################################################
-  // # EXTREMELY IMPORTANT NOTE:                                 #
-  // # THIS CODE IS XSS VULNERABLE                               #
-  // # DO NOT USE THIS CODE FOR ANY DATA THE USER CAN MANIPULATE #
-  // #############################################################
   /* eslint-disable svelte/no-at-html-tags */
 
   export let markdown = '';
+  export let acknowledgement: 'I am aware that this component is XSS vulnerable and I am not using it for any data the user can manipulate.';
+  if (!acknowledgement) {
+    throw new Error('You must acknowledge that this component is XSS vulnerable.');
+  }
+
   let rendered = '';
   $: {
     const converter = new Showdown.Converter({
