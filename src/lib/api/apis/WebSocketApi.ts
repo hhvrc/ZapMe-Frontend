@@ -22,10 +22,6 @@ import {
     ErrorDetailsToJSON,
 } from '../models';
 
-export interface WebSocketRequest {
-    token?: string;
-}
-
 /**
  * WebSocketApi - interface
  * 
@@ -36,17 +32,16 @@ export interface WebSocketApiInterface {
     /**
      * 
      * @summary Websocket endpoint for pub/sub communication (e.g. chat, notifications, events)    Documentation:  Yes
-     * @param {string} [token] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof WebSocketApiInterface
      */
-    webSocketRaw(requestParameters: WebSocketRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+    webSocketRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
 
     /**
      * Websocket endpoint for pub/sub communication (e.g. chat, notifications, events)    Documentation:  Yes
      */
-    webSocket(token?: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+    webSocket(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
 }
 
@@ -58,12 +53,8 @@ export class WebSocketApi extends runtime.BaseAPI implements WebSocketApiInterfa
     /**
      * Websocket endpoint for pub/sub communication (e.g. chat, notifications, events)    Documentation:  Yes
      */
-    async webSocketRaw(requestParameters: WebSocketRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async webSocketRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         const queryParameters: any = {};
-
-        if (requestParameters.token !== undefined) {
-            queryParameters['token'] = requestParameters.token;
-        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -84,8 +75,8 @@ export class WebSocketApi extends runtime.BaseAPI implements WebSocketApiInterfa
     /**
      * Websocket endpoint for pub/sub communication (e.g. chat, notifications, events)    Documentation:  Yes
      */
-    async webSocket(token?: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.webSocketRaw({ token: token }, initOverrides);
+    async webSocket(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.webSocketRaw(initOverrides);
     }
 
 }

@@ -17,7 +17,7 @@
   $: jwtToken = $SessionTokenStore?.jwtToken;
   $: if (browser && jwtToken) {
     let cli = new WebSocketClient(jwtToken);
-    console.log(cli);
+    console.log('WS Created:', cli != null);
   }
 </script>
 

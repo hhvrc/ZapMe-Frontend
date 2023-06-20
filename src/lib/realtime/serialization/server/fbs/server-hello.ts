@@ -20,19 +20,30 @@ static getSizePrefixedRootAsServerHello(bb:flatbuffers.ByteBuffer, obj?:ServerHe
   return (obj || new ServerHello()).__init(bb.readInt32(bb.position()) + bb.position(), bb);
 }
 
-name():string|null
-name(optionalEncoding:flatbuffers.Encoding):string|Uint8Array|null
-name(optionalEncoding?:any):string|Uint8Array|null {
+sessionId():string|null
+sessionId(optionalEncoding:flatbuffers.Encoding):string|Uint8Array|null
+sessionId(optionalEncoding?:any):string|Uint8Array|null {
   const offset = this.bb!.__offset(this.bb_pos, 4);
   return offset ? this.bb!.__string(this.bb_pos + offset, optionalEncoding) : null;
 }
 
-static startServerHello(builder:flatbuffers.Builder) {
-  builder.startObject(1);
+userId():string|null
+userId(optionalEncoding:flatbuffers.Encoding):string|Uint8Array|null
+userId(optionalEncoding?:any):string|Uint8Array|null {
+  const offset = this.bb!.__offset(this.bb_pos, 6);
+  return offset ? this.bb!.__string(this.bb_pos + offset, optionalEncoding) : null;
 }
 
-static addName(builder:flatbuffers.Builder, nameOffset:flatbuffers.Offset) {
-  builder.addFieldOffset(0, nameOffset, 0);
+static startServerHello(builder:flatbuffers.Builder) {
+  builder.startObject(2);
+}
+
+static addSessionId(builder:flatbuffers.Builder, sessionIdOffset:flatbuffers.Offset) {
+  builder.addFieldOffset(0, sessionIdOffset, 0);
+}
+
+static addUserId(builder:flatbuffers.Builder, userIdOffset:flatbuffers.Offset) {
+  builder.addFieldOffset(1, userIdOffset, 0);
 }
 
 static endServerHello(builder:flatbuffers.Builder):flatbuffers.Offset {
@@ -40,9 +51,10 @@ static endServerHello(builder:flatbuffers.Builder):flatbuffers.Offset {
   return offset;
 }
 
-static createServerHello(builder:flatbuffers.Builder, nameOffset:flatbuffers.Offset):flatbuffers.Offset {
+static createServerHello(builder:flatbuffers.Builder, sessionIdOffset:flatbuffers.Offset, userIdOffset:flatbuffers.Offset):flatbuffers.Offset {
   ServerHello.startServerHello(builder);
-  ServerHello.addName(builder, nameOffset);
+  ServerHello.addSessionId(builder, sessionIdOffset);
+  ServerHello.addUserId(builder, userIdOffset);
   return ServerHello.endServerHello(builder);
 }
 }
