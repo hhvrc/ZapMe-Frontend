@@ -1,6 +1,5 @@
 import { PUBLIC_BACKEND_WEBSOCKET_URL } from '$env/static/public';
-import { ClientHeartbeat, ClientMessageBody, ClientMessage } from '$lib/fbs/zapme/realtime';
-import { Builder as FbsBuilder } from 'flatbuffers';
+import { createClientHeartbeatMessage } from './serialization/heartbeat';
 
 export class WebSocketClient {
   socket: WebSocket;
@@ -14,13 +13,8 @@ export class WebSocketClient {
 
   private onOpen() {
     console.log('[WS] Connected');
-    const builder = new FbsBuilder(1024);
-    const heartbeat = ClientHeartbeat.createClientHeartbeat(builder, 0);
-    const message = ClientMessage.createClientMessage(builder, BigInt(0), ClientMessageBody.heartbeat, heartbeat);
-    builder.finish(message);
-    const buf = builder.asUint8Array();
-    this.socket.send(buf);
-    console.log('[WS] Sent: ', buf);
+    this.socket.send(createClientHeartbeatMessage(BigInt(0)));
+    console.log('[WS] Sent heartbeat');
   }
 
   private onClose() {

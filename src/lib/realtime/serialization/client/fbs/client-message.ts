@@ -2,7 +2,7 @@
 
 import * as flatbuffers from 'flatbuffers';
 
-import { ClientMessageBody, unionToClientMessageBody, unionListToClientMessageBody } from '../../../fbs/zapme/realtime/client-message-body.js';
+import { ClientMessageBody, unionToClientMessageBody, unionListToClientMessageBody } from '../../client/fbs/client-message-body.js';
 
 
 export class ClientMessage {
@@ -57,6 +57,14 @@ static addMessage(builder:flatbuffers.Builder, messageOffset:flatbuffers.Offset)
 static endClientMessage(builder:flatbuffers.Builder):flatbuffers.Offset {
   const offset = builder.endObject();
   return offset;
+}
+
+static finishClientMessageBuffer(builder:flatbuffers.Builder, offset:flatbuffers.Offset) {
+  builder.finish(offset);
+}
+
+static finishSizePrefixedClientMessageBuffer(builder:flatbuffers.Builder, offset:flatbuffers.Offset) {
+  builder.finish(offset, undefined, true);
 }
 
 static createClientMessage(builder:flatbuffers.Builder, timestamp:bigint, messageType:ClientMessageBody, messageOffset:flatbuffers.Offset):flatbuffers.Offset {
