@@ -1,12 +1,14 @@
 <script lang="ts">
-  import Showdown from "showdown";
+  import Showdown from 'showdown';
 
   /* eslint-disable svelte/no-at-html-tags */
 
   export let markdown = '';
   export let acknowledgement: 'I am aware that this component is XSS vulnerable and I am not using it for any data the user can manipulate.';
   if (!acknowledgement) {
-    throw new Error('You must acknowledge that this component is XSS vulnerable.');
+    throw new Error(
+      'You must acknowledge that this component is XSS vulnerable.'
+    );
   }
 
   let rendered = '';
@@ -44,7 +46,14 @@
 </div>
 
 <style>
-  :global(.markdown h1, .markdown h2, .markdown h3, .markdown h4, .markdown h5, .markdown h6) {
+  :global(
+      .markdown h1,
+      .markdown h2,
+      .markdown h3,
+      .markdown h4,
+      .markdown h5,
+      .markdown h6
+    ) {
     margin-top: 1.5rem;
     margin-bottom: 0.5rem;
   }

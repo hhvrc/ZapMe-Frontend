@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest';
 import { validatePassword, validatePasswordMatch } from './passwordValidator';
+import { describe, expect, it } from 'vitest';
 
 const EmptyPassword = '';
 const ShortPassword = '123456789';
@@ -69,7 +69,10 @@ describe('password match validator test', () => {
     });
   });
   it('validate password that does not match should return false and error', () => {
-    const result = validatePasswordMatch(StrongPassword, StrongPasswordNotMatching);
+    const result = validatePasswordMatch(
+      StrongPassword,
+      StrongPasswordNotMatching
+    );
     expect(result).toEqual({
       valid: false,
       message: 'Passwords do not match',

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { browser } from '$app/environment';
-  import { SessionTokenStore } from '$lib/stores';
   import { WebSocketClient } from '$lib/realtime/client';
+  import { SessionTokenStore } from '$lib/stores';
 
   $: loggedIn = !!$SessionTokenStore;
   $: meta = {

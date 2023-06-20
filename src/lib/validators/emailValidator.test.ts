@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest';
 import { validateEmail } from './emailValidator';
+import { describe, expect, it } from 'vitest';
 
 describe('email validator test', () => {
   it('validate empty email should return false and no error', () => {

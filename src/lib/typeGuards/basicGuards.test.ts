@@ -1,5 +1,5 @@
+import { isNumber, isObject, isString } from './basicGuards';
 import { describe, expect, it } from 'vitest';
-import { isObject, isString, isNumber } from './basicGuards';
 
 describe('isObject type guard test', () => {
   it('isObject should return true for object', () => {
