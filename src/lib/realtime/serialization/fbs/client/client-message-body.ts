@@ -3,34 +3,46 @@
 import { ClientHeartbeat } from '../../fbs/client/client-heartbeat.js';
 import { RealtimeSession } from '../../fbs/realtime/realtime-session.js';
 
-
 export enum ClientMessageBody {
   NONE = 0,
   heartbeat = 1,
-  realtime_session = 2
+  realtime_session = 2,
 }
 
 export function unionToClientMessageBody(
   type: ClientMessageBody,
-  accessor: (obj:ClientHeartbeat|RealtimeSession) => ClientHeartbeat|RealtimeSession|null
-): ClientHeartbeat|RealtimeSession|null {
-  switch(ClientMessageBody[type]) {
-    case 'NONE': return null; 
-    case 'heartbeat': return accessor(new ClientHeartbeat())! as ClientHeartbeat;
-    case 'realtime_session': return accessor(new RealtimeSession())! as RealtimeSession;
-    default: return null;
+  accessor: (
+    obj: ClientHeartbeat | RealtimeSession
+  ) => ClientHeartbeat | RealtimeSession | null
+): ClientHeartbeat | RealtimeSession | null {
+  switch (ClientMessageBody[type]) {
+    case 'NONE':
+      return null;
+    case 'heartbeat':
+      return accessor(new ClientHeartbeat())! as ClientHeartbeat;
+    case 'realtime_session':
+      return accessor(new RealtimeSession())! as RealtimeSession;
+    default:
+      return null;
   }
 }
 
 export function unionListToClientMessageBody(
-  type: ClientMessageBody, 
-  accessor: (index: number, obj:ClientHeartbeat|RealtimeSession) => ClientHeartbeat|RealtimeSession|null, 
+  type: ClientMessageBody,
+  accessor: (
+    index: number,
+    obj: ClientHeartbeat | RealtimeSession
+  ) => ClientHeartbeat | RealtimeSession | null,
   index: number
-): ClientHeartbeat|RealtimeSession|null {
-  switch(ClientMessageBody[type]) {
-    case 'NONE': return null; 
-    case 'heartbeat': return accessor(index, new ClientHeartbeat())! as ClientHeartbeat;
-    case 'realtime_session': return accessor(index, new RealtimeSession())! as RealtimeSession;
-    default: return null;
+): ClientHeartbeat | RealtimeSession | null {
+  switch (ClientMessageBody[type]) {
+    case 'NONE':
+      return null;
+    case 'heartbeat':
+      return accessor(index, new ClientHeartbeat())! as ClientHeartbeat;
+    case 'realtime_session':
+      return accessor(index, new RealtimeSession())! as RealtimeSession;
+    default:
+      return null;
   }
 }

@@ -3,26 +3,28 @@
 import * as flatbuffers from 'flatbuffers';
 
 export class ClientHeartbeat {
-  bb: flatbuffers.ByteBuffer|null = null;
+  bb: flatbuffers.ByteBuffer | null = null;
   bb_pos = 0;
-  __init(i:number, bb:flatbuffers.ByteBuffer):ClientHeartbeat {
-  this.bb_pos = i;
-  this.bb = bb;
-  return this;
-}
+  __init(i: number, bb: flatbuffers.ByteBuffer): ClientHeartbeat {
+    this.bb_pos = i;
+    this.bb = bb;
+    return this;
+  }
 
-lastRttMs():bigint {
-  return this.bb!.readUint64(this.bb_pos);
-}
+  lastRttMs(): bigint {
+    return this.bb!.readUint64(this.bb_pos);
+  }
 
-static sizeOf():number {
-  return 8;
-}
+  static sizeOf(): number {
+    return 8;
+  }
 
-static createClientHeartbeat(builder:flatbuffers.Builder, last_rtt_ms: bigint):flatbuffers.Offset {
-  builder.prep(8, 8);
-  builder.writeInt64(BigInt(last_rtt_ms ?? 0));
-  return builder.offset();
-}
-
+  static createClientHeartbeat(
+    builder: flatbuffers.Builder,
+    last_rtt_ms: bigint
+  ): flatbuffers.Offset {
+    builder.prep(8, 8);
+    builder.writeInt64(BigInt(last_rtt_ms ?? 0));
+    return builder.offset();
+  }
 }

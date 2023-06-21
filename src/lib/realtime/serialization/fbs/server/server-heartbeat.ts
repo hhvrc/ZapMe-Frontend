@@ -3,44 +3,62 @@
 import * as flatbuffers from 'flatbuffers';
 
 export class ServerHeartbeat {
-  bb: flatbuffers.ByteBuffer|null = null;
+  bb: flatbuffers.ByteBuffer | null = null;
   bb_pos = 0;
-  __init(i:number, bb:flatbuffers.ByteBuffer):ServerHeartbeat {
-  this.bb_pos = i;
-  this.bb = bb;
-  return this;
-}
+  __init(i: number, bb: flatbuffers.ByteBuffer): ServerHeartbeat {
+    this.bb_pos = i;
+    this.bb = bb;
+    return this;
+  }
 
-static getRootAsServerHeartbeat(bb:flatbuffers.ByteBuffer, obj?:ServerHeartbeat):ServerHeartbeat {
-  return (obj || new ServerHeartbeat()).__init(bb.readInt32(bb.position()) + bb.position(), bb);
-}
+  static getRootAsServerHeartbeat(
+    bb: flatbuffers.ByteBuffer,
+    obj?: ServerHeartbeat
+  ): ServerHeartbeat {
+    return (obj || new ServerHeartbeat()).__init(
+      bb.readInt32(bb.position()) + bb.position(),
+      bb
+    );
+  }
 
-static getSizePrefixedRootAsServerHeartbeat(bb:flatbuffers.ByteBuffer, obj?:ServerHeartbeat):ServerHeartbeat {
-  bb.setPosition(bb.position() + flatbuffers.SIZE_PREFIX_LENGTH);
-  return (obj || new ServerHeartbeat()).__init(bb.readInt32(bb.position()) + bb.position(), bb);
-}
+  static getSizePrefixedRootAsServerHeartbeat(
+    bb: flatbuffers.ByteBuffer,
+    obj?: ServerHeartbeat
+  ): ServerHeartbeat {
+    bb.setPosition(bb.position() + flatbuffers.SIZE_PREFIX_LENGTH);
+    return (obj || new ServerHeartbeat()).__init(
+      bb.readInt32(bb.position()) + bb.position(),
+      bb
+    );
+  }
 
-heartbeatIntervalMs():bigint {
-  const offset = this.bb!.__offset(this.bb_pos, 4);
-  return offset ? this.bb!.readInt64(this.bb_pos + offset) : BigInt('0');
-}
+  heartbeatIntervalMs(): bigint {
+    const offset = this.bb!.__offset(this.bb_pos, 4);
+    return offset ? this.bb!.readInt64(this.bb_pos + offset) : BigInt('0');
+  }
 
-static startServerHeartbeat(builder:flatbuffers.Builder) {
-  builder.startObject(1);
-}
+  static startServerHeartbeat(builder: flatbuffers.Builder) {
+    builder.startObject(1);
+  }
 
-static addHeartbeatIntervalMs(builder:flatbuffers.Builder, heartbeatIntervalMs:bigint) {
-  builder.addFieldInt64(0, heartbeatIntervalMs, BigInt('0'));
-}
+  static addHeartbeatIntervalMs(
+    builder: flatbuffers.Builder,
+    heartbeatIntervalMs: bigint
+  ) {
+    builder.addFieldInt64(0, heartbeatIntervalMs, BigInt('0'));
+  }
 
-static endServerHeartbeat(builder:flatbuffers.Builder):flatbuffers.Offset {
-  const offset = builder.endObject();
-  return offset;
-}
+  static endServerHeartbeat(builder: flatbuffers.Builder): flatbuffers.Offset {
+    const offset = builder.endObject();
+    return offset;
+  }
 
-static createServerHeartbeat(builder:flatbuffers.Builder, heartbeatIntervalMs:bigint):flatbuffers.Offset {
-  ServerHeartbeat.startServerHeartbeat(builder);
-  ServerHeartbeat.addHeartbeatIntervalMs(builder, heartbeatIntervalMs);
-  return ServerHeartbeat.endServerHeartbeat(builder);
-}
+  static createServerHeartbeat(
+    builder: flatbuffers.Builder,
+    heartbeatIntervalMs: bigint
+  ): flatbuffers.Offset {
+    ServerHeartbeat.startServerHeartbeat(builder);
+    ServerHeartbeat.addHeartbeatIntervalMs(builder, heartbeatIntervalMs);
+    return ServerHeartbeat.endServerHeartbeat(builder);
+  }
 }

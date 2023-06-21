@@ -1,6 +1,7 @@
 <script lang="ts">
   import { browser } from '$app/environment';
-  import { WebSocketClient } from '$lib/realtime/client';
+  import { WebRtcCallingClient } from '$lib/realtime/WebRtcClient';
+  import { WebSocketClient } from '$lib/realtime/WebSocketClient';
   import { SessionTokenStore } from '$lib/stores';
 
   $: loggedIn = !!$SessionTokenStore;
@@ -17,7 +18,11 @@
   $: jwtToken = $SessionTokenStore?.jwtToken;
   $: if (browser && jwtToken) {
     let cli = new WebSocketClient(jwtToken);
-    console.log('WS Created:', cli != null);
+    console.log('WS Created:', !!cli);
+    let rtc = WebRtcCallingClient.Create(cli, 'sessId', 'usrId', [
+      'stunServerList',
+    ]);
+    console.log('RTC Created:', !!rtc);
   }
 </script>
 

@@ -16,33 +16,33 @@ import { exists, mapValues } from '../runtime';
 /**
  * Contact information for ZapMe, e.g. email address, discord server, etc.
  * @export
- * @interface ConfigContact
+ * @interface ApiConfigContact
  */
-export interface ConfigContact {
+export interface ApiConfigContact {
     /**
      * Email address to contact the support of the service
      * @type {string}
-     * @memberof ConfigContact
+     * @memberof ApiConfigContact
      */
     emailSupport: string;
     /**
      * Email address to contact the owner of the service
      * @type {string}
-     * @memberof ConfigContact
+     * @memberof ApiConfigContact
      */
     emailContact: string;
     /**
      * Invite URL to the Discord server where users can get support
      * @type {string}
-     * @memberof ConfigContact
+     * @memberof ApiConfigContact
      */
     discordInviteUrl: string;
 }
 
 /**
- * Check if a given object implements the ConfigContact interface.
+ * Check if a given object implements the ApiConfigContact interface.
  */
-export function instanceOfConfigContact(value: object): boolean {
+export function instanceOfApiConfigContact(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "emailSupport" in value;
     isInstance = isInstance && "emailContact" in value;
@@ -51,11 +51,11 @@ export function instanceOfConfigContact(value: object): boolean {
     return isInstance;
 }
 
-export function ConfigContactFromJSON(json: any): ConfigContact {
-    return ConfigContactFromJSONTyped(json, false);
+export function ApiConfigContactFromJSON(json: any): ApiConfigContact {
+    return ApiConfigContactFromJSONTyped(json, false);
 }
 
-export function ConfigContactFromJSONTyped(json: any, ignoreDiscriminator: boolean): ConfigContact {
+export function ApiConfigContactFromJSONTyped(json: any, ignoreDiscriminator: boolean): ApiConfigContact {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -67,7 +67,7 @@ export function ConfigContactFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function ConfigContactToJSON(value?: ConfigContact | null): any {
+export function ApiConfigContactToJSON(value?: ApiConfigContact | null): any {
     if (value === undefined) {
         return undefined;
     }

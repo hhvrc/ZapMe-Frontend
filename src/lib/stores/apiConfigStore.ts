@@ -1,4 +1,4 @@
-import type { Config } from '$lib/api';
+import type { ApiConfig } from '$lib/api';
 import { writable } from 'svelte/store';
 
-export const ApiConfigStore = writable<Config | null>(null);
+export const ApiConfigStore = writable<ApiConfig | null>(null);

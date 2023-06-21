@@ -26,7 +26,7 @@
   import OpenGraphTags from '$components/MetaTags/OpenGraphTags.svelte';
   import TwitterSummaryTags from '$components/MetaTags/Twitter/TwitterSummaryTags.svelte';
   import { modalComponentRegistry } from '$components/modals';
-  import type { Config } from '$lib/api';
+  import type { ApiConfig } from '$lib/api';
   import { ApiConfigStore, SessionTokenStore } from '$lib/stores';
 
   storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
@@ -78,7 +78,7 @@
     },
   ];
 
-  let config: Config;
+  let config: ApiConfig;
   export let data;
   $: {
     config = data.config;

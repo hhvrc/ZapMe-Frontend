@@ -5,40 +5,56 @@ import { GlobalMessage } from '../../fbs/server/global-message.js';
 import { ServerHeartbeat } from '../../fbs/server/server-heartbeat.js';
 import { ServerHello } from '../../fbs/server/server-hello.js';
 
-
 export enum ServerMessageBody {
   NONE = 0,
   hello = 1,
   heartbeat = 2,
   realtime_session = 3,
-  message_global = 4
+  message_global = 4,
 }
 
 export function unionToServerMessageBody(
   type: ServerMessageBody,
-  accessor: (obj:GlobalMessage|RealtimeSession|ServerHeartbeat|ServerHello) => GlobalMessage|RealtimeSession|ServerHeartbeat|ServerHello|null
-): GlobalMessage|RealtimeSession|ServerHeartbeat|ServerHello|null {
-  switch(ServerMessageBody[type]) {
-    case 'NONE': return null; 
-    case 'hello': return accessor(new ServerHello())! as ServerHello;
-    case 'heartbeat': return accessor(new ServerHeartbeat())! as ServerHeartbeat;
-    case 'realtime_session': return accessor(new RealtimeSession())! as RealtimeSession;
-    case 'message_global': return accessor(new GlobalMessage())! as GlobalMessage;
-    default: return null;
+  accessor: (
+    obj: GlobalMessage | RealtimeSession | ServerHeartbeat | ServerHello
+  ) => GlobalMessage | RealtimeSession | ServerHeartbeat | ServerHello | null
+): GlobalMessage | RealtimeSession | ServerHeartbeat | ServerHello | null {
+  switch (ServerMessageBody[type]) {
+    case 'NONE':
+      return null;
+    case 'hello':
+      return accessor(new ServerHello())! as ServerHello;
+    case 'heartbeat':
+      return accessor(new ServerHeartbeat())! as ServerHeartbeat;
+    case 'realtime_session':
+      return accessor(new RealtimeSession())! as RealtimeSession;
+    case 'message_global':
+      return accessor(new GlobalMessage())! as GlobalMessage;
+    default:
+      return null;
   }
 }
 
 export function unionListToServerMessageBody(
-  type: ServerMessageBody, 
-  accessor: (index: number, obj:GlobalMessage|RealtimeSession|ServerHeartbeat|ServerHello) => GlobalMessage|RealtimeSession|ServerHeartbeat|ServerHello|null, 
+  type: ServerMessageBody,
+  accessor: (
+    index: number,
+    obj: GlobalMessage | RealtimeSession | ServerHeartbeat | ServerHello
+  ) => GlobalMessage | RealtimeSession | ServerHeartbeat | ServerHello | null,
   index: number
-): GlobalMessage|RealtimeSession|ServerHeartbeat|ServerHello|null {
-  switch(ServerMessageBody[type]) {
-    case 'NONE': return null; 
-    case 'hello': return accessor(index, new ServerHello())! as ServerHello;
-    case 'heartbeat': return accessor(index, new ServerHeartbeat())! as ServerHeartbeat;
-    case 'realtime_session': return accessor(index, new RealtimeSession())! as RealtimeSession;
-    case 'message_global': return accessor(index, new GlobalMessage())! as GlobalMessage;
-    default: return null;
+): GlobalMessage | RealtimeSession | ServerHeartbeat | ServerHello | null {
+  switch (ServerMessageBody[type]) {
+    case 'NONE':
+      return null;
+    case 'hello':
+      return accessor(index, new ServerHello())! as ServerHello;
+    case 'heartbeat':
+      return accessor(index, new ServerHeartbeat())! as ServerHeartbeat;
+    case 'realtime_session':
+      return accessor(index, new RealtimeSession())! as RealtimeSession;
+    case 'message_global':
+      return accessor(index, new GlobalMessage())! as GlobalMessage;
+    default:
+      return null;
   }
 }
