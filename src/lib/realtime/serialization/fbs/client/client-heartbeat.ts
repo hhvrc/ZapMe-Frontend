@@ -11,17 +11,17 @@ export class ClientHeartbeat {
   return this;
 }
 
-timestamp():bigint {
-  return this.bb!.readInt64(this.bb_pos);
+lastRttMs():bigint {
+  return this.bb!.readUint64(this.bb_pos);
 }
 
 static sizeOf():number {
   return 8;
 }
 
-static createClientHeartbeat(builder:flatbuffers.Builder, timestamp: bigint):flatbuffers.Offset {
+static createClientHeartbeat(builder:flatbuffers.Builder, last_rtt_ms: bigint):flatbuffers.Offset {
   builder.prep(8, 8);
-  builder.writeInt64(BigInt(timestamp ?? 0));
+  builder.writeInt64(BigInt(last_rtt_ms ?? 0));
   return builder.offset();
 }
 

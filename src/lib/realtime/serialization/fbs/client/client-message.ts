@@ -2,7 +2,7 @@
 
 import * as flatbuffers from 'flatbuffers';
 
-import { ClientMessageBody, unionToClientMessageBody, unionListToClientMessageBody } from '../../client/fbs/client-message-body.js';
+import { ClientMessageBody, unionToClientMessageBody, unionListToClientMessageBody } from '../../fbs/client/client-message-body.js';
 
 
 export class ClientMessage {
@@ -23,35 +23,26 @@ static getSizePrefixedRootAsClientMessage(bb:flatbuffers.ByteBuffer, obj?:Client
   return (obj || new ClientMessage()).__init(bb.readInt32(bb.position()) + bb.position(), bb);
 }
 
-timestamp():bigint {
-  const offset = this.bb!.__offset(this.bb_pos, 4);
-  return offset ? this.bb!.readInt64(this.bb_pos + offset) : BigInt('0');
-}
-
 messageType():ClientMessageBody {
-  const offset = this.bb!.__offset(this.bb_pos, 6);
+  const offset = this.bb!.__offset(this.bb_pos, 4);
   return offset ? this.bb!.readUint8(this.bb_pos + offset) : ClientMessageBody.NONE;
 }
 
 message<T extends flatbuffers.Table>(obj:any):any|null {
-  const offset = this.bb!.__offset(this.bb_pos, 8);
+  const offset = this.bb!.__offset(this.bb_pos, 6);
   return offset ? this.bb!.__union(obj, this.bb_pos + offset) : null;
 }
 
 static startClientMessage(builder:flatbuffers.Builder) {
-  builder.startObject(3);
-}
-
-static addTimestamp(builder:flatbuffers.Builder, timestamp:bigint) {
-  builder.addFieldInt64(0, timestamp, BigInt('0'));
+  builder.startObject(2);
 }
 
 static addMessageType(builder:flatbuffers.Builder, messageType:ClientMessageBody) {
-  builder.addFieldInt8(1, messageType, ClientMessageBody.NONE);
+  builder.addFieldInt8(0, messageType, ClientMessageBody.NONE);
 }
 
 static addMessage(builder:flatbuffers.Builder, messageOffset:flatbuffers.Offset) {
-  builder.addFieldOffset(2, messageOffset, 0);
+  builder.addFieldOffset(1, messageOffset, 0);
 }
 
 static endClientMessage(builder:flatbuffers.Builder):flatbuffers.Offset {
@@ -67,9 +58,8 @@ static finishSizePrefixedClientMessageBuffer(builder:flatbuffers.Builder, offset
   builder.finish(offset, undefined, true);
 }
 
-static createClientMessage(builder:flatbuffers.Builder, timestamp:bigint, messageType:ClientMessageBody, messageOffset:flatbuffers.Offset):flatbuffers.Offset {
+static createClientMessage(builder:flatbuffers.Builder, messageType:ClientMessageBody, messageOffset:flatbuffers.Offset):flatbuffers.Offset {
   ClientMessage.startClientMessage(builder);
-  ClientMessage.addTimestamp(builder, timestamp);
   ClientMessage.addMessageType(builder, messageType);
   ClientMessage.addMessage(builder, messageOffset);
   return ClientMessage.endClientMessage(builder);

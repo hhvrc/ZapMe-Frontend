@@ -20,7 +20,7 @@ static getSizePrefixedRootAsServerHeartbeat(bb:flatbuffers.ByteBuffer, obj?:Serv
   return (obj || new ServerHeartbeat()).__init(bb.readInt32(bb.position()) + bb.position(), bb);
 }
 
-timestamp():bigint {
+heartbeatIntervalMs():bigint {
   const offset = this.bb!.__offset(this.bb_pos, 4);
   return offset ? this.bb!.readInt64(this.bb_pos + offset) : BigInt('0');
 }
@@ -29,8 +29,8 @@ static startServerHeartbeat(builder:flatbuffers.Builder) {
   builder.startObject(1);
 }
 
-static addTimestamp(builder:flatbuffers.Builder, timestamp:bigint) {
-  builder.addFieldInt64(0, timestamp, BigInt('0'));
+static addHeartbeatIntervalMs(builder:flatbuffers.Builder, heartbeatIntervalMs:bigint) {
+  builder.addFieldInt64(0, heartbeatIntervalMs, BigInt('0'));
 }
 
 static endServerHeartbeat(builder:flatbuffers.Builder):flatbuffers.Offset {
@@ -38,9 +38,9 @@ static endServerHeartbeat(builder:flatbuffers.Builder):flatbuffers.Offset {
   return offset;
 }
 
-static createServerHeartbeat(builder:flatbuffers.Builder, timestamp:bigint):flatbuffers.Offset {
+static createServerHeartbeat(builder:flatbuffers.Builder, heartbeatIntervalMs:bigint):flatbuffers.Offset {
   ServerHeartbeat.startServerHeartbeat(builder);
-  ServerHeartbeat.addTimestamp(builder, timestamp);
+  ServerHeartbeat.addHeartbeatIntervalMs(builder, heartbeatIntervalMs);
   return ServerHeartbeat.endServerHeartbeat(builder);
 }
 }

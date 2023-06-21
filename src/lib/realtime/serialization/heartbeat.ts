@@ -2,7 +2,7 @@ import {
   ClientHeartbeat,
   ClientMessage,
   ClientMessageBody,
-} from './client/fbs';
+} from './fbs/client';
 import { Builder as FbsBuilder } from 'flatbuffers';
 
 export function createClientHeartbeatMessage(timestamp: bigint): Uint8Array {

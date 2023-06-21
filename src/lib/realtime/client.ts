@@ -3,7 +3,7 @@ import {
   ServerHello,
   ServerMessage,
   ServerMessageBody,
-} from './serialization/server/fbs';
+} from './serialization/fbs/server';
 import { PUBLIC_BACKEND_WEBSOCKET_URL } from '$env/static/public';
 import { isArrayBuffer } from '$lib/typeGuards';
 import { ByteBuffer } from 'flatbuffers';

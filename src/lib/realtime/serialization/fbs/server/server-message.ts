@@ -2,7 +2,7 @@
 
 import * as flatbuffers from 'flatbuffers';
 
-import { ServerMessageBody, unionToServerMessageBody, unionListToServerMessageBody } from '../../server/fbs/server-message-body.js';
+import { ServerMessageBody, unionToServerMessageBody, unionListToServerMessageBody } from '../../fbs/server/server-message-body.js';
 
 
 export class ServerMessage {
