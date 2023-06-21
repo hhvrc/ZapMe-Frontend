@@ -55,8 +55,17 @@ export class RealtimeSessionMessage {
     return offset ? this.bb!.__vector_len(this.bb_pos + offset) : 0;
   }
 
+  message(): string | null;
+  message(optionalEncoding: flatbuffers.Encoding): string | Uint8Array | null;
+  message(optionalEncoding?: any): string | Uint8Array | null {
+    const offset = this.bb!.__offset(this.bb_pos, 6);
+    return offset
+      ? this.bb!.__string(this.bb_pos + offset, optionalEncoding)
+      : null;
+  }
+
   static startRealtimeSessionMessage(builder: flatbuffers.Builder) {
-    builder.startObject(1);
+    builder.startObject(2);
   }
 
   static addRecepientUserIds(
@@ -84,6 +93,13 @@ export class RealtimeSessionMessage {
     builder.startVector(4, numElems, 4);
   }
 
+  static addMessage(
+    builder: flatbuffers.Builder,
+    messageOffset: flatbuffers.Offset
+  ) {
+    builder.addFieldOffset(1, messageOffset, 0);
+  }
+
   static endRealtimeSessionMessage(
     builder: flatbuffers.Builder
   ): flatbuffers.Offset {
@@ -93,10 +109,12 @@ export class RealtimeSessionMessage {
 
   static createRealtimeSessionMessage(
     builder: flatbuffers.Builder,
-    recepientUserIdsOffset: flatbuffers.Offset
+    recepientUserIdsOffset: flatbuffers.Offset,
+    messageOffset: flatbuffers.Offset
   ): flatbuffers.Offset {
     RealtimeSessionMessage.startRealtimeSessionMessage(builder);
     RealtimeSessionMessage.addRecepientUserIds(builder, recepientUserIdsOffset);
+    RealtimeSessionMessage.addMessage(builder, messageOffset);
     return RealtimeSessionMessage.endRealtimeSessionMessage(builder);
   }
 }

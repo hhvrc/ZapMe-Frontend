@@ -1,4 +1,8 @@
-import { RealtimeSession } from './serialization/fbs/realtime';
+import {
+  RealtimeSession,
+  RealtimeSessionBody,
+  RealtimeSessionMessage,
+} from './serialization/fbs/realtime';
 import {
   GlobalMessage,
   ServerHeartbeat,
@@ -7,6 +11,7 @@ import {
   ServerMessageBody,
 } from './serialization/fbs/server';
 import { createClientHeartbeatMessage } from './serialization/heartbeat';
+import { createClientMessage } from './serialization/message';
 import { PUBLIC_BACKEND_WEBSOCKET_URL } from '$env/static/public';
 import { isArrayBuffer } from '$lib/typeGuards';
 import { ByteBuffer } from 'flatbuffers';
@@ -51,6 +56,15 @@ export class WebSocketClient {
 
   public get ConnectionRTT(): number {
     return this._heartbeatLastRttMs;
+  }
+
+  public sendTextMessage(msg: string) {
+    this._socket.send(createClientMessage(msg));
+  }
+
+  private msgHandlers: ((msg: string) => void)[] = [];
+  public onMessageReceived(cb: (msg: string) => void) {
+    this.msgHandlers.push(cb);
   }
 
   private onOpen() {
@@ -122,11 +136,23 @@ export class WebSocketClient {
   private handleHeartbeatMessage(msg: ServerHeartbeat) {
     this._heartbeatLastRttMs = performance.now() - this._hearbeatSendTime;
     console.log(`[WS] RTT: ${this._heartbeatLastRttMs}ms`);
-    this.HeartbeatIntervalMs = msg.heartbeatIntervalMs();
+    this.HeartbeatIntervalMS = msg.heartbeatIntervalMs();
   }
 
   private handleRealtimeSessionMessage(msg: RealtimeSession) {
     console.log('[WS] Received realtime session message', msg.bodyType());
+
+    if (msg.bodyType() !== RealtimeSessionBody.message) return;
+
+    const body = new RealtimeSessionMessage();
+    msg.body(body);
+
+    const str = body.message();
+    if (!str) return;
+
+    this.msgHandlers.forEach((cb) => cb(str));
+
+    console.log('[WS] Received realtime session message', str);
   }
 
   private handleGlobalMessage(msg: GlobalMessage) {

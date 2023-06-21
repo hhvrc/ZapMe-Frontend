@@ -10,7 +10,7 @@ export class WebRtcClient {
   private _connection: RTCPeerConnection;
   private _sessionId: string;
   private _userId: string;
-  protected _localDescription: RTCSessionDescription;
+  protected _localDescription: RTCSessionDescriptionInit;
   protected _remoteDescription: RTCSessionDescription | null;
   protected _webSocketClient: WebSocketClient;
 
@@ -18,7 +18,7 @@ export class WebRtcClient {
     connection: RTCPeerConnection,
     sessionId: string,
     userId: string,
-    localDescription: RTCSessionDescription,
+    localDescription: RTCSessionDescriptionInit,
     remoteDescription: RTCSessionDescription | null,
     webSocketClient: WebSocketClient
   ) {
@@ -76,7 +76,14 @@ export class WebRtcCallingClient extends WebRtcClient {
     const localDesc = await connection.createOffer();
     connection.setLocalDescription(localDesc);
 
-    return new WebRtcClient(connection, localDesc, null, sessionId, userId);
+    return new WebRtcClient(
+      connection,
+      sessionId,
+      userId,
+      localDesc,
+      null,
+      wsClient
+    );
   }
 
   public async SetRemoteAnswer(remoteAnswer: string) {
@@ -104,10 +111,11 @@ export class WebRtcAnsweringClient extends WebRtcClient {
 
     return new WebRtcClient(
       connection,
+      sessionId,
+      userId,
       localDesc,
       remoteDesc,
-      sessionId,
-      userId
+      wsClient
     );
   }
 

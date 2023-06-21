@@ -11,7 +11,7 @@ export class ClientHeartbeat {
     return this;
   }
 
-  lastRttMs(): bigint {
+  lastRttMs(): flatbuffers.Long {
     return this.bb!.readUint64(this.bb_pos);
   }
 
@@ -21,10 +21,10 @@ export class ClientHeartbeat {
 
   static createClientHeartbeat(
     builder: flatbuffers.Builder,
-    last_rtt_ms: bigint
+    last_rtt_ms: flatbuffers.Long
   ): flatbuffers.Offset {
     builder.prep(8, 8);
-    builder.writeInt64(BigInt(last_rtt_ms ?? 0));
+    builder.writeInt64(last_rtt_ms);
     return builder.offset();
   }
 }
