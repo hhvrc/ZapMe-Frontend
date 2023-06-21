@@ -20,7 +20,7 @@
 <div class="select-none">
   <!-- trigger -->
   <button
-    class="hover:variant-soft-primary btn"
+    class="btn hover:variant-soft-primary"
     use:popup={{ event: 'click', target: 'theme' }}
   >
     <i class="fa-solid fa-palette text-lg" />

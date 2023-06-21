@@ -13,15 +13,12 @@ models/AccountDto.ts
 models/AccountRecoveryConfirmRequest.ts
 models/AccountRecoveryRequestRequest.ts
 models/ApiConfig.ts
-models/ApiConfigDisabledFeatures.ts
-models/ApiDisabledFeatures.ts
+models/ApiConfigContact.ts
+models/ApiConfigFounderSocials.ts
+models/ApiConfigWebRtc.ts
 models/AuthSignIn.ts
 models/AuthSignInRequest.ts
 models/AuthenticationResponse.ts
-models/Config.ts
-models/ConfigApi.ts
-models/ConfigContact.ts
-models/ConfigFounderSocials.ts
 models/ContactConfig.ts
 models/CreateAccount.ts
 models/CreateAccountRequest.ts
@@ -50,5 +47,6 @@ models/UserNotification.ts
 models/UserRelationType.ts
 models/UserReport.ts
 models/UserStatus.ts
+models/WebRtcConfig.ts
 models/index.ts
 runtime.ts

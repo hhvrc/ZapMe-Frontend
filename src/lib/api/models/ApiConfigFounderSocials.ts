@@ -16,55 +16,55 @@ import { exists, mapValues } from '../runtime';
 /**
  * The social media accounts of the founder of ZapMe
  * @export
- * @interface ConfigFounderSocials
+ * @interface ApiConfigFounderSocials
  */
-export interface ConfigFounderSocials {
+export interface ApiConfigFounderSocials {
     /**
      * Uri pointing to a github account
      * @type {string}
-     * @memberof ConfigFounderSocials
+     * @memberof ApiConfigFounderSocials
      */
     githubUri?: string | null;
     /**
      * Uri pointing to a twitter account
      * @type {string}
-     * @memberof ConfigFounderSocials
+     * @memberof ApiConfigFounderSocials
      */
     twitterUri?: string | null;
     /**
      * Uri pointing to a reddit account
      * @type {string}
-     * @memberof ConfigFounderSocials
+     * @memberof ApiConfigFounderSocials
      */
     redditUri?: string | null;
     /**
      * Uri pointing to a personal website
      * @type {string}
-     * @memberof ConfigFounderSocials
+     * @memberof ApiConfigFounderSocials
      */
     websiteUri?: string | null;
     /**
      * Discord username, e.g. "username#1234"
      * @type {string}
-     * @memberof ConfigFounderSocials
+     * @memberof ApiConfigFounderSocials
      */
     discordUsername?: string | null;
 }
 
 /**
- * Check if a given object implements the ConfigFounderSocials interface.
+ * Check if a given object implements the ApiConfigFounderSocials interface.
  */
-export function instanceOfConfigFounderSocials(value: object): boolean {
+export function instanceOfApiConfigFounderSocials(value: object): boolean {
     let isInstance = true;
 
     return isInstance;
 }
 
-export function ConfigFounderSocialsFromJSON(json: any): ConfigFounderSocials {
-    return ConfigFounderSocialsFromJSONTyped(json, false);
+export function ApiConfigFounderSocialsFromJSON(json: any): ApiConfigFounderSocials {
+    return ApiConfigFounderSocialsFromJSONTyped(json, false);
 }
 
-export function ConfigFounderSocialsFromJSONTyped(json: any, ignoreDiscriminator: boolean): ConfigFounderSocials {
+export function ApiConfigFounderSocialsFromJSONTyped(json: any, ignoreDiscriminator: boolean): ApiConfigFounderSocials {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -78,7 +78,7 @@ export function ConfigFounderSocialsFromJSONTyped(json: any, ignoreDiscriminator
     };
 }
 
-export function ConfigFounderSocialsToJSON(value?: ConfigFounderSocials | null): any {
+export function ApiConfigFounderSocialsToJSON(value?: ApiConfigFounderSocials | null): any {
     if (value === undefined) {
         return undefined;
     }

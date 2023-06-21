@@ -17,7 +17,7 @@
 
 <label class="label">
   <span>{title}</span>
-  <div class="input-group-divider input-group grid-cols-[1fr_auto]">
+  <div class="input-group input-group-divider grid-cols-[1fr_auto]">
     <input
       class="input"
       type={passwordShown ? 'text' : 'password'}

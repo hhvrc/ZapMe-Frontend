@@ -13,12 +13,24 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { ApiConfigDisabledFeatures } from './ApiConfigDisabledFeatures';
+import type { ApiConfigContact } from './ApiConfigContact';
 import {
-    ApiConfigDisabledFeaturesFromJSON,
-    ApiConfigDisabledFeaturesFromJSONTyped,
-    ApiConfigDisabledFeaturesToJSON,
-} from './ApiConfigDisabledFeatures';
+    ApiConfigContactFromJSON,
+    ApiConfigContactFromJSONTyped,
+    ApiConfigContactToJSON,
+} from './ApiConfigContact';
+import type { ApiConfigFounderSocials } from './ApiConfigFounderSocials';
+import {
+    ApiConfigFounderSocialsFromJSON,
+    ApiConfigFounderSocialsFromJSONTyped,
+    ApiConfigFounderSocialsToJSON,
+} from './ApiConfigFounderSocials';
+import type { ApiConfigWebRtc } from './ApiConfigWebRtc';
+import {
+    ApiConfigWebRtcFromJSON,
+    ApiConfigWebRtcFromJSONTyped,
+    ApiConfigWebRtcToJSON,
+} from './ApiConfigWebRtc';
 
 /**
  * 
@@ -27,11 +39,59 @@ import {
  */
 export interface ApiConfig {
     /**
-     * 
-     * @type {ApiConfigDisabledFeatures}
+     * Name of the product, e.g. "ZapMe"
+     * @type {string}
      * @memberof ApiConfig
      */
-    disabledFeatures: ApiConfigDisabledFeatures;
+    appName: string;
+    /**
+     * Version of the product, e.g. "1.0.0"
+     * @type {string}
+     * @memberof ApiConfig
+     */
+    appVersion: string;
+    /**
+     * The current Privacy Policy version, if the user has not accepted this version, they will be prompted to accept it
+     * @type {number}
+     * @memberof ApiConfig
+     */
+    privacyPolicyVersion: number;
+    /**
+     * Markdown of the Privacy Policy
+     * @type {string}
+     * @memberof ApiConfig
+     */
+    privacyPolicyMarkdown: string;
+    /**
+     * The current Terms of Service version, if the user has not accepted this version, they will be prompted to accept it
+     * @type {number}
+     * @memberof ApiConfig
+     */
+    termsOfServiceVersion: number;
+    /**
+     * Markdown of the Terms of Service
+     * @type {string}
+     * @memberof ApiConfig
+     */
+    termsOfServiceMarkdown: string;
+    /**
+     * 
+     * @type {ApiConfigWebRtc}
+     * @memberof ApiConfig
+     */
+    webRtc: ApiConfigWebRtc;
+    /**
+     * 
+     * @type {ApiConfigContact}
+     * @memberof ApiConfig
+     */
+    contact: ApiConfigContact;
+    /**
+     * 
+     * @type {ApiConfigFounderSocials}
+     * @memberof ApiConfig
+     */
+    founderSocials: ApiConfigFounderSocials;
 }
 
 /**
@@ -39,7 +99,15 @@ export interface ApiConfig {
  */
 export function instanceOfApiConfig(value: object): boolean {
     let isInstance = true;
-    isInstance = isInstance && "disabledFeatures" in value;
+    isInstance = isInstance && "appName" in value;
+    isInstance = isInstance && "appVersion" in value;
+    isInstance = isInstance && "privacyPolicyVersion" in value;
+    isInstance = isInstance && "privacyPolicyMarkdown" in value;
+    isInstance = isInstance && "termsOfServiceVersion" in value;
+    isInstance = isInstance && "termsOfServiceMarkdown" in value;
+    isInstance = isInstance && "webRtc" in value;
+    isInstance = isInstance && "contact" in value;
+    isInstance = isInstance && "founderSocials" in value;
 
     return isInstance;
 }
@@ -54,7 +122,15 @@ export function ApiConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     }
     return {
         
-        'disabledFeatures': ApiConfigDisabledFeaturesFromJSON(json['disabledFeatures']),
+        'appName': json['appName'],
+        'appVersion': json['appVersion'],
+        'privacyPolicyVersion': json['privacyPolicyVersion'],
+        'privacyPolicyMarkdown': json['privacyPolicyMarkdown'],
+        'termsOfServiceVersion': json['termsOfServiceVersion'],
+        'termsOfServiceMarkdown': json['termsOfServiceMarkdown'],
+        'webRtc': ApiConfigWebRtcFromJSON(json['webRtc']),
+        'contact': ApiConfigContactFromJSON(json['contact']),
+        'founderSocials': ApiConfigFounderSocialsFromJSON(json['founderSocials']),
     };
 }
 
@@ -67,7 +143,15 @@ export function ApiConfigToJSON(value?: ApiConfig | null): any {
     }
     return {
         
-        'disabledFeatures': ApiConfigDisabledFeaturesToJSON(value.disabledFeatures),
+        'appName': value.appName,
+        'appVersion': value.appVersion,
+        'privacyPolicyVersion': value.privacyPolicyVersion,
+        'privacyPolicyMarkdown': value.privacyPolicyMarkdown,
+        'termsOfServiceVersion': value.termsOfServiceVersion,
+        'termsOfServiceMarkdown': value.termsOfServiceMarkdown,
+        'webRtc': ApiConfigWebRtcToJSON(value.webRtc),
+        'contact': ApiConfigContactToJSON(value.contact),
+        'founderSocials': ApiConfigFounderSocialsToJSON(value.founderSocials),
     };
 }
 

@@ -15,12 +15,12 @@
 
 import * as runtime from '../runtime';
 import type {
-  Config,
+  ApiConfig,
   ErrorDetails,
 } from '../models';
 import {
-    ConfigFromJSON,
-    ConfigToJSON,
+    ApiConfigFromJSON,
+    ApiConfigToJSON,
     ErrorDetailsFromJSON,
     ErrorDetailsToJSON,
 } from '../models';
@@ -39,12 +39,12 @@ export interface ConfigApiInterface {
      * @throws {RequiredError}
      * @memberof ConfigApiInterface
      */
-    getConfigRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Config>>;
+    getConfigRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiConfig>>;
 
     /**
      * 
      */
-    getConfig(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Config>;
+    getConfig(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiConfig>;
 
 }
 
@@ -56,7 +56,7 @@ export class ConfigApi extends runtime.BaseAPI implements ConfigApiInterface {
     /**
      * 
      */
-    async getConfigRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Config>> {
+    async getConfigRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiConfig>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -72,13 +72,13 @@ export class ConfigApi extends runtime.BaseAPI implements ConfigApiInterface {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ConfigFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiConfigFromJSON(jsonValue));
     }
 
     /**
      * 
      */
-    async getConfig(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Config> {
+    async getConfig(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiConfig> {
         const response = await this.getConfigRaw(initOverrides);
         return await response.value();
     }
