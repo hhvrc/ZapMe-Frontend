@@ -21,6 +21,8 @@ import { isArrayBuffer } from '$lib/typeGuards';
 import { ByteBuffer } from 'flatbuffers';
 
 export class WebSocketClient {
+  public static readonly Instance = new WebSocketClient();
+
   private _socket: WebSocket | null = null;
   private _hearbeatSendTime = 0;
 
