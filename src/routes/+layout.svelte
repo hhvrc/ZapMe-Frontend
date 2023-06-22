@@ -22,11 +22,13 @@
     storePopup,
     Toast,
   } from '@skeletonlabs/skeleton';
+  import { browser } from '$app/environment';
   import { page } from '$app/stores';
   import OpenGraphTags from '$components/MetaTags/OpenGraphTags.svelte';
   import TwitterSummaryTags from '$components/MetaTags/Twitter/TwitterSummaryTags.svelte';
   import { modalComponentRegistry } from '$components/modals';
   import type { ApiConfig } from '$lib/api';
+  import { WebSocketClient } from '$lib/realtime/WebSocketClient';
   import { ApiConfigStore, SessionTokenStore } from '$lib/stores';
 
   storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
@@ -85,7 +87,16 @@
     ApiConfigStore.set(data.config);
   }
 
-  $: loggedIn = !!$SessionTokenStore;
+  var wsClient = browser ? new WebSocketClient() : null;
+
+  let loggedIn = false;
+  $: if (wsClient && $SessionTokenStore) {
+    loggedIn = true;
+    wsClient.Connect();
+  } else {
+    loggedIn = false;
+    wsClient?.Disconnect();
+  }
 </script>
 
 <svelte:head>

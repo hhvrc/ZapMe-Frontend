@@ -11,72 +11,189 @@ import {
   ServerMessageBody,
 } from './serialization/fbs/server';
 import { createClientHeartbeatMessage } from './serialization/heartbeat';
-import { createClientMessage } from './serialization/message';
+import {
+  createRealtimeSessionIceCandidateDiscovered,
+  createRealtimeSessionMessage,
+} from './serialization/realtime';
 import { PUBLIC_BACKEND_WEBSOCKET_URL } from '$env/static/public';
+import { SessionTokenStore } from '$lib/stores';
 import { isArrayBuffer } from '$lib/typeGuards';
 import { ByteBuffer } from 'flatbuffers';
 
 export class WebSocketClient {
-  private _socket: WebSocket;
-  private _jwtToken: string;
-  private _heartbeatIntervalMs: number;
-  private _heartbeatInterval: ReturnType<typeof setInterval> | null;
-  private _hearbeatSendTime: number;
-  private _heartbeatLastRttMs: number;
+  private _socket: WebSocket | null = null;
+  private _hearbeatSendTime = 0;
 
-  constructor(jwtToken: string) {
-    this._socket = new WebSocket(PUBLIC_BACKEND_WEBSOCKET_URL);
-    this._jwtToken = jwtToken;
-    this._heartbeatIntervalMs = 1000;
-    this._heartbeatInterval = null;
-    this._hearbeatSendTime = performance.now();
-    this._heartbeatLastRttMs = 1000;
-
-    this._socket.binaryType = 'arraybuffer';
-    this._socket.onopen = this.onOpen.bind(this);
-    this._socket.onclose = this.onClose.bind(this);
-    this._socket.onmessage = this.onMessage.bind(this);
+  public readonly DISCONNECTED = 0;
+  public readonly DISCONNECTING = 1;
+  public readonly CONNECTING = 2;
+  public readonly CONNECTED = 3;
+  private _connectionState = this.DISCONNECTED;
+  private _connectionStateChangeHandlers: ((state: number) => void)[] = [];
+  public get ConnectionState(): number {
+    return this._connectionState;
+  }
+  public set ConnectionState(v: number) {
+    if (this._connectionState !== v) {
+      this._connectionState = v;
+      if (v !== this.CONNECTED) {
+        this.AuthenticationState = this.UNAUTHENTICATED;
+      }
+      this._connectionStateChangeHandlers.forEach((cb) => cb(v));
+    }
+  }
+  public addConnectionStateChangeHandler(cb: (state: number) => void) {
+    this._connectionStateChangeHandlers.push(cb);
+  }
+  public removeConnectionStateChangeHandler(cb: (state: number) => void) {
+    const idx = this._connectionStateChangeHandlers.indexOf(cb);
+    if (idx !== -1) {
+      this._connectionStateChangeHandlers.splice(idx, 1);
+    }
   }
 
+  public readonly UNAUTHENTICATED = 0;
+  public readonly AUTHENTICATING = 1;
+  public readonly AUTHENTICATED = 2;
+  private _authenticationState = this.UNAUTHENTICATED;
+  private _uthenticationStateChangeHandlers: ((state: number) => void)[] = [];
+  public get AuthenticationState(): number {
+    return this._authenticationState;
+  }
+  public set AuthenticationState(v: number) {
+    if (this._authenticationState !== v) {
+      this._authenticationState = v;
+      this._uthenticationStateChangeHandlers.forEach((cb) => cb(v));
+    }
+  }
+  public addAuthenticationStateChangeHandler(cb: (state: number) => void) {
+    this._uthenticationStateChangeHandlers.push(cb);
+  }
+  public removeAuthenticationStateChangeHandler(cb: (state: number) => void) {
+    const idx = this._uthenticationStateChangeHandlers.indexOf(cb);
+    if (idx !== -1) {
+      this._uthenticationStateChangeHandlers.splice(idx, 1);
+    }
+  }
+
+  private _heartbeatInterval: ReturnType<typeof setInterval> | null = null;
+  private _heartbeatIntervalMs = 1000;
   public get HeartbeatIntervalMS(): number {
     return this._heartbeatIntervalMs;
   }
   private set HeartbeatIntervalMS(v: number) {
-    if (this._heartbeatInterval === null || this._heartbeatIntervalMs !== v) {
+    if (this._heartbeatIntervalMs !== v) {
       this._heartbeatIntervalMs = v;
       if (this._heartbeatInterval !== null) {
         clearInterval(this._heartbeatInterval);
       }
-      this._heartbeatInterval = setInterval(
-        this.sendHeartbeat.bind(this),
-        Number(v)
-      );
+      this._heartbeatInterval = setInterval(this.sendHeartbeat.bind(this), v);
     }
   }
 
+  private _connectionRTT = 1000;
+  private _connectionRTTChangeHandlers: ((rtt: number) => void)[] = [];
   public get ConnectionRTT(): number {
-    return this._heartbeatLastRttMs;
+    return this._connectionRTT;
+  }
+  private set ConnectionRTT(v: number) {
+    if (this._connectionRTT !== v) {
+      this._connectionRTT = v;
+      console.log(`[WS] RTT: ${v}ms`);
+      this._connectionRTTChangeHandlers.forEach((cb) => cb(v));
+    }
+  }
+  public addConnectionRTTChangeHandler(cb: (rtt: number) => void) {
+    this._connectionRTTChangeHandlers.push(cb);
+  }
+  public removeConnectionRTTChangeHandler(cb: (rtt: number) => void) {
+    const idx = this._connectionRTTChangeHandlers.indexOf(cb);
+    if (idx !== -1) {
+      this._connectionRTTChangeHandlers.splice(idx, 1);
+    }
   }
 
-  public sendTextMessage(msg: string) {
-    this._socket.send(createClientMessage(msg));
+  public Connect() {
+    const connectionState = this.ConnectionState;
+    if (
+      connectionState === this.CONNECTING ||
+      connectionState === this.CONNECTED
+    ) {
+      console.error('[WS] ERROR: Connection already in progress');
+      return;
+    }
+
+    if (this._socket !== null) {
+      this.Disconnect();
+    }
+
+    this._connectionState = this.CONNECTING;
+
+    this._socket = new WebSocket(PUBLIC_BACKEND_WEBSOCKET_URL);
+    this._socket.binaryType = 'arraybuffer';
+    this._socket.onopen = this.onOpen.bind(this);
+    this._socket.onclose = this.onClose.bind(this);
+    this._socket.onerror = this.onError.bind(this);
+    this._socket.onmessage = this.onMessage.bind(this);
   }
 
-  private msgHandlers: ((msg: string) => void)[] = [];
-  public onMessageReceived(cb: (msg: string) => void) {
-    this.msgHandlers.push(cb);
-  }
+  public Disconnect() {
+    const connectionState = this.ConnectionState;
+    if (connectionState !== this.DISCONNECTED) {
+      this.ConnectionState = this.DISCONNECTING;
+    }
 
-  private onOpen() {
-    console.log('[WS] Connected');
-    this._socket.send(this._jwtToken);
-  }
-
-  private onClose() {
-    console.log('[WS] Disconnected');
     if (this._heartbeatInterval !== null) {
       clearInterval(this._heartbeatInterval);
+      this._heartbeatInterval = null;
     }
+
+    if (this._socket !== null) {
+      try {
+        this._socket.close();
+      } catch (e) {
+        console.error(e);
+      }
+      this._socket.onopen = null;
+      this._socket.onclose = null;
+      this._socket.onerror = null;
+      this._socket.onmessage = null;
+      this._socket = null;
+    }
+
+    this.ConnectionState = this.DISCONNECTED;
+  }
+
+  private onOpen(ev: Event) {
+    if (!this._socket) {
+      console.error('[WS] ERROR: Socket not initialized');
+      this.Disconnect();
+      return;
+    }
+
+    this.ConnectionState = this.CONNECTED;
+    console.log('[WS] Connected');
+
+    const sessionToken = SessionTokenStore.get();
+    if (!sessionToken) {
+      console.error('[WS] ERROR: User not authenticated');
+      this.Disconnect();
+      return;
+    }
+
+    this.AuthenticationState = this.AUTHENTICATING;
+    this._socket.send(sessionToken.jwtToken);
+  }
+
+  private onClose(ev: CloseEvent) {
+    this.ConnectionState = this.DISCONNECTED;
+    this.Disconnect();
+    console.log('[WS] Disconnected');
+  }
+
+  private onError(ev: Event) {
+    console.error('[WS] ERROR: ', ev);
+    this.Disconnect();
   }
 
   private onMessage(msg: MessageEvent<string | ArrayBuffer | Blob>) {
@@ -124,6 +241,7 @@ export class WebSocketClient {
   }
 
   private handleHelloMessage(msg: ServerHello) {
+    this.AuthenticationState = this.AUTHENTICATED;
     console.log('[WS] Authenticated');
 
     this.HeartbeatIntervalMS = msg.heartbeatIntervalMs();
@@ -134,25 +252,12 @@ export class WebSocketClient {
   }
 
   private handleHeartbeatMessage(msg: ServerHeartbeat) {
-    this._heartbeatLastRttMs = performance.now() - this._hearbeatSendTime;
-    console.log(`[WS] RTT: ${this._heartbeatLastRttMs}ms`);
+    this.ConnectionRTT = performance.now() - this._hearbeatSendTime;
     this.HeartbeatIntervalMS = msg.heartbeatIntervalMs();
   }
 
   private handleRealtimeSessionMessage(msg: RealtimeSession) {
-    console.log('[WS] Received realtime session message', msg.bodyType());
-
-    if (msg.bodyType() !== RealtimeSessionBody.message) return;
-
-    const body = new RealtimeSessionMessage();
-    msg.body(body);
-
-    const str = body.message();
-    if (!str) return;
-
-    this.msgHandlers.forEach((cb) => cb(str));
-
-    console.log('[WS] Received realtime session message', str);
+    console.log('[WS] Received realtime session message');
   }
 
   private handleGlobalMessage(msg: GlobalMessage) {
@@ -164,9 +269,12 @@ export class WebSocketClient {
   }
 
   private sendHeartbeat() {
+    if (!this._socket) {
+      this.Disconnect();
+      return;
+    }
+
     this._hearbeatSendTime = performance.now();
-    this._socket.send(
-      createClientHeartbeatMessage(BigInt(this.HeartbeatIntervalMS))
-    );
+    this._socket.send(createClientHeartbeatMessage(this.HeartbeatIntervalMS));
   }
 }
