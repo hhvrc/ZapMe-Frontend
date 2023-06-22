@@ -24,11 +24,11 @@ export class WebSocketClient {
   private _socket: WebSocket | null = null;
   private _hearbeatSendTime = 0;
 
-  public readonly DISCONNECTED = 0;
-  public readonly DISCONNECTING = 1;
-  public readonly CONNECTING = 2;
-  public readonly CONNECTED = 3;
-  private _connectionState = this.DISCONNECTED;
+  public static readonly DISCONNECTED = 0;
+  public static readonly DISCONNECTING = 1;
+  public static readonly CONNECTING = 2;
+  public static readonly CONNECTED = 3;
+  private _connectionState = WebSocketClient.DISCONNECTED;
   private _connectionStateChangeHandlers: ((state: number) => void)[] = [];
   public get ConnectionState(): number {
     return this._connectionState;
@@ -36,7 +36,7 @@ export class WebSocketClient {
   public set ConnectionState(v: number) {
     if (this._connectionState !== v) {
       this._connectionState = v;
-      if (v !== this.CONNECTED) {
+      if (v !== WebSocketClient.CONNECTED) {
         this.AuthenticationState = this.UNAUTHENTICATED;
       }
       this._connectionStateChangeHandlers.forEach((cb) => cb(v));
@@ -116,18 +116,18 @@ export class WebSocketClient {
   public Connect() {
     const connectionState = this.ConnectionState;
     if (
-      connectionState === this.CONNECTING ||
-      connectionState === this.CONNECTED
+      connectionState === WebSocketClient.CONNECTING ||
+      connectionState === WebSocketClient.CONNECTED
     ) {
       console.error('[WS] ERROR: Connection already in progress');
       return;
     }
 
     if (this._socket !== null) {
-      this.Disconnect();
+      this.DisconnectInternal();
     }
 
-    this._connectionState = this.CONNECTING;
+    this._connectionState = WebSocketClient.CONNECTING;
 
     this._socket = new WebSocket(PUBLIC_BACKEND_WEBSOCKET_URL);
     this._socket.binaryType = 'arraybuffer';
@@ -137,12 +137,7 @@ export class WebSocketClient {
     this._socket.onmessage = this.onMessage.bind(this);
   }
 
-  public Disconnect() {
-    const connectionState = this.ConnectionState;
-    if (connectionState !== this.DISCONNECTED) {
-      this.ConnectionState = this.DISCONNECTING;
-    }
-
+  private DisconnectInternal() {
     if (this._heartbeatInterval !== null) {
       clearInterval(this._heartbeatInterval);
       this._heartbeatInterval = null;
@@ -160,8 +155,16 @@ export class WebSocketClient {
       this._socket.onmessage = null;
       this._socket = null;
     }
+  }
+  public Disconnect() {
+    const connectionState = this.ConnectionState;
+    if (connectionState !== WebSocketClient.DISCONNECTED) {
+      this.ConnectionState = WebSocketClient.DISCONNECTING;
+    }
 
-    this.ConnectionState = this.DISCONNECTED;
+    this.DisconnectInternal();
+
+    this.ConnectionState = WebSocketClient.DISCONNECTED;
   }
 
   private onOpen(ev: Event) {
@@ -171,7 +174,7 @@ export class WebSocketClient {
       return;
     }
 
-    this.ConnectionState = this.CONNECTED;
+    this.ConnectionState = WebSocketClient.CONNECTED;
     console.log('[WS] Connected');
 
     const sessionToken = SessionTokenStore.get();
@@ -186,14 +189,15 @@ export class WebSocketClient {
   }
 
   private onClose(ev: CloseEvent) {
-    this.ConnectionState = this.DISCONNECTED;
-    this.Disconnect();
+    this.DisconnectInternal();
+    this.ConnectionState = WebSocketClient.DISCONNECTED;
     console.log('[WS] Disconnected');
   }
 
   private onError(ev: Event) {
     console.error('[WS] ERROR: ', ev);
-    this.Disconnect();
+    this.DisconnectInternal();
+    this.ConnectionState = WebSocketClient.DISCONNECTED;
   }
 
   private onMessage(msg: MessageEvent<string | ArrayBuffer | Blob>) {
