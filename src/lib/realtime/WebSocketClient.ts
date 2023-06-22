@@ -11,10 +11,6 @@ import {
   ServerMessageBody,
 } from './serialization/fbs/server';
 import { createClientHeartbeatMessage } from './serialization/heartbeat';
-import {
-  createRealtimeSessionIceCandidateDiscovered,
-  createRealtimeSessionMessage,
-} from './serialization/realtime';
 import { PUBLIC_BACKEND_WEBSOCKET_URL } from '$env/static/public';
 import { SessionTokenStore } from '$lib/stores';
 import { isArrayBuffer } from '$lib/typeGuards';
@@ -121,7 +117,6 @@ export class WebSocketClient {
       connectionState === WebSocketClient.CONNECTING ||
       connectionState === WebSocketClient.CONNECTED
     ) {
-      console.error('[WS] ERROR: Connection already in progress');
       return;
     }
 
@@ -169,7 +164,7 @@ export class WebSocketClient {
     this.ConnectionState = WebSocketClient.DISCONNECTED;
   }
 
-  private onOpen(ev: Event) {
+  private onOpen() {
     if (!this._socket) {
       console.error('[WS] ERROR: Socket not initialized');
       this.Disconnect();
@@ -193,7 +188,11 @@ export class WebSocketClient {
   private onClose(ev: CloseEvent) {
     this.DisconnectInternal();
     this.ConnectionState = WebSocketClient.DISCONNECTED;
-    console.log('[WS] Disconnected');
+    if (!ev.wasClean) {
+      console.error('[WS] ERROR: Connection closed unexpectedly');
+    } else {
+      console.log('[WS] Disconnected: ', ev.reason);
+    }
   }
 
   private onError(ev: Event) {
