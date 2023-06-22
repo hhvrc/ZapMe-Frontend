@@ -22,11 +22,13 @@
     storePopup,
     Toast,
   } from '@skeletonlabs/skeleton';
+  import { browser } from '$app/environment';
   import { page } from '$app/stores';
   import OpenGraphTags from '$components/MetaTags/OpenGraphTags.svelte';
   import TwitterSummaryTags from '$components/MetaTags/Twitter/TwitterSummaryTags.svelte';
   import { modalComponentRegistry } from '$components/modals';
   import type { ApiConfig } from '$lib/api';
+  import { WebSocketClient } from '$lib/realtime/WebSocketClient';
   import { ApiConfigStore, SessionTokenStore } from '$lib/stores';
 
   storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
@@ -78,14 +80,37 @@
     },
   ];
 
+  // TDOO: Move the logic below to a better place
   let config: ApiConfig;
   export let data;
-  $: {
+  $: if (data?.config) {
     config = data.config;
     ApiConfigStore.set(data.config);
   }
 
-  $: loggedIn = !!$SessionTokenStore;
+  // TDOO: Move the logic below to a better place
+  var wsClient = browser ? new WebSocketClient() : null;
+  if (wsClient) {
+    wsClient.addConnectionStateChangeHandler((state) => {
+      if (
+        state !== WebSocketClient.DISCONNECTED &&
+        $SessionTokenStore?.jwtToken
+      ) {
+        setTimeout(() => wsClient?.Connect(), 5000); // Don't spam the server if it's down (Haha, VRChat moment)
+      }
+    });
+  }
+
+  // TDOO: Move the logic below to a better place
+  // Connect/Disconnect WebSocketClient based on login state
+  let loggedIn = false;
+  $: if (wsClient && $SessionTokenStore) {
+    loggedIn = true;
+    wsClient.Connect();
+  } else {
+    loggedIn = false;
+    wsClient?.Disconnect();
+  }
 </script>
 
 <svelte:head>

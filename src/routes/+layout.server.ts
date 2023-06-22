@@ -1,7 +1,7 @@
-import { type Config } from '$lib/api';
+import { type ApiConfig } from '$lib/api';
 import { configurationApi } from '$lib/fetchSingleton';
 
-let config: Config | null = null;
+let config: ApiConfig | null = null;
 
 export async function load() {
   if (!config) {

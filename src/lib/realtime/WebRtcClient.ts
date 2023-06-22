@@ -7,9 +7,9 @@ function CreatePeerConnection(stunServerList: string[]) {
 }
 
 export class WebRtcClient {
-  private _connection: RTCPeerConnection;
-  private _sessionId: string;
-  private _userId: string;
+  protected _connection: RTCPeerConnection;
+  protected _sessionId: string;
+  protected _userId: string;
   protected _localDescription: RTCSessionDescriptionInit;
   protected _remoteDescription: RTCSessionDescription | null;
   protected _webSocketClient: WebSocketClient;
@@ -41,25 +41,23 @@ export class WebRtcClient {
     return this._userId;
   }
 
-  public get LocalSDP(): string {
-    return this._localDescription.sdp;
+  public get LocalSDP(): string | null {
+    return this._localDescription.sdp ?? null;
   }
 
   public get IsConnected(): boolean {
     return this._connection.iceConnectionState === 'connected';
   }
 
-  public async AddIceCandidate(candidate: string) {
-    await this._connection.addIceCandidate(new RTCIceCandidate(candidate));
+  public async AddIceCandidate(candidateJson: string) {
+    await this._connection.addIceCandidate(
+      new RTCIceCandidate(JSON.parse(candidateJson))
+    );
   }
 
   private async HandleIceCandidateDiscovery(ev: RTCPeerConnectionIceEvent) {
     if (ev.candidate) {
-      await this._webSocketClient.SendIceCandidate(
-        this._sessionId,
-        this._userId,
-        ev.candidate.candidate
-      );
+      await this._webSocketClient.SendIceCandidate(ev.candidate);
     }
   }
 }
@@ -87,9 +85,11 @@ export class WebRtcCallingClient extends WebRtcClient {
   }
 
   public async SetRemoteAnswer(remoteAnswer: string) {
-    if (this._remoteDescription) throw new Error('Remote answer already set');
+    if (this._remoteDescription) {
+      throw new Error('Remote answer already set');
+    }
 
-    const remoteDesc = new RTCSessionDescription(remoteAnswer);
+    const remoteDesc = new RTCSessionDescription(JSON.parse(remoteAnswer));
     await this._connection.setRemoteDescription(remoteDesc);
   }
 }
@@ -103,7 +103,7 @@ export class WebRtcAnsweringClient extends WebRtcClient {
   ) {
     const connection = CreatePeerConnection(stunServerList);
 
-    const remoteDesc = new RTCSessionDescription(remoteOffer);
+    const remoteDesc = new RTCSessionDescription(JSON.parse(remoteOffer));
     await connection.setRemoteDescription(remoteDesc);
 
     const localDesc = await connection.createAnswer();
@@ -123,7 +123,7 @@ export class WebRtcAnsweringClient extends WebRtcClient {
     if (this._remoteDescription) {
       throw new Error('Remote description already set');
     }
-    const remoteDesc = new RTCSessionDescription(remoteAnswer);
+    const remoteDesc = new RTCSessionDescription(JSON.parse(remoteAnswer));
     await this._connection.setRemoteDescription(remoteDesc);
   }
 }

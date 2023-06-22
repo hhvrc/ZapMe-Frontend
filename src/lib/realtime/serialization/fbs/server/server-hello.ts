@@ -32,29 +32,29 @@ export class ServerHello {
     );
   }
 
-  heartbeatIntervalMs(): bigint {
+  heartbeatIntervalMs(): number {
     const offset = this.bb!.__offset(this.bb_pos, 4);
-    return offset ? this.bb!.readInt64(this.bb_pos + offset) : BigInt('0');
+    return offset ? this.bb!.readUint32(this.bb_pos + offset) : 0;
   }
 
-  ratelimitMessagesPerSec(): bigint {
+  ratelimitMessagesPerSec(): number {
     const offset = this.bb!.__offset(this.bb_pos, 6);
-    return offset ? this.bb!.readUint64(this.bb_pos + offset) : BigInt('0');
+    return offset ? this.bb!.readUint32(this.bb_pos + offset) : 0;
   }
 
-  ratelimitMessagesPerMin(): bigint {
+  ratelimitMessagesPerMin(): number {
     const offset = this.bb!.__offset(this.bb_pos, 8);
-    return offset ? this.bb!.readUint64(this.bb_pos + offset) : BigInt('0');
+    return offset ? this.bb!.readUint32(this.bb_pos + offset) : 0;
   }
 
-  ratelimitBytesPerSec(): bigint {
+  ratelimitBytesPerSec(): number {
     const offset = this.bb!.__offset(this.bb_pos, 10);
-    return offset ? this.bb!.readUint64(this.bb_pos + offset) : BigInt('0');
+    return offset ? this.bb!.readUint32(this.bb_pos + offset) : 0;
   }
 
-  ratelimitBytesPerMin(): bigint {
+  ratelimitBytesPerMin(): number {
     const offset = this.bb!.__offset(this.bb_pos, 12);
-    return offset ? this.bb!.readUint64(this.bb_pos + offset) : BigInt('0');
+    return offset ? this.bb!.readUint32(this.bb_pos + offset) : 0;
   }
 
   static startServerHello(builder: flatbuffers.Builder) {
@@ -63,37 +63,37 @@ export class ServerHello {
 
   static addHeartbeatIntervalMs(
     builder: flatbuffers.Builder,
-    heartbeatIntervalMs: bigint
+    heartbeatIntervalMs: number
   ) {
-    builder.addFieldInt64(0, heartbeatIntervalMs, BigInt('0'));
+    builder.addFieldInt32(0, heartbeatIntervalMs, 0);
   }
 
   static addRatelimitMessagesPerSec(
     builder: flatbuffers.Builder,
-    ratelimitMessagesPerSec: bigint
+    ratelimitMessagesPerSec: number
   ) {
-    builder.addFieldInt64(1, ratelimitMessagesPerSec, BigInt('0'));
+    builder.addFieldInt32(1, ratelimitMessagesPerSec, 0);
   }
 
   static addRatelimitMessagesPerMin(
     builder: flatbuffers.Builder,
-    ratelimitMessagesPerMin: bigint
+    ratelimitMessagesPerMin: number
   ) {
-    builder.addFieldInt64(2, ratelimitMessagesPerMin, BigInt('0'));
+    builder.addFieldInt32(2, ratelimitMessagesPerMin, 0);
   }
 
   static addRatelimitBytesPerSec(
     builder: flatbuffers.Builder,
-    ratelimitBytesPerSec: bigint
+    ratelimitBytesPerSec: number
   ) {
-    builder.addFieldInt64(3, ratelimitBytesPerSec, BigInt('0'));
+    builder.addFieldInt32(3, ratelimitBytesPerSec, 0);
   }
 
   static addRatelimitBytesPerMin(
     builder: flatbuffers.Builder,
-    ratelimitBytesPerMin: bigint
+    ratelimitBytesPerMin: number
   ) {
-    builder.addFieldInt64(4, ratelimitBytesPerMin, BigInt('0'));
+    builder.addFieldInt32(4, ratelimitBytesPerMin, 0);
   }
 
   static endServerHello(builder: flatbuffers.Builder): flatbuffers.Offset {
@@ -103,11 +103,11 @@ export class ServerHello {
 
   static createServerHello(
     builder: flatbuffers.Builder,
-    heartbeatIntervalMs: bigint,
-    ratelimitMessagesPerSec: bigint,
-    ratelimitMessagesPerMin: bigint,
-    ratelimitBytesPerSec: bigint,
-    ratelimitBytesPerMin: bigint
+    heartbeatIntervalMs: number,
+    ratelimitMessagesPerSec: number,
+    ratelimitMessagesPerMin: number,
+    ratelimitBytesPerSec: number,
+    ratelimitBytesPerMin: number
   ): flatbuffers.Offset {
     ServerHello.startServerHello(builder);
     ServerHello.addHeartbeatIntervalMs(builder, heartbeatIntervalMs);

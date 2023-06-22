@@ -32,9 +32,9 @@ export class ServerHeartbeat {
     );
   }
 
-  heartbeatIntervalMs(): bigint {
+  heartbeatIntervalMs(): number {
     const offset = this.bb!.__offset(this.bb_pos, 4);
-    return offset ? this.bb!.readInt64(this.bb_pos + offset) : BigInt('0');
+    return offset ? this.bb!.readUint32(this.bb_pos + offset) : 0;
   }
 
   static startServerHeartbeat(builder: flatbuffers.Builder) {
@@ -43,9 +43,9 @@ export class ServerHeartbeat {
 
   static addHeartbeatIntervalMs(
     builder: flatbuffers.Builder,
-    heartbeatIntervalMs: bigint
+    heartbeatIntervalMs: number
   ) {
-    builder.addFieldInt64(0, heartbeatIntervalMs, BigInt('0'));
+    builder.addFieldInt32(0, heartbeatIntervalMs, 0);
   }
 
   static endServerHeartbeat(builder: flatbuffers.Builder): flatbuffers.Offset {
@@ -55,7 +55,7 @@ export class ServerHeartbeat {
 
   static createServerHeartbeat(
     builder: flatbuffers.Builder,
-    heartbeatIntervalMs: bigint
+    heartbeatIntervalMs: number
   ): flatbuffers.Offset {
     ServerHeartbeat.startServerHeartbeat(builder);
     ServerHeartbeat.addHeartbeatIntervalMs(builder, heartbeatIntervalMs);

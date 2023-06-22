@@ -11,20 +11,20 @@ export class ClientHeartbeat {
     return this;
   }
 
-  lastRttMs(): flatbuffers.Long {
-    return this.bb!.readUint64(this.bb_pos);
+  lastRttMs(): number {
+    return this.bb!.readUint32(this.bb_pos);
   }
 
   static sizeOf(): number {
-    return 8;
+    return 4;
   }
 
   static createClientHeartbeat(
     builder: flatbuffers.Builder,
-    last_rtt_ms: flatbuffers.Long
+    last_rtt_ms: number
   ): flatbuffers.Offset {
-    builder.prep(8, 8);
-    builder.writeInt64(last_rtt_ms);
+    builder.prep(4, 4);
+    builder.writeInt32(last_rtt_ms);
     return builder.offset();
   }
 }
