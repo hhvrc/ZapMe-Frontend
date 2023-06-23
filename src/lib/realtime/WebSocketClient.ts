@@ -120,9 +120,8 @@ export class WebSocketClient {
       return;
     }
 
-    if (this._socket !== null) {
-      this.DisconnectInternal();
-    }
+    this.AbortHeartbeat();
+    this.AbortWebSocket();
 
     this._connectionState = WebSocketClient.CONNECTING;
 
@@ -134,34 +133,44 @@ export class WebSocketClient {
     this._socket.onmessage = this.onMessage.bind(this);
   }
 
-  private DisconnectInternal() {
-    if (this._heartbeatInterval !== null) {
+  private AbortHeartbeat() {
+    if (this._heartbeatInterval) {
       clearInterval(this._heartbeatInterval);
-      this._heartbeatInterval = null;
     }
+    this._heartbeatInterval = null;
+  }
 
-    if (this._socket !== null) {
+  private AbortWebSocket() {
+    if (this._socket) {
       try {
         this._socket.close();
+        this._socket.onclose = null;
+        this._socket.onerror = null;
+        this._socket.onmessage = null;
+        this._socket.onopen = null;
       } catch (e) {
         console.error(e);
       }
-      this._socket.onopen = null;
-      this._socket.onclose = null;
-      this._socket.onerror = null;
-      this._socket.onmessage = null;
-      this._socket = null;
     }
+    this._socket = null;
+    this.ConnectionState = WebSocketClient.DISCONNECTED;
   }
+
   public Disconnect() {
     const connectionState = this.ConnectionState;
     if (connectionState !== WebSocketClient.DISCONNECTED) {
       this.ConnectionState = WebSocketClient.DISCONNECTING;
     }
 
-    this.DisconnectInternal();
+    this.AbortHeartbeat();
 
-    this.ConnectionState = WebSocketClient.DISCONNECTED;
+    try {
+      this._socket.close();
+      setTimeout(this.AbortWebSocket.bind(this), 1000);
+    } catch {
+      this.AbortHeartbeat();
+      this.AbortWebSocket();
+    }
   }
 
   private onOpen() {
@@ -186,19 +195,19 @@ export class WebSocketClient {
   }
 
   private onClose(ev: CloseEvent) {
-    this.DisconnectInternal();
-    this.ConnectionState = WebSocketClient.DISCONNECTED;
     if (!ev.wasClean) {
       console.error('[WS] ERROR: Connection closed unexpectedly');
     } else {
-      console.log('[WS] Disconnected: ', ev.reason);
+      console.log('[WS] Received disconnect: ', ev.reason);
     }
+    this.AbortHeartbeat();
+    this.AbortWebSocket();
   }
 
   private onError(ev: Event) {
+    this.AbortHeartbeat();
+    this.AbortWebSocket();
     console.error('[WS] ERROR: ', ev);
-    this.DisconnectInternal();
-    this.ConnectionState = WebSocketClient.DISCONNECTED;
   }
 
   private onMessage(msg: MessageEvent<string | ArrayBuffer | Blob>) {
