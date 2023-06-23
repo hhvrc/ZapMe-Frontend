@@ -1,7 +1,5 @@
 import {
-  RealtimeSession,
-  RealtimeSessionBody,
-  RealtimeSessionMessage,
+  RealtimeSession
 } from './serialization/fbs/realtime';
 import {
   GlobalMessage,
@@ -31,7 +29,7 @@ export class WebSocketClient {
   public get ConnectionState(): number {
     return this._connectionState;
   }
-  public set ConnectionState(v: number) {
+  private set ConnectionState(v: number) {
     if (this._connectionState !== v) {
       this._connectionState = v;
       if (v !== WebSocketClient.CONNECTED) {
@@ -58,7 +56,7 @@ export class WebSocketClient {
   public get AuthenticationState(): number {
     return this._authenticationState;
   }
-  public set AuthenticationState(v: number) {
+  private set AuthenticationState(v: number) {
     if (this._authenticationState !== v) {
       this._authenticationState = v;
       this._uthenticationStateChangeHandlers.forEach((cb) => cb(v));
@@ -111,6 +109,7 @@ export class WebSocketClient {
     }
   }
 
+  private _autoReconnect = false;
   public Connect() {
     const connectionState = this.ConnectionState;
     if (
@@ -123,6 +122,7 @@ export class WebSocketClient {
     this.AbortHeartbeat();
     this.AbortWebSocket();
 
+    this._autoReconnect = true;
     this._connectionState = WebSocketClient.CONNECTING;
 
     this._socket = new WebSocket(PUBLIC_BACKEND_WEBSOCKET_URL);
@@ -157,6 +157,7 @@ export class WebSocketClient {
   }
 
   public Disconnect() {
+    this._autoReconnect = false;
     const connectionState = this.ConnectionState;
     if (connectionState !== WebSocketClient.DISCONNECTED) {
       this.ConnectionState = WebSocketClient.DISCONNECTING;
@@ -168,15 +169,22 @@ export class WebSocketClient {
       this._socket.close();
       setTimeout(this.AbortWebSocket.bind(this), 1000);
     } catch {
-      this.AbortHeartbeat();
       this.AbortWebSocket();
+    }
+  }
+
+  private ReconnectIfWanted() {
+    this.AbortHeartbeat();
+    this.AbortWebSocket();
+    if (this._autoReconnect) {
+      setTimeout(this.Connect.bind(this), 2500);
     }
   }
 
   private onOpen() {
     if (!this._socket) {
       console.error('[WS] ERROR: Socket not initialized');
-      this.Disconnect();
+      this.ReconnectIfWanted();
       return;
     }
 
@@ -186,7 +194,7 @@ export class WebSocketClient {
     const sessionToken = SessionTokenStore.get();
     if (!sessionToken) {
       console.error('[WS] ERROR: User not authenticated');
-      this.Disconnect();
+      this.Disconnect(); // Don't reconnect if we're not authenticated
       return;
     }
 
@@ -200,14 +208,12 @@ export class WebSocketClient {
     } else {
       console.log('[WS] Received disconnect: ', ev.reason);
     }
-    this.AbortHeartbeat();
-    this.AbortWebSocket();
+    this.ReconnectIfWanted();
   }
 
   private onError(ev: Event) {
-    this.AbortHeartbeat();
-    this.AbortWebSocket();
     console.error('[WS] ERROR: ', ev);
+    this.ReconnectIfWanted();
   }
 
   private onMessage(msg: MessageEvent<string | ArrayBuffer | Blob>) {
@@ -284,7 +290,7 @@ export class WebSocketClient {
 
   private sendHeartbeat() {
     if (!this._socket) {
-      this.Disconnect();
+      this.ReconnectIfWanted();
       return;
     }
 

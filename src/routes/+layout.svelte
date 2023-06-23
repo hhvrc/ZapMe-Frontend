@@ -89,18 +89,6 @@
   }
 
   // TDOO: Move the logic below to a better place
-  if (browser) {
-    WebSocketClient.Instance.addConnectionStateChangeHandler((state) => {
-      if (
-        state !== WebSocketClient.DISCONNECTED &&
-        $SessionTokenStore?.jwtToken
-      ) {
-        setTimeout(() => WebSocketClient.Instance.Connect(), 5000); // Don't spam the server if it's down (Haha, VRChat moment)
-      }
-    });
-  }
-
-  // TDOO: Move the logic below to a better place
   // Connect/Disconnect WebSocketClient based on login state
   let loggedIn = false;
   $: if (browser && $SessionTokenStore) {
