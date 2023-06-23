@@ -36,25 +36,18 @@ export class RealtimeSessionLeave {
   sessionId(optionalEncoding: flatbuffers.Encoding): string | Uint8Array | null;
   sessionId(optionalEncoding?: any): string | Uint8Array | null {
     const offset = this.bb!.__offset(this.bb_pos, 4);
-    return offset
-      ? this.bb!.__string(this.bb_pos + offset, optionalEncoding)
-      : null;
+    return offset ? this.bb!.__string(this.bb_pos + offset, optionalEncoding) : null;
   }
 
   static startRealtimeSessionLeave(builder: flatbuffers.Builder) {
     builder.startObject(1);
   }
 
-  static addSessionId(
-    builder: flatbuffers.Builder,
-    sessionIdOffset: flatbuffers.Offset
-  ) {
+  static addSessionId(builder: flatbuffers.Builder, sessionIdOffset: flatbuffers.Offset) {
     builder.addFieldOffset(0, sessionIdOffset, 0);
   }
 
-  static endRealtimeSessionLeave(
-    builder: flatbuffers.Builder
-  ): flatbuffers.Offset {
+  static endRealtimeSessionLeave(builder: flatbuffers.Builder): flatbuffers.Offset {
     const offset = builder.endObject();
     return offset;
   }

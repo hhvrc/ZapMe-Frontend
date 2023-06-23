@@ -36,43 +36,29 @@ export class RealtimeSessionRejoin {
   sessionId(optionalEncoding: flatbuffers.Encoding): string | Uint8Array | null;
   sessionId(optionalEncoding?: any): string | Uint8Array | null {
     const offset = this.bb!.__offset(this.bb_pos, 4);
-    return offset
-      ? this.bb!.__string(this.bb_pos + offset, optionalEncoding)
-      : null;
+    return offset ? this.bb!.__string(this.bb_pos + offset, optionalEncoding) : null;
   }
 
   webrtcOffer(): string | null;
-  webrtcOffer(
-    optionalEncoding: flatbuffers.Encoding
-  ): string | Uint8Array | null;
+  webrtcOffer(optionalEncoding: flatbuffers.Encoding): string | Uint8Array | null;
   webrtcOffer(optionalEncoding?: any): string | Uint8Array | null {
     const offset = this.bb!.__offset(this.bb_pos, 6);
-    return offset
-      ? this.bb!.__string(this.bb_pos + offset, optionalEncoding)
-      : null;
+    return offset ? this.bb!.__string(this.bb_pos + offset, optionalEncoding) : null;
   }
 
   static startRealtimeSessionRejoin(builder: flatbuffers.Builder) {
     builder.startObject(2);
   }
 
-  static addSessionId(
-    builder: flatbuffers.Builder,
-    sessionIdOffset: flatbuffers.Offset
-  ) {
+  static addSessionId(builder: flatbuffers.Builder, sessionIdOffset: flatbuffers.Offset) {
     builder.addFieldOffset(0, sessionIdOffset, 0);
   }
 
-  static addWebrtcOffer(
-    builder: flatbuffers.Builder,
-    webrtcOfferOffset: flatbuffers.Offset
-  ) {
+  static addWebrtcOffer(builder: flatbuffers.Builder, webrtcOfferOffset: flatbuffers.Offset) {
     builder.addFieldOffset(1, webrtcOfferOffset, 0);
   }
 
-  static endRealtimeSessionRejoin(
-    builder: flatbuffers.Builder
-  ): flatbuffers.Offset {
+  static endRealtimeSessionRejoin(builder: flatbuffers.Builder): flatbuffers.Offset {
     const offset = builder.endObject();
     return offset;
   }

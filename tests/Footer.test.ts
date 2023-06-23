@@ -6,7 +6,5 @@ test('index page contains text', async ({ page }) => {
   const text = await page.textContent(
     'text=Take Control of Your Submissives from Anywhere in the World.'
   );
-  expect(text).toBe(
-    'Take Control of Your Submissives from Anywhere in the World.'
-  );
+  expect(text).toBe('Take Control of Your Submissives from Anywhere in the World.');
 });

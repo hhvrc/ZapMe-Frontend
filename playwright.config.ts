@@ -8,9 +8,7 @@ const config: PlaywrightTestConfig = {
   testDir: 'tests',
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  reporter: process.env.CI
-    ? [['html', { open: 'never' }]]
-    : [['html', { open: 'on-failure' }]],
+  reporter: process.env.CI ? [['html', { open: 'never' }]] : [['html', { open: 'on-failure' }]],
   projects: [
     {
       name: 'chromium',

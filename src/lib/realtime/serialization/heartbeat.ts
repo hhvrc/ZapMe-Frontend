@@ -1,8 +1,4 @@
-import {
-  ClientHeartbeat,
-  ClientMessage,
-  ClientMessageBody,
-} from './fbs/client';
+import { ClientHeartbeat, ClientMessage, ClientMessageBody } from './fbs/client';
 import { Builder as FbsBuilder } from 'flatbuffers';
 
 export function createClientHeartbeatMessage(lastRttMs: number): Uint8Array {

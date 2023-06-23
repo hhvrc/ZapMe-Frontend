@@ -1,12 +1,7 @@
 import { createErrorToast } from './toastHelpers';
 import { goto } from '$app/navigation';
 import { SessionTokenStore } from '$lib/stores';
-import {
-  isErrorDetails,
-  isFetchError,
-  isRequiredError,
-  isResponseError,
-} from '$lib/typeGuards';
+import { isErrorDetails, isFetchError, isRequiredError, isResponseError } from '$lib/typeGuards';
 import { BuildRedirectURL, GetRedirectURL } from '$lib/utils/redirects';
 import type { ApiErrorResponse } from '$types';
 import { getReasonPhrase } from 'http-status-codes';

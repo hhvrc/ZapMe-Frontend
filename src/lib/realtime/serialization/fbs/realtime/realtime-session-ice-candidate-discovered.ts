@@ -5,10 +5,7 @@ import * as flatbuffers from 'flatbuffers';
 export class RealtimeSessionIceCandidateDiscovered {
   bb: flatbuffers.ByteBuffer | null = null;
   bb_pos = 0;
-  __init(
-    i: number,
-    bb: flatbuffers.ByteBuffer
-  ): RealtimeSessionIceCandidateDiscovered {
+  __init(i: number, bb: flatbuffers.ByteBuffer): RealtimeSessionIceCandidateDiscovered {
     this.bb_pos = i;
     this.bb = bb;
     return this;
@@ -39,21 +36,14 @@ export class RealtimeSessionIceCandidateDiscovered {
   candidate(optionalEncoding: flatbuffers.Encoding): string | Uint8Array | null;
   candidate(optionalEncoding?: any): string | Uint8Array | null {
     const offset = this.bb!.__offset(this.bb_pos, 4);
-    return offset
-      ? this.bb!.__string(this.bb_pos + offset, optionalEncoding)
-      : null;
+    return offset ? this.bb!.__string(this.bb_pos + offset, optionalEncoding) : null;
   }
 
-  static startRealtimeSessionIceCandidateDiscovered(
-    builder: flatbuffers.Builder
-  ) {
+  static startRealtimeSessionIceCandidateDiscovered(builder: flatbuffers.Builder) {
     builder.startObject(1);
   }
 
-  static addCandidate(
-    builder: flatbuffers.Builder,
-    candidateOffset: flatbuffers.Offset
-  ) {
+  static addCandidate(builder: flatbuffers.Builder, candidateOffset: flatbuffers.Offset) {
     builder.addFieldOffset(0, candidateOffset, 0);
   }
 
@@ -68,15 +58,8 @@ export class RealtimeSessionIceCandidateDiscovered {
     builder: flatbuffers.Builder,
     candidateOffset: flatbuffers.Offset
   ): flatbuffers.Offset {
-    RealtimeSessionIceCandidateDiscovered.startRealtimeSessionIceCandidateDiscovered(
-      builder
-    );
-    RealtimeSessionIceCandidateDiscovered.addCandidate(
-      builder,
-      candidateOffset
-    );
-    return RealtimeSessionIceCandidateDiscovered.endRealtimeSessionIceCandidateDiscovered(
-      builder
-    );
+    RealtimeSessionIceCandidateDiscovered.startRealtimeSessionIceCandidateDiscovered(builder);
+    RealtimeSessionIceCandidateDiscovered.addCandidate(builder, candidateOffset);
+    return RealtimeSessionIceCandidateDiscovered.endRealtimeSessionIceCandidateDiscovered(builder);
   }
 }

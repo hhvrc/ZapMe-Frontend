@@ -64,36 +64,21 @@
     />
 
     <!-- Password -->
-    <PasswordInput
-      autocomplete="current-password"
-      bind:password
-      bind:passwordShown
-    />
+    <PasswordInput autocomplete="current-password" bind:password bind:passwordShown />
 
     <!-- Remember me -->
     <label class="flex items-center space-x-2">
-      <input
-        class="checkbox"
-        type="checkbox"
-        title="Remember Me"
-        bind:checked={rememberMe}
-      />
+      <input class="checkbox" type="checkbox" title="Remember Me" bind:checked={rememberMe} />
       <span>Remember Me</span>
     </label>
 
     <!-- Submit -->
-    <button
-      type="submit"
-      class="btn variant-filled w-1/2 self-center"
-      {disabled}
-    >
+    <button type="submit" class="btn variant-filled w-1/2 self-center" {disabled}>
       <span class="hidden md:inline-block">🚀</span>
       <span>Login</span>
     </button>
 
-    <a href="/register" class="text-center">
-      Don't have an account? Register here.
-    </a>
+    <a href="/register" class="text-center"> Don't have an account? Register here. </a>
 
     <a href="/forgot-password" class="text-center"> Forgot your password? </a>
 

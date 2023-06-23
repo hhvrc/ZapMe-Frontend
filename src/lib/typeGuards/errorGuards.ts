@@ -13,9 +13,7 @@ export function isNamedError(
   if (!isObject(error)) return false;
 
   return (
-    Object.hasOwn(error, 'name') &&
-    Object.hasOwn(error, 'message') &&
-    Object.hasOwn(error, 'stack')
+    Object.hasOwn(error, 'name') && Object.hasOwn(error, 'message') && Object.hasOwn(error, 'stack')
   );
 }
 export function isResponseError(error: unknown): error is ResponseError {

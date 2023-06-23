@@ -89,13 +89,9 @@ export function unionToRealtimeSessionBody(
     case 'create':
       return accessor(new RealtimeSessionCreate())! as RealtimeSessionCreate;
     case 'invite_accept':
-      return accessor(
-        new RealtimeSessionInviteAccept()
-      )! as RealtimeSessionInviteAccept;
+      return accessor(new RealtimeSessionInviteAccept())! as RealtimeSessionInviteAccept;
     case 'invite_reject':
-      return accessor(
-        new RealtimeSessionInviteReject()
-      )! as RealtimeSessionInviteReject;
+      return accessor(new RealtimeSessionInviteReject())! as RealtimeSessionInviteReject;
     case 'ice_candidate_discovered':
       return accessor(
         new RealtimeSessionIceCandidateDiscovered()
@@ -105,35 +101,25 @@ export function unionToRealtimeSessionBody(
     case 'leave':
       return accessor(new RealtimeSessionLeave())! as RealtimeSessionLeave;
     case 'invite_user':
-      return accessor(
-        new RealtimeSessionInviteUser()
-      )! as RealtimeSessionInviteUser;
+      return accessor(new RealtimeSessionInviteUser())! as RealtimeSessionInviteUser;
     case 'message':
       return accessor(new RealtimeSessionMessage())! as RealtimeSessionMessage;
     case 'event_joined':
-      return accessor(
-        new RealtimeEventSessionJoined()
-      )! as RealtimeEventSessionJoined;
+      return accessor(new RealtimeEventSessionJoined())! as RealtimeEventSessionJoined;
     case 'event_invited':
       return accessor(
         new RealtimeEventSessionInviteReceived()
       )! as RealtimeEventSessionInviteReceived;
     case 'event_user_joined':
-      return accessor(
-        new RealtimeEventSesionUserJoined()
-      )! as RealtimeEventSesionUserJoined;
+      return accessor(new RealtimeEventSesionUserJoined())! as RealtimeEventSesionUserJoined;
     case 'event_user_left':
-      return accessor(
-        new RealtimeEventSessionUserLeft()
-      )! as RealtimeEventSessionUserLeft;
+      return accessor(new RealtimeEventSessionUserLeft())! as RealtimeEventSessionUserLeft;
     case 'event_user_ice_candidate_discovered':
       return accessor(
         new RealtimeEventSessionUserIceCandidateDiscovered()
       )! as RealtimeEventSessionUserIceCandidateDiscovered;
     case 'event_user_message':
-      return accessor(
-        new RealtimeEventSessionUserMessage()
-      )! as RealtimeEventSessionUserMessage;
+      return accessor(new RealtimeEventSessionUserMessage())! as RealtimeEventSessionUserMessage;
     default:
       return null;
   }
@@ -195,65 +181,35 @@ export function unionListToRealtimeSessionBody(
     case 'NONE':
       return null;
     case 'create':
-      return accessor(
-        index,
-        new RealtimeSessionCreate()
-      )! as RealtimeSessionCreate;
+      return accessor(index, new RealtimeSessionCreate())! as RealtimeSessionCreate;
     case 'invite_accept':
-      return accessor(
-        index,
-        new RealtimeSessionInviteAccept()
-      )! as RealtimeSessionInviteAccept;
+      return accessor(index, new RealtimeSessionInviteAccept())! as RealtimeSessionInviteAccept;
     case 'invite_reject':
-      return accessor(
-        index,
-        new RealtimeSessionInviteReject()
-      )! as RealtimeSessionInviteReject;
+      return accessor(index, new RealtimeSessionInviteReject())! as RealtimeSessionInviteReject;
     case 'ice_candidate_discovered':
       return accessor(
         index,
         new RealtimeSessionIceCandidateDiscovered()
       )! as RealtimeSessionIceCandidateDiscovered;
     case 'rejoin':
-      return accessor(
-        index,
-        new RealtimeSessionRejoin()
-      )! as RealtimeSessionRejoin;
+      return accessor(index, new RealtimeSessionRejoin())! as RealtimeSessionRejoin;
     case 'leave':
-      return accessor(
-        index,
-        new RealtimeSessionLeave()
-      )! as RealtimeSessionLeave;
+      return accessor(index, new RealtimeSessionLeave())! as RealtimeSessionLeave;
     case 'invite_user':
-      return accessor(
-        index,
-        new RealtimeSessionInviteUser()
-      )! as RealtimeSessionInviteUser;
+      return accessor(index, new RealtimeSessionInviteUser())! as RealtimeSessionInviteUser;
     case 'message':
-      return accessor(
-        index,
-        new RealtimeSessionMessage()
-      )! as RealtimeSessionMessage;
+      return accessor(index, new RealtimeSessionMessage())! as RealtimeSessionMessage;
     case 'event_joined':
-      return accessor(
-        index,
-        new RealtimeEventSessionJoined()
-      )! as RealtimeEventSessionJoined;
+      return accessor(index, new RealtimeEventSessionJoined())! as RealtimeEventSessionJoined;
     case 'event_invited':
       return accessor(
         index,
         new RealtimeEventSessionInviteReceived()
       )! as RealtimeEventSessionInviteReceived;
     case 'event_user_joined':
-      return accessor(
-        index,
-        new RealtimeEventSesionUserJoined()
-      )! as RealtimeEventSesionUserJoined;
+      return accessor(index, new RealtimeEventSesionUserJoined())! as RealtimeEventSesionUserJoined;
     case 'event_user_left':
-      return accessor(
-        index,
-        new RealtimeEventSessionUserLeft()
-      )! as RealtimeEventSessionUserLeft;
+      return accessor(index, new RealtimeEventSessionUserLeft())! as RealtimeEventSessionUserLeft;
     case 'event_user_ice_candidate_discovered':
       return accessor(
         index,

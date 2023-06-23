@@ -26,9 +26,8 @@
   export let determiner: string | undefined = undefined;
   export let metaLocale: string | undefined = undefined;
   export let locales: string[] | undefined = undefined;
-  export let video:
-    | { src: string; type?: string; width?: number; height?: number }
-    | undefined = undefined;
+  export let video: { src: string; type?: string; width?: number; height?: number } | undefined =
+    undefined;
   export let audio: { src: string; type?: string } | undefined = undefined;
 </script>
 

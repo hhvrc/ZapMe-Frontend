@@ -16,14 +16,8 @@ export class ServerMessage {
     return this;
   }
 
-  static getRootAsServerMessage(
-    bb: flatbuffers.ByteBuffer,
-    obj?: ServerMessage
-  ): ServerMessage {
-    return (obj || new ServerMessage()).__init(
-      bb.readInt32(bb.position()) + bb.position(),
-      bb
-    );
+  static getRootAsServerMessage(bb: flatbuffers.ByteBuffer, obj?: ServerMessage): ServerMessage {
+    return (obj || new ServerMessage()).__init(bb.readInt32(bb.position()) + bb.position(), bb);
   }
 
   static getSizePrefixedRootAsServerMessage(
@@ -31,10 +25,7 @@ export class ServerMessage {
     obj?: ServerMessage
   ): ServerMessage {
     bb.setPosition(bb.position() + flatbuffers.SIZE_PREFIX_LENGTH);
-    return (obj || new ServerMessage()).__init(
-      bb.readInt32(bb.position()) + bb.position(),
-      bb
-    );
+    return (obj || new ServerMessage()).__init(bb.readInt32(bb.position()) + bb.position(), bb);
   }
 
   timestamp(): bigint {
@@ -44,9 +35,7 @@ export class ServerMessage {
 
   messageType(): ServerMessageBody {
     const offset = this.bb!.__offset(this.bb_pos, 6);
-    return offset
-      ? this.bb!.readUint8(this.bb_pos + offset)
-      : ServerMessageBody.NONE;
+    return offset ? this.bb!.readUint8(this.bb_pos + offset) : ServerMessageBody.NONE;
   }
 
   message<T extends flatbuffers.Table>(obj: any): any | null {
@@ -62,17 +51,11 @@ export class ServerMessage {
     builder.addFieldInt64(0, timestamp, BigInt('0'));
   }
 
-  static addMessageType(
-    builder: flatbuffers.Builder,
-    messageType: ServerMessageBody
-  ) {
+  static addMessageType(builder: flatbuffers.Builder, messageType: ServerMessageBody) {
     builder.addFieldInt8(1, messageType, ServerMessageBody.NONE);
   }
 
-  static addMessage(
-    builder: flatbuffers.Builder,
-    messageOffset: flatbuffers.Offset
-  ) {
+  static addMessage(builder: flatbuffers.Builder, messageOffset: flatbuffers.Offset) {
     builder.addFieldOffset(2, messageOffset, 0);
   }
 
@@ -81,10 +64,7 @@ export class ServerMessage {
     return offset;
   }
 
-  static finishServerMessageBuffer(
-    builder: flatbuffers.Builder,
-    offset: flatbuffers.Offset
-  ) {
+  static finishServerMessageBuffer(builder: flatbuffers.Builder, offset: flatbuffers.Offset) {
     builder.finish(offset);
   }
 

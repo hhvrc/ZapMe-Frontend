@@ -5,10 +5,7 @@ import * as flatbuffers from 'flatbuffers';
 export class RealtimeEventSessionUserIceCandidateDiscovered {
   bb: flatbuffers.ByteBuffer | null = null;
   bb_pos = 0;
-  __init(
-    i: number,
-    bb: flatbuffers.ByteBuffer
-  ): RealtimeEventSessionUserIceCandidateDiscovered {
+  __init(i: number, bb: flatbuffers.ByteBuffer): RealtimeEventSessionUserIceCandidateDiscovered {
     this.bb_pos = i;
     this.bb = bb;
     return this;
@@ -39,37 +36,25 @@ export class RealtimeEventSessionUserIceCandidateDiscovered {
   userId(optionalEncoding: flatbuffers.Encoding): string | Uint8Array | null;
   userId(optionalEncoding?: any): string | Uint8Array | null {
     const offset = this.bb!.__offset(this.bb_pos, 4);
-    return offset
-      ? this.bb!.__string(this.bb_pos + offset, optionalEncoding)
-      : null;
+    return offset ? this.bb!.__string(this.bb_pos + offset, optionalEncoding) : null;
   }
 
   candidate(): string | null;
   candidate(optionalEncoding: flatbuffers.Encoding): string | Uint8Array | null;
   candidate(optionalEncoding?: any): string | Uint8Array | null {
     const offset = this.bb!.__offset(this.bb_pos, 6);
-    return offset
-      ? this.bb!.__string(this.bb_pos + offset, optionalEncoding)
-      : null;
+    return offset ? this.bb!.__string(this.bb_pos + offset, optionalEncoding) : null;
   }
 
-  static startRealtimeEventSessionUserIceCandidateDiscovered(
-    builder: flatbuffers.Builder
-  ) {
+  static startRealtimeEventSessionUserIceCandidateDiscovered(builder: flatbuffers.Builder) {
     builder.startObject(2);
   }
 
-  static addUserId(
-    builder: flatbuffers.Builder,
-    userIdOffset: flatbuffers.Offset
-  ) {
+  static addUserId(builder: flatbuffers.Builder, userIdOffset: flatbuffers.Offset) {
     builder.addFieldOffset(0, userIdOffset, 0);
   }
 
-  static addCandidate(
-    builder: flatbuffers.Builder,
-    candidateOffset: flatbuffers.Offset
-  ) {
+  static addCandidate(builder: flatbuffers.Builder, candidateOffset: flatbuffers.Offset) {
     builder.addFieldOffset(1, candidateOffset, 0);
   }
 
@@ -88,14 +73,8 @@ export class RealtimeEventSessionUserIceCandidateDiscovered {
     RealtimeEventSessionUserIceCandidateDiscovered.startRealtimeEventSessionUserIceCandidateDiscovered(
       builder
     );
-    RealtimeEventSessionUserIceCandidateDiscovered.addUserId(
-      builder,
-      userIdOffset
-    );
-    RealtimeEventSessionUserIceCandidateDiscovered.addCandidate(
-      builder,
-      candidateOffset
-    );
+    RealtimeEventSessionUserIceCandidateDiscovered.addUserId(builder, userIdOffset);
+    RealtimeEventSessionUserIceCandidateDiscovered.addCandidate(builder, candidateOffset);
     return RealtimeEventSessionUserIceCandidateDiscovered.endRealtimeEventSessionUserIceCandidateDiscovered(
       builder
     );

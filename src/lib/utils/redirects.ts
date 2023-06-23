@@ -81,11 +81,7 @@ export function ForwardRedirectURL(
 
   // Assign the redirect to the next url
   if (redirect) {
-    nextUrl = SetSearchParam(
-      nextUrl,
-      redirectQueryKey,
-      ensureRelativePath(redirect)
-    );
+    nextUrl = SetSearchParam(nextUrl, redirectQueryKey, ensureRelativePath(redirect));
   }
 
   // Return the next url

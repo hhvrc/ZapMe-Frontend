@@ -33,17 +33,11 @@ export class RealtimeSessionCreate {
   }
 
   userIds(index: number): string;
-  userIds(
-    index: number,
-    optionalEncoding: flatbuffers.Encoding
-  ): string | Uint8Array;
+  userIds(index: number, optionalEncoding: flatbuffers.Encoding): string | Uint8Array;
   userIds(index: number, optionalEncoding?: any): string | Uint8Array | null {
     const offset = this.bb!.__offset(this.bb_pos, 4);
     return offset
-      ? this.bb!.__string(
-          this.bb!.__vector(this.bb_pos + offset) + index * 4,
-          optionalEncoding
-        )
+      ? this.bb!.__string(this.bb!.__vector(this.bb_pos + offset) + index * 4, optionalEncoding)
       : null;
   }
 
@@ -56,10 +50,7 @@ export class RealtimeSessionCreate {
     builder.startObject(1);
   }
 
-  static addUserIds(
-    builder: flatbuffers.Builder,
-    userIdsOffset: flatbuffers.Offset
-  ) {
+  static addUserIds(builder: flatbuffers.Builder, userIdsOffset: flatbuffers.Offset) {
     builder.addFieldOffset(0, userIdsOffset, 0);
   }
 
@@ -78,9 +69,7 @@ export class RealtimeSessionCreate {
     builder.startVector(4, numElems, 4);
   }
 
-  static endRealtimeSessionCreate(
-    builder: flatbuffers.Builder
-  ): flatbuffers.Offset {
+  static endRealtimeSessionCreate(builder: flatbuffers.Builder): flatbuffers.Offset {
     const offset = builder.endObject();
     return offset;
   }

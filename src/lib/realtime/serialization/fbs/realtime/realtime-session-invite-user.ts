@@ -36,23 +36,15 @@ export class RealtimeSessionInviteUser {
   sessionId(optionalEncoding: flatbuffers.Encoding): string | Uint8Array | null;
   sessionId(optionalEncoding?: any): string | Uint8Array | null {
     const offset = this.bb!.__offset(this.bb_pos, 4);
-    return offset
-      ? this.bb!.__string(this.bb_pos + offset, optionalEncoding)
-      : null;
+    return offset ? this.bb!.__string(this.bb_pos + offset, optionalEncoding) : null;
   }
 
   userIds(index: number): string;
-  userIds(
-    index: number,
-    optionalEncoding: flatbuffers.Encoding
-  ): string | Uint8Array;
+  userIds(index: number, optionalEncoding: flatbuffers.Encoding): string | Uint8Array;
   userIds(index: number, optionalEncoding?: any): string | Uint8Array | null {
     const offset = this.bb!.__offset(this.bb_pos, 6);
     return offset
-      ? this.bb!.__string(
-          this.bb!.__vector(this.bb_pos + offset) + index * 4,
-          optionalEncoding
-        )
+      ? this.bb!.__string(this.bb!.__vector(this.bb_pos + offset) + index * 4, optionalEncoding)
       : null;
   }
 
@@ -65,17 +57,11 @@ export class RealtimeSessionInviteUser {
     builder.startObject(2);
   }
 
-  static addSessionId(
-    builder: flatbuffers.Builder,
-    sessionIdOffset: flatbuffers.Offset
-  ) {
+  static addSessionId(builder: flatbuffers.Builder, sessionIdOffset: flatbuffers.Offset) {
     builder.addFieldOffset(0, sessionIdOffset, 0);
   }
 
-  static addUserIds(
-    builder: flatbuffers.Builder,
-    userIdsOffset: flatbuffers.Offset
-  ) {
+  static addUserIds(builder: flatbuffers.Builder, userIdsOffset: flatbuffers.Offset) {
     builder.addFieldOffset(1, userIdsOffset, 0);
   }
 
@@ -94,9 +80,7 @@ export class RealtimeSessionInviteUser {
     builder.startVector(4, numElems, 4);
   }
 
-  static endRealtimeSessionInviteUser(
-    builder: flatbuffers.Builder
-  ): flatbuffers.Offset {
+  static endRealtimeSessionInviteUser(builder: flatbuffers.Builder): flatbuffers.Offset {
     const offset = builder.endObject();
     return offset;
   }

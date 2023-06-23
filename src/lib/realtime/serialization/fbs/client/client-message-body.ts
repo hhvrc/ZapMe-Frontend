@@ -11,9 +11,7 @@ export enum ClientMessageBody {
 
 export function unionToClientMessageBody(
   type: ClientMessageBody,
-  accessor: (
-    obj: ClientHeartbeat | RealtimeSession
-  ) => ClientHeartbeat | RealtimeSession | null
+  accessor: (obj: ClientHeartbeat | RealtimeSession) => ClientHeartbeat | RealtimeSession | null
 ): ClientHeartbeat | RealtimeSession | null {
   switch (ClientMessageBody[type]) {
     case 'NONE':

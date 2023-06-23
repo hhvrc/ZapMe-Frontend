@@ -16,14 +16,7 @@
 <label class="label">
   <span>{title}</span>
   <div class="input-group input-group-divider grid-cols-[1fr_auto]">
-    <input
-      class="input"
-      type="text"
-      {title}
-      {placeholder}
-      {autocomplete}
-      bind:value
-    />
+    <input class="input" type="text" {title} {placeholder} {autocomplete} bind:value />
     {#if validationResult}
       <div>
         <i class={'fa-solid ' + errorIcon} title={validationResult.message} />

@@ -16,14 +16,8 @@ export class ClientMessage {
     return this;
   }
 
-  static getRootAsClientMessage(
-    bb: flatbuffers.ByteBuffer,
-    obj?: ClientMessage
-  ): ClientMessage {
-    return (obj || new ClientMessage()).__init(
-      bb.readInt32(bb.position()) + bb.position(),
-      bb
-    );
+  static getRootAsClientMessage(bb: flatbuffers.ByteBuffer, obj?: ClientMessage): ClientMessage {
+    return (obj || new ClientMessage()).__init(bb.readInt32(bb.position()) + bb.position(), bb);
   }
 
   static getSizePrefixedRootAsClientMessage(
@@ -31,17 +25,12 @@ export class ClientMessage {
     obj?: ClientMessage
   ): ClientMessage {
     bb.setPosition(bb.position() + flatbuffers.SIZE_PREFIX_LENGTH);
-    return (obj || new ClientMessage()).__init(
-      bb.readInt32(bb.position()) + bb.position(),
-      bb
-    );
+    return (obj || new ClientMessage()).__init(bb.readInt32(bb.position()) + bb.position(), bb);
   }
 
   messageType(): ClientMessageBody {
     const offset = this.bb!.__offset(this.bb_pos, 4);
-    return offset
-      ? this.bb!.readUint8(this.bb_pos + offset)
-      : ClientMessageBody.NONE;
+    return offset ? this.bb!.readUint8(this.bb_pos + offset) : ClientMessageBody.NONE;
   }
 
   message<T extends flatbuffers.Table>(obj: any): any | null {
@@ -53,17 +42,11 @@ export class ClientMessage {
     builder.startObject(2);
   }
 
-  static addMessageType(
-    builder: flatbuffers.Builder,
-    messageType: ClientMessageBody
-  ) {
+  static addMessageType(builder: flatbuffers.Builder, messageType: ClientMessageBody) {
     builder.addFieldInt8(0, messageType, ClientMessageBody.NONE);
   }
 
-  static addMessage(
-    builder: flatbuffers.Builder,
-    messageOffset: flatbuffers.Offset
-  ) {
+  static addMessage(builder: flatbuffers.Builder, messageOffset: flatbuffers.Offset) {
     builder.addFieldOffset(1, messageOffset, 0);
   }
 
@@ -72,10 +55,7 @@ export class ClientMessage {
     return offset;
   }
 
-  static finishClientMessageBuffer(
-    builder: flatbuffers.Builder,
-    offset: flatbuffers.Offset
-  ) {
+  static finishClientMessageBuffer(builder: flatbuffers.Builder, offset: flatbuffers.Offset) {
     builder.finish(offset);
   }
 

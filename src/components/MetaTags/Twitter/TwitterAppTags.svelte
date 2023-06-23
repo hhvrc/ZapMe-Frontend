@@ -1,11 +1,8 @@
 <script lang="ts">
   export let site: string | undefined = undefined;
-  export let iphone: { id: string; name: string; url: string } | undefined =
-    undefined;
-  export let ipad: { id: string; name: string; url: string } | undefined =
-    undefined;
-  export let googleplay: { id: string; name: string; url: string } | undefined =
-    undefined;
+  export let iphone: { id: string; name: string; url: string } | undefined = undefined;
+  export let ipad: { id: string; name: string; url: string } | undefined = undefined;
+  export let googleplay: { id: string; name: string; url: string } | undefined = undefined;
 </script>
 
 <svelte:head>

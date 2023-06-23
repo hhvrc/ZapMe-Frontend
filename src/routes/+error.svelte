@@ -23,12 +23,7 @@
 </script>
 
 <BasicTags {...meta} />
-<TwitterSummaryTags
-  type="summary"
-  {...meta}
-  site="@zapme_dev"
-  creator="@hhvrc"
-/>
+<TwitterSummaryTags type="summary" {...meta} site="@zapme_dev" creator="@hhvrc" />
 <OpenGraphTags
   type="website"
   {...meta}
@@ -38,9 +33,7 @@
   metaLocale="en_US"
 />
 
-<div
-  class="absolute left-1/2 top-1/2 -translate-x-[50%] -translate-y-[50%] text-center"
->
+<div class="absolute left-1/2 top-1/2 -translate-x-[50%] -translate-y-[50%] text-center">
   <div class="text-9xl">{$page.status}</div>
   <div class="big">
     {$page.error?.message ?? 'Something went wrong.'}

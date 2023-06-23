@@ -5,10 +5,7 @@ import * as flatbuffers from 'flatbuffers';
 export class RealtimeEventSessionUserMessage {
   bb: flatbuffers.ByteBuffer | null = null;
   bb_pos = 0;
-  __init(
-    i: number,
-    bb: flatbuffers.ByteBuffer
-  ): RealtimeEventSessionUserMessage {
+  __init(i: number, bb: flatbuffers.ByteBuffer): RealtimeEventSessionUserMessage {
     this.bb_pos = i;
     this.bb = bb;
     return this;
@@ -39,26 +36,15 @@ export class RealtimeEventSessionUserMessage {
   userId(optionalEncoding: flatbuffers.Encoding): string | Uint8Array | null;
   userId(optionalEncoding?: any): string | Uint8Array | null {
     const offset = this.bb!.__offset(this.bb_pos, 4);
-    return offset
-      ? this.bb!.__string(this.bb_pos + offset, optionalEncoding)
-      : null;
+    return offset ? this.bb!.__string(this.bb_pos + offset, optionalEncoding) : null;
   }
 
   recepientUserIds(index: number): string;
-  recepientUserIds(
-    index: number,
-    optionalEncoding: flatbuffers.Encoding
-  ): string | Uint8Array;
-  recepientUserIds(
-    index: number,
-    optionalEncoding?: any
-  ): string | Uint8Array | null {
+  recepientUserIds(index: number, optionalEncoding: flatbuffers.Encoding): string | Uint8Array;
+  recepientUserIds(index: number, optionalEncoding?: any): string | Uint8Array | null {
     const offset = this.bb!.__offset(this.bb_pos, 6);
     return offset
-      ? this.bb!.__string(
-          this.bb!.__vector(this.bb_pos + offset) + index * 4,
-          optionalEncoding
-        )
+      ? this.bb!.__string(this.bb!.__vector(this.bb_pos + offset) + index * 4, optionalEncoding)
       : null;
   }
 
@@ -71,10 +57,7 @@ export class RealtimeEventSessionUserMessage {
     builder.startObject(2);
   }
 
-  static addUserId(
-    builder: flatbuffers.Builder,
-    userIdOffset: flatbuffers.Offset
-  ) {
+  static addUserId(builder: flatbuffers.Builder, userIdOffset: flatbuffers.Offset) {
     builder.addFieldOffset(0, userIdOffset, 0);
   }
 
@@ -96,16 +79,11 @@ export class RealtimeEventSessionUserMessage {
     return builder.endVector();
   }
 
-  static startRecepientUserIdsVector(
-    builder: flatbuffers.Builder,
-    numElems: number
-  ) {
+  static startRecepientUserIdsVector(builder: flatbuffers.Builder, numElems: number) {
     builder.startVector(4, numElems, 4);
   }
 
-  static endRealtimeEventSessionUserMessage(
-    builder: flatbuffers.Builder
-  ): flatbuffers.Offset {
+  static endRealtimeEventSessionUserMessage(builder: flatbuffers.Builder): flatbuffers.Offset {
     const offset = builder.endObject();
     return offset;
   }
@@ -115,16 +93,9 @@ export class RealtimeEventSessionUserMessage {
     userIdOffset: flatbuffers.Offset,
     recepientUserIdsOffset: flatbuffers.Offset
   ): flatbuffers.Offset {
-    RealtimeEventSessionUserMessage.startRealtimeEventSessionUserMessage(
-      builder
-    );
+    RealtimeEventSessionUserMessage.startRealtimeEventSessionUserMessage(builder);
     RealtimeEventSessionUserMessage.addUserId(builder, userIdOffset);
-    RealtimeEventSessionUserMessage.addRecepientUserIds(
-      builder,
-      recepientUserIdsOffset
-    );
-    return RealtimeEventSessionUserMessage.endRealtimeEventSessionUserMessage(
-      builder
-    );
+    RealtimeEventSessionUserMessage.addRecepientUserIds(builder, recepientUserIdsOffset);
+    return RealtimeEventSessionUserMessage.endRealtimeEventSessionUserMessage(builder);
   }
 }

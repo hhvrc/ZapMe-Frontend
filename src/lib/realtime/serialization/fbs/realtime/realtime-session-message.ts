@@ -33,20 +33,11 @@ export class RealtimeSessionMessage {
   }
 
   recepientUserIds(index: number): string;
-  recepientUserIds(
-    index: number,
-    optionalEncoding: flatbuffers.Encoding
-  ): string | Uint8Array;
-  recepientUserIds(
-    index: number,
-    optionalEncoding?: any
-  ): string | Uint8Array | null {
+  recepientUserIds(index: number, optionalEncoding: flatbuffers.Encoding): string | Uint8Array;
+  recepientUserIds(index: number, optionalEncoding?: any): string | Uint8Array | null {
     const offset = this.bb!.__offset(this.bb_pos, 4);
     return offset
-      ? this.bb!.__string(
-          this.bb!.__vector(this.bb_pos + offset) + index * 4,
-          optionalEncoding
-        )
+      ? this.bb!.__string(this.bb!.__vector(this.bb_pos + offset) + index * 4, optionalEncoding)
       : null;
   }
 
@@ -59,9 +50,7 @@ export class RealtimeSessionMessage {
   message(optionalEncoding: flatbuffers.Encoding): string | Uint8Array | null;
   message(optionalEncoding?: any): string | Uint8Array | null {
     const offset = this.bb!.__offset(this.bb_pos, 6);
-    return offset
-      ? this.bb!.__string(this.bb_pos + offset, optionalEncoding)
-      : null;
+    return offset ? this.bb!.__string(this.bb_pos + offset, optionalEncoding) : null;
   }
 
   static startRealtimeSessionMessage(builder: flatbuffers.Builder) {
@@ -86,23 +75,15 @@ export class RealtimeSessionMessage {
     return builder.endVector();
   }
 
-  static startRecepientUserIdsVector(
-    builder: flatbuffers.Builder,
-    numElems: number
-  ) {
+  static startRecepientUserIdsVector(builder: flatbuffers.Builder, numElems: number) {
     builder.startVector(4, numElems, 4);
   }
 
-  static addMessage(
-    builder: flatbuffers.Builder,
-    messageOffset: flatbuffers.Offset
-  ) {
+  static addMessage(builder: flatbuffers.Builder, messageOffset: flatbuffers.Offset) {
     builder.addFieldOffset(1, messageOffset, 0);
   }
 
-  static endRealtimeSessionMessage(
-    builder: flatbuffers.Builder
-  ): flatbuffers.Offset {
+  static endRealtimeSessionMessage(builder: flatbuffers.Builder): flatbuffers.Offset {
     const offset = builder.endObject();
     return offset;
   }

@@ -50,11 +50,7 @@
     <Turnstile action="forgot-password" bind:response={turnstileToken} />
 
     <!-- Submit -->
-    <button
-      type="submit"
-      class="btn variant-filled w-1/2 self-center"
-      {disabled}
-    >
+    <button type="submit" class="btn variant-filled w-1/2 self-center" {disabled}>
       <span class="hidden md:inline-block">🚀</span>
       <span>Request Password Reset</span>
     </button>

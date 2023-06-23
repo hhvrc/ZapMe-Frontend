@@ -20,10 +20,7 @@ export class RealtimeSession {
     bb: flatbuffers.ByteBuffer,
     obj?: RealtimeSession
   ): RealtimeSession {
-    return (obj || new RealtimeSession()).__init(
-      bb.readInt32(bb.position()) + bb.position(),
-      bb
-    );
+    return (obj || new RealtimeSession()).__init(bb.readInt32(bb.position()) + bb.position(), bb);
   }
 
   static getSizePrefixedRootAsRealtimeSession(
@@ -31,17 +28,12 @@ export class RealtimeSession {
     obj?: RealtimeSession
   ): RealtimeSession {
     bb.setPosition(bb.position() + flatbuffers.SIZE_PREFIX_LENGTH);
-    return (obj || new RealtimeSession()).__init(
-      bb.readInt32(bb.position()) + bb.position(),
-      bb
-    );
+    return (obj || new RealtimeSession()).__init(bb.readInt32(bb.position()) + bb.position(), bb);
   }
 
   bodyType(): RealtimeSessionBody {
     const offset = this.bb!.__offset(this.bb_pos, 4);
-    return offset
-      ? this.bb!.readUint8(this.bb_pos + offset)
-      : RealtimeSessionBody.NONE;
+    return offset ? this.bb!.readUint8(this.bb_pos + offset) : RealtimeSessionBody.NONE;
   }
 
   body<T extends flatbuffers.Table>(obj: any): any | null {
@@ -53,10 +45,7 @@ export class RealtimeSession {
     builder.startObject(2);
   }
 
-  static addBodyType(
-    builder: flatbuffers.Builder,
-    bodyType: RealtimeSessionBody
-  ) {
+  static addBodyType(builder: flatbuffers.Builder, bodyType: RealtimeSessionBody) {
     builder.addFieldInt8(0, bodyType, RealtimeSessionBody.NONE);
   }
 

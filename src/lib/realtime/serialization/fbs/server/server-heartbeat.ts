@@ -15,10 +15,7 @@ export class ServerHeartbeat {
     bb: flatbuffers.ByteBuffer,
     obj?: ServerHeartbeat
   ): ServerHeartbeat {
-    return (obj || new ServerHeartbeat()).__init(
-      bb.readInt32(bb.position()) + bb.position(),
-      bb
-    );
+    return (obj || new ServerHeartbeat()).__init(bb.readInt32(bb.position()) + bb.position(), bb);
   }
 
   static getSizePrefixedRootAsServerHeartbeat(
@@ -26,10 +23,7 @@ export class ServerHeartbeat {
     obj?: ServerHeartbeat
   ): ServerHeartbeat {
     bb.setPosition(bb.position() + flatbuffers.SIZE_PREFIX_LENGTH);
-    return (obj || new ServerHeartbeat()).__init(
-      bb.readInt32(bb.position()) + bb.position(),
-      bb
-    );
+    return (obj || new ServerHeartbeat()).__init(bb.readInt32(bb.position()) + bb.position(), bb);
   }
 
   heartbeatIntervalMs(): number {
@@ -41,10 +35,7 @@ export class ServerHeartbeat {
     builder.startObject(1);
   }
 
-  static addHeartbeatIntervalMs(
-    builder: flatbuffers.Builder,
-    heartbeatIntervalMs: number
-  ) {
+  static addHeartbeatIntervalMs(builder: flatbuffers.Builder, heartbeatIntervalMs: number) {
     builder.addFieldInt32(0, heartbeatIntervalMs, 0);
   }
 

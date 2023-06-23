@@ -36,12 +36,11 @@ export function createRealtimeSessionMessage(messageText: string): Uint8Array {
   RealtimeSessionMessage.startRecepientUserIdsVector(builder, 0);
   const vectorOffset = builder.endVector();
   const messageTextOffset = builder.createString(messageText);
-  const realtimeSessionMessage =
-    RealtimeSessionMessage.createRealtimeSessionMessage(
-      builder,
-      vectorOffset,
-      messageTextOffset
-    );
+  const realtimeSessionMessage = RealtimeSessionMessage.createRealtimeSessionMessage(
+    builder,
+    vectorOffset,
+    messageTextOffset
+  );
   const realtimeSession = RealtimeSession.createRealtimeSession(
     builder,
     RealtimeSessionBody.message,

@@ -18,34 +18,19 @@
     <div class="card overflow-hidden p-4">
       <span class="text-2xl font-bold">Settings</span>
       <div class="flex">
-        <input
-          type="text"
-          class="input w-full"
-          placeholder="Username"
-          bind:value={username}
-        />
+        <input type="text" class="input w-full" placeholder="Username" bind:value={username} />
         <button type="button" class="btn variant-filled w-1/2 self-center">
           <span>Edit</span>
         </button>
       </div>
       <div class="flex">
-        <input
-          type="text"
-          class="input w-full"
-          placeholder="Email"
-          bind:value={username}
-        />
+        <input type="text" class="input w-full" placeholder="Email" bind:value={username} />
         <button type="button" class="btn variant-filled w-1/2 self-center">
           <span>Edit</span>
         </button>
       </div>
       <div class="flex">
-        <input
-          type="text"
-          class="input w-full"
-          placeholder="Password"
-          bind:value={username}
-        />
+        <input type="text" class="input w-full" placeholder="Password" bind:value={username} />
         <button type="button" class="btn variant-filled w-1/2 self-center">
           <span>Edit</span>
         </button>

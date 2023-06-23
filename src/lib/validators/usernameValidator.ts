@@ -55,8 +55,7 @@ export function validateUsername(value: string): ValidationResult {
   if (UnwantedCharacterRegex.test(value)) {
     return {
       valid: false,
-      message:
-        'Emoji/Zalgo/Weird Unicode characters are not allowed in username',
+      message: 'Emoji/Zalgo/Weird Unicode characters are not allowed in username',
     };
   }
 

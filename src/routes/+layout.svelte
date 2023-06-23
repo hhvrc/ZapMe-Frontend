@@ -2,14 +2,7 @@
   import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
   import '@skeletonlabs/skeleton/styles/all.css';
   import '../app.postcss';
-  import {
-    arrow,
-    autoUpdate,
-    computePosition,
-    flip,
-    offset,
-    shift,
-  } from '@floating-ui/dom';
+  import { arrow, autoUpdate, computePosition, flip, offset, shift } from '@floating-ui/dom';
   import ThemeSwitch from '$components/ThemeSwitch.svelte';
   import '@fontsource/montserrat';
   import {
@@ -133,11 +126,7 @@
             class="overflow-hidden lg:!ml-0 lg:w-auto"
             data-sveltekit-preload-data="hover"
           >
-            <img
-              class="inline-block h-10"
-              src="/logo-128.png"
-              alt="ZapMe Logo"
-            />
+            <img class="inline-block h-10" src="/logo-128.png" alt="ZapMe Logo" />
             <strong
               class="hidden align-middle text-3xl uppercase tracking-widest sm:inline-block"
               style="font-family: Montserrat,sans-serif"
@@ -171,20 +160,14 @@
         <!-- {selected}> -->
         <svelte:fragment slot="lead">
           {#each LeadingTiles as tile}
-            <AppRailAnchor
-              href={tile.href}
-              selected={$page.url.pathname == tile.href}
-            >
+            <AppRailAnchor href={tile.href} selected={$page.url.pathname == tile.href}>
               <i class={`fa-solid ${tile.icon} fa-xl`} />
             </AppRailAnchor>
           {/each}
         </svelte:fragment>
         <svelte:fragment slot="trail">
           {#each TrailingTiles as tile}
-            <AppRailAnchor
-              href={tile.href}
-              selected={$page.url.pathname == tile.href}
-            >
+            <AppRailAnchor href={tile.href} selected={$page.url.pathname == tile.href}>
               <i class={`fa-solid ${tile.icon} fa-xl`} />
             </AppRailAnchor>
           {/each}
@@ -195,23 +178,15 @@
   <svelte:fragment slot="pageFooter">
     <div class="m-2 flex items-center justify-center sm:justify-between">
       <div>
-        Made with <span style="color: #e25555;">&#9829;</span> by {config
-          .founderSocials.discordUsername}
+        Made with <span style="color: #e25555;">&#9829;</span> by {config.founderSocials
+          .discordUsername}
       </div>
       <div class="hidden lg:block">Copyright ©{year} | All Rights Reserved</div>
       <div class="hidden items-center space-x-2 sm:flex">
-        <a
-          href="/privacy-policy"
-          class="select-none"
-          data-sveltekit-preload-data="hover"
-        >
+        <a href="/privacy-policy" class="select-none" data-sveltekit-preload-data="hover">
           Privacy Policy
         </a>
-        <a
-          href="/terms-of-service"
-          class="select-none"
-          data-sveltekit-preload-data="hover"
-        >
+        <a href="/terms-of-service" class="select-none" data-sveltekit-preload-data="hover">
           Terms of Service
         </a>
       </div>

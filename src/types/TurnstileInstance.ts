@@ -9,9 +9,6 @@ export interface TurnstileInstance {
   implicitRender: () => void;
   ready: (callback: (token: string) => void) => void;
   remove: (container: string | HTMLElement) => void;
-  render: (
-    container: string | HTMLElement,
-    parameters: TurnstileRenderParameters
-  ) => void;
+  render: (container: string | HTMLElement, parameters: TurnstileRenderParameters) => void;
   reset: (container: string | HTMLElement) => void;
 }

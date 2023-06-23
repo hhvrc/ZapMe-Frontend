@@ -11,14 +11,8 @@ export class GlobalMessage {
     return this;
   }
 
-  static getRootAsGlobalMessage(
-    bb: flatbuffers.ByteBuffer,
-    obj?: GlobalMessage
-  ): GlobalMessage {
-    return (obj || new GlobalMessage()).__init(
-      bb.readInt32(bb.position()) + bb.position(),
-      bb
-    );
+  static getRootAsGlobalMessage(bb: flatbuffers.ByteBuffer, obj?: GlobalMessage): GlobalMessage {
+    return (obj || new GlobalMessage()).__init(bb.readInt32(bb.position()) + bb.position(), bb);
   }
 
   static getSizePrefixedRootAsGlobalMessage(
@@ -26,38 +20,28 @@ export class GlobalMessage {
     obj?: GlobalMessage
   ): GlobalMessage {
     bb.setPosition(bb.position() + flatbuffers.SIZE_PREFIX_LENGTH);
-    return (obj || new GlobalMessage()).__init(
-      bb.readInt32(bb.position()) + bb.position(),
-      bb
-    );
+    return (obj || new GlobalMessage()).__init(bb.readInt32(bb.position()) + bb.position(), bb);
   }
 
   title(): string | null;
   title(optionalEncoding: flatbuffers.Encoding): string | Uint8Array | null;
   title(optionalEncoding?: any): string | Uint8Array | null {
     const offset = this.bb!.__offset(this.bb_pos, 4);
-    return offset
-      ? this.bb!.__string(this.bb_pos + offset, optionalEncoding)
-      : null;
+    return offset ? this.bb!.__string(this.bb_pos + offset, optionalEncoding) : null;
   }
 
   body(): string | null;
   body(optionalEncoding: flatbuffers.Encoding): string | Uint8Array | null;
   body(optionalEncoding?: any): string | Uint8Array | null {
     const offset = this.bb!.__offset(this.bb_pos, 6);
-    return offset
-      ? this.bb!.__string(this.bb_pos + offset, optionalEncoding)
-      : null;
+    return offset ? this.bb!.__string(this.bb_pos + offset, optionalEncoding) : null;
   }
 
   static startGlobalMessage(builder: flatbuffers.Builder) {
     builder.startObject(2);
   }
 
-  static addTitle(
-    builder: flatbuffers.Builder,
-    titleOffset: flatbuffers.Offset
-  ) {
+  static addTitle(builder: flatbuffers.Builder, titleOffset: flatbuffers.Offset) {
     builder.addFieldOffset(0, titleOffset, 0);
   }
 

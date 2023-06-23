@@ -79,11 +79,7 @@
       />
 
       <!-- Submit -->
-      <button
-        type="submit"
-        class="btn variant-filled w-1/2 self-center"
-        {disabled}
-      >
+      <button type="submit" class="btn variant-filled w-1/2 self-center" {disabled}>
         <span class="hidden md:inline-block">🚀</span>
         <span>Reset Password</span>
       </button>

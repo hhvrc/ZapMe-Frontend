@@ -29,8 +29,7 @@ export class WebRtcClient {
     this._remoteDescription = remoteDescription;
     this._webSocketClient = webSocketClient;
 
-    this._connection.onicecandidate =
-      this.HandleIceCandidateDiscovery.bind(this);
+    this._connection.onicecandidate = this.HandleIceCandidateDiscovery.bind(this);
   }
 
   public get SessionId(): string {
@@ -50,9 +49,7 @@ export class WebRtcClient {
   }
 
   public async AddIceCandidate(candidateJson: string) {
-    await this._connection.addIceCandidate(
-      new RTCIceCandidate(JSON.parse(candidateJson))
-    );
+    await this._connection.addIceCandidate(new RTCIceCandidate(JSON.parse(candidateJson)));
   }
 
   private async HandleIceCandidateDiscovery(ev: RTCPeerConnectionIceEvent) {
@@ -74,14 +71,7 @@ export class WebRtcCallingClient extends WebRtcClient {
     const localDesc = await connection.createOffer();
     connection.setLocalDescription(localDesc);
 
-    return new WebRtcClient(
-      connection,
-      sessionId,
-      userId,
-      localDesc,
-      null,
-      wsClient
-    );
+    return new WebRtcClient(connection, sessionId, userId, localDesc, null, wsClient);
   }
 
   public async SetRemoteAnswer(remoteAnswer: string) {
@@ -109,14 +99,7 @@ export class WebRtcAnsweringClient extends WebRtcClient {
     const localDesc = await connection.createAnswer();
     connection.setLocalDescription(localDesc);
 
-    return new WebRtcClient(
-      connection,
-      sessionId,
-      userId,
-      localDesc,
-      remoteDesc,
-      wsClient
-    );
+    return new WebRtcClient(connection, sessionId, userId, localDesc, remoteDesc, wsClient);
   }
 
   public async GetAnswer(remoteAnswer: string) {

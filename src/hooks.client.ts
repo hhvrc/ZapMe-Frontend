@@ -1,8 +1,5 @@
 import { BrowserTracing, Replay } from '@sentry/browser';
-import {
-  captureException as SentryCaptureException,
-  init as SentryInit,
-} from '@sentry/svelte';
+import { captureException as SentryCaptureException, init as SentryInit } from '@sentry/svelte';
 import {
   PUBLIC_REPLAYS_ONERROR_SAMPLERATE,
   PUBLIC_REPLAYS_SESSION_SAMPLERATE,

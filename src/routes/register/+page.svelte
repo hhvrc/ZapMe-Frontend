@@ -67,9 +67,7 @@
     }
   }
 
-  $: acceptedPrivacyPolicyVersion = acceptedTerms
-    ? $ApiConfigStore?.privacyPolicyVersion ?? 0
-    : 0;
+  $: acceptedPrivacyPolicyVersion = acceptedTerms ? $ApiConfigStore?.privacyPolicyVersion ?? 0 : 0;
   $: acceptedTermsOfServiceVersion = acceptedTerms
     ? $ApiConfigStore?.termsOfServiceVersion ?? 0
     : 0;
@@ -152,13 +150,9 @@
       <p class="text-sm">
         We have received your information from {ssoData.providerName}.
       </p>
-      <p class="text-sm">
-        Please edit and fill out the rest of the form to complete your account.
-      </p>
+      <p class="text-sm">Please edit and fill out the rest of the form to complete your account.</p>
       <p class="text-sm text-red-500">
-        This request will expire in <CountdownText
-          expiresAtUtc={ssoData.expiresAtUtc}
-        />
+        This request will expire in <CountdownText expiresAtUtc={ssoData.expiresAtUtc} />
       </p>
     {/if}
 
@@ -213,11 +207,7 @@
     <Turnstile action="register" bind:response={turnstileResponse} />
 
     <!-- Submit -->
-    <button
-      type="submit"
-      class="btn variant-filled w-1/2 self-center"
-      {disabled}
-    >
+    <button type="submit" class="btn variant-filled w-1/2 self-center" {disabled}>
       <span class="hidden md:inline-block">🚀</span>
       <span>Register</span>
     </button>

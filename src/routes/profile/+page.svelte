@@ -38,11 +38,9 @@
   }
 
   $: initials = GetUsernameInitials(account?.username ?? '');
-  const bannerSrc =
-    'https://i.pinimg.com/originals/31/c3/e3/31c3e3f032a177d0b0c983b8262de8f9.gif';
+  const bannerSrc = 'https://i.pinimg.com/originals/31/c3/e3/31c3e3f032a177d0b0c983b8262de8f9.gif';
   const bannerAlt = 'ProfileBanner';
-  const profileSrc =
-    'https://i.pinimg.com/originals/49/07/13/4907130d5ddcd50beff46f78c9744a49.png';
+  const profileSrc = 'https://i.pinimg.com/originals/49/07/13/4907130d5ddcd50beff46f78c9744a49.png';
   const profileFallback =
     'https://i.pinimg.com/originals/49/07/13/4907130d5ddcd50beff46f78c9744a49.png';
 </script>
@@ -57,8 +55,7 @@
       <!-- Profile banner -->
       <div
         class="group relative h-32 w-full cursor-pointer select-none"
-        on:mousedown={() =>
-          modalStore.trigger({ type: 'component', component: 'file' })}
+        on:mousedown={() => modalStore.trigger({ type: 'component', component: 'file' })}
       >
         <img
           class="transition-brightness h-32 w-full object-cover group-hover:brightness-50"
@@ -79,8 +76,7 @@
         >
           <div
             class="group relative h-[120px] w-[120px] cursor-pointer rounded-full"
-            on:mousedown={() =>
-              modalStore.trigger({ type: 'component', component: 'file' })}
+            on:mousedown={() => modalStore.trigger({ type: 'component', component: 'file' })}
           >
             <Avatar
               {initials}

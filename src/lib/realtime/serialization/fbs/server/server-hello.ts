@@ -11,14 +11,8 @@ export class ServerHello {
     return this;
   }
 
-  static getRootAsServerHello(
-    bb: flatbuffers.ByteBuffer,
-    obj?: ServerHello
-  ): ServerHello {
-    return (obj || new ServerHello()).__init(
-      bb.readInt32(bb.position()) + bb.position(),
-      bb
-    );
+  static getRootAsServerHello(bb: flatbuffers.ByteBuffer, obj?: ServerHello): ServerHello {
+    return (obj || new ServerHello()).__init(bb.readInt32(bb.position()) + bb.position(), bb);
   }
 
   static getSizePrefixedRootAsServerHello(
@@ -26,10 +20,7 @@ export class ServerHello {
     obj?: ServerHello
   ): ServerHello {
     bb.setPosition(bb.position() + flatbuffers.SIZE_PREFIX_LENGTH);
-    return (obj || new ServerHello()).__init(
-      bb.readInt32(bb.position()) + bb.position(),
-      bb
-    );
+    return (obj || new ServerHello()).__init(bb.readInt32(bb.position()) + bb.position(), bb);
   }
 
   heartbeatIntervalMs(): number {
@@ -61,38 +52,23 @@ export class ServerHello {
     builder.startObject(5);
   }
 
-  static addHeartbeatIntervalMs(
-    builder: flatbuffers.Builder,
-    heartbeatIntervalMs: number
-  ) {
+  static addHeartbeatIntervalMs(builder: flatbuffers.Builder, heartbeatIntervalMs: number) {
     builder.addFieldInt32(0, heartbeatIntervalMs, 0);
   }
 
-  static addRatelimitMessagesPerSec(
-    builder: flatbuffers.Builder,
-    ratelimitMessagesPerSec: number
-  ) {
+  static addRatelimitMessagesPerSec(builder: flatbuffers.Builder, ratelimitMessagesPerSec: number) {
     builder.addFieldInt32(1, ratelimitMessagesPerSec, 0);
   }
 
-  static addRatelimitMessagesPerMin(
-    builder: flatbuffers.Builder,
-    ratelimitMessagesPerMin: number
-  ) {
+  static addRatelimitMessagesPerMin(builder: flatbuffers.Builder, ratelimitMessagesPerMin: number) {
     builder.addFieldInt32(2, ratelimitMessagesPerMin, 0);
   }
 
-  static addRatelimitBytesPerSec(
-    builder: flatbuffers.Builder,
-    ratelimitBytesPerSec: number
-  ) {
+  static addRatelimitBytesPerSec(builder: flatbuffers.Builder, ratelimitBytesPerSec: number) {
     builder.addFieldInt32(3, ratelimitBytesPerSec, 0);
   }
 
-  static addRatelimitBytesPerMin(
-    builder: flatbuffers.Builder,
-    ratelimitBytesPerMin: number
-  ) {
+  static addRatelimitBytesPerMin(builder: flatbuffers.Builder, ratelimitBytesPerMin: number) {
     builder.addFieldInt32(4, ratelimitBytesPerMin, 0);
   }
 

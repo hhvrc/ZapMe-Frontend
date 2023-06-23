@@ -17,9 +17,7 @@
           <h3>I want to integrate ZapMe into my project</h3>
         </svelte:fragment>
         <svelte:fragment slot="content">
-          <p class="!text-lg text-slate-300">
-            Here are some resources to help you get started:
-          </p>
+          <p class="!text-lg text-slate-300">Here are some resources to help you get started:</p>
           <ul class="list-inside list-disc">
             <li>
               <a
@@ -88,10 +86,7 @@
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 1556 1556"
             >
-              <path
-                fill="#fff"
-                d="m1410 1123-1042-3V720l829-7 33 13 180 42v355z"
-              />
+              <path fill="#fff" d="m1410 1123-1042-3V720l829-7 33 13 180 42v355z" />
               <path
                 fill="#f48120"
                 d="M1062 1120c0 7-6 10-13 10H14l-4-1-3-2q-2-1-2-3l-1-4-2-9-1-8v-18a233 233 0 0 1 66-165 235 235 0 0 1 163-71l-3-14-1-15-1-14 1-15a169 169 0 0 1 149-149 175 175 0 0 1 116 33 368 368 0 0 1 706 38c4 4 0 7 0 10l-32 84a200 200 0 0 1-164 123l-565 6c-6 0-10 3-13 10l-2 2v5l2 3 10 3 561 6a97 97 0 0 1 54 22l14 14a94 94 0 0 1 15 41 89 89 0 0 1-5 43l-10 35z"
@@ -110,13 +105,7 @@
               viewBox="0 0 256 244"
             >
               <defs>
-                <linearGradient
-                  id="a"
-                  x1="50%"
-                  x2="50%"
-                  y1="-19.52%"
-                  y2="129.63%"
-                >
+                <linearGradient id="a" x1="50%" x2="50%" y1="-19.52%" y2="129.63%">
                   <stop offset="0%" stop-color="#0994DC" />
                   <stop offset="35%" stop-color="#66CEF5" />
                   <stop offset="35%" stop-color="#66CEF5" />
@@ -124,13 +113,7 @@
                   <stop offset="84.62%" stop-color="#127BCA" />
                   <stop offset="100%" stop-color="#127BCA" />
                 </linearGradient>
-                <linearGradient
-                  id="b"
-                  x1="50%"
-                  x2="50%"
-                  y1="-19.52%"
-                  y2="129.62%"
-                >
+                <linearGradient id="b" x1="50%" x2="50%" y1="-19.52%" y2="129.62%">
                   <stop offset="0%" stop-color="#0E76BC" />
                   <stop offset="36%" stop-color="#36AEE8" />
                   <stop offset="36%" stop-color="#36AEE8" />
@@ -138,24 +121,12 @@
                   <stop offset="84.62%" stop-color="#00ADEF" />
                   <stop offset="100%" stop-color="#00ADEF" />
                 </linearGradient>
-                <linearGradient
-                  id="c"
-                  x1="50%"
-                  x2="50%"
-                  y1="110.92%"
-                  y2="-6.21%"
-                >
+                <linearGradient id="c" x1="50%" x2="50%" y1="110.92%" y2="-6.21%">
                   <stop offset="0%" stop-color="#1C63B7" />
                   <stop offset="50%" stop-color="#33BDF2" />
                   <stop offset="100%" stop-color="#33BDF2" stop-opacity=".42" />
                 </linearGradient>
-                <linearGradient
-                  id="d"
-                  x1="50%"
-                  x2="50%"
-                  y1="-19.51%"
-                  y2="129.63%"
-                >
+                <linearGradient id="d" x1="50%" x2="50%" y1="-19.51%" y2="129.63%">
                   <stop offset="0%" stop-color="#166AB8" />
                   <stop offset="40%" stop-color="#36AEE8" />
                   <stop offset="40%" stop-color="#36AEE8" />
@@ -163,13 +134,7 @@
                   <stop offset="84.62%" stop-color="#0798DD" />
                   <stop offset="100%" stop-color="#0798DD" />
                 </linearGradient>
-                <linearGradient
-                  id="e"
-                  x1="50%"
-                  x2="50%"
-                  y1="-19.52%"
-                  y2="129.63%"
-                >
+                <linearGradient id="e" x1="50%" x2="50%" y1="-19.52%" y2="129.63%">
                   <stop offset="0%" stop-color="#124379" />
                   <stop offset="39%" stop-color="#1487CB" />
                   <stop offset="39%" stop-color="#1487CB" />
@@ -181,13 +146,7 @@
                   <stop offset="0%" stop-color="#33BDF2" stop-opacity=".7" />
                   <stop offset="100%" stop-color="#1DACD8" />
                 </linearGradient>
-                <linearGradient
-                  id="g"
-                  x1="50.01%"
-                  x2="50.01%"
-                  y1="94.69%"
-                  y2="-3.02%"
-                >
+                <linearGradient id="g" x1="50.01%" x2="50.01%" y1="94.69%" y2="-3.02%">
                   <stop offset="0%" stop-color="#136AB4" />
                   <stop offset="60%" stop-color="#59CAF5" stop-opacity=".55" />
                   <stop offset="100%" stop-color="#59CAF5" stop-opacity=".24" />
@@ -196,23 +155,11 @@
                   <stop offset="0%" stop-color="#05A1E6" stop-opacity=".25" />
                   <stop offset="100%" stop-color="#05A1E6" />
                 </linearGradient>
-                <linearGradient
-                  id="i"
-                  x1="50%"
-                  x2="50%"
-                  y1="124.31%"
-                  y2="-9.42%"
-                >
+                <linearGradient id="i" x1="50%" x2="50%" y1="124.31%" y2="-9.42%">
                   <stop offset="0%" stop-color="#318ED5" />
                   <stop offset="100%" stop-color="#38A7E4" />
                 </linearGradient>
-                <linearGradient
-                  id="j"
-                  x1="50%"
-                  x2="50%"
-                  y1="91.2%"
-                  y2="-76.79%"
-                >
+                <linearGradient id="j" x1="50%" x2="50%" y1="91.2%" y2="-76.79%">
                   <stop offset="0%" stop-color="#05A1E6" />
                   <stop offset="100%" stop-color="#05A1E6" stop-opacity=".55" />
                 </linearGradient>
@@ -223,57 +170,27 @@
                   <stop offset="91.76%" stop-color="#7EC5EA" />
                   <stop offset="100%" stop-color="#7EC5EA" />
                 </linearGradient>
-                <linearGradient
-                  id="l"
-                  x1="59.8%"
-                  x2="38.47%"
-                  y1="94.57%"
-                  y2="5.76%"
-                >
+                <linearGradient id="l" x1="59.8%" x2="38.47%" y1="94.57%" y2="5.76%">
                   <stop offset="0%" stop-color="#165096" />
                   <stop offset="100%" stop-color="#0D82CA" />
                 </linearGradient>
-                <linearGradient
-                  id="m"
-                  x1="49.99%"
-                  x2="49.99%"
-                  y1="77%"
-                  y2="-3.3%"
-                >
+                <linearGradient id="m" x1="49.99%" x2="49.99%" y1="77%" y2="-3.3%">
                   <stop offset="0%" stop-color="#05A1E6" />
                   <stop offset="87.36%" stop-color="#0495D6" />
                   <stop offset="100%" stop-color="#0495D6" />
                 </linearGradient>
-                <linearGradient
-                  id="n"
-                  x1="65.26%"
-                  x2="34.26%"
-                  y1="-4.16%"
-                  y2="105.84%"
-                >
+                <linearGradient id="n" x1="65.26%" x2="34.26%" y1="-4.16%" y2="105.84%">
                   <stop offset="0%" stop-color="#38A7E4" stop-opacity=".33" />
                   <stop offset="96.15%" stop-color="#0E88D3" />
                   <stop offset="96.15%" stop-color="#0E88D3" />
                   <stop offset="100%" stop-color="#0E88D3" />
                 </linearGradient>
-                <linearGradient
-                  id="o"
-                  x1="50.02%"
-                  x2="50.02%"
-                  y1="-.3%"
-                  y2="101.88%"
-                >
+                <linearGradient id="o" x1="50.02%" x2="50.02%" y1="-.3%" y2="101.88%">
                   <stop offset="0%" stop-color="#168CD4" />
                   <stop offset="50%" stop-color="#1C87CC" />
                   <stop offset="100%" stop-color="#154B8D" />
                 </linearGradient>
-                <linearGradient
-                  id="r"
-                  x1="50%"
-                  x2="50%"
-                  y1="6.36%"
-                  y2="127.96%"
-                >
+                <linearGradient id="r" x1="50%" x2="50%" y1="6.36%" y2="127.96%">
                   <stop offset="0%" stop-color="#1DA7E7" />
                   <stop offset="100%" stop-color="#37ABE7" stop-opacity="0" />
                 </linearGradient>
@@ -281,13 +198,7 @@
                   <stop offset="0%" stop-color="#7ACCEC" />
                   <stop offset="100%" stop-color="#3FB7ED" />
                 </linearGradient>
-                <linearGradient
-                  id="p"
-                  x1="16.67%"
-                  x2="87.81%"
-                  y1="NaN"
-                  y2="NaN"
-                >
+                <linearGradient id="p" x1="16.67%" x2="87.81%" y1="NaN" y2="NaN">
                   <stop offset="0%" stop-color="#97D6EE" />
                   <stop offset="70.33%" stop-color="#55C1EA" />
                   <stop offset="100%" stop-color="#55C1EA" />

@@ -56,18 +56,14 @@
   <dl class="list-dl">
     {#each users as { id, name, presence: status, statusText, pfp } (id)}
       <div class="user-container">
-        <span
-          class="relative -left-1 inline-block rounded-full border-inherit bg-inherit"
-        >
+        <span class="relative -left-1 inline-block rounded-full border-inherit bg-inherit">
           <Avatar
             initials={GetUsernameInitials(name)}
             src={pfp}
             rounded="rounded-full"
             width="w-[42px]"
           />
-          <span
-            class="absolute bottom-0 right-0 rounded-full border-2 border-inherit bg-inherit"
-          >
+          <span class="absolute bottom-0 right-0 rounded-full border-2 border-inherit bg-inherit">
             <StatusIndicator onlineStatus={status} scale="small" />
           </span>
         </span>
