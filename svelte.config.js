@@ -5,6 +5,7 @@ export default {
   preprocess: [
     preprocess({
       postcss: true,
+      sourceMap: true,
     }),
   ],
   kit: {
