@@ -44,7 +44,7 @@ export class WebSocketClient {
     if (this._connectionState !== v) {
       this._connectionState = v;
       if (v !== ConnectionState.CONNECTED) {
-        this.AuthenticationState = AuthenticationState.UNAUTHENTICATED;
+        this.AuthenticationState = AuthenticationState.NONE;
       }
       this._connectionStateChangeHandlers.forEach((cb) => cb(v));
     }
@@ -59,7 +59,7 @@ export class WebSocketClient {
     }
   }
 
-  private _authenticationState = AuthenticationState.UNAUTHENTICATED;
+  private _authenticationState = AuthenticationState.NONE;
   private _authenticationStateChangeHandlers: AuthenticationStateChangeHandler[] = [];
   public get AuthenticationState(): AuthenticationState {
     return this._authenticationState;
@@ -176,11 +176,13 @@ export class WebSocketClient {
 
     this.AbortHeartbeat();
 
-    try {
-      this._socket.close();
-      setTimeout(this.AbortWebSocket.bind(this), 1000);
-    } catch {
-      this.AbortWebSocket();
+    if (this._socket) {
+      try {
+        this._socket.close();
+        setTimeout(this.AbortWebSocket.bind(this), 1000);
+      } catch {
+        this.AbortWebSocket();
+      }
     }
   }
 
