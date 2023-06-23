@@ -88,9 +88,12 @@ export class WebSocketClient {
   private set HeartbeatIntervalMS(v: number) {
     if (this._heartbeatIntervalMs !== v) {
       this._heartbeatIntervalMs = v;
-      if (this._heartbeatInterval !== null) {
+      if (this._heartbeatInterval) {
         clearInterval(this._heartbeatInterval);
       }
+      this._heartbeatInterval = setInterval(this.sendHeartbeat.bind(this), v);
+    }
+    else if (!this._heartbeatInterval) {
       this._heartbeatInterval = setInterval(this.sendHeartbeat.bind(this), v);
     }
   }
