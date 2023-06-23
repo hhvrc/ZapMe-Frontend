@@ -1,6 +1,4 @@
-import {
-  RealtimeSession
-} from './serialization/fbs/realtime';
+import { RealtimeSession } from './serialization/fbs/realtime';
 import {
   GlobalMessage,
   ServerHeartbeat,
@@ -14,61 +12,71 @@ import { SessionTokenStore } from '$lib/stores';
 import { isArrayBuffer } from '$lib/typeGuards';
 import { ByteBuffer } from 'flatbuffers';
 
+export enum ConnectionState {
+  DISCONNECTED = 0,
+  DISCONNECTING,
+  CONNECTING,
+  CONNECTED,
+}
+
+export enum AuthenticationState {
+  NONE = 0,
+  AUTHENTICATING,
+  AUTHENTICATED,
+}
+
+export type ConnectionRTTChangeHandler = (rtt: number) => void;
+export type ConnectionStateChangeHandler = (state: ConnectionState) => void;
+export type AuthenticationStateChangeHandler = (state: AuthenticationState) => void;
+
 export class WebSocketClient {
   public static readonly Instance = new WebSocketClient();
 
   private _socket: WebSocket | null = null;
   private _hearbeatSendTime = 0;
 
-  public static readonly DISCONNECTED = 0;
-  public static readonly DISCONNECTING = 1;
-  public static readonly CONNECTING = 2;
-  public static readonly CONNECTED = 3;
-  private _connectionState = WebSocketClient.DISCONNECTED;
-  private _connectionStateChangeHandlers: ((state: number) => void)[] = [];
-  public get ConnectionState(): number {
+  private _connectionState = ConnectionState.DISCONNECTED;
+  private _connectionStateChangeHandlers: ConnectionStateChangeHandler[] = [];
+  public get ConnectionState(): ConnectionState {
     return this._connectionState;
   }
-  private set ConnectionState(v: number) {
+  private set ConnectionState(v: ConnectionState) {
     if (this._connectionState !== v) {
       this._connectionState = v;
-      if (v !== WebSocketClient.CONNECTED) {
-        this.AuthenticationState = this.UNAUTHENTICATED;
+      if (v !== ConnectionState.CONNECTED) {
+        this.AuthenticationState = AuthenticationState.UNAUTHENTICATED;
       }
       this._connectionStateChangeHandlers.forEach((cb) => cb(v));
     }
   }
-  public addConnectionStateChangeHandler(cb: (state: number) => void) {
+  public addConnectionStateChangeHandler(cb: ConnectionStateChangeHandler) {
     this._connectionStateChangeHandlers.push(cb);
   }
-  public removeConnectionStateChangeHandler(cb: (state: number) => void) {
+  public removeConnectionStateChangeHandler(cb: ConnectionStateChangeHandler) {
     const idx = this._connectionStateChangeHandlers.indexOf(cb);
     if (idx !== -1) {
       this._connectionStateChangeHandlers.splice(idx, 1);
     }
   }
 
-  public readonly UNAUTHENTICATED = 0;
-  public readonly AUTHENTICATING = 1;
-  public readonly AUTHENTICATED = 2;
-  private _authenticationState = this.UNAUTHENTICATED;
-  private _uthenticationStateChangeHandlers: ((state: number) => void)[] = [];
-  public get AuthenticationState(): number {
+  private _authenticationState = AuthenticationState.UNAUTHENTICATED;
+  private _authenticationStateChangeHandlers: AuthenticationStateChangeHandler[] = [];
+  public get AuthenticationState(): AuthenticationState {
     return this._authenticationState;
   }
-  private set AuthenticationState(v: number) {
+  private set AuthenticationState(v: AuthenticationState) {
     if (this._authenticationState !== v) {
       this._authenticationState = v;
-      this._uthenticationStateChangeHandlers.forEach((cb) => cb(v));
+      this._authenticationStateChangeHandlers.forEach((cb) => cb(v));
     }
   }
-  public addAuthenticationStateChangeHandler(cb: (state: number) => void) {
-    this._uthenticationStateChangeHandlers.push(cb);
+  public addAuthenticationStateChangeHandler(cb: AuthenticationStateChangeHandler) {
+    this._authenticationStateChangeHandlers.push(cb);
   }
-  public removeAuthenticationStateChangeHandler(cb: (state: number) => void) {
-    const idx = this._uthenticationStateChangeHandlers.indexOf(cb);
+  public removeAuthenticationStateChangeHandler(cb: AuthenticationStateChangeHandler) {
+    const idx = this._authenticationStateChangeHandlers.indexOf(cb);
     if (idx !== -1) {
-      this._uthenticationStateChangeHandlers.splice(idx, 1);
+      this._authenticationStateChangeHandlers.splice(idx, 1);
     }
   }
 
@@ -88,7 +96,7 @@ export class WebSocketClient {
   }
 
   private _connectionRTT = 1000;
-  private _connectionRTTChangeHandlers: ((rtt: number) => void)[] = [];
+  private _connectionRTTChangeHandlers: ConnectionRTTChangeHandler[] = [];
   public get ConnectionRTT(): number {
     return this._connectionRTT;
   }
@@ -99,10 +107,10 @@ export class WebSocketClient {
       this._connectionRTTChangeHandlers.forEach((cb) => cb(v));
     }
   }
-  public addConnectionRTTChangeHandler(cb: (rtt: number) => void) {
+  public addConnectionRTTChangeHandler(cb: ConnectionRTTChangeHandler) {
     this._connectionRTTChangeHandlers.push(cb);
   }
-  public removeConnectionRTTChangeHandler(cb: (rtt: number) => void) {
+  public removeConnectionRTTChangeHandler(cb: ConnectionRTTChangeHandler) {
     const idx = this._connectionRTTChangeHandlers.indexOf(cb);
     if (idx !== -1) {
       this._connectionRTTChangeHandlers.splice(idx, 1);
@@ -113,8 +121,8 @@ export class WebSocketClient {
   public Connect() {
     const connectionState = this.ConnectionState;
     if (
-      connectionState === WebSocketClient.CONNECTING ||
-      connectionState === WebSocketClient.CONNECTED
+      connectionState === ConnectionState.CONNECTING ||
+      connectionState === ConnectionState.CONNECTED
     ) {
       return;
     }
@@ -123,14 +131,14 @@ export class WebSocketClient {
     this.AbortWebSocket();
 
     this._autoReconnect = true;
-    this._connectionState = WebSocketClient.CONNECTING;
+    this._connectionState = ConnectionState.CONNECTING;
 
     this._socket = new WebSocket(PUBLIC_BACKEND_WEBSOCKET_URL);
     this._socket.binaryType = 'arraybuffer';
-    this._socket.onopen = this.onOpen.bind(this);
-    this._socket.onclose = this.onClose.bind(this);
-    this._socket.onerror = this.onError.bind(this);
-    this._socket.onmessage = this.onMessage.bind(this);
+    this._socket.onopen = this.handleOpen.bind(this);
+    this._socket.onclose = this.handleClose.bind(this);
+    this._socket.onerror = this.handleError.bind(this);
+    this._socket.onmessage = this.handleMessage.bind(this);
   }
 
   private AbortHeartbeat() {
@@ -153,14 +161,14 @@ export class WebSocketClient {
       }
     }
     this._socket = null;
-    this.ConnectionState = WebSocketClient.DISCONNECTED;
+    this.ConnectionState = ConnectionState.DISCONNECTED;
   }
 
   public Disconnect() {
     this._autoReconnect = false;
     const connectionState = this.ConnectionState;
-    if (connectionState !== WebSocketClient.DISCONNECTED) {
-      this.ConnectionState = WebSocketClient.DISCONNECTING;
+    if (connectionState !== ConnectionState.DISCONNECTED) {
+      this.ConnectionState = ConnectionState.DISCONNECTING;
     }
 
     this.AbortHeartbeat();
@@ -181,14 +189,14 @@ export class WebSocketClient {
     }
   }
 
-  private onOpen() {
+  private handleOpen() {
     if (!this._socket) {
       console.error('[WS] ERROR: Socket not initialized');
       this.ReconnectIfWanted();
       return;
     }
 
-    this.ConnectionState = WebSocketClient.CONNECTED;
+    this.ConnectionState = ConnectionState.CONNECTED;
     console.log('[WS] Connected');
 
     const sessionToken = SessionTokenStore.get();
@@ -198,11 +206,11 @@ export class WebSocketClient {
       return;
     }
 
-    this.AuthenticationState = this.AUTHENTICATING;
+    this.AuthenticationState = AuthenticationState.AUTHENTICATING;
     this._socket.send(sessionToken.jwtToken);
   }
 
-  private onClose(ev: CloseEvent) {
+  private handleClose(ev: CloseEvent) {
     if (!ev.wasClean) {
       console.error('[WS] ERROR: Connection closed unexpectedly');
     } else {
@@ -211,12 +219,12 @@ export class WebSocketClient {
     this.ReconnectIfWanted();
   }
 
-  private onError(ev: Event) {
-    console.error('[WS] ERROR: ', ev);
+  private handleError() {
+    console.error('[WS] ERROR: Connection error');
     this.ReconnectIfWanted();
   }
 
-  private onMessage(msg: MessageEvent<string | ArrayBuffer | Blob>) {
+  private handleMessage(msg: MessageEvent<string | ArrayBuffer | Blob>) {
     // Only accept binary messages
     if (!isArrayBuffer(msg.data)) {
       console.error('[WS] ERROR: Received non-binary message');
@@ -261,7 +269,7 @@ export class WebSocketClient {
   }
 
   private handleHelloMessage(msg: ServerHello) {
-    this.AuthenticationState = this.AUTHENTICATED;
+    this.AuthenticationState = AuthenticationState.AUTHENTICATED;
     console.log('[WS] Authenticated');
 
     this.HeartbeatIntervalMS = msg.heartbeatIntervalMs();
