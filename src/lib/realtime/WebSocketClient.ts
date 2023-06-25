@@ -1,16 +1,19 @@
-import { RealtimeSession } from './serialization/fbs/realtime';
+import { ClientHeartbeat, ClientMessage, ClientMessageBody } from './serialization/fbs/client';
+import { toastStore } from '@skeletonlabs/skeleton';
+import { PUBLIC_BACKEND_WEBSOCKET_URL } from '$env/static/public';
+import { SessionTokenStore } from '$lib/stores';
+import { isArrayBuffer } from '$lib/typeGuards';
+import { ByteBuffer, Builder as FbsBuilder } from 'flatbuffers';
+import { RealtimeSession } from 'serialization/fbs/realtime';
 import {
-  GlobalMessage,
   ServerHeartbeat,
   ServerHello,
   ServerMessage,
   ServerMessageBody,
-} from './serialization/fbs/server';
-import { createClientHeartbeatMessage } from './serialization/heartbeat';
-import { PUBLIC_BACKEND_WEBSOCKET_URL } from '$env/static/public';
-import { SessionTokenStore } from '$lib/stores';
-import { isArrayBuffer } from '$lib/typeGuards';
-import { ByteBuffer } from 'flatbuffers';
+  SystemMessage,
+  SystemMessageLevel,
+  SystemMessageType,
+} from 'serialization/fbs/server';
 
 export enum ConnectionState {
   DISCONNECTED = 0,
@@ -92,8 +95,7 @@ export class WebSocketClient {
         clearInterval(this._heartbeatInterval);
       }
       this._heartbeatInterval = setInterval(this.sendHeartbeat.bind(this), v);
-    }
-    else if (!this._heartbeatInterval) {
+    } else if (!this._heartbeatInterval) {
       this._heartbeatInterval = setInterval(this.sendHeartbeat.bind(this), v);
     }
   }
@@ -194,6 +196,17 @@ export class WebSocketClient {
     }
   }
 
+  private sendMessage(builder: FbsBuilder, messageType: ClientMessageBody, msgOffset: number) {
+    if (!this._socket) {
+      this.ReconnectIfWanted();
+      return;
+    }
+
+    builder.finish(ClientMessage.createClientMessage(builder, messageType, msgOffset));
+
+    this._socket.send(builder.asUint8Array());
+  }
+
   private handleOpen() {
     if (!this._socket) {
       console.error('[WS] ERROR: Socket not initialized');
@@ -260,10 +273,10 @@ export class WebSocketClient {
         this.handleRealtimeSessionMessage(realtimeSessionMessage);
         return;
       }
-      case ServerMessageBody.message_global: {
-        const globalMessage = new GlobalMessage();
+      case ServerMessageBody.system_message: {
+        const globalMessage = new SystemMessage();
         serverMessage.message(globalMessage);
-        this.handleGlobalMessage(globalMessage);
+        this.handleSystemMessage(globalMessage);
         return;
       }
       case ServerMessageBody.NONE:
@@ -273,15 +286,19 @@ export class WebSocketClient {
     }
   }
 
+  private _ratelimitMessagesPerSec = 0;
+  private _ratelimitMessagesPerMin = 0;
+  private _ratelimitBytesPerSec = 0;
+  private _ratelimitBytesPerMin = 0;
   private handleHelloMessage(msg: ServerHello) {
     this.AuthenticationState = AuthenticationState.AUTHENTICATED;
     console.log('[WS] Authenticated');
 
     this.HeartbeatIntervalMS = msg.heartbeatIntervalMs();
-    // this.ratelimitMessagesPerSec = msg.ratelimitMessagesPerSec();
-    // this.ratelimitMessagesPerMin = msg.ratelimitMessagesPerMin();
-    // this.ratelimitBytesPerSec = msg.ratelimitBytesPerSec();
-    // this.ratelimitBytesPerMin = msg.ratelimitBytesPerMin();
+    this._ratelimitMessagesPerSec = msg.ratelimitMessagesPerSec();
+    this._ratelimitMessagesPerMin = msg.ratelimitMessagesPerMin();
+    this._ratelimitBytesPerSec = msg.ratelimitBytesPerSec();
+    this._ratelimitBytesPerMin = msg.ratelimitBytesPerMin();
   }
 
   private handleHeartbeatMessage(msg: ServerHeartbeat) {
@@ -293,8 +310,16 @@ export class WebSocketClient {
     console.log('[WS] Received realtime session message');
   }
 
-  private handleGlobalMessage(msg: GlobalMessage) {
-    console.log('[WS] Received global message', msg.title(), msg.body());
+  private handleSystemMessage(msg: SystemMessage) {
+    const type = msg.type();
+    const level = msg.level();
+    const title = msg.title();
+
+    if (type === SystemMessageType.toast) {
+      toastStore.trigger({ message: title });
+    } else if (type === SystemMessageType.popup) {
+      // TODO: Implement popup
+    }
   }
 
   private handleInvalidMessage() {
@@ -308,6 +333,11 @@ export class WebSocketClient {
     }
 
     this._hearbeatSendTime = performance.now();
-    this._socket.send(createClientHeartbeatMessage(this.HeartbeatIntervalMS));
+    const builder = new FbsBuilder(64);
+    this.sendMessage(
+      builder,
+      ClientMessageBody.heartbeat,
+      ClientHeartbeat.createClientHeartbeat(builder, this.HeartbeatIntervalMS)
+    );
   }
 }
