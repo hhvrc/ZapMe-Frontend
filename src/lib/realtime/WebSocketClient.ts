@@ -259,7 +259,7 @@ export class WebSocketClient {
     const builder = new FbsBuilder(64);
     this.sendMessage(
       builder,
-      ClientMessageBody.heartbeat,
+      ClientPayload.heartbeat,
       ClientHeartbeat.createClientHeartbeat(builder, this.HeartbeatIntervalMS)
     );
   }
