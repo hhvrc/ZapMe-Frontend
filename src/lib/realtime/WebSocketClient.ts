@@ -1,6 +1,6 @@
 import { ClientHeartbeat, ClientMessage, ClientPayload } from './serialization/fbs/client';
 import { ServerMessage } from './serialization/fbs/server';
-import WebSocketMessageHandlers from './webSocketHandlers';
+import WebSocketPayloadHandlers from './webSocketHandlers';
 import { PUBLIC_BACKEND_WEBSOCKET_URL } from '$env/static/public';
 import { SessionTokenStore } from '$lib/stores';
 import { isArrayBuffer } from '$lib/typeGuards';
@@ -246,7 +246,7 @@ export class WebSocketClient {
     );
 
     // Hope this doesn't stab me in the back
-    WebSocketMessageHandlers[serverMessage.messageType()](this, serverMessage);
+    WebSocketPayloadHandlers[serverMessage.payloadType()](this, serverMessage);
   }
 
   private sendHeartbeat() {
