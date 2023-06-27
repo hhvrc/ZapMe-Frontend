@@ -1,4 +1,3 @@
-import type { WebSocketMessageHandler } from '$types/WebSocketMessageHandler';
 import { ServerPayload } from '../serialization/fbs/server';
 import { handleFriendRequestAdded } from './friendRequestAddedHandler';
 import { handleFriendRequestRemoved } from './friendRequestRemovedHandler';
@@ -26,8 +25,11 @@ import { handleUserMessage } from './userMessageHandler';
 import { handleUserRelationChanged } from './userRelationChangedHandler';
 import { handleUserSessionRequest } from './userSessionRequestHandler';
 import { handleUserStatusChanged } from './userStatusChangedHandler';
+import type { WebSocketMessageHandler } from '$types/WebSocketMessageHandler';
 
-const WebSocketPayloadHandlers: WebSocketMessageHandler[] = new Array<WebSocketMessageHandler>(Object.keys(ServerPayload).length / 2).fill(handleInvalidMessage);
+const WebSocketPayloadHandlers: WebSocketMessageHandler[] = new Array<WebSocketMessageHandler>(
+  Object.keys(ServerPayload).length / 2
+).fill(handleInvalidMessage);
 
 WebSocketPayloadHandlers[ServerPayload.NONE] = handleInvalidMessage;
 WebSocketPayloadHandlers[ServerPayload.ready] = handleReady;
