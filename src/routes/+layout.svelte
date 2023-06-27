@@ -1,5 +1,6 @@
 <script lang="ts">
-  import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
+  /* eslint-disable no-useless-escape, svelte/no-at-html-tags */
+
   import '@skeletonlabs/skeleton/styles/all.css';
   import '../app.postcss';
   import { arrow, autoUpdate, computePosition, flip, offset, shift } from '@floating-ui/dom';
@@ -22,7 +23,7 @@
   import { modalComponentRegistry } from '$components/modals';
   import type { ApiConfig } from '$lib/api';
   import { WebSocketClient } from '$lib/realtime/WebSocketClient';
-  import { ApiConfigStore, SessionTokenStore } from '$lib/stores';
+  import { ApiConfigStore, SessionTokenStore, ThemeStore } from '$lib/stores';
 
   storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
@@ -94,7 +95,8 @@
 </script>
 
 <svelte:head>
-  {@html `<script>${autoModeWatcher.toString()} autoModeWatcher();</script>`}
+  {@html `\<style\>${$ThemeStore.css}\</style\>`}
+  {@html `\<script\>${autoModeWatcher.toString()} autoModeWatcher();\</script\>`}
 </svelte:head>
 
 <TwitterSummaryTags

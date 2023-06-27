@@ -1,18 +1,7 @@
 <script lang="ts">
   import { focusTrap, LightSwitch, popup } from '@skeletonlabs/skeleton';
   import { ThemeStore } from '$lib/stores';
-
-  const themes = [
-    { type: 'skeleton', name: 'Skeleton', icon: '💀' },
-    { type: 'modern', name: 'Modern', icon: '🤖' },
-    { type: 'rocket', name: 'Rocket', icon: '🚀' },
-    { type: 'seafoam', name: 'Seafoam', icon: '🧜‍♀️' },
-    { type: 'vintage', name: 'Vintage', icon: '📺' },
-    { type: 'sahara', name: 'Sahara', icon: '🏜️' },
-    { type: 'hamlindigo', name: 'Hamlindigo', icon: '👔' },
-    { type: 'gold-nouveau', name: 'Gold Nouveau', icon: '💫' },
-    { type: 'crimson', name: 'Crimson', icon: '⭕' },
-  ];
+  import { DefaultThemes } from '$lib/themes';
 
   let isFocused = true;
 </script>
@@ -33,18 +22,18 @@
       </section>
       <nav class="list-nav -m-4 max-h-64 overflow-y-auto p-4 lg:max-h-[500px]">
         <ul>
-          {#each themes as { icon, name, type }}
+          {#each DefaultThemes as theme}
             <li>
               <button
                 class="option"
                 type="submit"
                 name="theme"
-                value={type}
-                class:bg-primary-active-token={$ThemeStore === type}
-                on:click={() => ThemeStore.set(type)}
+                value={theme.name}
+                class:bg-primary-active-token={$ThemeStore.name === theme.name}
+                on:click={() => ThemeStore.set(theme)}
               >
-                <span>{icon}</span>
-                <span>{name}</span>
+                <span>{theme.icon}</span>
+                <span>{theme.name}</span>
               </button>
             </li>
           {/each}
