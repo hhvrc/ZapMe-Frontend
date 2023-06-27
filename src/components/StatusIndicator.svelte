@@ -1,59 +1,74 @@
 <script lang="ts">
   export let onlineStatus: 'online' | 'doNotDisturb' | 'inactive' | 'offline';
   export let scale: 'small' | 'medium' | 'large';
-
-  let iconSize: string;
-  let iconColor: string;
-  let detailSize: string;
-
-  $: switch (scale) {
-    case 'small':
-      iconSize = 'w-[10px] h-[10px]';
-      detailSize = '6px';
-      break;
-    case 'medium':
-      iconSize = 'w-[16px] h-[16px]';
-      detailSize = '10px';
-      break;
-    case 'large':
-      iconSize = 'w-[24px] h-[24px]';
-      detailSize = '15px';
-      break;
-    default:
-      iconSize = 'w-[16px] h-[16px]';
-      detailSize = '10px';
-      break;
-  }
-  $: switch (onlineStatus) {
-    case 'online':
-      iconColor = 'bg-green-500';
-      break;
-    case 'doNotDisturb':
-      iconColor = 'bg-red-500';
-      break;
-    case 'inactive':
-      iconColor = 'bg-yellow-500';
-      break;
-    case 'offline':
-      iconColor = 'bg-gray-500';
-      break;
-    default:
-      iconColor = 'bg-gray-500';
-      break;
-  }
 </script>
 
-<span class={`block rounded-full ${iconSize} ${iconColor}`} />
-{#if onlineStatus == 'doNotDisturb'}
-  <span
-    class={`absolute left-1/2 top-1/2 h-[2px] -translate-x-1/2 -translate-y-1/2 w-[${detailSize}] rounded-full bg-inherit`}
-  />
-{:else if onlineStatus == 'inactive'}
-  <span
-    class={`absolute left-0 top-0 h-[${detailSize}] w-[${detailSize}] rounded-full bg-inherit`}
-  />
-{:else if onlineStatus == 'offline'}
-  <span
-    class={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[${detailSize}] w-[${detailSize}] rounded-full bg-inherit`}
-  />
+{#if scale === 'small'}
+  <span id={onlineStatus} class="small" />
+{:else if scale === 'medium'}
+  <span id={onlineStatus} class="medium" />
+{:else if scale === 'large'}
+  <span id={onlineStatus} class="large" />
 {/if}
+
+<style lang="postcss">
+  * {
+    @apply block bg-inherit;
+  }
+  *::before {
+    content: '';
+    @apply block rounded-full;
+  }
+  *::after {
+    @apply absolute block bg-inherit rounded-full;
+  }
+
+  #online::before {
+    @apply bg-green-500;
+  }
+
+  #doNotDisturb::before {
+    @apply bg-red-500;
+  }
+  #doNotDisturb::after {
+    content: '';
+    @apply left-1/2 top-1/2 h-[2px] -translate-x-1/2 -translate-y-1/2;
+  }
+
+  #inactive::before {
+    @apply bg-yellow-500;
+  }
+  #inactive::after {
+    content: '';
+    @apply left-0 top-0;
+  }
+
+  #offline::before {
+    @apply bg-gray-500;
+  }
+  #offline::after {
+    content: '';
+    @apply left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2;
+  }
+
+  .small, .small::before {
+    @apply h-[10px] w-[10px];
+  }
+  .small::after {
+    @apply h-[6px] w-[6px];
+  }
+
+  .medium, .medium::before {
+    @apply h-[16px] w-[16px];
+  }
+  .medium::after {
+    @apply h-[10px] w-[10px];
+  }
+
+  .large, .large::before {
+    @apply h-[24px] w-[24px];
+  }
+  .large::after {
+    @apply h-[15px] w-[15px];
+  }
+</style>
