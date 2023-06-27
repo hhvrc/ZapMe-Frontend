@@ -1,29 +1,43 @@
 <script lang="ts">
+  import { toastStore } from '@skeletonlabs/skeleton';
   import { browser } from '$app/environment';
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
   import TextInput from '$components/TextInput.svelte';
-  import UserProfile from '$components/UserProfile.svelte';
-  import { type UserDto } from '$lib/api';
   import { userApi } from '$lib/fetchSingleton';
   import { SessionTokenStore } from '$lib/stores';
+  import { UsersStore } from '$lib/stores/usersStore';
   import { BuildRedirectURL } from '$lib/utils/redirects';
 
   if (browser && !$SessionTokenStore) {
     goto(BuildRedirectURL('/login', $page.url));
   }
 
+  $: users = $UsersStore;
+
   let search = '';
-  let user: UserDto | null = null;
   let loading = false;
   $: disabled = loading || search.length === 0;
 
   function handleSubmit() {
+    // Check if the user is already in the store
+    const user = users.find((user) => user.username === search);
+    if (user) {
+      goto(`/users/${user.id}`);
+      return;
+    }
+
     loading = true;
     userApi
       .lookUpUser(search)
       .then((value) => {
-        user = value;
+        UsersStore.set([...$UsersStore, value]);
+        goto(`/users/${value.id}`);
+      })
+      .catch(() => {
+        toastStore.trigger({
+          message: `User "${search}" not found`,
+        });
       })
       .finally(() => {
         loading = false;
@@ -40,7 +54,7 @@
     <!-- Title -->
     <h2>User lookup</h2>
 
-    <!-- Email -->
+    <!-- Username -->
     <TextInput
       title="Username"
       placeholder="Username"
@@ -53,29 +67,4 @@
       <span>Lookup</span>
     </button>
   </form>
-
-  {#if !loading && user}
-    <div class="mt-4">
-      <UserProfile {user}>
-        <div slot="after" class="flew-col flex gap-4">
-          <button
-            class="btn variant-filled w-1/2 self-center"
-            on:click={() => {
-              if (user) userApi.sendFriendRequest(user.id);
-            }}
-          >
-            <span>Send friend request</span>
-          </button>
-          <button
-            class="btn variant-filled w-1/2 self-center"
-            on:click={() => {
-              if (user) userApi.blockUser(user.id);
-            }}
-          >
-            <span>Block</span>
-          </button>
-        </div>
-      </UserProfile>
-    </div>
-  {/if}
 </div>

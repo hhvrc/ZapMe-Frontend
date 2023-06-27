@@ -13,12 +13,6 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { FriendDto } from './FriendDto';
-import {
-    FriendDtoFromJSON,
-    FriendDtoFromJSONTyped,
-    FriendDtoToJSON,
-} from './FriendDto';
 import type { UserStatus } from './UserStatus';
 import {
     UserStatusFromJSON,
@@ -93,11 +87,11 @@ export interface AccountDto {
      */
     statusText: string;
     /**
-     * Id of friends this account has
-     * @type {Array<FriendDto>}
+     * Ids of users this account has friended
+     * @type {Array<string>}
      * @memberof AccountDto
      */
-    friends: Array<FriendDto>;
+    friendUserIds: Array<string>;
     /**
      * SSO providers this account is connected to
      * @type {Array<string>}
@@ -137,7 +131,7 @@ export function instanceOfAccountDto(value: object): boolean {
     isInstance = isInstance && "acceptedTermsOfServiceVersion" in value;
     isInstance = isInstance && "status" in value;
     isInstance = isInstance && "statusText" in value;
-    isInstance = isInstance && "friends" in value;
+    isInstance = isInstance && "friendUserIds" in value;
     isInstance = isInstance && "ssoConnections" in value;
     isInstance = isInstance && "createdAt" in value;
     isInstance = isInstance && "updatedAt" in value;
@@ -166,7 +160,7 @@ export function AccountDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'bannerUrl': !exists(json, 'bannerUrl') ? undefined : json['bannerUrl'],
         'status': UserStatusFromJSON(json['status']),
         'statusText': json['statusText'],
-        'friends': ((json['friends'] as Array<any>).map(FriendDtoFromJSON)),
+        'friendUserIds': json['friendUserIds'],
         'ssoConnections': json['ssoConnections'],
         'createdAt': (new Date(json['createdAt'])),
         'updatedAt': (new Date(json['updatedAt'])),
@@ -193,7 +187,7 @@ export function AccountDtoToJSON(value?: AccountDto | null): any {
         'bannerUrl': value.bannerUrl,
         'status': UserStatusToJSON(value.status),
         'statusText': value.statusText,
-        'friends': ((value.friends as Array<any>).map(FriendDtoToJSON)),
+        'friendUserIds': value.friendUserIds,
         'ssoConnections': value.ssoConnections,
         'createdAt': (value.createdAt.toISOString()),
         'updatedAt': (value.updatedAt.toISOString()),

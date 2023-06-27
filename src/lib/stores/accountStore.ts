@@ -1,4 +1,4 @@
-import { type AccountDto } from '$lib/api';
+import type { AccountDto } from '$lib/api';
 import { accountApi } from '$lib/fetchSingleton';
 import { handleFetchError } from '$lib/helpers/errorDetailsHelpers';
 import { writable } from 'svelte/store';

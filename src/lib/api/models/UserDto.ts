@@ -98,6 +98,12 @@ export interface UserDto {
      * @memberof UserDto
      */
     lastSeenAt: Date;
+    /**
+     * The time this user was friended at
+     * @type {Date}
+     * @memberof UserDto
+     */
+    friendedAt?: Date | null;
 }
 
 /**
@@ -137,6 +143,7 @@ export function UserDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): U
         'notes': !exists(json, 'notes') ? undefined : json['notes'],
         'createdAt': (new Date(json['createdAt'])),
         'lastSeenAt': (new Date(json['lastSeenAt'])),
+        'friendedAt': !exists(json, 'friendedAt') ? undefined : (json['friendedAt'] === null ? null : new Date(json['friendedAt'])),
     };
 }
 
@@ -160,6 +167,7 @@ export function UserDtoToJSON(value?: UserDto | null): any {
         'notes': value.notes,
         'createdAt': (value.createdAt.toISOString()),
         'lastSeenAt': (value.lastSeenAt.toISOString()),
+        'friendedAt': value.friendedAt === undefined ? undefined : (value.friendedAt === null ? null : value.friendedAt.toISOString()),
     };
 }
 

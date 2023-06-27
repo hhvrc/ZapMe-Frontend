@@ -17,7 +17,6 @@ export * from './CreateOk';
 export * from './CreateOkSession';
 export * from './ErrorDetails';
 export * from './ErrorDetailsNotification';
-export * from './FriendDto';
 export * from './FriendRequestList';
 export * from './NotificationSeverityLevel';
 export * from './ProviderDataDto';

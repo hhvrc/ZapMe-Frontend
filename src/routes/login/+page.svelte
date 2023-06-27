@@ -17,6 +17,10 @@
     restore: (data) => (usernameOrEmail = data),
   };
 
+  $: if ($SessionTokenStore) {
+    goto(GetRedirectURL($page.url, '/'));
+  }
+
   let usernameOrEmail = '';
   let password = '';
   let passwordShown = false;

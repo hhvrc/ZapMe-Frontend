@@ -41,11 +41,6 @@
       href: '/devices',
     },
     {
-      title: 'Messages',
-      icon: 'fa-envelope',
-      href: '/messages',
-    },
-    {
       title: 'Friends',
       icon: 'fa-user-friends',
       href: '/friends',

@@ -1,7 +1,9 @@
 <script lang="ts">
   import StatusIndicator from './StatusIndicator.svelte';
-  import { Avatar } from '@skeletonlabs/skeleton';
-  import { UserStatus, type UserDto } from '$lib/api';
+  import { Avatar, toastStore } from '@skeletonlabs/skeleton';
+  import { UserRelationType, UserStatus, type UserDto } from '$lib/api';
+  import { userApi } from '$lib/fetchSingleton';
+  import { AccountStore } from '$lib/stores';
   import { GetUsernameInitials } from '$lib/utils/initials';
 
   export let user: UserDto;
@@ -68,6 +70,34 @@
       <!-- Profile status (place at end center) -->
       <p class="text-sm">{onlineStatusText}</p>
     </div>
+
+    {#if user.relationType !== UserRelationType.blocked && user.id !== $AccountStore.account?.id}
+      <div class="flex-grow" />
+
+      <button
+        class="btn variant-filled-secondary mt-1"
+        on:click={() => {
+          if (user.relationType === UserRelationType.friend) {
+            // Nope, not implemented yet
+          } else {
+            userApi
+              .sendFriendRequest(user.id)
+              .then(() => {
+                toastStore.trigger({
+                  message: `Friend request sent to: ${user.username}`,
+                });
+              })
+              .catch(() => {
+                toastStore.trigger({
+                  message: `Failed to send friend request to: ${user.username}`,
+                });
+              });
+          }
+        }}
+      >
+        {user.relationType === UserRelationType.friend ? 'Send Message' : 'Send Friend Request'}
+      </button>
+    {/if}
   </div>
   <div class="m-4 rounded-lg p-4 bg-surface-50-900-token">
     <h3 class="text-xl font-bold">About</h3>

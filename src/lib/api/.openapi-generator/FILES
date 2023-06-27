@@ -26,7 +26,6 @@ models/CreateOk.ts
 models/CreateOkSession.ts
 models/ErrorDetails.ts
 models/ErrorDetailsNotification.ts
-models/FriendDto.ts
 models/FriendRequestList.ts
 models/NotificationSeverityLevel.ts
 models/ProviderDataDto.ts
