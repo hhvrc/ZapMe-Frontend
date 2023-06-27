@@ -1,4 +1,4 @@
-import { Message } from '$lib/realtime/serialization/fbs/server';
+import { ServerMessage } from '$lib/realtime/serialization/fbs/server';
 import { WebSocketClient } from '$lib/realtime/WebSocketClient';
 
-export type WebSocketMessageHandler = (wsClient: WebSocketClient, message: Message) => void;
+export type WebSocketMessageHandler = (wsClient: WebSocketClient, message: ServerMessage) => void;

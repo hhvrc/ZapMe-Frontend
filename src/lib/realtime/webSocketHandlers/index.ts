@@ -1,3 +1,4 @@
+import type { WebSocketMessageHandler } from '$types/WebSocketMessageHandler';
 import { ServerPayload } from '../serialization/fbs/server';
 import { handleFriendRequestAdded } from './friendRequestAddedHandler';
 import { handleFriendRequestRemoved } from './friendRequestRemovedHandler';
@@ -26,7 +27,7 @@ import { handleUserRelationChanged } from './userRelationChangedHandler';
 import { handleUserSessionRequest } from './userSessionRequestHandler';
 import { handleUserStatusChanged } from './userStatusChangedHandler';
 
-const WebSocketPayloadHandlers = new Array(Object.keys(ServerPayload).length / 2).fill(null);
+const WebSocketPayloadHandlers: WebSocketMessageHandler[] = new Array<WebSocketMessageHandler>(Object.keys(ServerPayload).length / 2).fill(handleInvalidMessage);
 
 WebSocketPayloadHandlers[ServerPayload.NONE] = handleInvalidMessage;
 WebSocketPayloadHandlers[ServerPayload.ready] = handleReady;
@@ -57,7 +58,7 @@ WebSocketPayloadHandlers[ServerPayload.session_ice_candidate_discovered] =
   handleSessionIceCandidateDiscovered;
 
 WebSocketPayloadHandlers.forEach((handler, idx) => {
-  if (!handler) {
+  if (idx !== ServerPayload.NONE && handler === handleInvalidMessage) {
     throw new Error(`Missing message handler for payload type ${idx}`);
   }
 });

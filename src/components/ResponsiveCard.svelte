@@ -10,7 +10,10 @@
     margin: auto;
     padding: 2rem;
     border-radius: 0;
-    @apply bg-surface-100-800-token;
+    @apply bg-surface-100;
+  }
+  :global(.dark) div {
+    @apply bg-surface-800;
   }
   @media (min-width: 700px) {
     div {

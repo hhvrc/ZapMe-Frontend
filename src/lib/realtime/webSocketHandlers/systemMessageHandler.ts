@@ -1,13 +1,13 @@
-import { SystemMessage, SystemMessageLevel, SystemMessageType } from '../serialization/fbs/server';
+import { SystemMessage, SystemMessageType } from '../serialization/fbs/server';
 import { toastStore } from '@skeletonlabs/skeleton';
 import type { WebSocketMessageHandler } from '$types/WebSocketMessageHandler';
 
-export const handleSystemMessage: WebSocketMessageHandler = (cli, msg) => {
+export const handleSystemMessage: WebSocketMessageHandler = (_, msg) => {
   const systemMessage = new SystemMessage();
   msg.payload(systemMessage);
 
   const type = systemMessage.type();
-  const level = systemMessage.level();
+  //const level = systemMessage.level();
   const title = systemMessage.title();
 
   if (!title) {

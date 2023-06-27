@@ -54,6 +54,8 @@
     <div class="card overflow-hidden">
       <!-- Profile banner -->
       <div
+        tabindex="-1"
+        role="button"
         class="group relative h-32 w-full cursor-pointer select-none"
         on:mousedown={() => modalStore.trigger({ type: 'component', component: 'file' })}
       >
@@ -75,6 +77,8 @@
           class="relative -top-[60px] mr-2 h-[128px] w-[128px] select-none rounded-full border-4 bg-surface-100-800-token border-surface-100-800-token"
         >
           <div
+            tabindex="-1"
+            role="button"
             class="group relative h-[120px] w-[120px] cursor-pointer rounded-full"
             on:mousedown={() => modalStore.trigger({ type: 'component', component: 'file' })}
           >

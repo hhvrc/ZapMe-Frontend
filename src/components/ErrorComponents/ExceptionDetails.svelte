@@ -1,4 +1,6 @@
 <script lang="ts">
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+
   export let exception: any;
 </script>
 

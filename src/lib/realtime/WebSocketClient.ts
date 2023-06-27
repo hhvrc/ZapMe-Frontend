@@ -245,8 +245,13 @@ export class WebSocketClient {
       new ByteBuffer(new Uint8Array(data))
     );
 
-    // Hope this doesn't stab me in the back
-    WebSocketPayloadHandlers[serverMessage.payloadType()](this, serverMessage);
+    const payloadType = serverMessage.payloadType();
+    if (payloadType >= WebSocketPayloadHandlers.length) {
+      console.error('[WS] ERROR: Received unknown payload type (out of bounds)');
+      return;
+    }
+
+    WebSocketPayloadHandlers[payloadType](this, serverMessage);
   }
 
   private sendHeartbeat() {
