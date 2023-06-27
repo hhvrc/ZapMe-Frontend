@@ -96,11 +96,11 @@
               Change avatar
             </p>
           </div>
-          <div
+          <StatusIndicator
             class="absolute bottom-0 right-0 rounded-full border-4 bg-surface-100-800-token border-surface-100-800-token"
-          >
-            <StatusIndicator {onlineStatus} scale="large" />
-          </div>
+            {onlineStatus}
+            scale="large"
+          />
         </div>
 
         <div>

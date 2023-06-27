@@ -52,11 +52,11 @@
           width="w-[120px]"
         />
       </div>
-      <div
+      <StatusIndicator
         class="absolute bottom-0 right-0 rounded-full border-4 bg-surface-100-800-token border-surface-100-800-token"
-      >
-        <StatusIndicator onlineStatus={user.status} scale="large" />
-      </div>
+        onlineStatus={user.status}
+        scale="large"
+      />
     </div>
 
     <div>

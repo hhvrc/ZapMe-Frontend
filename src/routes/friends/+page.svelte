@@ -63,9 +63,11 @@
             rounded="rounded-full"
             width="w-[42px]"
           />
-          <span class="absolute bottom-0 right-0 rounded-full border-2 border-inherit bg-inherit">
-            <StatusIndicator onlineStatus={status} scale="small" />
-          </span>
+          <StatusIndicator
+            class="absolute bottom-0 right-0 rounded-full border-2 border-inherit bg-inherit"
+            onlineStatus={status}
+            scale="small"
+          />
         </span>
         <span class="flex-auto">
           <dt class="font-bold">{name}</dt>

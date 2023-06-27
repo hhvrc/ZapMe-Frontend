@@ -1,26 +1,25 @@
 <script lang="ts">
+  let className = '';
+  export { className as class };
   export let onlineStatus: 'online' | 'doNotDisturb' | 'inactive' | 'offline';
   export let scale: 'small' | 'medium' | 'large';
 </script>
 
 {#if scale === 'small'}
-  <span id={onlineStatus} class="small" />
+  <span id={onlineStatus} class={className + ' small'} />
 {:else if scale === 'medium'}
-  <span id={onlineStatus} class="medium" />
+  <span id={onlineStatus} class={className + ' medium'} />
 {:else if scale === 'large'}
-  <span id={onlineStatus} class="large" />
+  <span id={onlineStatus} class={className + ' large'} />
 {/if}
 
 <style lang="postcss">
-  * {
-    @apply block bg-inherit;
-  }
   *::before {
     content: '';
     @apply block rounded-full;
   }
   *::after {
-    @apply absolute block bg-inherit rounded-full;
+    @apply absolute block rounded-full bg-inherit;
   }
 
   #online::before {
@@ -51,21 +50,21 @@
     @apply left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2;
   }
 
-  .small, .small::before {
+  .small::before {
     @apply h-[10px] w-[10px];
   }
   .small::after {
     @apply h-[6px] w-[6px];
   }
 
-  .medium, .medium::before {
+  .medium::before {
     @apply h-[16px] w-[16px];
   }
   .medium::after {
     @apply h-[10px] w-[10px];
   }
 
-  .large, .large::before {
+  .large::before {
     @apply h-[24px] w-[24px];
   }
   .large::after {
