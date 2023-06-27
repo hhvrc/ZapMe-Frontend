@@ -2,62 +2,58 @@
   export let onlineStatus: 'online' | 'doNotDisturb' | 'inactive' | 'offline';
   export let scale: 'small' | 'medium' | 'large';
 
-  /*
-    TODO: The indicator's cutout does not adapt to its background color.
-  */
+  let iconSize: string;
+  let iconColor: string;
+  let detailSize: string;
+
+  $: switch (scale) {
+    case 'small':
+      iconSize = 'w-[10px] h-[10px]';
+      detailSize = '6px';
+      break;
+    case 'medium':
+      iconSize = 'w-[16px] h-[16px]';
+      detailSize = '10px';
+      break;
+    case 'large':
+      iconSize = 'w-[24px] h-[24px]';
+      detailSize = '15px';
+      break;
+    default:
+      iconSize = 'w-[16px] h-[16px]';
+      detailSize = '10px';
+      break;
+  }
+  $: switch (onlineStatus) {
+    case 'online':
+      iconColor = 'bg-green-500';
+      break;
+    case 'doNotDisturb':
+      iconColor = 'bg-red-500';
+      break;
+    case 'inactive':
+      iconColor = 'bg-yellow-500';
+      break;
+    case 'offline':
+      iconColor = 'bg-gray-500';
+      break;
+    default:
+      iconColor = 'bg-gray-500';
+      break;
+  }
 </script>
 
-<span class={onlineStatus + ' ' + scale} />
-
-<style lang="postcss">
-  span {
-    @apply block rounded-full;
-  }
-  :global(span.small) {
-    width: 10px;
-    height: 10px;
-    --imgSize: 32px;
-    --detailSize: 6px;
-  }
-  :global(span.medium) {
-    width: 16px;
-    height: 16px;
-    --imgSize: 80px;
-    --detailSize: 10px;
-  }
-  :global(span.large) {
-    width: 24px;
-    height: 24px;
-    --imgSize: 120px;
-    --detailSize: 15px;
-  }
-  span.online {
-    @apply bg-green-500;
-  }
-  span.doNotDisturb {
-    @apply bg-red-500;
-  }
-  span.inactive {
-    @apply bg-yellow-500;
-  }
-  span.offline {
-    @apply bg-gray-500;
-  }
-  :global(span.doNotDisturb:after) {
-    content: '';
-    width: var(--detailSize);
-    @apply absolute left-1/2 top-1/2 h-[2px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-surface-100-800-token;
-  }
-  :global(span.inactive:after) {
-    content: '';
-    height: var(--detailSize);
-    width: var(--detailSize);
-    @apply absolute left-0 top-0 rounded-full bg-surface-100-800-token;
-  }
-  :global(span.offline:after) {
-    content: '';
-    height: var(--detailSize);
-    width: var(--detailSize);
-    @apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform rounded-full bg-surface-100-800-token;
-  }
-</style>
+<span class={`block rounded-full ${iconSize} ${iconColor}`} />
+{#if onlineStatus == 'doNotDisturb'}
+  <span
+    class={`absolute left-1/2 top-1/2 h-[2px] -translate-x-1/2 -translate-y-1/2 w-[${detailSize}] rounded-full bg-inherit`}
+  />
+{:else if onlineStatus == 'inactive'}
+  <span
+    class={`absolute left-0 top-0 h-[${detailSize}] w-[${detailSize}] rounded-full bg-inherit`}
+  />
+{:else if onlineStatus == 'offline'}
+  <span
+    class={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[${detailSize}] w-[${detailSize}] rounded-full bg-inherit`}
+  />
+{/if}

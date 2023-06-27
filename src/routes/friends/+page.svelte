@@ -8,7 +8,7 @@
   let users: {
     id: string;
     name: string;
-    presence: UserStatus;
+    status: UserStatus;
     statusText: string;
     pfp: string;
   }[] = [];
@@ -54,7 +54,7 @@
 
 <div class="bg-surface-100-800-token">
   <dl class="list-dl">
-    {#each users as { id, name, presence: status, statusText, pfp } (id)}
+    {#each users as { id, name, status, statusText, pfp } (id)}
       <div class="user-container">
         <span class="relative -left-1 inline-block rounded-full border-inherit bg-inherit">
           <Avatar
