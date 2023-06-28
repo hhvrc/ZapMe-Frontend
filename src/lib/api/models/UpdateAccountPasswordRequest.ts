@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * Request sent to server to update account password
  * @export
- * @interface UpdatePasswordRequest
+ * @interface UpdateAccountPasswordRequest
  */
-export interface UpdatePasswordRequest {
+export interface UpdateAccountPasswordRequest {
     /**
      * 
      * @type {string}
-     * @memberof UpdatePasswordRequest
+     * @memberof UpdateAccountPasswordRequest
      */
     passwordNew: string;
     /**
      * 
      * @type {string}
-     * @memberof UpdatePasswordRequest
+     * @memberof UpdateAccountPasswordRequest
      */
     passwordCurrent: string;
 }
 
 /**
- * Check if a given object implements the UpdatePasswordRequest interface.
+ * Check if a given object implements the UpdateAccountPasswordRequest interface.
  */
-export function instanceOfUpdatePasswordRequest(value: object): boolean {
+export function instanceOfUpdateAccountPasswordRequest(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "passwordNew" in value;
     isInstance = isInstance && "passwordCurrent" in value;
@@ -44,11 +44,11 @@ export function instanceOfUpdatePasswordRequest(value: object): boolean {
     return isInstance;
 }
 
-export function UpdatePasswordRequestFromJSON(json: any): UpdatePasswordRequest {
-    return UpdatePasswordRequestFromJSONTyped(json, false);
+export function UpdateAccountPasswordRequestFromJSON(json: any): UpdateAccountPasswordRequest {
+    return UpdateAccountPasswordRequestFromJSONTyped(json, false);
 }
 
-export function UpdatePasswordRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): UpdatePasswordRequest {
+export function UpdateAccountPasswordRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): UpdateAccountPasswordRequest {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -59,7 +59,7 @@ export function UpdatePasswordRequestFromJSONTyped(json: any, ignoreDiscriminato
     };
 }
 
-export function UpdatePasswordRequestToJSON(value?: UpdatePasswordRequest | null): any {
+export function UpdateAccountPasswordRequestToJSON(value?: UpdateAccountPasswordRequest | null): any {
     if (value === undefined) {
         return undefined;
     }

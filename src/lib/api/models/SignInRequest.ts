@@ -16,33 +16,33 @@ import { exists, mapValues } from '../runtime';
 /**
  * Message sent to server to authenticate user using username and password
  * @export
- * @interface AuthSignInRequest
+ * @interface SignInRequest
  */
-export interface AuthSignInRequest {
+export interface SignInRequest {
     /**
      * Username or email address
      * @type {string}
-     * @memberof AuthSignInRequest
+     * @memberof SignInRequest
      */
     usernameOrEmail: string;
     /**
      * Password
      * @type {string}
-     * @memberof AuthSignInRequest
+     * @memberof SignInRequest
      */
     password: string;
     /**
      * Make this login persist for a longer period of time
      * @type {boolean}
-     * @memberof AuthSignInRequest
+     * @memberof SignInRequest
      */
     rememberMe: boolean;
 }
 
 /**
- * Check if a given object implements the AuthSignInRequest interface.
+ * Check if a given object implements the SignInRequest interface.
  */
-export function instanceOfAuthSignInRequest(value: object): boolean {
+export function instanceOfSignInRequest(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "usernameOrEmail" in value;
     isInstance = isInstance && "password" in value;
@@ -51,11 +51,11 @@ export function instanceOfAuthSignInRequest(value: object): boolean {
     return isInstance;
 }
 
-export function AuthSignInRequestFromJSON(json: any): AuthSignInRequest {
-    return AuthSignInRequestFromJSONTyped(json, false);
+export function SignInRequestFromJSON(json: any): SignInRequest {
+    return SignInRequestFromJSONTyped(json, false);
 }
 
-export function AuthSignInRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): AuthSignInRequest {
+export function SignInRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): SignInRequest {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -67,7 +67,7 @@ export function AuthSignInRequestFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-export function AuthSignInRequestToJSON(value?: AuthSignInRequest | null): any {
+export function SignInRequestToJSON(value?: SignInRequest | null): any {
     if (value === undefined) {
         return undefined;
     }

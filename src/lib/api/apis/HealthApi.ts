@@ -29,12 +29,12 @@ export interface HealthApiInterface {
      * @throws {RequiredError}
      * @memberof HealthApiInterface
      */
-    getHealthRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+    getServiceHealthRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
 
     /**
      * 
      */
-    getHealth(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+    getServiceHealth(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
 }
 
@@ -46,7 +46,7 @@ export class HealthApi extends runtime.BaseAPI implements HealthApiInterface {
     /**
      * 
      */
-    async getHealthRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async getServiceHealthRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -68,8 +68,8 @@ export class HealthApi extends runtime.BaseAPI implements HealthApiInterface {
     /**
      * 
      */
-    async getHealth(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.getHealthRaw(initOverrides);
+    async getServiceHealth(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.getServiceHealthRaw(initOverrides);
     }
 
 }

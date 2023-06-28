@@ -7,7 +7,7 @@
   import { onMount } from 'svelte';
 
   onMount(async () => {
-    await authenticationApi.authSignOut().catch();
+    await authenticationApi.signOut().catch();
     SessionTokenStore.set(null);
     goto(GetRedirectURL($page.url, '/'));
   });

@@ -34,7 +34,7 @@
 
     try {
       loading = true;
-      const response = await authenticationApi.authSignIn({
+      const response = await authenticationApi.signIn({
         usernameOrEmail,
         password,
         rememberMe,

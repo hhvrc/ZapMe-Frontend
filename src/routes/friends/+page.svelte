@@ -1,5 +1,5 @@
 <script lang="ts">
-  import UserListEntryFetcher from '$components/UserListEntryFetcher.svelte';
+  import UserListEntryFetcher from '$components/User/UserListEntryFetcher.svelte';
   import { AccountStore } from '$lib/stores';
 
   let friendIds: string[] = [];

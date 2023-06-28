@@ -51,7 +51,7 @@
     ssoToken = $page.url.searchParams.get('ssoToken');
     if (ssoToken) {
       singleSignOnApi
-        .sSOGetProviderData(ssoToken)
+        .getSsoProviderdata(ssoToken)
         .then((response) => {
           ssoData = response;
           username = ssoData.userName;

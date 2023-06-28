@@ -25,16 +25,16 @@ import {
     ProviderDataDtoToJSON,
 } from '../models';
 
-export interface SSOAuthenticateRequest {
-    providerName: string;
-}
-
-export interface SSOCallbackRequest {
-    providerName: string;
-}
-
-export interface SSOGetProviderDataRequest {
+export interface GetSsoProviderdataRequest {
     ssoToken?: string;
+}
+
+export interface InternalSsoAuthenticateRequest {
+    providerName: string;
+}
+
+export interface InternalSsoCallbackRequest {
+    providerName: string;
 }
 
 /**
@@ -46,48 +46,18 @@ export interface SSOGetProviderDataRequest {
 export interface SingleSignOnApiInterface {
     /**
      * 
-     * @summary Warning:  This endpoint is not meant to be called by a 3rd party, it will redirect the request for OAuth authentication with the specified provider.  It is documented here for transparency, and to automatically generate the OpenAPI client for the frontend.
-     * @param {string} providerName Name of the SSO provider to use, supported providers can be fetched from /api/v1/sso/providers
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SingleSignOnApiInterface
-     */
-    sSOAuthenticateRaw(requestParameters: SSOAuthenticateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
-
-    /**
-     * Warning:  This endpoint is not meant to be called by a 3rd party, it will redirect the request for OAuth authentication with the specified provider.  It is documented here for transparency, and to automatically generate the OpenAPI client for the frontend.
-     */
-    sSOAuthenticate(providerName: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
-
-    /**
-     * 
-     * @summary Warning:  This endpoint is not meant to be called by a 3rd party, it will redirect the request for OAuth authentication with the specified provider.  It is documented here for transparency, and to automatically generate the OpenAPI client for the frontend.
-     * @param {string} providerName Name of the SSO provider to use, supported providers can be fetched from /api/v1/sso/providers
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SingleSignOnApiInterface
-     */
-    sSOCallbackRaw(requestParameters: SSOCallbackRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
-
-    /**
-     * Warning:  This endpoint is not meant to be called by a 3rd party, it will redirect the request for OAuth authentication with the specified provider.  It is documented here for transparency, and to automatically generate the OpenAPI client for the frontend.
-     */
-    sSOCallback(providerName: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
-
-    /**
-     * 
      * @summary Returns the data supplied by the SSO provider
      * @param {string} [ssoToken] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SingleSignOnApiInterface
      */
-    sSOGetProviderDataRaw(requestParameters: SSOGetProviderDataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ProviderDataDto>>;
+    getSsoProviderdataRaw(requestParameters: GetSsoProviderdataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ProviderDataDto>>;
 
     /**
      * Returns the data supplied by the SSO provider
      */
-    sSOGetProviderData(ssoToken?: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ProviderDataDto>;
+    getSsoProviderdata(ssoToken?: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ProviderDataDto>;
 
     /**
      * 
@@ -96,12 +66,42 @@ export interface SingleSignOnApiInterface {
      * @throws {RequiredError}
      * @memberof SingleSignOnApiInterface
      */
-    sSOListProvidersRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<string>>>;
+    getSsoProviderlistRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<string>>>;
 
     /**
      * Returns a list of supported SSO providers
      */
-    sSOListProviders(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<string>>;
+    getSsoProviderlist(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<string>>;
+
+    /**
+     * 
+     * @summary Warning: This endpoint is not meant to be called by API clients, but only by the frontend.  SSO authentication endpoint
+     * @param {string} providerName Name of the SSO provider to use, supported providers can be fetched from /api/v1/sso/providers
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SingleSignOnApiInterface
+     */
+    internalSsoAuthenticateRaw(requestParameters: InternalSsoAuthenticateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+
+    /**
+     * Warning: This endpoint is not meant to be called by API clients, but only by the frontend.  SSO authentication endpoint
+     */
+    internalSsoAuthenticate(providerName: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+
+    /**
+     * 
+     * @summary Warning: This endpoint is not meant to be called by API clients, but only by the frontend.  SSO authentication endpoint
+     * @param {string} providerName Name of the SSO provider to use, supported providers can be fetched from /api/v1/sso/providers
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SingleSignOnApiInterface
+     */
+    internalSsoCallbackRaw(requestParameters: InternalSsoCallbackRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+
+    /**
+     * Warning: This endpoint is not meant to be called by API clients, but only by the frontend.  SSO authentication endpoint
+     */
+    internalSsoCallback(providerName: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
 }
 
@@ -111,75 +111,9 @@ export interface SingleSignOnApiInterface {
 export class SingleSignOnApi extends runtime.BaseAPI implements SingleSignOnApiInterface {
 
     /**
-     * Warning:  This endpoint is not meant to be called by a 3rd party, it will redirect the request for OAuth authentication with the specified provider.  It is documented here for transparency, and to automatically generate the OpenAPI client for the frontend.
-     */
-    async sSOAuthenticateRaw(requestParameters: SSOAuthenticateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.providerName === null || requestParameters.providerName === undefined) {
-            throw new runtime.RequiredError('providerName','Required parameter requestParameters.providerName was null or undefined when calling sSOAuthenticate.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
-        }
-
-        const response = await this.request({
-            path: `/api/v1/sso/{providerName}`.replace(`{${"providerName"}}`, encodeURIComponent(String(requestParameters.providerName))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * Warning:  This endpoint is not meant to be called by a 3rd party, it will redirect the request for OAuth authentication with the specified provider.  It is documented here for transparency, and to automatically generate the OpenAPI client for the frontend.
-     */
-    async sSOAuthenticate(providerName: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.sSOAuthenticateRaw({ providerName: providerName }, initOverrides);
-    }
-
-    /**
-     * Warning:  This endpoint is not meant to be called by a 3rd party, it will redirect the request for OAuth authentication with the specified provider.  It is documented here for transparency, and to automatically generate the OpenAPI client for the frontend.
-     */
-    async sSOCallbackRaw(requestParameters: SSOCallbackRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.providerName === null || requestParameters.providerName === undefined) {
-            throw new runtime.RequiredError('providerName','Required parameter requestParameters.providerName was null or undefined when calling sSOCallback.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
-        }
-
-        const response = await this.request({
-            path: `/api/v1/sso/{providerName}/callback`.replace(`{${"providerName"}}`, encodeURIComponent(String(requestParameters.providerName))),
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * Warning:  This endpoint is not meant to be called by a 3rd party, it will redirect the request for OAuth authentication with the specified provider.  It is documented here for transparency, and to automatically generate the OpenAPI client for the frontend.
-     */
-    async sSOCallback(providerName: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.sSOCallbackRaw({ providerName: providerName }, initOverrides);
-    }
-
-    /**
      * Returns the data supplied by the SSO provider
      */
-    async sSOGetProviderDataRaw(requestParameters: SSOGetProviderDataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ProviderDataDto>> {
+    async getSsoProviderdataRaw(requestParameters: GetSsoProviderdataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ProviderDataDto>> {
         const queryParameters: any = {};
 
         if (requestParameters.ssoToken !== undefined) {
@@ -205,15 +139,15 @@ export class SingleSignOnApi extends runtime.BaseAPI implements SingleSignOnApiI
     /**
      * Returns the data supplied by the SSO provider
      */
-    async sSOGetProviderData(ssoToken?: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ProviderDataDto> {
-        const response = await this.sSOGetProviderDataRaw({ ssoToken: ssoToken }, initOverrides);
+    async getSsoProviderdata(ssoToken?: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ProviderDataDto> {
+        const response = await this.getSsoProviderdataRaw({ ssoToken: ssoToken }, initOverrides);
         return await response.value();
     }
 
     /**
      * Returns a list of supported SSO providers
      */
-    async sSOListProvidersRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<string>>> {
+    async getSsoProviderlistRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<string>>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -235,9 +169,75 @@ export class SingleSignOnApi extends runtime.BaseAPI implements SingleSignOnApiI
     /**
      * Returns a list of supported SSO providers
      */
-    async sSOListProviders(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<string>> {
-        const response = await this.sSOListProvidersRaw(initOverrides);
+    async getSsoProviderlist(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<string>> {
+        const response = await this.getSsoProviderlistRaw(initOverrides);
         return await response.value();
+    }
+
+    /**
+     * Warning: This endpoint is not meant to be called by API clients, but only by the frontend.  SSO authentication endpoint
+     */
+    async internalSsoAuthenticateRaw(requestParameters: InternalSsoAuthenticateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.providerName === null || requestParameters.providerName === undefined) {
+            throw new runtime.RequiredError('providerName','Required parameter requestParameters.providerName was null or undefined when calling internalSsoAuthenticate.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
+        const response = await this.request({
+            path: `/api/v1/sso/{providerName}`.replace(`{${"providerName"}}`, encodeURIComponent(String(requestParameters.providerName))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Warning: This endpoint is not meant to be called by API clients, but only by the frontend.  SSO authentication endpoint
+     */
+    async internalSsoAuthenticate(providerName: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.internalSsoAuthenticateRaw({ providerName: providerName }, initOverrides);
+    }
+
+    /**
+     * Warning: This endpoint is not meant to be called by API clients, but only by the frontend.  SSO authentication endpoint
+     */
+    async internalSsoCallbackRaw(requestParameters: InternalSsoCallbackRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.providerName === null || requestParameters.providerName === undefined) {
+            throw new runtime.RequiredError('providerName','Required parameter requestParameters.providerName was null or undefined when calling internalSsoCallback.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
+        const response = await this.request({
+            path: `/api/v1/sso/{providerName}/callback`.replace(`{${"providerName"}}`, encodeURIComponent(String(requestParameters.providerName))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Warning: This endpoint is not meant to be called by API clients, but only by the frontend.  SSO authentication endpoint
+     */
+    async internalSsoCallback(providerName: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.internalSsoCallbackRaw({ providerName: providerName }, initOverrides);
     }
 
 }

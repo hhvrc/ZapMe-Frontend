@@ -5,7 +5,7 @@ let config: ApiConfig | null = null;
 
 export async function load() {
   if (!config) {
-    config = await configurationApi.getConfig();
+    config = await configurationApi.getApiConfig();
   }
 
   return {

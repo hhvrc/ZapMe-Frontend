@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * Request sent to server to update account username
  * @export
- * @interface UpdateUserNameRequest
+ * @interface UpdateAccountUsernameRequest
  */
-export interface UpdateUserNameRequest {
+export interface UpdateAccountUsernameRequest {
     /**
      * 
      * @type {string}
-     * @memberof UpdateUserNameRequest
+     * @memberof UpdateAccountUsernameRequest
      */
     newUsername: string;
     /**
      * 
      * @type {string}
-     * @memberof UpdateUserNameRequest
+     * @memberof UpdateAccountUsernameRequest
      */
     password: string;
 }
 
 /**
- * Check if a given object implements the UpdateUserNameRequest interface.
+ * Check if a given object implements the UpdateAccountUsernameRequest interface.
  */
-export function instanceOfUpdateUserNameRequest(value: object): boolean {
+export function instanceOfUpdateAccountUsernameRequest(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "newUsername" in value;
     isInstance = isInstance && "password" in value;
@@ -44,11 +44,11 @@ export function instanceOfUpdateUserNameRequest(value: object): boolean {
     return isInstance;
 }
 
-export function UpdateUserNameRequestFromJSON(json: any): UpdateUserNameRequest {
-    return UpdateUserNameRequestFromJSONTyped(json, false);
+export function UpdateAccountUsernameRequestFromJSON(json: any): UpdateAccountUsernameRequest {
+    return UpdateAccountUsernameRequestFromJSONTyped(json, false);
 }
 
-export function UpdateUserNameRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): UpdateUserNameRequest {
+export function UpdateAccountUsernameRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): UpdateAccountUsernameRequest {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -59,7 +59,7 @@ export function UpdateUserNameRequestFromJSONTyped(json: any, ignoreDiscriminato
     };
 }
 
-export function UpdateUserNameRequestToJSON(value?: UpdateUserNameRequest | null): any {
+export function UpdateAccountUsernameRequestToJSON(value?: UpdateAccountUsernameRequest | null): any {
     if (value === undefined) {
         return undefined;
     }

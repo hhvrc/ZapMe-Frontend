@@ -10,7 +10,7 @@
     const token = $page.url.searchParams.get('token');
     if (token) {
       accountApi
-        .verifyEmailAddress(token)
+        .completeAccountEmailVerification(token)
         .catch(async (error) => {
           const result = await handleFetchError(error);
           error = result?.apiCode ?? 'An unknown error occurred.';

@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * Request sent to server to update account email address
  * @export
- * @interface UpdateEmailRequest
+ * @interface UpdateAccountEmailRequest
  */
-export interface UpdateEmailRequest {
+export interface UpdateAccountEmailRequest {
     /**
      * 
      * @type {string}
-     * @memberof UpdateEmailRequest
+     * @memberof UpdateAccountEmailRequest
      */
     newEmail: string;
     /**
      * 
      * @type {string}
-     * @memberof UpdateEmailRequest
+     * @memberof UpdateAccountEmailRequest
      */
     password: string;
 }
 
 /**
- * Check if a given object implements the UpdateEmailRequest interface.
+ * Check if a given object implements the UpdateAccountEmailRequest interface.
  */
-export function instanceOfUpdateEmailRequest(value: object): boolean {
+export function instanceOfUpdateAccountEmailRequest(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "newEmail" in value;
     isInstance = isInstance && "password" in value;
@@ -44,11 +44,11 @@ export function instanceOfUpdateEmailRequest(value: object): boolean {
     return isInstance;
 }
 
-export function UpdateEmailRequestFromJSON(json: any): UpdateEmailRequest {
-    return UpdateEmailRequestFromJSONTyped(json, false);
+export function UpdateAccountEmailRequestFromJSON(json: any): UpdateAccountEmailRequest {
+    return UpdateAccountEmailRequestFromJSONTyped(json, false);
 }
 
-export function UpdateEmailRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): UpdateEmailRequest {
+export function UpdateAccountEmailRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): UpdateAccountEmailRequest {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -59,7 +59,7 @@ export function UpdateEmailRequestFromJSONTyped(json: any, ignoreDiscriminator: 
     };
 }
 
-export function UpdateEmailRequestToJSON(value?: UpdateEmailRequest | null): any {
+export function UpdateAccountEmailRequestToJSON(value?: UpdateAccountEmailRequest | null): any {
     if (value === undefined) {
         return undefined;
     }

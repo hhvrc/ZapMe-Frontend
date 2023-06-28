@@ -15,17 +15,17 @@
 
 import * as runtime from '../runtime';
 import type {
-  AccountDto,
+  DeviceDto,
   ErrorDetails,
 } from '../models';
 import {
-    AccountDtoFromJSON,
-    AccountDtoToJSON,
+    DeviceDtoFromJSON,
+    DeviceDtoToJSON,
     ErrorDetailsFromJSON,
     ErrorDetailsToJSON,
 } from '../models';
 
-export interface GetDeviceRequest {
+export interface GetDeviceByIdRequest {
     deviceId: string;
 }
 
@@ -44,12 +44,12 @@ export interface DeviceApiInterface {
      * @throws {RequiredError}
      * @memberof DeviceApiInterface
      */
-    getDeviceRaw(requestParameters: GetDeviceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AccountDto>>;
+    getDeviceByIdRaw(requestParameters: GetDeviceByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeviceDto>>;
 
     /**
      * 
      */
-    getDevice(deviceId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AccountDto>;
+    getDeviceById(deviceId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeviceDto>;
 
 }
 
@@ -61,9 +61,9 @@ export class DeviceApi extends runtime.BaseAPI implements DeviceApiInterface {
     /**
      * 
      */
-    async getDeviceRaw(requestParameters: GetDeviceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AccountDto>> {
+    async getDeviceByIdRaw(requestParameters: GetDeviceByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeviceDto>> {
         if (requestParameters.deviceId === null || requestParameters.deviceId === undefined) {
-            throw new runtime.RequiredError('deviceId','Required parameter requestParameters.deviceId was null or undefined when calling getDevice.');
+            throw new runtime.RequiredError('deviceId','Required parameter requestParameters.deviceId was null or undefined when calling getDeviceById.');
         }
 
         const queryParameters: any = {};
@@ -75,20 +75,20 @@ export class DeviceApi extends runtime.BaseAPI implements DeviceApiInterface {
         }
 
         const response = await this.request({
-            path: `/api/v1/device/i/{deviceId}`.replace(`{${"deviceId"}}`, encodeURIComponent(String(requestParameters.deviceId))),
+            path: `/api/v1/device/{deviceId}`.replace(`{${"deviceId"}}`, encodeURIComponent(String(requestParameters.deviceId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => AccountDtoFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => DeviceDtoFromJSON(jsonValue));
     }
 
     /**
      * 
      */
-    async getDevice(deviceId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AccountDto> {
-        const response = await this.getDeviceRaw({ deviceId: deviceId }, initOverrides);
+    async getDeviceById(deviceId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeviceDto> {
+        const response = await this.getDeviceByIdRaw({ deviceId: deviceId }, initOverrides);
         return await response.value();
     }
 

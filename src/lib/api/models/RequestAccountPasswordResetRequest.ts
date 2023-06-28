@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * Request sent to server to request a password reset token
  * @export
- * @interface AccountRecoveryRequestRequest
+ * @interface RequestAccountPasswordResetRequest
  */
-export interface AccountRecoveryRequestRequest {
+export interface RequestAccountPasswordResetRequest {
     /**
      * Email of your account you want to recover
      * @type {string}
-     * @memberof AccountRecoveryRequestRequest
+     * @memberof RequestAccountPasswordResetRequest
      */
     email: string;
     /**
      * Response from cloudflare turnstile request
      * @type {string}
-     * @memberof AccountRecoveryRequestRequest
+     * @memberof RequestAccountPasswordResetRequest
      */
     turnstileResponse: string;
 }
 
 /**
- * Check if a given object implements the AccountRecoveryRequestRequest interface.
+ * Check if a given object implements the RequestAccountPasswordResetRequest interface.
  */
-export function instanceOfAccountRecoveryRequestRequest(value: object): boolean {
+export function instanceOfRequestAccountPasswordResetRequest(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "email" in value;
     isInstance = isInstance && "turnstileResponse" in value;
@@ -44,11 +44,11 @@ export function instanceOfAccountRecoveryRequestRequest(value: object): boolean 
     return isInstance;
 }
 
-export function AccountRecoveryRequestRequestFromJSON(json: any): AccountRecoveryRequestRequest {
-    return AccountRecoveryRequestRequestFromJSONTyped(json, false);
+export function RequestAccountPasswordResetRequestFromJSON(json: any): RequestAccountPasswordResetRequest {
+    return RequestAccountPasswordResetRequestFromJSONTyped(json, false);
 }
 
-export function AccountRecoveryRequestRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): AccountRecoveryRequestRequest {
+export function RequestAccountPasswordResetRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): RequestAccountPasswordResetRequest {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -59,7 +59,7 @@ export function AccountRecoveryRequestRequestFromJSONTyped(json: any, ignoreDisc
     };
 }
 
-export function AccountRecoveryRequestRequestToJSON(value?: AccountRecoveryRequestRequest | null): any {
+export function RequestAccountPasswordResetRequestToJSON(value?: RequestAccountPasswordResetRequest | null): any {
     if (value === undefined) {
         return undefined;
     }

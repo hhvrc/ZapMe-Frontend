@@ -1,7 +1,7 @@
 <script lang="ts">
+  import UserListEntry from './UserListEntry.svelte';
   import { ProgressRadial } from '@skeletonlabs/skeleton';
   import { ErrorWrapper } from '$components/ErrorComponents';
-  import UserProfile from '$components/UserProfile.svelte';
   import type { UserDto } from '$lib/api';
   import { userApi } from '$lib/fetchSingleton';
   import { UsersStore } from '$lib/stores/usersStore';
@@ -14,14 +14,14 @@
   if (user) {
     request = Promise.resolve(user);
   } else {
-    request = userApi.getUser(userId);
+    request = userApi.getUserById(userId);
   }
 </script>
 
 {#await request}
   <ProgressRadial />
 {:then user}
-  <UserProfile {user} />
+  <UserListEntry {user} />
 {:catch exception}
   <ErrorWrapper {exception} />
 {/await}

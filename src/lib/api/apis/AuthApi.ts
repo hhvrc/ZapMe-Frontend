@@ -15,21 +15,21 @@
 
 import * as runtime from '../runtime';
 import type {
-  AuthSignInRequest,
   AuthenticationResponse,
   ErrorDetails,
+  SignInRequest,
 } from '../models';
 import {
-    AuthSignInRequestFromJSON,
-    AuthSignInRequestToJSON,
     AuthenticationResponseFromJSON,
     AuthenticationResponseToJSON,
     ErrorDetailsFromJSON,
     ErrorDetailsToJSON,
+    SignInRequestFromJSON,
+    SignInRequestToJSON,
 } from '../models';
 
-export interface AuthSignInOperationRequest {
-    authSignInRequest?: AuthSignInRequest;
+export interface SignInOperationRequest {
+    signInRequest?: SignInRequest;
 }
 
 /**
@@ -42,17 +42,17 @@ export interface AuthApiInterface {
     /**
      * 
      * @summary 
-     * @param {AuthSignInRequest} [authSignInRequest] 
+     * @param {SignInRequest} [signInRequest] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AuthApiInterface
      */
-    authSignInRaw(requestParameters: AuthSignInOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AuthenticationResponse>>;
+    signInRaw(requestParameters: SignInOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AuthenticationResponse>>;
 
     /**
      * 
      */
-    authSignIn(authSignInRequest?: AuthSignInRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AuthenticationResponse>;
+    signIn(signInRequest?: SignInRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AuthenticationResponse>;
 
     /**
      * 
@@ -61,12 +61,12 @@ export interface AuthApiInterface {
      * @throws {RequiredError}
      * @memberof AuthApiInterface
      */
-    authSignOutRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+    signOutRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
 
     /**
      * 
      */
-    authSignOut(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+    signOut(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
 }
 
@@ -78,7 +78,7 @@ export class AuthApi extends runtime.BaseAPI implements AuthApiInterface {
     /**
      * 
      */
-    async authSignInRaw(requestParameters: AuthSignInOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AuthenticationResponse>> {
+    async signInRaw(requestParameters: SignInOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AuthenticationResponse>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -94,7 +94,7 @@ export class AuthApi extends runtime.BaseAPI implements AuthApiInterface {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: AuthSignInRequestToJSON(requestParameters.authSignInRequest),
+            body: SignInRequestToJSON(requestParameters.signInRequest),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => AuthenticationResponseFromJSON(jsonValue));
@@ -103,15 +103,15 @@ export class AuthApi extends runtime.BaseAPI implements AuthApiInterface {
     /**
      * 
      */
-    async authSignIn(authSignInRequest?: AuthSignInRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AuthenticationResponse> {
-        const response = await this.authSignInRaw({ authSignInRequest: authSignInRequest }, initOverrides);
+    async signIn(signInRequest?: SignInRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AuthenticationResponse> {
+        const response = await this.signInRaw({ signInRequest: signInRequest }, initOverrides);
         return await response.value();
     }
 
     /**
      * 
      */
-    async authSignOutRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async signOutRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -133,8 +133,8 @@ export class AuthApi extends runtime.BaseAPI implements AuthApiInterface {
     /**
      * 
      */
-    async authSignOut(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.authSignOutRaw(initOverrides);
+    async signOut(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.signOutRaw(initOverrides);
     }
 
 }

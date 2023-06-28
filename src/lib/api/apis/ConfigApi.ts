@@ -39,12 +39,12 @@ export interface ConfigApiInterface {
      * @throws {RequiredError}
      * @memberof ConfigApiInterface
      */
-    getConfigRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiConfig>>;
+    getApiConfigRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiConfig>>;
 
     /**
      * 
      */
-    getConfig(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiConfig>;
+    getApiConfig(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiConfig>;
 
 }
 
@@ -56,7 +56,7 @@ export class ConfigApi extends runtime.BaseAPI implements ConfigApiInterface {
     /**
      * 
      */
-    async getConfigRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiConfig>> {
+    async getApiConfigRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiConfig>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -78,8 +78,8 @@ export class ConfigApi extends runtime.BaseAPI implements ConfigApiInterface {
     /**
      * 
      */
-    async getConfig(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiConfig> {
-        const response = await this.getConfigRaw(initOverrides);
+    async getApiConfig(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiConfig> {
+        const response = await this.getApiConfigRaw(initOverrides);
         return await response.value();
     }
 

@@ -3,7 +3,7 @@
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
   import ResponsiveCard from '$components/ResponsiveCard.svelte';
-  import UserProfileFetcher from '$components/UserProfileFetcher.svelte';
+  import UserProfileFetcher from '$components/User/UserProfileFetcher.svelte';
   import { SessionTokenStore } from '$lib/stores';
   import { BuildRedirectURL } from '$lib/utils/redirects';
 

@@ -29,7 +29,7 @@
 
     loading = true;
     userApi
-      .lookUpUser(search)
+      .getUserByName(search)
       .then((value) => {
         UsersStore.set([...$UsersStore, value]);
         goto(`/users/${value.id}`);

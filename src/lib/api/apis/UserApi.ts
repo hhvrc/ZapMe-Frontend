@@ -15,18 +15,18 @@
 
 import * as runtime from '../runtime';
 import type {
+  CreateUserReportRequest,
   ErrorDetails,
   FriendRequestList,
-  ReportUserRequest,
   UserDto,
 } from '../models';
 import {
+    CreateUserReportRequestFromJSON,
+    CreateUserReportRequestToJSON,
     ErrorDetailsFromJSON,
     ErrorDetailsToJSON,
     FriendRequestListFromJSON,
     FriendRequestListToJSON,
-    ReportUserRequestFromJSON,
-    ReportUserRequestToJSON,
     UserDtoFromJSON,
     UserDtoToJSON,
 } from '../models';
@@ -39,23 +39,27 @@ export interface BlockUserRequest {
     userId: string;
 }
 
-export interface DenyFriendRequestRequest {
+export interface CreateUserReportOperationRequest {
+    createUserReportRequest?: CreateUserReportRequest;
+}
+
+export interface DeleteFriendRequestRequest {
     userId: string;
 }
 
-export interface GetUserRequest {
+export interface GetUserByIdRequest {
     userId: string;
 }
 
-export interface LookUpUserRequest {
-    userName: string;
-}
-
-export interface ReportUserOperationRequest {
-    reportUserRequest?: ReportUserRequest;
+export interface GetUserByNameRequest {
+    username?: string;
 }
 
 export interface SendFriendRequestRequest {
+    userId: string;
+}
+
+export interface UnblockUserRequest {
     userId: string;
 }
 
@@ -98,33 +102,33 @@ export interface UserApiInterface {
 
     /**
      * 
+     * @summary Report a user
+     * @param {CreateUserReportRequest} [createUserReportRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApiInterface
+     */
+    createUserReportRaw(requestParameters: CreateUserReportOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+
+    /**
+     * Report a user
+     */
+    createUserReport(createUserReportRequest?: CreateUserReportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+
+    /**
+     * 
      * @summary Delete outgoing/Reject incoming friend request
      * @param {string} userId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    denyFriendRequestRaw(requestParameters: DenyFriendRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserDto>>;
+    deleteFriendRequestRaw(requestParameters: DeleteFriendRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserDto>>;
 
     /**
      * Delete outgoing/Reject incoming friend request
      */
-    denyFriendRequest(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto>;
-
-    /**
-     * 
-     * @summary Get user
-     * @param {string} userId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserApiInterface
-     */
-    getUserRaw(requestParameters: GetUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserDto>>;
-
-    /**
-     * Get user
-     */
-    getUser(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto>;
+    deleteFriendRequest(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto>;
 
     /**
      * 
@@ -133,42 +137,42 @@ export interface UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    listFriendRequestsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FriendRequestList>>;
+    getFriendRequestsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FriendRequestList>>;
 
     /**
      * List all incoming and outgoing friend requests
      */
-    listFriendRequests(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FriendRequestList>;
+    getFriendRequests(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FriendRequestList>;
+
+    /**
+     * 
+     * @summary Get user by Id
+     * @param {string} userId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApiInterface
+     */
+    getUserByIdRaw(requestParameters: GetUserByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserDto>>;
+
+    /**
+     * Get user by Id
+     */
+    getUserById(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto>;
 
     /**
      * 
      * @summary Look up user by name
-     * @param {string} userName 
+     * @param {string} [username] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    lookUpUserRaw(requestParameters: LookUpUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserDto>>;
+    getUserByNameRaw(requestParameters: GetUserByNameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserDto>>;
 
     /**
      * Look up user by name
      */
-    lookUpUser(userName: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto>;
-
-    /**
-     * 
-     * @summary Report a user
-     * @param {ReportUserRequest} [reportUserRequest] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserApiInterface
-     */
-    reportUserRaw(requestParameters: ReportUserOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
-
-    /**
-     * Report a user
-     */
-    reportUser(reportUserRequest?: ReportUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+    getUserByName(username?: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto>;
 
     /**
      * 
@@ -184,6 +188,21 @@ export interface UserApiInterface {
      * Send friend request
      */
     sendFriendRequest(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+
+    /**
+     * 
+     * @summary UnBlock a user
+     * @param {string} userId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApiInterface
+     */
+    unblockUserRaw(requestParameters: UnblockUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+
+    /**
+     * UnBlock a user
+     */
+    unblockUser(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
 }
 
@@ -209,7 +228,7 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
         }
 
         const response = await this.request({
-            path: `/api/v1/user/i/{userId}/friendrequest`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
+            path: `/api/v1/user/{userId}/friendrequest`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
@@ -243,7 +262,7 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
         }
 
         const response = await this.request({
-            path: `/api/v1/user/block/{userId}`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
+            path: `/api/v1/user/{userId}/block`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
@@ -260,11 +279,43 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
     }
 
     /**
+     * Report a user
+     */
+    async createUserReportRaw(requestParameters: CreateUserReportOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
+        const response = await this.request({
+            path: `/api/v1/user/report`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: CreateUserReportRequestToJSON(requestParameters.createUserReportRequest),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Report a user
+     */
+    async createUserReport(createUserReportRequest?: CreateUserReportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.createUserReportRaw({ createUserReportRequest: createUserReportRequest }, initOverrides);
+    }
+
+    /**
      * Delete outgoing/Reject incoming friend request
      */
-    async denyFriendRequestRaw(requestParameters: DenyFriendRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserDto>> {
+    async deleteFriendRequestRaw(requestParameters: DeleteFriendRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserDto>> {
         if (requestParameters.userId === null || requestParameters.userId === undefined) {
-            throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling denyFriendRequest.');
+            throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling deleteFriendRequest.');
         }
 
         const queryParameters: any = {};
@@ -276,7 +327,7 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
         }
 
         const response = await this.request({
-            path: `/api/v1/user/i/{userId}/friendrequest`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
+            path: `/api/v1/user/{userId}/friendrequest`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -288,49 +339,15 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
     /**
      * Delete outgoing/Reject incoming friend request
      */
-    async denyFriendRequest(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto> {
-        const response = await this.denyFriendRequestRaw({ userId: userId }, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Get user
-     */
-    async getUserRaw(requestParameters: GetUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserDto>> {
-        if (requestParameters.userId === null || requestParameters.userId === undefined) {
-            throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling getUser.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
-        }
-
-        const response = await this.request({
-            path: `/api/v1/user/i/{userId}`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => UserDtoFromJSON(jsonValue));
-    }
-
-    /**
-     * Get user
-     */
-    async getUser(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto> {
-        const response = await this.getUserRaw({ userId: userId }, initOverrides);
+    async deleteFriendRequest(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto> {
+        const response = await this.deleteFriendRequestRaw({ userId: userId }, initOverrides);
         return await response.value();
     }
 
     /**
      * List all incoming and outgoing friend requests
      */
-    async listFriendRequestsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FriendRequestList>> {
+    async getFriendRequestsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FriendRequestList>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -352,17 +369,17 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
     /**
      * List all incoming and outgoing friend requests
      */
-    async listFriendRequests(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FriendRequestList> {
-        const response = await this.listFriendRequestsRaw(initOverrides);
+    async getFriendRequests(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FriendRequestList> {
+        const response = await this.getFriendRequestsRaw(initOverrides);
         return await response.value();
     }
 
     /**
-     * Look up user by name
+     * Get user by Id
      */
-    async lookUpUserRaw(requestParameters: LookUpUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserDto>> {
-        if (requestParameters.userName === null || requestParameters.userName === undefined) {
-            throw new runtime.RequiredError('userName','Required parameter requestParameters.userName was null or undefined when calling lookUpUser.');
+    async getUserByIdRaw(requestParameters: GetUserByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserDto>> {
+        if (requestParameters.userId === null || requestParameters.userId === undefined) {
+            throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling getUserById.');
         }
 
         const queryParameters: any = {};
@@ -374,7 +391,41 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
         }
 
         const response = await this.request({
-            path: `/api/v1/user/u/{userName}`.replace(`{${"userName"}}`, encodeURIComponent(String(requestParameters.userName))),
+            path: `/api/v1/user/{userId}`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => UserDtoFromJSON(jsonValue));
+    }
+
+    /**
+     * Get user by Id
+     */
+    async getUserById(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto> {
+        const response = await this.getUserByIdRaw({ userId: userId }, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Look up user by name
+     */
+    async getUserByNameRaw(requestParameters: GetUserByNameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserDto>> {
+        const queryParameters: any = {};
+
+        if (requestParameters.username !== undefined) {
+            queryParameters['username'] = requestParameters.username;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
+        const response = await this.request({
+            path: `/api/v1/user/lookup`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -386,41 +437,9 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
     /**
      * Look up user by name
      */
-    async lookUpUser(userName: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto> {
-        const response = await this.lookUpUserRaw({ userName: userName }, initOverrides);
+    async getUserByName(username?: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto> {
+        const response = await this.getUserByNameRaw({ username: username }, initOverrides);
         return await response.value();
-    }
-
-    /**
-     * Report a user
-     */
-    async reportUserRaw(requestParameters: ReportUserOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
-        }
-
-        const response = await this.request({
-            path: `/api/v1/user/report`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: ReportUserRequestToJSON(requestParameters.reportUserRequest),
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * Report a user
-     */
-    async reportUser(reportUserRequest?: ReportUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.reportUserRaw({ reportUserRequest: reportUserRequest }, initOverrides);
     }
 
     /**
@@ -440,7 +459,7 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
         }
 
         const response = await this.request({
-            path: `/api/v1/user/i/{userId}/friendrequest`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
+            path: `/api/v1/user/{userId}/friendrequest`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -454,6 +473,39 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
      */
     async sendFriendRequest(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.sendFriendRequestRaw({ userId: userId }, initOverrides);
+    }
+
+    /**
+     * UnBlock a user
+     */
+    async unblockUserRaw(requestParameters: UnblockUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.userId === null || requestParameters.userId === undefined) {
+            throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling unblockUser.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
+        const response = await this.request({
+            path: `/api/v1/user/{userId}/unblock`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * UnBlock a user
+     */
+    async unblockUser(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.unblockUserRaw({ userId: userId }, initOverrides);
     }
 
 }

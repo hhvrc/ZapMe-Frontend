@@ -16,33 +16,33 @@ import { exists, mapValues } from '../runtime';
 /**
  * Message sent to server to report a user
  * @export
- * @interface ReportUserRequest
+ * @interface CreateUserReportRequest
  */
-export interface ReportUserRequest {
+export interface CreateUserReportRequest {
     /**
      * 
      * @type {string}
-     * @memberof ReportUserRequest
+     * @memberof CreateUserReportRequest
      */
     userId: string;
     /**
      * 
      * @type {string}
-     * @memberof ReportUserRequest
+     * @memberof CreateUserReportRequest
      */
     title: string;
     /**
      * 
      * @type {string}
-     * @memberof ReportUserRequest
+     * @memberof CreateUserReportRequest
      */
     explenation: string;
 }
 
 /**
- * Check if a given object implements the ReportUserRequest interface.
+ * Check if a given object implements the CreateUserReportRequest interface.
  */
-export function instanceOfReportUserRequest(value: object): boolean {
+export function instanceOfCreateUserReportRequest(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "userId" in value;
     isInstance = isInstance && "title" in value;
@@ -51,11 +51,11 @@ export function instanceOfReportUserRequest(value: object): boolean {
     return isInstance;
 }
 
-export function ReportUserRequestFromJSON(json: any): ReportUserRequest {
-    return ReportUserRequestFromJSONTyped(json, false);
+export function CreateUserReportRequestFromJSON(json: any): CreateUserReportRequest {
+    return CreateUserReportRequestFromJSONTyped(json, false);
 }
 
-export function ReportUserRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReportUserRequest {
+export function CreateUserReportRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateUserReportRequest {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -67,7 +67,7 @@ export function ReportUserRequestFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-export function ReportUserRequestToJSON(value?: ReportUserRequest | null): any {
+export function CreateUserReportRequestToJSON(value?: CreateUserReportRequest | null): any {
     if (value === undefined) {
         return undefined;
     }

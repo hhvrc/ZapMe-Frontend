@@ -31,7 +31,7 @@
     if (disabled || !token) return;
 
     try {
-      await accountApi.accountRecoveryConfirm({
+      await accountApi.completeAccountPasswordReset({
         newPassword: password,
         token,
       });
