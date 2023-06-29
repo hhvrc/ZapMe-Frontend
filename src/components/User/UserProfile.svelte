@@ -1,6 +1,6 @@
 <script lang="ts">
-  import StatusIndicator from '$components/StatusIndicator.svelte';
   import { Avatar, toastStore } from '@skeletonlabs/skeleton';
+  import StatusIndicator from '$components/StatusIndicator.svelte';
   import { UserFriendStatus, UserStatus, type UserDto } from '$lib/api';
   import { userApi } from '$lib/fetchSingleton';
   import { AccountStore } from '$lib/stores';

@@ -1,7 +1,7 @@
 <script lang="ts">
+  import UserProfile from './UserProfile.svelte';
   import { ProgressRadial } from '@skeletonlabs/skeleton';
   import { ErrorWrapper } from '$components/ErrorComponents';
-  import UserProfile from './UserProfile.svelte';
   import type { UserDto } from '$lib/api';
   import { userApi } from '$lib/fetchSingleton';
   import { UsersStore } from '$lib/stores/usersStore';
