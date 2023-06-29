@@ -14,3 +14,6 @@ vite.config.[tj]s.timestamp-*
 
 # Exclude sensitive configuration files
 *.local
+
+# Sentry
+.sentryclirc
