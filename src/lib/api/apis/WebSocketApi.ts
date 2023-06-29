@@ -31,7 +31,7 @@ import {
 export interface WebSocketApiInterface {
     /**
      * 
-     * @summary Websocket endpoint for pub/sub communication (e.g. chat, notifications, events)    Documentation:  Yes
+     * @summary Websocket endpoint for realtime communication, authenticate using JWT, and serialize messages using FlatBuffers
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof WebSocketApiInterface
@@ -39,7 +39,7 @@ export interface WebSocketApiInterface {
     websocketEndpointRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
 
     /**
-     * Websocket endpoint for pub/sub communication (e.g. chat, notifications, events)    Documentation:  Yes
+     * Websocket endpoint for realtime communication, authenticate using JWT, and serialize messages using FlatBuffers
      */
     websocketEndpoint(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
@@ -51,7 +51,7 @@ export interface WebSocketApiInterface {
 export class WebSocketApi extends runtime.BaseAPI implements WebSocketApiInterface {
 
     /**
-     * Websocket endpoint for pub/sub communication (e.g. chat, notifications, events)    Documentation:  Yes
+     * Websocket endpoint for realtime communication, authenticate using JWT, and serialize messages using FlatBuffers
      */
     async websocketEndpointRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         const queryParameters: any = {};
@@ -73,7 +73,7 @@ export class WebSocketApi extends runtime.BaseAPI implements WebSocketApiInterfa
     }
 
     /**
-     * Websocket endpoint for pub/sub communication (e.g. chat, notifications, events)    Documentation:  Yes
+     * Websocket endpoint for realtime communication, authenticate using JWT, and serialize messages using FlatBuffers
      */
     async websocketEndpoint(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.websocketEndpointRaw(initOverrides);

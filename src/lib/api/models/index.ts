@@ -17,7 +17,7 @@ export * from './CreateUserReportRequest';
 export * from './DeviceDto';
 export * from './ErrorDetails';
 export * from './ErrorDetailsNotification';
-export * from './FriendRequestList';
+export * from './FriendRequestsDto';
 export * from './NotificationSeverityLevel';
 export * from './ProviderDataDto';
 export * from './RecoveryConfirm';

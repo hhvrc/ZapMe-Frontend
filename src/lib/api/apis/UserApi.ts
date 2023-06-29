@@ -17,7 +17,7 @@ import * as runtime from '../runtime';
 import type {
   CreateUserReportRequest,
   ErrorDetails,
-  FriendRequestList,
+  FriendRequestsDto,
   UserDto,
 } from '../models';
 import {
@@ -25,8 +25,8 @@ import {
     CreateUserReportRequestToJSON,
     ErrorDetailsFromJSON,
     ErrorDetailsToJSON,
-    FriendRequestListFromJSON,
-    FriendRequestListToJSON,
+    FriendRequestsDtoFromJSON,
+    FriendRequestsDtoToJSON,
     UserDtoFromJSON,
     UserDtoToJSON,
 } from '../models';
@@ -137,12 +137,12 @@ export interface UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    getFriendRequestsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FriendRequestList>>;
+    getFriendRequestsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FriendRequestsDto>>;
 
     /**
      * List all incoming and outgoing friend requests
      */
-    getFriendRequests(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FriendRequestList>;
+    getFriendRequests(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FriendRequestsDto>;
 
     /**
      * 
@@ -191,7 +191,7 @@ export interface UserApiInterface {
 
     /**
      * 
-     * @summary UnBlock a user
+     * @summary Unblock a user
      * @param {string} userId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -200,7 +200,7 @@ export interface UserApiInterface {
     unblockUserRaw(requestParameters: UnblockUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
 
     /**
-     * UnBlock a user
+     * Unblock a user
      */
     unblockUser(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
@@ -347,7 +347,7 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
     /**
      * List all incoming and outgoing friend requests
      */
-    async getFriendRequestsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FriendRequestList>> {
+    async getFriendRequestsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FriendRequestsDto>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -363,13 +363,13 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => FriendRequestListFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => FriendRequestsDtoFromJSON(jsonValue));
     }
 
     /**
      * List all incoming and outgoing friend requests
      */
-    async getFriendRequests(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FriendRequestList> {
+    async getFriendRequests(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FriendRequestsDto> {
         const response = await this.getFriendRequestsRaw(initOverrides);
         return await response.value();
     }
@@ -476,7 +476,7 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
     }
 
     /**
-     * UnBlock a user
+     * Unblock a user
      */
     async unblockUserRaw(requestParameters: UnblockUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.userId === null || requestParameters.userId === undefined) {
@@ -502,7 +502,7 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
     }
 
     /**
-     * UnBlock a user
+     * Unblock a user
      */
     async unblockUser(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.unblockUserRaw({ userId: userId }, initOverrides);

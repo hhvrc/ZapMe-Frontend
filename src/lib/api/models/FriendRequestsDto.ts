@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * List of incoming and outgoing friendrequests
  * @export
- * @interface FriendRequestList
+ * @interface FriendRequestsDto
  */
-export interface FriendRequestList {
+export interface FriendRequestsDto {
     /**
      * UserId's of users that has sent friend requests to this user
      * @type {Array<string>}
-     * @memberof FriendRequestList
+     * @memberof FriendRequestsDto
      */
     incoming: Array<string>;
     /**
      * UserId's of users that this user has sent friend requests to
      * @type {Array<string>}
-     * @memberof FriendRequestList
+     * @memberof FriendRequestsDto
      */
     outgoing: Array<string>;
 }
 
 /**
- * Check if a given object implements the FriendRequestList interface.
+ * Check if a given object implements the FriendRequestsDto interface.
  */
-export function instanceOfFriendRequestList(value: object): boolean {
+export function instanceOfFriendRequestsDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "incoming" in value;
     isInstance = isInstance && "outgoing" in value;
@@ -44,11 +44,11 @@ export function instanceOfFriendRequestList(value: object): boolean {
     return isInstance;
 }
 
-export function FriendRequestListFromJSON(json: any): FriendRequestList {
-    return FriendRequestListFromJSONTyped(json, false);
+export function FriendRequestsDtoFromJSON(json: any): FriendRequestsDto {
+    return FriendRequestsDtoFromJSONTyped(json, false);
 }
 
-export function FriendRequestListFromJSONTyped(json: any, ignoreDiscriminator: boolean): FriendRequestList {
+export function FriendRequestsDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): FriendRequestsDto {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -59,7 +59,7 @@ export function FriendRequestListFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-export function FriendRequestListToJSON(value?: FriendRequestList | null): any {
+export function FriendRequestsDtoToJSON(value?: FriendRequestsDto | null): any {
     if (value === undefined) {
         return undefined;
     }

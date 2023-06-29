@@ -26,7 +26,7 @@ models/CreateUserReportRequest.ts
 models/DeviceDto.ts
 models/ErrorDetails.ts
 models/ErrorDetailsNotification.ts
-models/FriendRequestList.ts
+models/FriendRequestsDto.ts
 models/NotificationSeverityLevel.ts
 models/ProviderDataDto.ts
 models/RecoveryConfirm.ts
