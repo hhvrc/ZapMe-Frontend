@@ -15,10 +15,10 @@
 
 import * as runtime from '../runtime';
 import type {
+  AccountCreateOkResponseDto,
   AccountDto,
   CompleteAccountPasswordResetRequest,
   CreateAccountRequest,
-  CreateOk,
   ErrorDetails,
   RequestAccountPasswordResetRequest,
   UpdateAccountEmailRequest,
@@ -28,14 +28,14 @@ import type {
   UpdateProfilePictureOk,
 } from '../models';
 import {
+    AccountCreateOkResponseDtoFromJSON,
+    AccountCreateOkResponseDtoToJSON,
     AccountDtoFromJSON,
     AccountDtoToJSON,
     CompleteAccountPasswordResetRequestFromJSON,
     CompleteAccountPasswordResetRequestToJSON,
     CreateAccountRequestFromJSON,
     CreateAccountRequestToJSON,
-    CreateOkFromJSON,
-    CreateOkToJSON,
     ErrorDetailsFromJSON,
     ErrorDetailsToJSON,
     RequestAccountPasswordResetRequestFromJSON,
@@ -143,12 +143,12 @@ export interface AccountApiInterface {
      * @throws {RequiredError}
      * @memberof AccountApiInterface
      */
-    createAccountRaw(requestParameters: CreateAccountOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CreateOk>>;
+    createAccountRaw(requestParameters: CreateAccountOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AccountCreateOkResponseDto>>;
 
     /**
      * Create a new account
      */
-    createAccount(createAccountRequest?: CreateAccountRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateOk>;
+    createAccount(createAccountRequest?: CreateAccountRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AccountCreateOkResponseDto>;
 
     /**
      * 
@@ -359,7 +359,7 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
     /**
      * Create a new account
      */
-    async createAccountRaw(requestParameters: CreateAccountOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CreateOk>> {
+    async createAccountRaw(requestParameters: CreateAccountOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AccountCreateOkResponseDto>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -378,13 +378,13 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
             body: CreateAccountRequestToJSON(requestParameters.createAccountRequest),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => CreateOkFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => AccountCreateOkResponseDtoFromJSON(jsonValue));
     }
 
     /**
      * Create a new account
      */
-    async createAccount(createAccountRequest?: CreateAccountRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateOk> {
+    async createAccount(createAccountRequest?: CreateAccountRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AccountCreateOkResponseDto> {
         const response = await this.createAccountRaw({ createAccountRequest: createAccountRequest }, initOverrides);
         return await response.value();
     }

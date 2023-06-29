@@ -9,6 +9,9 @@ apis/UserApi.ts
 apis/WebSocketApi.ts
 apis/index.ts
 index.ts
+models/AccountCreateOkResponseDto.ts
+models/AccountCreateOkResponseDtoSession.ts
+models/AccountCreateRequestDto.ts
 models/AccountDto.ts
 models/ApiConfig.ts
 models/ApiConfigContact.ts
@@ -18,10 +21,7 @@ models/AuthSignIn.ts
 models/AuthenticationResponse.ts
 models/CompleteAccountPasswordResetRequest.ts
 models/ContactConfig.ts
-models/CreateAccount.ts
 models/CreateAccountRequest.ts
-models/CreateOk.ts
-models/CreateOkSession.ts
 models/CreateUserReportRequest.ts
 models/DeviceDto.ts
 models/ErrorDetails.ts
@@ -43,8 +43,8 @@ models/UpdatePassword.ts
 models/UpdateProfilePictureOk.ts
 models/UpdateUserName.ts
 models/UserDto.ts
+models/UserFriendStatus.ts
 models/UserNotification.ts
-models/UserRelationType.ts
 models/UserReport.ts
 models/UserStatus.ts
 models/WebRtcConfig.ts

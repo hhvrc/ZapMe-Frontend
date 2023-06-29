@@ -1,5 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
+export * from './AccountCreateOkResponseDto';
+export * from './AccountCreateOkResponseDtoSession';
+export * from './AccountCreateRequestDto';
 export * from './AccountDto';
 export * from './ApiConfig';
 export * from './ApiConfigContact';
@@ -9,10 +12,7 @@ export * from './AuthSignIn';
 export * from './AuthenticationResponse';
 export * from './CompleteAccountPasswordResetRequest';
 export * from './ContactConfig';
-export * from './CreateAccount';
 export * from './CreateAccountRequest';
-export * from './CreateOk';
-export * from './CreateOkSession';
 export * from './CreateUserReportRequest';
 export * from './DeviceDto';
 export * from './ErrorDetails';
@@ -34,8 +34,8 @@ export * from './UpdatePassword';
 export * from './UpdateProfilePictureOk';
 export * from './UpdateUserName';
 export * from './UserDto';
+export * from './UserFriendStatus';
 export * from './UserNotification';
-export * from './UserRelationType';
 export * from './UserReport';
 export * from './UserStatus';
 export * from './WebRtcConfig';

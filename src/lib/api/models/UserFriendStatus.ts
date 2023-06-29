@@ -17,22 +17,23 @@
  * @export
  * @enum {string}
  */
-export enum UserRelationType {
+export enum UserFriendStatus {
     none = 'none',
-    friend = 'friend',
+    pending = 'pending',
+    accepted = 'accepted',
     blocked = 'blocked'
 }
 
 
-export function UserRelationTypeFromJSON(json: any): UserRelationType {
-    return UserRelationTypeFromJSONTyped(json, false);
+export function UserFriendStatusFromJSON(json: any): UserFriendStatus {
+    return UserFriendStatusFromJSONTyped(json, false);
 }
 
-export function UserRelationTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): UserRelationType {
-    return json as UserRelationType;
+export function UserFriendStatusFromJSONTyped(json: any, ignoreDiscriminator: boolean): UserFriendStatus {
+    return json as UserFriendStatus;
 }
 
-export function UserRelationTypeToJSON(value?: UserRelationType | null): any {
+export function UserFriendStatusToJSON(value?: UserFriendStatus | null): any {
     return value as any;
 }
 

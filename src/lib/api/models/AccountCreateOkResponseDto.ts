@@ -13,43 +13,43 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { CreateOkSession } from './CreateOkSession';
+import type { AccountCreateOkResponseDtoSession } from './AccountCreateOkResponseDtoSession';
 import {
-    CreateOkSessionFromJSON,
-    CreateOkSessionFromJSONTyped,
-    CreateOkSessionToJSON,
-} from './CreateOkSession';
+    AccountCreateOkResponseDtoSessionFromJSON,
+    AccountCreateOkResponseDtoSessionFromJSONTyped,
+    AccountCreateOkResponseDtoSessionToJSON,
+} from './AccountCreateOkResponseDtoSession';
 
 /**
  * 
  * @export
- * @interface CreateOk
+ * @interface AccountCreateOkResponseDto
  */
-export interface CreateOk {
+export interface AccountCreateOkResponseDto {
     /**
      * The account id of the newly created account
      * @type {string}
-     * @memberof CreateOk
+     * @memberof AccountCreateOkResponseDto
      */
     accountId: string;
     /**
      * 
-     * @type {CreateOkSession}
-     * @memberof CreateOk
+     * @type {AccountCreateOkResponseDtoSession}
+     * @memberof AccountCreateOkResponseDto
      */
-    session?: CreateOkSession | null;
+    session?: AccountCreateOkResponseDtoSession | null;
     /**
      * If true then the email is already verified by 3rd party
      * @type {boolean}
-     * @memberof CreateOk
+     * @memberof AccountCreateOkResponseDto
      */
     emailVerificationRequired: boolean;
 }
 
 /**
- * Check if a given object implements the CreateOk interface.
+ * Check if a given object implements the AccountCreateOkResponseDto interface.
  */
-export function instanceOfCreateOk(value: object): boolean {
+export function instanceOfAccountCreateOkResponseDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "accountId" in value;
     isInstance = isInstance && "emailVerificationRequired" in value;
@@ -57,23 +57,23 @@ export function instanceOfCreateOk(value: object): boolean {
     return isInstance;
 }
 
-export function CreateOkFromJSON(json: any): CreateOk {
-    return CreateOkFromJSONTyped(json, false);
+export function AccountCreateOkResponseDtoFromJSON(json: any): AccountCreateOkResponseDto {
+    return AccountCreateOkResponseDtoFromJSONTyped(json, false);
 }
 
-export function CreateOkFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateOk {
+export function AccountCreateOkResponseDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): AccountCreateOkResponseDto {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
         'accountId': json['accountId'],
-        'session': !exists(json, 'session') ? undefined : CreateOkSessionFromJSON(json['session']),
+        'session': !exists(json, 'session') ? undefined : AccountCreateOkResponseDtoSessionFromJSON(json['session']),
         'emailVerificationRequired': json['emailVerificationRequired'],
     };
 }
 
-export function CreateOkToJSON(value?: CreateOk | null): any {
+export function AccountCreateOkResponseDtoToJSON(value?: AccountCreateOkResponseDto | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -83,7 +83,7 @@ export function CreateOkToJSON(value?: CreateOk | null): any {
     return {
         
         'accountId': value.accountId,
-        'session': CreateOkSessionToJSON(value.session),
+        'session': AccountCreateOkResponseDtoSessionToJSON(value.session),
         'emailVerificationRequired': value.emailVerificationRequired,
     };
 }

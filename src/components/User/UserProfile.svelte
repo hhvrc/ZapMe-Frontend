@@ -1,7 +1,7 @@
 <script lang="ts">
   import StatusIndicator from '$components/StatusIndicator.svelte';
   import { Avatar, toastStore } from '@skeletonlabs/skeleton';
-  import { UserRelationType, UserStatus, type UserDto } from '$lib/api';
+  import { UserFriendStatus, UserStatus, type UserDto } from '$lib/api';
   import { userApi } from '$lib/fetchSingleton';
   import { AccountStore } from '$lib/stores';
   import { GetUsernameInitials } from '$lib/utils/initials';
@@ -71,17 +71,17 @@
       <p class="text-sm">{onlineStatusText}</p>
     </div>
 
-    {#if user.relationType !== UserRelationType.blocked && user.id !== $AccountStore.account?.id}
+    {#if user.friendStatus !== UserFriendStatus.blocked && user.id !== $AccountStore.account?.id}
       <div class="flex-grow" />
 
       <button
         class="btn variant-filled-secondary mt-1"
         on:click={() => {
-          if (user.relationType === UserRelationType.friend) {
+          if (user.friendStatus === UserFriendStatus.accepted) {
             // Nope, not implemented yet
           } else {
             userApi
-              .sendFriendRequest(user.id)
+              .createOrAcceptFriendRequest(user.id)
               .then(() => {
                 toastStore.trigger({
                   message: `Friend request sent to: ${user.username}`,
@@ -95,7 +95,7 @@
           }
         }}
       >
-        {user.relationType === UserRelationType.friend ? 'Send Message' : 'Send Friend Request'}
+        {user.friendStatus === UserFriendStatus.accepted ? 'Send Message' : 'Send Friend Request'}
       </button>
     {/if}
   </div>
@@ -103,7 +103,7 @@
     <h3 class="text-xl font-bold">About</h3>
     <p>Status: {user.statusText}</p>
     <p>Created: {new Date(user.createdAt).toLocaleString()}</p>
-    <p>Relation: {user.relationType}</p>
+    <p>Relation: {user.friendStatus}</p>
     <p>Notes: {user.notes ?? ''}</p>
     <slot name="about" />
   </div>

@@ -16,57 +16,57 @@ import { exists, mapValues } from '../runtime';
 /**
  * Message sent to server to create a new account
  * @export
- * @interface CreateAccount
+ * @interface AccountCreateRequestDto
  */
-export interface CreateAccount {
+export interface AccountCreateRequestDto {
     /**
      * 
      * @type {string}
-     * @memberof CreateAccount
+     * @memberof AccountCreateRequestDto
      */
     username: string;
     /**
      * 
      * @type {string}
-     * @memberof CreateAccount
+     * @memberof AccountCreateRequestDto
      */
     password: string;
     /**
      * 
      * @type {string}
-     * @memberof CreateAccount
+     * @memberof AccountCreateRequestDto
      */
     email: string;
     /**
      * 
      * @type {number}
-     * @memberof CreateAccount
+     * @memberof AccountCreateRequestDto
      */
     acceptedPrivacyPolicyVersion: number;
     /**
      * 
      * @type {number}
-     * @memberof CreateAccount
+     * @memberof AccountCreateRequestDto
      */
     acceptedTermsOfServiceVersion: number;
     /**
      * Response from cloudflare turnstile request
      * @type {string}
-     * @memberof CreateAccount
+     * @memberof AccountCreateRequestDto
      */
     turnstileResponse: string;
     /**
      * SSO token from OAuth flow, this is optional and only used when creating an account from the OAuth flow
      * @type {string}
-     * @memberof CreateAccount
+     * @memberof AccountCreateRequestDto
      */
     ssoToken?: string | null;
 }
 
 /**
- * Check if a given object implements the CreateAccount interface.
+ * Check if a given object implements the AccountCreateRequestDto interface.
  */
-export function instanceOfCreateAccount(value: object): boolean {
+export function instanceOfAccountCreateRequestDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "username" in value;
     isInstance = isInstance && "password" in value;
@@ -78,11 +78,11 @@ export function instanceOfCreateAccount(value: object): boolean {
     return isInstance;
 }
 
-export function CreateAccountFromJSON(json: any): CreateAccount {
-    return CreateAccountFromJSONTyped(json, false);
+export function AccountCreateRequestDtoFromJSON(json: any): AccountCreateRequestDto {
+    return AccountCreateRequestDtoFromJSONTyped(json, false);
 }
 
-export function CreateAccountFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateAccount {
+export function AccountCreateRequestDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): AccountCreateRequestDto {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -98,7 +98,7 @@ export function CreateAccountFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function CreateAccountToJSON(value?: CreateAccount | null): any {
+export function AccountCreateRequestDtoToJSON(value?: AccountCreateRequestDto | null): any {
     if (value === undefined) {
         return undefined;
     }

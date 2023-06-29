@@ -31,11 +31,11 @@ import {
     UserDtoToJSON,
 } from '../models';
 
-export interface AcceptFriendRequestRequest {
+export interface BlockUserRequest {
     userId: string;
 }
 
-export interface BlockUserRequest {
+export interface CreateOrAcceptFriendRequestRequest {
     userId: string;
 }
 
@@ -55,10 +55,6 @@ export interface GetUserByNameRequest {
     username?: string;
 }
 
-export interface SendFriendRequestRequest {
-    userId: string;
-}
-
 export interface UnblockUserRequest {
     userId: string;
 }
@@ -70,21 +66,6 @@ export interface UnblockUserRequest {
  * @interface UserApiInterface
  */
 export interface UserApiInterface {
-    /**
-     * 
-     * @summary Accept incoming friend request
-     * @param {string} userId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserApiInterface
-     */
-    acceptFriendRequestRaw(requestParameters: AcceptFriendRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserDto>>;
-
-    /**
-     * Accept incoming friend request
-     */
-    acceptFriendRequest(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto>;
-
     /**
      * 
      * @summary Block a user
@@ -99,6 +80,21 @@ export interface UserApiInterface {
      * Block a user
      */
     blockUser(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+
+    /**
+     * 
+     * @summary Create a new friend request or accept an incoming friend request to this user
+     * @param {string} userId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApiInterface
+     */
+    createOrAcceptFriendRequestRaw(requestParameters: CreateOrAcceptFriendRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>>;
+
+    /**
+     * Create a new friend request or accept an incoming friend request to this user
+     */
+    createOrAcceptFriendRequest(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object>;
 
     /**
      * 
@@ -117,18 +113,18 @@ export interface UserApiInterface {
 
     /**
      * 
-     * @summary Delete outgoing/Reject incoming friend request
+     * @summary Delete incoming/outgoing friend request
      * @param {string} userId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    deleteFriendRequestRaw(requestParameters: DeleteFriendRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserDto>>;
+    deleteFriendRequestRaw(requestParameters: DeleteFriendRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
 
     /**
-     * Delete outgoing/Reject incoming friend request
+     * Delete incoming/outgoing friend request
      */
-    deleteFriendRequest(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto>;
+    deleteFriendRequest(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
     /**
      * 
@@ -176,21 +172,6 @@ export interface UserApiInterface {
 
     /**
      * 
-     * @summary Send friend request
-     * @param {string} userId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserApiInterface
-     */
-    sendFriendRequestRaw(requestParameters: SendFriendRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
-
-    /**
-     * Send friend request
-     */
-    sendFriendRequest(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
-
-    /**
-     * 
      * @summary Unblock a user
      * @param {string} userId 
      * @param {*} [options] Override http request option.
@@ -210,40 +191,6 @@ export interface UserApiInterface {
  * 
  */
 export class UserApi extends runtime.BaseAPI implements UserApiInterface {
-
-    /**
-     * Accept incoming friend request
-     */
-    async acceptFriendRequestRaw(requestParameters: AcceptFriendRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserDto>> {
-        if (requestParameters.userId === null || requestParameters.userId === undefined) {
-            throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling acceptFriendRequest.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
-        }
-
-        const response = await this.request({
-            path: `/api/v1/user/{userId}/friendrequest`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
-            method: 'PUT',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => UserDtoFromJSON(jsonValue));
-    }
-
-    /**
-     * Accept incoming friend request
-     */
-    async acceptFriendRequest(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto> {
-        const response = await this.acceptFriendRequestRaw({ userId: userId }, initOverrides);
-        return await response.value();
-    }
 
     /**
      * Block a user
@@ -279,6 +226,40 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
     }
 
     /**
+     * Create a new friend request or accept an incoming friend request to this user
+     */
+    async createOrAcceptFriendRequestRaw(requestParameters: CreateOrAcceptFriendRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
+        if (requestParameters.userId === null || requestParameters.userId === undefined) {
+            throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling createOrAcceptFriendRequest.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
+        const response = await this.request({
+            path: `/api/v1/user/{userId}/friendrequest`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     * Create a new friend request or accept an incoming friend request to this user
+     */
+    async createOrAcceptFriendRequest(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object> {
+        const response = await this.createOrAcceptFriendRequestRaw({ userId: userId }, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Report a user
      */
     async createUserReportRaw(requestParameters: CreateUserReportOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
@@ -311,9 +292,9 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
     }
 
     /**
-     * Delete outgoing/Reject incoming friend request
+     * Delete incoming/outgoing friend request
      */
-    async deleteFriendRequestRaw(requestParameters: DeleteFriendRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserDto>> {
+    async deleteFriendRequestRaw(requestParameters: DeleteFriendRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.userId === null || requestParameters.userId === undefined) {
             throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling deleteFriendRequest.');
         }
@@ -333,15 +314,14 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => UserDtoFromJSON(jsonValue));
+        return new runtime.VoidApiResponse(response);
     }
 
     /**
-     * Delete outgoing/Reject incoming friend request
+     * Delete incoming/outgoing friend request
      */
-    async deleteFriendRequest(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto> {
-        const response = await this.deleteFriendRequestRaw({ userId: userId }, initOverrides);
-        return await response.value();
+    async deleteFriendRequest(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.deleteFriendRequestRaw({ userId: userId }, initOverrides);
     }
 
     /**
@@ -440,39 +420,6 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
     async getUserByName(username?: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto> {
         const response = await this.getUserByNameRaw({ username: username }, initOverrides);
         return await response.value();
-    }
-
-    /**
-     * Send friend request
-     */
-    async sendFriendRequestRaw(requestParameters: SendFriendRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.userId === null || requestParameters.userId === undefined) {
-            throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling sendFriendRequest.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
-        }
-
-        const response = await this.request({
-            path: `/api/v1/user/{userId}/friendrequest`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * Send friend request
-     */
-    async sendFriendRequest(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.sendFriendRequestRaw({ userId: userId }, initOverrides);
     }
 
     /**

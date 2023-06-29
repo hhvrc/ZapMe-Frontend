@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { UserRelationType } from './UserRelationType';
+import type { UserFriendStatus } from './UserFriendStatus';
 import {
-    UserRelationTypeFromJSON,
-    UserRelationTypeFromJSONTyped,
-    UserRelationTypeToJSON,
-} from './UserRelationType';
+    UserFriendStatusFromJSON,
+    UserFriendStatusFromJSONTyped,
+    UserFriendStatusToJSON,
+} from './UserFriendStatus';
 import type { UserStatus } from './UserStatus';
 import {
     UserStatusFromJSON,
@@ -70,10 +70,22 @@ export interface UserDto {
     statusText: string;
     /**
      * 
-     * @type {UserRelationType}
+     * @type {UserFriendStatus}
      * @memberof UserDto
      */
-    relationType: UserRelationType;
+    friendStatus: UserFriendStatus;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UserDto
+     */
+    isFavorite: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UserDto
+     */
+    isMuted: boolean;
     /**
      * 
      * @type {string}
@@ -115,7 +127,9 @@ export function instanceOfUserDto(value: object): boolean {
     isInstance = isInstance && "username" in value;
     isInstance = isInstance && "status" in value;
     isInstance = isInstance && "statusText" in value;
-    isInstance = isInstance && "relationType" in value;
+    isInstance = isInstance && "friendStatus" in value;
+    isInstance = isInstance && "isFavorite" in value;
+    isInstance = isInstance && "isMuted" in value;
     isInstance = isInstance && "createdAt" in value;
     isInstance = isInstance && "lastSeenAt" in value;
 
@@ -138,7 +152,9 @@ export function UserDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): U
         'bannerUrl': !exists(json, 'bannerUrl') ? undefined : json['bannerUrl'],
         'status': UserStatusFromJSON(json['status']),
         'statusText': json['statusText'],
-        'relationType': UserRelationTypeFromJSON(json['relationType']),
+        'friendStatus': UserFriendStatusFromJSON(json['friendStatus']),
+        'isFavorite': json['isFavorite'],
+        'isMuted': json['isMuted'],
         'nickName': !exists(json, 'nickName') ? undefined : json['nickName'],
         'notes': !exists(json, 'notes') ? undefined : json['notes'],
         'createdAt': (new Date(json['createdAt'])),
@@ -162,7 +178,9 @@ export function UserDtoToJSON(value?: UserDto | null): any {
         'bannerUrl': value.bannerUrl,
         'status': UserStatusToJSON(value.status),
         'statusText': value.statusText,
-        'relationType': UserRelationTypeToJSON(value.relationType),
+        'friendStatus': UserFriendStatusToJSON(value.friendStatus),
+        'isFavorite': value.isFavorite,
+        'isMuted': value.isMuted,
         'nickName': value.nickName,
         'notes': value.notes,
         'createdAt': (value.createdAt.toISOString()),
