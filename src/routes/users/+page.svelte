@@ -1,17 +1,9 @@
 <script lang="ts">
   import { toastStore } from '@skeletonlabs/skeleton';
-  import { browser } from '$app/environment';
   import { goto } from '$app/navigation';
-  import { page } from '$app/stores';
   import TextInput from '$components/TextInput.svelte';
   import { userApi } from '$lib/fetchSingleton';
-  import { SessionTokenStore } from '$lib/stores';
   import { UsersStore } from '$lib/stores/usersStore';
-  import { BuildRedirectURL } from '$lib/utils/redirects';
-
-  if (browser && !$SessionTokenStore) {
-    goto(BuildRedirectURL('/login', $page.url));
-  }
 
   $: users = $UsersStore;
 

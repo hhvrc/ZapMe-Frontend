@@ -8,9 +8,9 @@
 
   export let userId: string;
 
-  const user = $UsersStore.find((user) => user.id === userId);
-
   let request: Promise<UserDto>;
+
+  const user = $UsersStore.find((user) => user.id === userId);
   if (user) {
     request = Promise.resolve(user);
   } else {
@@ -18,10 +18,14 @@
   }
 </script>
 
-{#await request}
+{#if request}
+  {#await request}
+    <ProgressRadial />
+  {:then user}
+    <UserProfile {user} />
+  {:catch exception}
+    <ErrorWrapper {exception} />
+  {/await}
+{:else}
   <ProgressRadial />
-{:then user}
-  <UserProfile {user} />
-{:catch exception}
-  <ErrorWrapper {exception} />
-{/await}
+{/if}

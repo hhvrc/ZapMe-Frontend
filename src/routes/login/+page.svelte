@@ -17,6 +17,7 @@
     restore: (data) => (usernameOrEmail = data),
   };
 
+  // If the user is already logged in, redirect to redirectUrl, fallback to home
   $: if ($SessionTokenStore) {
     goto(GetRedirectURL($page.url, '/'));
   }

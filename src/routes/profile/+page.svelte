@@ -1,17 +1,9 @@
 <script lang="ts">
   import { Avatar, modalStore } from '@skeletonlabs/skeleton';
-  import { browser } from '$app/environment';
-  import { goto } from '$app/navigation';
-  import { page } from '$app/stores';
   import StatusIndicator from '$components/StatusIndicator.svelte';
   import { UserStatus } from '$lib/api';
   import { AccountStore, SessionTokenStore } from '$lib/stores';
   import { GetUsernameInitials } from '$lib/utils/initials';
-  import { BuildRedirectURL } from '$lib/utils/redirects';
-
-  if (browser && !$SessionTokenStore) {
-    goto(BuildRedirectURL('/login', $page.url));
-  }
 
   $: account = $AccountStore?.account;
   if (!account && $SessionTokenStore) {
