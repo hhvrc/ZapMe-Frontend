@@ -1,11 +1,16 @@
 <script lang="ts">
-  import { Avatar } from '@skeletonlabs/skeleton';
+  import UserProfileSkeleton from './UserProfileSkeleton.svelte';
   import { goto } from '$app/navigation';
-  import StatusIndicator from '$components/StatusIndicator.svelte';
+  import {
+    AcceptFriendRequest,
+    BlockUser,
+    DeleteFriendRequest,
+    SendFriendRequest,
+    UnblockUser,
+    UnfriendUser,
+  } from '$lib/Actions/UserActions';
   import { UserFriendStatus, UserStatus, type UserDto } from '$lib/api';
-  import { userApi } from '$lib/fetchSingleton';
   import { AccountStore } from '$lib/stores';
-  import { GetUsernameInitials } from '$lib/utils/initials';
 
   export let user: UserDto;
 
@@ -26,125 +31,67 @@
       break;
   }
 
-  $: initials = GetUsernameInitials(user.username);
   $: account = $AccountStore.account;
 </script>
 
-<div class="card overflow-hidden">
-  <!-- Profile banner -->
-  <div class="group relative h-32 w-full select-none">
-    <img
-      class="h-32 w-full object-cover"
-      src={user.bannerUrl ??
-        'https://i.pinimg.com/originals/31/c3/e3/31c3e3f032a177d0b0c983b8262de8f9.gif'}
-      alt="ProfileBanner"
-    />
-  </div>
-
-  <div class="mb-4 flex h-16 place-items-start justify-start px-4 py-2">
-    <!-- Profile picture -->
-    <div
-      class="relative -top-[60px] mr-2 h-[128px] w-[128px] select-none rounded-full border-4 bg-surface-100-800-token border-surface-100-800-token"
-    >
-      <div class="group relative h-[120px] w-[120px] rounded-full">
-        <Avatar
-          {initials}
-          src={user.avatarUrl ??
-            'https://i.pinimg.com/originals/49/07/13/4907130d5ddcd50beff46f78c9744a49.png'}
-          rounded="rounded-full"
-          width="w-[120px]"
-        />
-      </div>
-      <StatusIndicator
-        class="absolute bottom-0 right-0 rounded-full border-4 bg-surface-100-800-token border-surface-100-800-token"
-        onlineStatus={user.status}
-        scale="large"
-      />
-    </div>
-
-    <div>
-      <!-- Profile name -->
-      <h2 class="text-2xl font-bold">
-        {user.nickName ? `${user.nickName} (${user.username})` : user.username}
-      </h2>
-
-      <!-- Profile status (place at end center) -->
-      <p class="text-sm">{onlineStatusText}</p>
-    </div>
-
+<UserProfileSkeleton {user}>
+  <div slot="header" class="flex h-full items-center gap-2">
     {#if user.id !== account?.id}
-      <div class="flex-grow" />
-
-      <button
-        class="btn variant-filled-secondary mt-1"
-        on:click={async () => {
-          if (user.friendStatus === UserFriendStatus.friends) {
-            goto(`/chat/${user.id}`);
-          } else if (user.friendStatus === UserFriendStatus.blocked) {
-            await userApi.unblockUser(user.id);
-            user.friendStatus = UserFriendStatus.none;
-          } else if (user.friendStatus === UserFriendStatus.friendRequestOutgoing) {
-            await userApi.deleteFriendRequest(user.id);
-            user.friendStatus = UserFriendStatus.none;
-          } else if (user.friendStatus === UserFriendStatus.friendRequestIncoming) {
-            await userApi.createOrAcceptFriendRequest(user.id);
-            user.friendStatus = UserFriendStatus.friends;
-          } else if (user.friendStatus === UserFriendStatus.none) {
-            await userApi.createOrAcceptFriendRequest(user.id);
-            user.friendStatus = UserFriendStatus.friendRequestOutgoing;
-          }
-        }}
-      >
-        {#if user.friendStatus === UserFriendStatus.friends}
-          Send Message
-        {:else if user.friendStatus === UserFriendStatus.blocked}
-          Unblock
-        {:else if user.friendStatus === UserFriendStatus.friendRequestOutgoing}
-          Cancel Friend Request
-        {:else if user.friendStatus === UserFriendStatus.friendRequestIncoming}
-          Accept Friend Request
-        {:else if user.friendStatus === UserFriendStatus.none}
-          Send Friend Request
-        {:else}
-          ???
-        {/if}
-      </button>
-      {#if user.friendStatus !== UserFriendStatus.blocked}
-        <button
-          class="btn variant-filled-warning mt-1"
-          on:click={async () => {
-            await userApi.blockUser(user.id);
-            user.friendStatus = UserFriendStatus.blocked;
-          }}
-        >
-          Block
-        </button>
-      {/if}
       {#if user.friendStatus === UserFriendStatus.friends}
         <button
-          class="variant-filled-danger btn mt-1"
-          on:click={async () => {
-            await userApi.unfriendUser(user.id);
-            user.friendStatus = UserFriendStatus.none;
-          }}
+          class="btn btn-sm variant-filled-tertiary"
+          on:click={() => goto(`/chat/${user.id}`)}
         >
+          Message
+        </button>
+      {:else if user.friendStatus === UserFriendStatus.blocked}
+        <button class="btn btn-sm bg-red-700" on:click={() => UnblockUser(user.id)}>
+          Unblock
+        </button>
+      {:else if user.friendStatus === UserFriendStatus.friendRequestOutgoing}
+        <button class="btn btn-sm bg-red-700" on:click={() => DeleteFriendRequest(user.id)}>
+          Cancel Friend Request
+        </button>
+      {:else if user.friendStatus === UserFriendStatus.friendRequestIncoming}
+        <button class="btn btn-sm bg-green-600" on:click={() => AcceptFriendRequest(user.id)}>
+          Accept Friend Request
+        </button>
+      {:else if user.friendStatus === UserFriendStatus.none}
+        <button class="btn btn-sm bg-green-600" on:click={() => SendFriendRequest(user.id)}>
+          Send Friend Request
+        </button>
+      {/if}
+      {#if user.friendStatus !== UserFriendStatus.blocked}
+        <button class="btn btn-sm bg-red-700" on:click={() => BlockUser(user.id)}> Block </button>
+      {/if}
+      {#if user.friendStatus === UserFriendStatus.friends}
+        <button class="btn btn-sm bg-red-700" on:click={() => UnfriendUser(user.id)}>
           Unfriend
         </button>
       {/if}
     {/if}
   </div>
-  <div class="m-4 rounded-lg p-4 bg-surface-50-900-token">
-    <h3 class="text-xl font-bold">About</h3>
-    <p>Status: {user.statusText}</p>
-    <p>Created: {user.createdAt.toLocaleString()}</p>
-    <p>Relation: {user.friendStatus}</p>
-    <p>Notes: {user.notes ?? ''}</p>
-    <slot name="about" />
+  <div>
+    <!-- Profile name -->
+    <h2 class="text-2xl font-bold">
+      {user.nickName ? `${user.nickName} (${user.username})` : user.username}
+    </h2>
+
+    <!-- Profile status (place at end center) -->
+    <p class="mt-2 text-sm">{onlineStatusText}</p>
   </div>
-  {#if $$slots.after}
-    <hr />
-    <div class="m-4">
-      <slot name="after" />
-    </div>
+  <hr class="my-2 !border-t-2" />
+  <p class="mt-2 text-sm font-bold uppercase">Last Seen</p>
+  <p class="text-sm">{user.lastOnline.toLocaleString()}</p>
+
+  {#if user.friendedAt}
+    <p class="mt-2 text-sm font-bold uppercase">Friended at</p>
+    <p class="text-sm">{user.friendedAt.toLocaleString()}</p>
   {/if}
-</div>
+
+  <p class="mt-2 text-sm font-bold uppercase">Member since</p>
+  <p class="text-sm">{user.createdAt.toLocaleString()}</p>
+
+  <p class="mt-2 text-sm font-bold uppercase">Notes</p>
+  <textarea class="textarea mt-1" rows="4" placeholder="No notes">{user.notes ?? ''}</textarea>
+</UserProfileSkeleton>

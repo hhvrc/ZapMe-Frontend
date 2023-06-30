@@ -4,7 +4,6 @@
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
   import PasswordInput from '$components/PasswordInput.svelte';
-  import ResponsiveCard from '$components/ResponsiveCard.svelte';
   import TextInput from '$components/TextInput.svelte';
   import { authenticationApi } from '$lib/fetchSingleton';
   import { handleFetchError } from '$lib/helpers/errorDetailsHelpers';
@@ -51,7 +50,7 @@
 </script>
 
 <!-- Login Form -->
-<ResponsiveCard>
+<div class="responsive-card card p-8">
   <form
     class="flex flex-col space-y-4"
     on:submit|preventDefault={handleSubmit}
@@ -103,4 +102,4 @@
       {/each}
     </div>
   </form>
-</ResponsiveCard>
+</div>

@@ -109,7 +109,7 @@ export interface UserDto {
      * @type {Date}
      * @memberof UserDto
      */
-    lastSeenAt: Date;
+    lastOnline: Date;
     /**
      * The time this user was friended at
      * @type {Date}
@@ -131,7 +131,7 @@ export function instanceOfUserDto(value: object): boolean {
     isInstance = isInstance && "isFavorite" in value;
     isInstance = isInstance && "isMuted" in value;
     isInstance = isInstance && "createdAt" in value;
-    isInstance = isInstance && "lastSeenAt" in value;
+    isInstance = isInstance && "lastOnline" in value;
 
     return isInstance;
 }
@@ -158,7 +158,7 @@ export function UserDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): U
         'nickName': !exists(json, 'nickName') ? undefined : json['nickName'],
         'notes': !exists(json, 'notes') ? undefined : json['notes'],
         'createdAt': (new Date(json['createdAt'])),
-        'lastSeenAt': (new Date(json['lastSeenAt'])),
+        'lastOnline': (new Date(json['lastOnline'])),
         'friendedAt': !exists(json, 'friendedAt') ? undefined : (json['friendedAt'] === null ? null : new Date(json['friendedAt'])),
     };
 }
@@ -184,7 +184,7 @@ export function UserDtoToJSON(value?: UserDto | null): any {
         'nickName': value.nickName,
         'notes': value.notes,
         'createdAt': (value.createdAt.toISOString()),
-        'lastSeenAt': (value.lastSeenAt.toISOString()),
+        'lastOnline': (value.lastOnline.toISOString()),
         'friendedAt': value.friendedAt === undefined ? undefined : (value.friendedAt === null ? null : value.friendedAt.toISOString()),
     };
 }
