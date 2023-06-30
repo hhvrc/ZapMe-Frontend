@@ -21,10 +21,35 @@
   import OpenGraphTags from '$components/MetaTags/OpenGraphTags.svelte';
   import TwitterSummaryTags from '$components/MetaTags/Twitter/TwitterSummaryTags.svelte';
   import { modalComponentRegistry } from '$components/modals';
+  import { configurationApi } from '$lib/fetchSingleton';
   import { WebSocketClient } from '$lib/realtime/WebSocketClient';
   import { ApiConfigStore, SessionTokenStore, ThemeStore } from '$lib/stores';
 
-  storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
+  // Data from, +layout.server.ts
+  export let data;
+
+  // Initialize ApiConfigStore
+  if (data.config) {
+    ApiConfigStore.set(data.config);
+  } else if (browser) {
+    configurationApi.getApiConfig().then((config) => ApiConfigStore.set(config));
+  }
+  $: config = $ApiConfigStore;
+
+  // Connect/Disconnect WebSocketClient based on login state
+  let loggedIn = false;
+  $: if (browser && $SessionTokenStore) {
+    loggedIn = true;
+    WebSocketClient.Instance.Connect();
+  } else {
+    loggedIn = false;
+    WebSocketClient.Instance.Disconnect();
+  }
+
+  // Configure popups
+  if (browser) {
+    storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
+  }
 
   const year = new Date().getFullYear();
 
@@ -67,17 +92,6 @@
       href: '/logout',
     },
   ];
-
-  // TDOO: Move the logic below to a better place
-  // Connect/Disconnect WebSocketClient based on login state
-  let loggedIn = false;
-  $: if (browser && $SessionTokenStore) {
-    loggedIn = true;
-    WebSocketClient.Instance.Connect();
-  } else {
-    loggedIn = false;
-    WebSocketClient.Instance.Disconnect();
-  }
 </script>
 
 <svelte:head>
@@ -101,9 +115,11 @@
   url="https://zapme.app/"
 />
 
-{#if $ApiConfigStore}
-  <Modal components={modalComponentRegistry} />
+<Modal components={modalComponentRegistry} />
+{#if browser}
   <Toast position="bl" max={5} />
+{/if}
+{#if config}
   <AppShell>
     <svelte:fragment slot="header">
       <AppBar>
@@ -120,7 +136,7 @@
                 class="hidden align-middle text-3xl uppercase tracking-widest sm:inline-block"
                 style="font-family: Montserrat,sans-serif"
               >
-                {$ApiConfigStore?.appName}
+                {config.appName}
               </strong>
             </a>
           </div>
@@ -173,7 +189,7 @@
         <div>
           Made with
           <span style="color: #e25555;">&#9829;</span>
-          by {$ApiConfigStore?.founderSocials?.discordUsername}
+          by {config.founderSocials.discordUsername}
         </div>
         <div class="hidden lg:block">Copyright ©{year} | All Rights Reserved</div>
         <div class="hidden items-center space-x-2 sm:flex">
@@ -189,10 +205,8 @@
   </AppShell>
 {:else}
   <AppShell>
-    <div class="h-full w-full flex content-center">
-      <h1 class="w-full m-auto text-center align-middle">
-        Loading...
-      </h1>
+    <div class="flex h-full w-full content-center">
+      <h1 class="m-auto w-full text-center align-middle">Loading...</h1>
     </div>
   </AppShell>
 {/if}
