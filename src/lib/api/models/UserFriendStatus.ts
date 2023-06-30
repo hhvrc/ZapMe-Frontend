@@ -19,8 +19,9 @@
  */
 export enum UserFriendStatus {
     none = 'none',
-    pending = 'pending',
-    accepted = 'accepted',
+    friendRequestOutgoing = 'friendRequestOutgoing',
+    friendRequestIncoming = 'friendRequestIncoming',
+    friends = 'friends',
     blocked = 'blocked'
 }
 

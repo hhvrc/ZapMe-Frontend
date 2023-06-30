@@ -59,6 +59,10 @@ export interface UnblockUserRequest {
     userId: string;
 }
 
+export interface UnfriendUserRequest {
+    userId: string;
+}
+
 /**
  * UserApi - interface
  * 
@@ -184,6 +188,21 @@ export interface UserApiInterface {
      * Unblock a user
      */
     unblockUser(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+
+    /**
+     * 
+     * @summary Unfriend a user
+     * @param {string} userId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApiInterface
+     */
+    unfriendUserRaw(requestParameters: UnfriendUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+
+    /**
+     * Unfriend a user
+     */
+    unfriendUser(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
 }
 
@@ -453,6 +472,39 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
      */
     async unblockUser(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.unblockUserRaw({ userId: userId }, initOverrides);
+    }
+
+    /**
+     * Unfriend a user
+     */
+    async unfriendUserRaw(requestParameters: UnfriendUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.userId === null || requestParameters.userId === undefined) {
+            throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling unfriendUser.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
+        const response = await this.request({
+            path: `/api/v1/user/{userId}/unfriend`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Unfriend a user
+     */
+    async unfriendUser(userId: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.unfriendUserRaw({ userId: userId }, initOverrides);
     }
 
 }

@@ -2,20 +2,19 @@
   import UserProfile from './UserProfile.svelte';
   import { ProgressRadial } from '@skeletonlabs/skeleton';
   import { ErrorWrapper } from '$components/ErrorComponents';
-  import type { UserDto } from '$lib/api';
   import { userApi } from '$lib/fetchSingleton';
-  import { UsersStore } from '$lib/stores/usersStore';
+  import { UsersStore } from '$lib/stores/UserRepository';
 
   export let userId: string;
 
-  let request: Promise<UserDto>;
-
-  const user = $UsersStore.find((user) => user.id === userId);
-  if (user) {
-    request = Promise.resolve(user);
-  } else {
-    request = userApi.getUserById(userId);
+  async function GetUserFromApi(userId: string) {
+    const user = await userApi.getUserById(userId);
+    UsersStore.upsertUser(user);
+    return user;
   }
+
+  $: user = $UsersStore.getById(userId);
+  $: request = user ? Promise.resolve(user) : GetUserFromApi(userId);
 </script>
 
 {#if request}

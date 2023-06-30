@@ -3,7 +3,7 @@
   import { goto } from '$app/navigation';
   import TextInput from '$components/TextInput.svelte';
   import { userApi } from '$lib/fetchSingleton';
-  import { UsersStore } from '$lib/stores/usersStore';
+  import { UsersStore } from '$lib/stores/UserRepository';
 
   $: users = $UsersStore;
 
@@ -13,7 +13,7 @@
 
   function handleSubmit() {
     // Check if the user is already in the store
-    const user = users.find((user) => user.username === search);
+    const user = users.getByName(search);
     if (user) {
       goto(`/users/${user.id}`);
       return;
@@ -23,7 +23,7 @@
     userApi
       .getUserByName(search)
       .then((value) => {
-        UsersStore.set([...$UsersStore, value]);
+        UsersStore.upsertUser(value);
         goto(`/users/${value.id}`);
       })
       .catch(() => {

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Avatar, toastStore } from '@skeletonlabs/skeleton';
+  import { goto } from '$app/navigation';
   import StatusIndicator from '$components/StatusIndicator.svelte';
   import { UserFriendStatus, UserStatus, type UserDto } from '$lib/api';
   import { userApi } from '$lib/fetchSingleton';
@@ -9,7 +10,6 @@
   export let user: UserDto;
 
   let onlineStatusText = 'Offline';
-
   $: switch (user.status) {
     case UserStatus.doNotDisturb:
       onlineStatusText = 'Do Not Disturb';
@@ -27,6 +27,7 @@
   }
 
   $: initials = GetUsernameInitials(user.username);
+  $: account = $AccountStore.account;
 </script>
 
 <div class="card overflow-hidden">
@@ -71,38 +72,89 @@
       <p class="text-sm">{onlineStatusText}</p>
     </div>
 
-    {#if user.friendStatus !== UserFriendStatus.blocked && user.id !== $AccountStore.account?.id}
+    {#if user.id !== account?.id}
       <div class="flex-grow" />
 
       <button
         class="btn variant-filled-secondary mt-1"
-        on:click={() => {
-          if (user.friendStatus === UserFriendStatus.accepted) {
-            // Nope, not implemented yet
-          } else {
-            userApi
-              .createOrAcceptFriendRequest(user.id)
-              .then(() => {
-                toastStore.trigger({
-                  message: `Friend request sent to: ${user.username}`,
-                });
-              })
-              .catch(() => {
-                toastStore.trigger({
-                  message: `Failed to send friend request to: ${user.username}`,
-                });
-              });
+        on:click={async () => {
+          if (user.friendStatus === UserFriendStatus.friends) {
+            goto(`/chat/${user.id}`);
+          } else if (user.friendStatus === UserFriendStatus.blocked) {
+            await userApi.unblockUser(user.id);
+            user.friendStatus = UserFriendStatus.none;
+            toastStore.trigger({
+              message: `Unblocked ${user.username}`,
+            });
+          } else if (user.friendStatus === UserFriendStatus.friendRequestOutgoing) {
+            await userApi.deleteFriendRequest(user.id);
+            user.friendStatus = UserFriendStatus.none;
+            toastStore.trigger({
+              message: `Friend request canceled to ${user.username}`,
+            });
+          } else if (user.friendStatus === UserFriendStatus.friendRequestIncoming) {
+            await userApi.createOrAcceptFriendRequest(user.id);
+            user.friendStatus = UserFriendStatus.friends;
+            toastStore.trigger({
+              message: `Accepted friend request from ${user.username}`,
+            });
+          } else if (user.friendStatus === UserFriendStatus.none) {
+            await userApi.createOrAcceptFriendRequest(user.id);
+            user.friendStatus = UserFriendStatus.friendRequestOutgoing;
+            toastStore.trigger({
+              message: `Friend request sent to ${user.username}`,
+            });
           }
         }}
       >
-        {user.friendStatus === UserFriendStatus.accepted ? 'Send Message' : 'Send Friend Request'}
+        {#if user.friendStatus === UserFriendStatus.friends}
+          Send Message
+        {:else if user.friendStatus === UserFriendStatus.blocked}
+          Unblock
+        {:else if user.friendStatus === UserFriendStatus.friendRequestOutgoing}
+          Cancel Friend Request
+        {:else if user.friendStatus === UserFriendStatus.friendRequestIncoming}
+          Accept Friend Request
+        {:else if user.friendStatus === UserFriendStatus.none}
+          Send Friend Request
+        {:else}
+          ???
+        {/if}
       </button>
+      {#if user.friendStatus !== UserFriendStatus.blocked}
+        <button
+          class="btn variant-filled-warning mt-1"
+          on:click={async () => {
+            await userApi.blockUser(user.id);
+            user.friendStatus = UserFriendStatus.blocked;
+            toastStore.trigger({
+              message: `Blocked ${user.username}`,
+            });
+          }}
+        >
+          Block
+        </button>
+      {/if}
+      {#if user.friendStatus === UserFriendStatus.friends}
+        <button
+          class="variant-filled-danger btn mt-1"
+          on:click={async () => {
+            await userApi.unfriendUser(user.id);
+            user.friendStatus = UserFriendStatus.none;
+            toastStore.trigger({
+              message: `Removed ${user.username} from friends`,
+            });
+          }}
+        >
+          Unfriend
+        </button>
+      {/if}
     {/if}
   </div>
   <div class="m-4 rounded-lg p-4 bg-surface-50-900-token">
     <h3 class="text-xl font-bold">About</h3>
     <p>Status: {user.statusText}</p>
-    <p>Created: {new Date(user.createdAt).toLocaleString()}</p>
+    <p>Created: {user.createdAt.toLocaleString()}</p>
     <p>Relation: {user.friendStatus}</p>
     <p>Notes: {user.notes ?? ''}</p>
     <slot name="about" />
