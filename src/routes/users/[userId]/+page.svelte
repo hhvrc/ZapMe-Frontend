@@ -1,4 +1,3 @@
-<!--
 <script lang="ts">
   import { page } from '$app/stores';
   import ResponsiveCard from '$components/ResponsiveCard.svelte';
@@ -10,4 +9,3 @@
 <ResponsiveCard>
   <UserProfileFetcher {userId} />
 </ResponsiveCard>
--->

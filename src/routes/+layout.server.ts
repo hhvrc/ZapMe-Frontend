@@ -5,7 +5,12 @@ let config: ApiConfig | null = null;
 
 export async function load() {
   if (!config) {
-    config = await configurationApi.getApiConfig();
+    try {
+      config = await configurationApi.getApiConfig();
+    } catch (e) {
+      console.error('[+layout.server.ts] Error loading config', e);
+      config = null;
+    }
   }
 
   return {
