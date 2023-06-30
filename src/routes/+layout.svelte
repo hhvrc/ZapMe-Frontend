@@ -24,6 +24,7 @@
   import { configurationApi } from '$lib/fetchSingleton';
   import { WebSocketClient } from '$lib/realtime/WebSocketClient';
   import { ApiConfigStore, SessionTokenStore, ThemeStore } from '$lib/stores';
+  import { DefaultThemes } from '$lib/themes';
 
   // Data from, +layout.server.ts
   export let data;
@@ -92,10 +93,12 @@
       href: '/logout',
     },
   ];
+
+  $: selectedTheme = DefaultThemes.find((t) => t.name === $ThemeStore) ?? DefaultThemes[0];
 </script>
 
 <svelte:head>
-  {@html `\<style\>${$ThemeStore.css}\</style\>`}
+  {@html `\<style\>${selectedTheme.css}\</style\>`}
   {@html `\<script\>${autoModeWatcher.toString()} autoModeWatcher();\</script\>`}
 </svelte:head>
 

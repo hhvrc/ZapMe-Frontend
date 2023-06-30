@@ -29,8 +29,8 @@
                 type="submit"
                 name="theme"
                 value={theme.name}
-                class:bg-primary-active-token={$ThemeStore.name === theme.name}
-                on:click={() => ThemeStore.set(theme)}
+                class:bg-primary-active-token={$ThemeStore === theme.name}
+                on:click={() => ThemeStore.set(theme.name)}
               >
                 <span>{theme.icon}</span>
                 <span>{theme.name}</span>
