@@ -10,3 +10,4 @@ export * from './SessionToken';
 export * from './User';
 export * from './UserSettings';
 export * from './ValidationResult';
+export * from './FastReadWritable';
