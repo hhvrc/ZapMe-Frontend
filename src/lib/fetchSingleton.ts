@@ -16,9 +16,14 @@ export const DefaultApiConfiguration = new Configuration({
   basePath: PUBLIC_BACKEND_API_BASE_URL,
   credentials: 'include',
   apiKey: (key) => {
-    if (!browser || key !== 'Authorization') return '';
-    const session = SessionTokenStore.get();
-    return session ? `Bearer ${session.jwtToken}` : '';
+    try {
+      if (!browser || key !== 'Authorization') return '';
+      const session = SessionTokenStore.get();
+      return session ? `Bearer ${session.jwtToken}` : '';
+    } catch (e) {
+      console.error('[fetchSingleton.ts] Error getting session token', e);
+      return '';
+    }
   },
 });
 
