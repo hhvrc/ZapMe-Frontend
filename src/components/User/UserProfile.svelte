@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Avatar, toastStore } from '@skeletonlabs/skeleton';
+  import { Avatar } from '@skeletonlabs/skeleton';
   import { goto } from '$app/navigation';
   import StatusIndicator from '$components/StatusIndicator.svelte';
   import { UserFriendStatus, UserStatus, type UserDto } from '$lib/api';
@@ -83,27 +83,15 @@
           } else if (user.friendStatus === UserFriendStatus.blocked) {
             await userApi.unblockUser(user.id);
             user.friendStatus = UserFriendStatus.none;
-            toastStore.trigger({
-              message: `Unblocked ${user.username}`,
-            });
           } else if (user.friendStatus === UserFriendStatus.friendRequestOutgoing) {
             await userApi.deleteFriendRequest(user.id);
             user.friendStatus = UserFriendStatus.none;
-            toastStore.trigger({
-              message: `Friend request canceled to ${user.username}`,
-            });
           } else if (user.friendStatus === UserFriendStatus.friendRequestIncoming) {
             await userApi.createOrAcceptFriendRequest(user.id);
             user.friendStatus = UserFriendStatus.friends;
-            toastStore.trigger({
-              message: `Accepted friend request from ${user.username}`,
-            });
           } else if (user.friendStatus === UserFriendStatus.none) {
             await userApi.createOrAcceptFriendRequest(user.id);
             user.friendStatus = UserFriendStatus.friendRequestOutgoing;
-            toastStore.trigger({
-              message: `Friend request sent to ${user.username}`,
-            });
           }
         }}
       >
@@ -127,9 +115,6 @@
           on:click={async () => {
             await userApi.blockUser(user.id);
             user.friendStatus = UserFriendStatus.blocked;
-            toastStore.trigger({
-              message: `Blocked ${user.username}`,
-            });
           }}
         >
           Block
@@ -141,9 +126,6 @@
           on:click={async () => {
             await userApi.unfriendUser(user.id);
             user.friendStatus = UserFriendStatus.none;
-            toastStore.trigger({
-              message: `Removed ${user.username} from friends`,
-            });
           }}
         >
           Unfriend
