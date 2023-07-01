@@ -2,7 +2,7 @@
   /* eslint-disable no-useless-escape, svelte/no-at-html-tags */
 
   import '@skeletonlabs/skeleton/styles/all.css';
-  import '../app.css';
+  import '../app.postcss';
   import { arrow, autoUpdate, computePosition, flip, offset, shift } from '@floating-ui/dom';
   import ThemeSwitch from '$components/ThemeSwitch.svelte';
   import '@fontsource/montserrat';
