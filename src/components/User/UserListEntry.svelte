@@ -1,28 +1,11 @@
 <script lang="ts">
   import { Avatar } from '@skeletonlabs/skeleton';
   import StatusIndicator from '$components/StatusIndicator.svelte';
-  import { UserStatus, type UserDto } from '$lib/api';
+  import type { UserDto } from '$lib/api';
+  import { MapUserStatusToString } from '$lib/mappers/UserMapper';
   import { GetUsernameInitials } from '$lib/utils/initials';
 
   export let user: UserDto;
-
-  let onlineStatusText = 'Offline';
-
-  $: switch (user.status) {
-    case UserStatus.doNotDisturb:
-      onlineStatusText = 'Do Not Disturb';
-      break;
-    case UserStatus.inactive:
-      onlineStatusText = 'Idle';
-      break;
-    case UserStatus.online:
-      onlineStatusText = 'Online';
-      break;
-    case UserStatus.offline:
-    default:
-      onlineStatusText = 'Offline';
-      break;
-  }
 
   $: initials = GetUsernameInitials(user.username);
 </script>
@@ -38,7 +21,7 @@
   </span>
   <span class="flex-auto">
     <dt class="font-bold">{user.username}</dt>
-    <dd class="text-sm opacity-50">{user.statusText ?? onlineStatusText}</dd>
+    <dd class="text-sm opacity-50">{user.statusText ?? MapUserStatusToString(user.status)}</dd>
   </span>
 </div>
 

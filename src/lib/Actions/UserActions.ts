@@ -2,6 +2,11 @@ import { UserFriendStatus } from '$lib/api';
 import { userApi } from '$lib/fetchSingleton';
 import { UsersStore } from '$lib/stores/UserRepository';
 
+export async function GetById(userId: string) {
+  const user = await userApi.getUserById(userId);
+  UsersStore.upsertUser(user);
+  return user;
+}
 export async function SendFriendRequest(userId: string) {
   await userApi.createOrAcceptFriendRequest(userId);
   UsersStore.updateUserById(userId, (usr) => {

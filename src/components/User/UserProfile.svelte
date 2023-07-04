@@ -9,27 +9,11 @@
     UnblockUser,
     UnfriendUser,
   } from '$lib/Actions/UserActions';
-  import { UserFriendStatus, UserStatus, type UserDto } from '$lib/api';
+  import { UserFriendStatus, type UserDto } from '$lib/api';
+  import { MapUserStatusToString } from '$lib/mappers/UserMapper';
   import { AccountStore } from '$lib/stores';
 
   export let user: UserDto;
-
-  let onlineStatusText = 'Offline';
-  $: switch (user.status) {
-    case UserStatus.doNotDisturb:
-      onlineStatusText = 'Do Not Disturb';
-      break;
-    case UserStatus.inactive:
-      onlineStatusText = 'Idle';
-      break;
-    case UserStatus.online:
-      onlineStatusText = 'Online';
-      break;
-    case UserStatus.offline:
-    default:
-      onlineStatusText = 'Offline';
-      break;
-  }
 
   $: account = $AccountStore.account;
 </script>
@@ -78,7 +62,7 @@
     </h2>
 
     <!-- Profile status (place at end center) -->
-    <p class="mt-2 text-sm">{onlineStatusText}</p>
+    <p class="mt-2 text-sm">{MapUserStatusToString(user.status)}</p>
   </div>
   <hr class="my-2 !border-t-2" />
   <p class="mt-2 text-sm font-bold uppercase">Last Seen</p>

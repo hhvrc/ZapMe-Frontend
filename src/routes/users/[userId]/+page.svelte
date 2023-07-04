@@ -1,10 +1,22 @@
 <script lang="ts">
   import { page } from '$app/stores';
-  import UserProfileFetcher from '$components/User/UserProfileFetcher.svelte';
+  import { ErrorWrapper } from '$components/ErrorComponents';
+  import UserProfile from '$components/User/UserProfile.svelte';
+  import UserProfilePlaceholder from '$components/User/UserProfilePlaceholder.svelte';
+  import { GetById } from '$lib/Actions/UserActions';
+  import { UsersStore } from '$lib/stores/UserRepository';
 
-  const userId = $page.params.userId;
+  $: userId = $page.params.userId;
+  $: user = $UsersStore.getById(userId);
+  $: request = user ? Promise.resolve(user) : GetById(userId);
 </script>
 
 <div class="responsive-card card">
-  <UserProfileFetcher {userId} />
+  {#await request}
+    <UserProfilePlaceholder />
+  {:then user}
+    <UserProfile {user} />
+  {:catch exception}
+    <ErrorWrapper {exception} />
+  {/await}
 </div>
