@@ -3,6 +3,7 @@
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
   import { accountApi } from '$lib/fetchSingleton';
+  import { SessionTokenStore } from '$lib/stores';
   import { ProgressBar } from '@skeletonlabs/skeleton';
 
   const token = browser ? $page.url.searchParams.get('token') : null;
@@ -20,8 +21,13 @@
         <ProgressBar />
       {:then} 
         <h2>Email Verified</h2>
-        <h4>You can now login to your account.</h4>
-        <button class="btn btn-primary variant-filled" on:click={() => goto('/login')}>Go to Login</button>
+        {#if $SessionTokenStore}
+          <h4>Your email address has been verified.</h4>
+          <button class="btn btn-primary variant-filled" on:click={() => goto('/')}>Go to Home</button>
+        {:else}
+          <h4>You can now login to your account.</h4>
+          <button class="btn btn-primary variant-filled" on:click={() => goto('/login')}>Go to Login</button>
+        {/if}
       {:catch}
         <h2>Email Verification Failed</h2>
         <p>Please check the link in your email and try again.</p>
