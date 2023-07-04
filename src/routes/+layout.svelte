@@ -14,9 +14,9 @@
     Toast,
   } from '@skeletonlabs/skeleton';
   import { browser } from '$app/environment';
-  import Footer from '$components/Layout/Components/Footer.svelte';
-  import Header from '$components/Layout/Components/Header.svelte';
-  import SideBarLeft from '$components/Layout/Components/SideBarLeft.svelte';
+  import Footer from '$components/Layout/Footer.svelte';
+  import Header from '$components/Layout/Header.svelte';
+  import SideBarLeft from '$components/Layout/SideBarLeft.svelte';
   import OpenGraphTags from '$components/MetaTags/OpenGraphTags.svelte';
   import TwitterSummaryTags from '$components/MetaTags/Twitter/TwitterSummaryTags.svelte';
   import { modalComponentRegistry } from '$components/modals';

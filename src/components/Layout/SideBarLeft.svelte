@@ -2,6 +2,8 @@
   import { AppRail, AppRailAnchor } from '@skeletonlabs/skeleton';
   import { page } from '$app/stores';
 
+  export let background: string | undefined = undefined;
+
   const LeadingTiles: { title: string; icon: string; href: string }[] = [
     {
       title: 'Home',
@@ -43,7 +45,7 @@
   ];
 </script>
 
-<AppRail class="!bg-surface-50-900-token">
+<AppRail width="w-12 sm:w-16" {background}>
   <svelte:fragment slot="lead">
     {#each LeadingTiles as { icon, href } (href)}
       <AppRailAnchor {href} selected={$page.url.pathname == href}>

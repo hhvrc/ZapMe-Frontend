@@ -1,5 +1,9 @@
 <script lang="ts">
+  import TextInput from '$components/TextInput.svelte';
+  import UserProfileSkeleton from '$components/User/UserProfileSkeleton.svelte';
+  import { MapUserStatusToString } from '$lib/mappers/UserMapper';
   import { AccountStore, SessionTokenStore } from '$lib/stores';
+  import { validateEmail, validateUsername } from '$lib/validators';
 
   $: account = $AccountStore?.account;
   if (!account && $SessionTokenStore) {
@@ -7,6 +11,18 @@
   }
 
   let username = '';
+  $: usernameValid = validateUsername(username);
+  $: usernameChangeDisabled = !usernameValid.valid || username === account?.username;
+
+  let email = '';
+  $: emailValid = validateEmail(email);
+  $: emailChangeDisabled = !emailValid.valid || email === account?.email;
+
+  let initialized = false;
+  $: if (account && !initialized) {
+    username = account.username;
+    initialized = true;
+  }
 </script>
 
 <svelte:head>
@@ -14,28 +30,37 @@
 </svelte:head>
 
 {#if account}
-  <div class="px-4 py-4">
-    <div class="card overflow-hidden p-4">
-      <span class="text-2xl font-bold">Settings</span>
-      <div class="flex">
-        <input type="text" class="input w-full" placeholder="Username" bind:value={username} />
-        <button type="button" class="btn variant-filled w-1/2 self-center">
-          <span>Edit</span>
-        </button>
+  <div class="card responsive-card">
+    <UserProfileSkeleton user={account}>
+      <div slot="header">
+        <!-- Profile name -->
+        {#if username}
+          <h2 class="text-2xl font-bold">{username}</h2>
+        {:else}
+          <h2 class="text-2xl font-bold opacity-50">{account.username}</h2>
+        {/if}
+
+        <!-- Profile status (place at end center) -->
+        <p class="text-sm">{MapUserStatusToString(account.status)}</p>
       </div>
-      <div class="flex">
-        <input type="text" class="input w-full" placeholder="Email" bind:value={username} />
-        <button type="button" class="btn variant-filled w-1/2 self-center">
-          <span>Edit</span>
-        </button>
-      </div>
-      <div class="flex">
-        <input type="text" class="input w-full" placeholder="Password" bind:value={username} />
-        <button type="button" class="btn variant-filled w-1/2 self-center">
-          <span>Edit</span>
-        </button>
+    </UserProfileSkeleton>
+    <hr />
+    <div class="w-full px-4 py-4">
+      <TextInput title="Username" placeholder="Username" bind:value={username} validationResult={usernameValid}>
+        <button slot="button" class="btn btn-primary variant-filled-surface" disabled={usernameChangeDisabled}>Change</button>
+      </TextInput>
+      <TextInput title="Email" placeholder="Email" bind:value={email} validationResult={emailValid}>
+        <button slot="button" class="btn btn-primary variant-filled-surface" disabled={emailChangeDisabled}>Change</button>
+      </TextInput>
+      <div class="mt-4 flex flex-col gap-2">
+        <h5 class="text-red-500">Danger Zone</h5>
+        <div class="flex flex-row gap-2">
+          <button class="flex-grow btn btn-primary variant-filled-surface">Change Password</button>
+          <button class="flex-grow btn btn-primary bg-red-500">Delete Account</button>
+        </div>
       </div>
     </div>
+    
   </div>
 {:else}
   <p>Loading...</p>

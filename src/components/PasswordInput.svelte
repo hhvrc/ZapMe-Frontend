@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ValidationResultIcon, type ValidationResult } from '$types';
+  import type { ValidationResult } from '$types';
 
   export let title = 'Password';
   export let placeholder = 'Password';
@@ -7,12 +7,6 @@
   export let password: string;
   export let passwordShown = false;
   export let validationResult: ValidationResult | undefined = undefined;
-
-  let errorIcon = 'fa-circle-check text-success-500';
-  let errorMessage: string | undefined = undefined;
-  $: if (validationResult) {
-    errorIcon = ValidationResultIcon(validationResult);
-  }
 </script>
 
 <label class="label">
@@ -37,9 +31,9 @@
         type="button"
         on:click={() => (passwordShown = !passwordShown)}
       />
-      {#if validationResult}
-        <i class={'fa-solid p-1 ' + errorIcon} title={errorMessage} />
-      {/if}
     </div>
   </div>
+  {#if validationResult}
+    <p class="text-red-500 text-sm">{validationResult.message}</p>
+  {/if}
 </label>

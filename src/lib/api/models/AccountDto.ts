@@ -39,11 +39,11 @@ export interface AccountDto {
      */
     username: string;
     /**
-     * Obfuscated email of your account
+     * 
      * @type {string}
      * @memberof AccountDto
      */
-    obscuredEmail: string;
+    email: string;
     /**
      * 
      * @type {boolean}
@@ -125,7 +125,7 @@ export function instanceOfAccountDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "username" in value;
-    isInstance = isInstance && "obscuredEmail" in value;
+    isInstance = isInstance && "email" in value;
     isInstance = isInstance && "emailVerified" in value;
     isInstance = isInstance && "acceptedPrivacyPolicyVersion" in value;
     isInstance = isInstance && "acceptedTermsOfServiceVersion" in value;
@@ -152,7 +152,7 @@ export function AccountDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         
         'id': json['id'],
         'username': json['username'],
-        'obscuredEmail': json['obscuredEmail'],
+        'email': json['email'],
         'emailVerified': json['emailVerified'],
         'acceptedPrivacyPolicyVersion': json['acceptedPrivacyPolicyVersion'],
         'acceptedTermsOfServiceVersion': json['acceptedTermsOfServiceVersion'],
@@ -179,7 +179,7 @@ export function AccountDtoToJSON(value?: AccountDto | null): any {
         
         'id': value.id,
         'username': value.username,
-        'obscuredEmail': value.obscuredEmail,
+        'email': value.email,
         'emailVerified': value.emailVerified,
         'acceptedPrivacyPolicyVersion': value.acceptedPrivacyPolicyVersion,
         'acceptedTermsOfServiceVersion': value.acceptedTermsOfServiceVersion,

@@ -41,7 +41,7 @@
   <title>ZapMe - Users</title>
 </svelte:head>
 
-<div class="card mx-auto my-8 w-1/2 max-w-xl p-4">
+<div class="responsive-card card p-4">
   <form class="flex flex-col space-y-4" on:submit|preventDefault={handleSubmit}>
     <!-- Title -->
     <h2>User lookup</h2>
