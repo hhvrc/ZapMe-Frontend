@@ -1,5 +1,6 @@
 <script lang="ts">
   import { modeCurrent, ProgressRadial } from '@skeletonlabs/skeleton';
+  import { browser } from '$app/environment';
   import CloudflareLogo from '$components/svg/CloudflareLogo.svelte';
   import { PUBLIC_TURNSTILE_SITE_KEY } from '$env/static/public';
   import type { TurnstileInstance } from '$types/TurnstileInstance';
@@ -29,12 +30,14 @@
     setTimeout(() => turnstile?.reset(element), 5000);
   }
 
-  if (isDev) {
-    console.log('Turnstile is disabled in dev mode');
-    response = 'dev-bypass';
-  } else {
-    // If turstile doesnt load, then the index.html is proabably missing the script tag (https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/#explicitly-render-the-turnstile-widget)
-    onMount(() => (turnstile = window.turnstile));
+  if (browser) {
+    if (isDev) {
+      console.log('Turnstile is disabled in dev mode');
+      response = 'dev-bypass';
+    } else {
+      // If turstile doesnt load, then the index.html is proabably missing the script tag (https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/#explicitly-render-the-turnstile-widget)
+      onMount(() => (turnstile = window.turnstile));
+    }
   }
 
   let isLoading = true;
