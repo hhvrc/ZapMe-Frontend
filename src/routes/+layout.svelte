@@ -24,6 +24,7 @@
   import { WebSocketClient } from '$lib/realtime/WebSocketClient';
   import { ApiConfigStore, SessionTokenStore, ThemeStore } from '$lib/stores';
   import { DefaultThemes } from '$lib/themes';
+  import Fidget from '$components/Fidget.svelte';
 
   // Data from, +layout.server.ts
   export let data;
@@ -97,6 +98,8 @@
     <div class="flex h-full w-full flex-col items-center justify-center gap-8">
       <h1>Loading...</h1>
       <ProgressRadial width={'w-60'} />
-    </div>
+      <div class="absolute h-full w-full">
+        <Fidget />
+      </div>
   </AppShell>
 {/if}
