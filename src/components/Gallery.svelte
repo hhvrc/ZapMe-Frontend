@@ -50,7 +50,7 @@
   {#each cols as { images }}
     <div>
       {#if clickImage}
-        {#each images as image}
+        {#each images as image (image.id)}
           <img
             class="cursor-pointer"
             src={image.preview.url}

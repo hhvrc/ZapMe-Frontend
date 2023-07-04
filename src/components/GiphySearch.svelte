@@ -31,6 +31,7 @@
   };
 
   type GiphyEntry = {
+    id: string;
     title: string;
     images: {
       original: EntryImg & EntryWebp & EntryMp4 & { frames: string; hash: string };
@@ -78,10 +79,12 @@
     const json = (await res.json()) as { data: GiphyEntry[] };
     const newEntries = json.data.map((entry) => {
       const {
+        id,
         title,
         images: { original, downsized, preview_webp },
       } = entry;
       return {
+        id,
         title,
         original: {
           url: original.url,
@@ -101,7 +104,9 @@
       };
     }) as GalleryImage[];
 
-    images = [...images, ...newEntries];
+    images = [...images, ...newEntries].filter(
+      (value, index, self) => index === self.findIndex((t) => t.id === value.id)
+    );
   }
 
   let timer: ReturnType<typeof setTimeout>;
