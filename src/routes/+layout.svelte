@@ -14,6 +14,7 @@
     Toast,
   } from '@skeletonlabs/skeleton';
   import { browser } from '$app/environment';
+  import Fidget from '$components/Fidget.svelte';
   import Footer from '$components/Layout/Footer.svelte';
   import Header from '$components/Layout/Header.svelte';
   import SideBarLeft from '$components/Layout/SideBarLeft.svelte';
@@ -24,7 +25,6 @@
   import { WebSocketClient } from '$lib/realtime/WebSocketClient';
   import { ApiConfigStore, SessionTokenStore, ThemeStore } from '$lib/stores';
   import { DefaultThemes } from '$lib/themes';
-  import Fidget from '$components/Fidget.svelte';
 
   // Data from, +layout.server.ts
   export let data;
@@ -101,5 +101,6 @@
       <div class="absolute h-full w-full">
         <Fidget />
       </div>
+    </div>
   </AppShell>
 {/if}

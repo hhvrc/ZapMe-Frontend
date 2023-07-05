@@ -34,6 +34,6 @@
     </div>
   </div>
   {#if validationResult}
-    <p class="text-red-500 text-sm">{validationResult.message}</p>
+    <p class="text-sm text-red-500">{validationResult.message}</p>
   {/if}
 </label>

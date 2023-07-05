@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { modalStore } from '@skeletonlabs/skeleton';
   import TextInput from '$components/TextInput.svelte';
   import UserProfileSkeleton from '$components/User/UserProfileSkeleton.svelte';
   import { MapUserStatusToString } from '$lib/mappers/UserMapper';
@@ -8,6 +9,13 @@
   $: account = $AccountStore?.account;
   if (!account && $SessionTokenStore) {
     AccountStore.fetchAccount();
+  }
+
+  function avatarClickHandler() {
+    modalStore.trigger({ type: 'component', component: 'file' });
+  }
+  function bannerClickHandler() {
+    modalStore.trigger({ type: 'component', component: 'file' });
   }
 
   let username = '';
@@ -30,8 +38,8 @@
 </svelte:head>
 
 {#if account}
-  <div class="card responsive-card">
-    <UserProfileSkeleton user={account}>
+  <div class="responsive-card card">
+    <UserProfileSkeleton user={account} {bannerClickHandler} {avatarClickHandler}>
       <div slot="header">
         <!-- Profile name -->
         {#if username}
@@ -46,21 +54,33 @@
     </UserProfileSkeleton>
     <hr />
     <div class="w-full px-4 py-4">
-      <TextInput title="Username" placeholder="Username" bind:value={username} validationResult={usernameValid}>
-        <button slot="button" class="btn btn-primary variant-filled-surface" disabled={usernameChangeDisabled}>Change</button>
+      <TextInput
+        title="Username"
+        placeholder="Username"
+        bind:value={username}
+        validationResult={usernameValid}
+      >
+        <button
+          slot="button"
+          class="btn-primary btn variant-filled-surface"
+          disabled={usernameChangeDisabled}>Change</button
+        >
       </TextInput>
       <TextInput title="Email" placeholder="Email" bind:value={email} validationResult={emailValid}>
-        <button slot="button" class="btn btn-primary variant-filled-surface" disabled={emailChangeDisabled}>Change</button>
+        <button
+          slot="button"
+          class="btn-primary btn variant-filled-surface"
+          disabled={emailChangeDisabled}>Change</button
+        >
       </TextInput>
       <div class="mt-4 flex flex-col gap-2">
         <h5 class="text-red-500">Danger Zone</h5>
         <div class="flex flex-row gap-2">
-          <button class="flex-grow btn btn-primary variant-filled-surface">Change Password</button>
-          <button class="flex-grow btn btn-primary bg-red-500">Delete Account</button>
+          <button class="btn-primary btn variant-filled-surface flex-grow">Change Password</button>
+          <button class="btn-primary btn flex-grow bg-red-500">Delete Account</button>
         </div>
       </div>
     </div>
-    
   </div>
 {:else}
   <p>Loading...</p>
