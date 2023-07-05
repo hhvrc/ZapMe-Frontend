@@ -8,8 +8,10 @@ import {
   PUBLIC_SENTRY_TRACES_SAMPLERATE,
 } from '$env/static/public';
 
+const sentryEnabled = PUBLIC_SENTRY_ENABLED === 'true';
+
 let errorHandler: any;
-if (PUBLIC_SENTRY_ENABLED) {
+if (sentryEnabled) {
   // Initialize Sentry for error and performance monitoring
   SentryInit({
     dsn: PUBLIC_SENTRY_DSN,
