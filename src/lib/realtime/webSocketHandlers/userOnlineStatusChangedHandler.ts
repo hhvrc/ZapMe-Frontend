@@ -8,9 +8,10 @@ export const handleUserOnlineStatusChanged: WebSocketMessageHandler = (cli, msg)
   msg.payload(payload);
 
   const userId = payload.userId();
+  if (!userId) return;
 
   let onlineStatus: UserStatus;
-  switch (payload.status()) {
+  switch (payload.onlineStatus()) {
     case UserOnlineStatus.offline:
       onlineStatus = UserStatus.offline;
       console.log(`User ${userId} changed status to offline`);
