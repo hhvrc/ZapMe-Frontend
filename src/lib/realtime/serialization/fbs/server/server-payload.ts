@@ -17,9 +17,11 @@ import { ServerHeartbeat } from '../../fbs/server/server-heartbeat.js';
 import { ServerReady } from '../../fbs/server/server-ready.js';
 import { SystemMessage } from '../../fbs/server/system-message.js';
 import { UserMessage } from '../../fbs/server/user-message.js';
-import { UserRelationChanged } from '../../fbs/server/user-relation-changed.js';
+import { UserOnlineStatusChanged } from '../../fbs/server/user-online-status-changed.js';
+import { UserRelationDetailsUpdated } from '../../fbs/server/user-relation-details-updated.js';
+import { UserRelationTypeChanged } from '../../fbs/server/user-relation-type-changed.js';
 import { UserSessionRequest } from '../../fbs/server/user-session-request.js';
-import { UserStatusChanged } from '../../fbs/server/user-status-changed.js';
+import { UserStatusMessageChanged } from '../../fbs/server/user-status-message-changed.js';
 import { SessionEventEnded } from '../../fbs/session/session-event-ended.js';
 import { SessionEventIceCandidateDiscovered } from '../../fbs/session/session-event-ice-candidate-discovered.js';
 import { SessionEventInvited } from '../../fbs/session/session-event-invited.js';
@@ -33,28 +35,30 @@ export enum ServerPayload {
   ready = 1,
   heartbeat = 2,
   system_message = 3,
-  user_status_changed = 4,
-  user_relation_changed = 5,
-  user_message = 6,
-  user_session_request = 7,
-  friend_request_added = 8,
-  friend_request_removed = 9,
-  group_invite = 10,
-  group_added = 11,
-  group_removed = 12,
-  group_title_changed = 13,
-  group_icon_changed = 14,
-  group_participant_added = 15,
-  group_participant_removed = 16,
-  group_message = 17,
-  group_session_request = 18,
-  session_joined = 19,
-  session_user_joined = 20,
-  session_user_left = 21,
-  session_invited = 22,
-  session_left = 23,
-  session_ended = 24,
-  session_ice_candidate_discovered = 25,
+  user_online_status_changed = 4,
+  user_status_message_changed = 5,
+  user_relation_type_changed = 6,
+  user_relation_details_updated = 7,
+  user_message = 8,
+  user_session_request = 9,
+  friend_request_added = 10,
+  friend_request_removed = 11,
+  group_invite = 12,
+  group_added = 13,
+  group_removed = 14,
+  group_title_changed = 15,
+  group_icon_changed = 16,
+  group_participant_added = 17,
+  group_participant_removed = 18,
+  group_message = 19,
+  group_session_request = 20,
+  session_joined = 21,
+  session_user_joined = 22,
+  session_user_left = 23,
+  session_invited = 24,
+  session_left = 25,
+  session_ended = 26,
+  session_ice_candidate_discovered = 27,
 }
 
 export function unionToServerPayload(
@@ -83,9 +87,11 @@ export function unionToServerPayload(
       | SessionEventUserLeft
       | SystemMessage
       | UserMessage
-      | UserRelationChanged
+      | UserOnlineStatusChanged
+      | UserRelationDetailsUpdated
+      | UserRelationTypeChanged
       | UserSessionRequest
-      | UserStatusChanged
+      | UserStatusMessageChanged
   ) =>
     | FriendRequestAdded
     | FriendRequestRemoved
@@ -109,9 +115,11 @@ export function unionToServerPayload(
     | SessionEventUserLeft
     | SystemMessage
     | UserMessage
-    | UserRelationChanged
+    | UserOnlineStatusChanged
+    | UserRelationDetailsUpdated
+    | UserRelationTypeChanged
     | UserSessionRequest
-    | UserStatusChanged
+    | UserStatusMessageChanged
     | null
 ):
   | FriendRequestAdded
@@ -136,9 +144,11 @@ export function unionToServerPayload(
   | SessionEventUserLeft
   | SystemMessage
   | UserMessage
-  | UserRelationChanged
+  | UserOnlineStatusChanged
+  | UserRelationDetailsUpdated
+  | UserRelationTypeChanged
   | UserSessionRequest
-  | UserStatusChanged
+  | UserStatusMessageChanged
   | null {
   switch (ServerPayload[type]) {
     case 'NONE':
@@ -149,10 +159,14 @@ export function unionToServerPayload(
       return accessor(new ServerHeartbeat())! as ServerHeartbeat;
     case 'system_message':
       return accessor(new SystemMessage())! as SystemMessage;
-    case 'user_status_changed':
-      return accessor(new UserStatusChanged())! as UserStatusChanged;
-    case 'user_relation_changed':
-      return accessor(new UserRelationChanged())! as UserRelationChanged;
+    case 'user_online_status_changed':
+      return accessor(new UserOnlineStatusChanged())! as UserOnlineStatusChanged;
+    case 'user_status_message_changed':
+      return accessor(new UserStatusMessageChanged())! as UserStatusMessageChanged;
+    case 'user_relation_type_changed':
+      return accessor(new UserRelationTypeChanged())! as UserRelationTypeChanged;
+    case 'user_relation_details_updated':
+      return accessor(new UserRelationDetailsUpdated())! as UserRelationDetailsUpdated;
     case 'user_message':
       return accessor(new UserMessage())! as UserMessage;
     case 'user_session_request':
@@ -227,9 +241,11 @@ export function unionListToServerPayload(
       | SessionEventUserLeft
       | SystemMessage
       | UserMessage
-      | UserRelationChanged
+      | UserOnlineStatusChanged
+      | UserRelationDetailsUpdated
+      | UserRelationTypeChanged
       | UserSessionRequest
-      | UserStatusChanged
+      | UserStatusMessageChanged
   ) =>
     | FriendRequestAdded
     | FriendRequestRemoved
@@ -253,9 +269,11 @@ export function unionListToServerPayload(
     | SessionEventUserLeft
     | SystemMessage
     | UserMessage
-    | UserRelationChanged
+    | UserOnlineStatusChanged
+    | UserRelationDetailsUpdated
+    | UserRelationTypeChanged
     | UserSessionRequest
-    | UserStatusChanged
+    | UserStatusMessageChanged
     | null,
   index: number
 ):
@@ -281,9 +299,11 @@ export function unionListToServerPayload(
   | SessionEventUserLeft
   | SystemMessage
   | UserMessage
-  | UserRelationChanged
+  | UserOnlineStatusChanged
+  | UserRelationDetailsUpdated
+  | UserRelationTypeChanged
   | UserSessionRequest
-  | UserStatusChanged
+  | UserStatusMessageChanged
   | null {
   switch (ServerPayload[type]) {
     case 'NONE':
@@ -294,10 +314,14 @@ export function unionListToServerPayload(
       return accessor(index, new ServerHeartbeat())! as ServerHeartbeat;
     case 'system_message':
       return accessor(index, new SystemMessage())! as SystemMessage;
-    case 'user_status_changed':
-      return accessor(index, new UserStatusChanged())! as UserStatusChanged;
-    case 'user_relation_changed':
-      return accessor(index, new UserRelationChanged())! as UserRelationChanged;
+    case 'user_online_status_changed':
+      return accessor(index, new UserOnlineStatusChanged())! as UserOnlineStatusChanged;
+    case 'user_status_message_changed':
+      return accessor(index, new UserStatusMessageChanged())! as UserStatusMessageChanged;
+    case 'user_relation_type_changed':
+      return accessor(index, new UserRelationTypeChanged())! as UserRelationTypeChanged;
+    case 'user_relation_details_updated':
+      return accessor(index, new UserRelationDetailsUpdated())! as UserRelationDetailsUpdated;
     case 'user_message':
       return accessor(index, new UserMessage())! as UserMessage;
     case 'user_session_request':

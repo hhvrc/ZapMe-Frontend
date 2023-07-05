@@ -22,9 +22,11 @@ import { handleSessionUserJoined } from './sessionUserJoinedHandler';
 import { handleSessionUserLeft } from './sessionUserLeftHandler';
 import { handleSystemMessage } from './systemMessageHandler';
 import { handleUserMessage } from './userMessageHandler';
-import { handleUserRelationChanged } from './userRelationChangedHandler';
+import { handleUserOnlineStatusChanged } from './userOnlineStatusChangedHandler';
+import { handleUserRelationDetailsUpdated } from './userRelationDetailsUpdatedHandler';
+import { handleUserRelationTypeChanged } from './userRelationTypeChangedHandler';
 import { handleUserSessionRequest } from './userSessionRequestHandler';
-import { handleUserStatusChanged } from './userStatusChangedHandler';
+import { handleUserStatusMessageChanged } from './userStatusMessageChangedHandler';
 import type { WebSocketMessageHandler } from '$types/WebSocketMessageHandler';
 
 const WebSocketPayloadHandlers: WebSocketMessageHandler[] = new Array<WebSocketMessageHandler>(
@@ -35,8 +37,12 @@ WebSocketPayloadHandlers[ServerPayload.NONE] = handleInvalidMessage;
 WebSocketPayloadHandlers[ServerPayload.ready] = handleReady;
 WebSocketPayloadHandlers[ServerPayload.heartbeat] = handleHeartbeat;
 WebSocketPayloadHandlers[ServerPayload.system_message] = handleSystemMessage;
-WebSocketPayloadHandlers[ServerPayload.user_status_changed] = handleUserStatusChanged;
-WebSocketPayloadHandlers[ServerPayload.user_relation_changed] = handleUserRelationChanged;
+WebSocketPayloadHandlers[ServerPayload.user_online_status_changed] = handleUserOnlineStatusChanged;
+WebSocketPayloadHandlers[ServerPayload.user_status_message_changed] =
+  handleUserStatusMessageChanged;
+WebSocketPayloadHandlers[ServerPayload.user_relation_type_changed] = handleUserRelationTypeChanged;
+WebSocketPayloadHandlers[ServerPayload.user_relation_details_updated] =
+  handleUserRelationDetailsUpdated;
 WebSocketPayloadHandlers[ServerPayload.user_message] = handleUserMessage;
 WebSocketPayloadHandlers[ServerPayload.user_session_request] = handleUserSessionRequest;
 WebSocketPayloadHandlers[ServerPayload.friend_request_added] = handleFriendRequestAdded;

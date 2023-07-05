@@ -4,6 +4,8 @@
 
 export enum UserRelationType {
   none = 0,
-  friend = 1,
-  blocked = 2,
+  friend_request_sent = 1,
+  friend_request_received = 2,
+  friend = 3,
+  blocked = 4,
 }

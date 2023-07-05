@@ -43,8 +43,8 @@ models/UpdatePassword.ts
 models/UpdateProfilePictureOk.ts
 models/UpdateUserName.ts
 models/UserDto.ts
-models/UserFriendStatus.ts
 models/UserNotification.ts
+models/UserRelationType.ts
 models/UserReport.ts
 models/UserStatus.ts
 models/WebRtcConfig.ts

@@ -34,28 +34,30 @@ export class FriendRequestRemoved {
     );
   }
 
-  userId(): string | null;
-  userId(optionalEncoding: flatbuffers.Encoding): string | Uint8Array | null;
-  userId(optionalEncoding?: any): string | Uint8Array | null {
+  senderUserId(): string | null;
+  senderUserId(optionalEncoding: flatbuffers.Encoding): string | Uint8Array | null;
+  senderUserId(optionalEncoding?: any): string | Uint8Array | null {
     const offset = this.bb!.__offset(this.bb_pos, 4);
     return offset ? this.bb!.__string(this.bb_pos + offset, optionalEncoding) : null;
   }
 
-  incoming(): boolean {
+  receiverUserId(): string | null;
+  receiverUserId(optionalEncoding: flatbuffers.Encoding): string | Uint8Array | null;
+  receiverUserId(optionalEncoding?: any): string | Uint8Array | null {
     const offset = this.bb!.__offset(this.bb_pos, 6);
-    return offset ? !!this.bb!.readInt8(this.bb_pos + offset) : false;
+    return offset ? this.bb!.__string(this.bb_pos + offset, optionalEncoding) : null;
   }
 
   static startFriendRequestRemoved(builder: flatbuffers.Builder) {
     builder.startObject(2);
   }
 
-  static addUserId(builder: flatbuffers.Builder, userIdOffset: flatbuffers.Offset) {
-    builder.addFieldOffset(0, userIdOffset, 0);
+  static addSenderUserId(builder: flatbuffers.Builder, senderUserIdOffset: flatbuffers.Offset) {
+    builder.addFieldOffset(0, senderUserIdOffset, 0);
   }
 
-  static addIncoming(builder: flatbuffers.Builder, incoming: boolean) {
-    builder.addFieldInt8(1, +incoming, +false);
+  static addReceiverUserId(builder: flatbuffers.Builder, receiverUserIdOffset: flatbuffers.Offset) {
+    builder.addFieldOffset(1, receiverUserIdOffset, 0);
   }
 
   static endFriendRequestRemoved(builder: flatbuffers.Builder): flatbuffers.Offset {
@@ -65,12 +67,12 @@ export class FriendRequestRemoved {
 
   static createFriendRequestRemoved(
     builder: flatbuffers.Builder,
-    userIdOffset: flatbuffers.Offset,
-    incoming: boolean
+    senderUserIdOffset: flatbuffers.Offset,
+    receiverUserIdOffset: flatbuffers.Offset
   ): flatbuffers.Offset {
     FriendRequestRemoved.startFriendRequestRemoved(builder);
-    FriendRequestRemoved.addUserId(builder, userIdOffset);
-    FriendRequestRemoved.addIncoming(builder, incoming);
+    FriendRequestRemoved.addSenderUserId(builder, senderUserIdOffset);
+    FriendRequestRemoved.addReceiverUserId(builder, receiverUserIdOffset);
     return FriendRequestRemoved.endFriendRequestRemoved(builder);
   }
 }

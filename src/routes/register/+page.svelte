@@ -8,7 +8,7 @@
   import PasswordInput from '$components/PasswordInput.svelte';
   import TextInput from '$components/TextInput.svelte';
   import Turnstile from '$components/Turnstile.svelte';
-  import { type ProviderDataDto } from '$lib/api';
+  import type { ProviderDataDto } from '$lib/api';
   import { accountApi, singleSignOnApi } from '$lib/fetchSingleton';
   import { createErrorToast, createSuccessToast } from '$lib/helpers';
   import { handleFetchError } from '$lib/helpers/errorDetailsHelpers';

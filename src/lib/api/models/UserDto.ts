@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { UserFriendStatus } from './UserFriendStatus';
+import type { UserRelationType } from './UserRelationType';
 import {
-    UserFriendStatusFromJSON,
-    UserFriendStatusFromJSONTyped,
-    UserFriendStatusToJSON,
-} from './UserFriendStatus';
+    UserRelationTypeFromJSON,
+    UserRelationTypeFromJSONTyped,
+    UserRelationTypeToJSON,
+} from './UserRelationType';
 import type { UserStatus } from './UserStatus';
 import {
     UserStatusFromJSON,
@@ -70,10 +70,10 @@ export interface UserDto {
     statusText: string;
     /**
      * 
-     * @type {UserFriendStatus}
+     * @type {UserRelationType}
      * @memberof UserDto
      */
-    friendStatus: UserFriendStatus;
+    relation: UserRelationType;
     /**
      * 
      * @type {boolean}
@@ -127,7 +127,7 @@ export function instanceOfUserDto(value: object): boolean {
     isInstance = isInstance && "username" in value;
     isInstance = isInstance && "status" in value;
     isInstance = isInstance && "statusText" in value;
-    isInstance = isInstance && "friendStatus" in value;
+    isInstance = isInstance && "relation" in value;
     isInstance = isInstance && "isFavorite" in value;
     isInstance = isInstance && "isMuted" in value;
     isInstance = isInstance && "createdAt" in value;
@@ -152,7 +152,7 @@ export function UserDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): U
         'bannerUrl': !exists(json, 'bannerUrl') ? undefined : json['bannerUrl'],
         'status': UserStatusFromJSON(json['status']),
         'statusText': json['statusText'],
-        'friendStatus': UserFriendStatusFromJSON(json['friendStatus']),
+        'relation': UserRelationTypeFromJSON(json['relation']),
         'isFavorite': json['isFavorite'],
         'isMuted': json['isMuted'],
         'nickName': !exists(json, 'nickName') ? undefined : json['nickName'],
@@ -178,7 +178,7 @@ export function UserDtoToJSON(value?: UserDto | null): any {
         'bannerUrl': value.bannerUrl,
         'status': UserStatusToJSON(value.status),
         'statusText': value.statusText,
-        'friendStatus': UserFriendStatusToJSON(value.friendStatus),
+        'relation': UserRelationTypeToJSON(value.relation),
         'isFavorite': value.isFavorite,
         'isMuted': value.isMuted,
         'nickName': value.nickName,
