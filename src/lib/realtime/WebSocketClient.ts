@@ -1,4 +1,5 @@
-import { ClientHeartbeat, ClientMessage, ClientPayload } from './serialization/fbs/client';
+import { ClientUserMessage, ClientUserPayload } from './serialization/fbs/client';
+import { ClientHeartbeat } from './serialization/fbs/common';
 import { ServerMessage } from './serialization/fbs/server';
 import WebSocketPayloadHandlers from './webSocketHandlers';
 import { PUBLIC_BACKEND_WEBSOCKET_URL } from '$env/static/public';
@@ -129,7 +130,7 @@ export class WebSocketClient {
     this._autoReconnect = true;
     this._connectionState = ConnectionState.CONNECTING;
 
-    this._socket = new WebSocket(PUBLIC_BACKEND_WEBSOCKET_URL);
+    this._socket = new WebSocket(PUBLIC_BACKEND_WEBSOCKET_URL, ['binary', 'fbs', 'client_user']);
     this._socket.binaryType = 'arraybuffer';
     this._socket.onopen = this.handleOpen.bind(this);
     this._socket.onclose = this.handleClose.bind(this);
@@ -187,13 +188,13 @@ export class WebSocketClient {
     }
   }
 
-  public sendMessage(builder: FbsBuilder, payloadType: ClientPayload, payloadOffset: number) {
+  public sendMessage(builder: FbsBuilder, payloadType: ClientUserPayload, payloadOffset: number) {
     if (!this._socket) {
       this.ReconnectIfWanted();
       return;
     }
 
-    builder.finish(ClientMessage.createClientMessage(builder, payloadType, payloadOffset));
+    builder.finish(ClientUserMessage.createClientUserMessage(builder, payloadType, payloadOffset));
 
     this._socket.send(builder.asUint8Array());
   }
@@ -264,7 +265,7 @@ export class WebSocketClient {
     const builder = new FbsBuilder(64);
     this.sendMessage(
       builder,
-      ClientPayload.heartbeat,
+      ClientUserPayload.heartbeat,
       ClientHeartbeat.createClientHeartbeat(builder, this.HeartbeatIntervalMS)
     );
   }

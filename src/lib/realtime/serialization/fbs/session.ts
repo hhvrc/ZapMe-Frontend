@@ -2,6 +2,8 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any, @typescript-eslint/no-non-null-assertion */
 
+export { SessionDeviceConnected } from './session/session-device-connected.js';
+export { SessionDeviceDisconnected } from './session/session-device-disconnected.js';
 export { SessionEventEnded } from './session/session-event-ended.js';
 export { SessionEventIceCandidateDiscovered } from './session/session-event-ice-candidate-discovered.js';
 export { SessionEventInvited } from './session/session-event-invited.js';

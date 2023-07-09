@@ -2,7 +2,7 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any, @typescript-eslint/no-non-null-assertion */
 
-import { ClientHeartbeat } from '../../fbs/client/client-heartbeat.js';
+import { ClientHeartbeat } from '../../fbs/common/client-heartbeat.js';
 import { SessionIceCandidateDiscovered } from '../../fbs/session/session-ice-candidate-discovered.js';
 import { SessionInvite } from '../../fbs/session/session-invite.js';
 import { SessionJoin } from '../../fbs/session/session-join.js';
@@ -10,7 +10,7 @@ import { SessionLeave } from '../../fbs/session/session-leave.js';
 import { SessionReject } from '../../fbs/session/session-reject.js';
 import { SessionRejoin } from '../../fbs/session/session-rejoin.js';
 
-export enum ClientPayload {
+export enum ClientUserPayload {
   NONE = 0,
   heartbeat = 1,
   session_join = 2,
@@ -21,8 +21,8 @@ export enum ClientPayload {
   session_ice_candidate_discovered = 7,
 }
 
-export function unionToClientPayload(
-  type: ClientPayload,
+export function unionToClientUserPayload(
+  type: ClientUserPayload,
   accessor: (
     obj:
       | ClientHeartbeat
@@ -50,7 +50,7 @@ export function unionToClientPayload(
   | SessionReject
   | SessionRejoin
   | null {
-  switch (ClientPayload[type]) {
+  switch (ClientUserPayload[type]) {
     case 'NONE':
       return null;
     case 'heartbeat':
@@ -72,8 +72,8 @@ export function unionToClientPayload(
   }
 }
 
-export function unionListToClientPayload(
-  type: ClientPayload,
+export function unionListToClientUserPayload(
+  type: ClientUserPayload,
   accessor: (
     index: number,
     obj:
@@ -103,7 +103,7 @@ export function unionListToClientPayload(
   | SessionReject
   | SessionRejoin
   | null {
-  switch (ClientPayload[type]) {
+  switch (ClientUserPayload[type]) {
     case 'NONE':
       return null;
     case 'heartbeat':

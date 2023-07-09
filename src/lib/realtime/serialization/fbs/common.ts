@@ -2,5 +2,4 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any, @typescript-eslint/no-non-null-assertion */
 
-export { ClientUserMessage } from './client/client-user-message.js';
-export { ClientUserPayload } from './client/client-user-payload.js';
+export { ClientHeartbeat } from './common/client-heartbeat.js';
