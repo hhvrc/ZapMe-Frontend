@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { RfProtocol } from './RfProtocol';
+import {
+    RfProtocolFromJSON,
+    RfProtocolFromJSONTyped,
+    RfProtocolToJSON,
+} from './RfProtocol';
+
 /**
  * 
  * @export
@@ -27,6 +34,66 @@ export interface DeviceDto {
     id: string;
     /**
      * 
+     * @type {string}
+     * @memberof DeviceDto
+     */
+    name: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeviceDto
+     */
+    modelId: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeviceDto
+     */
+    modelName: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeviceDto
+     */
+    modelNumber: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeviceDto
+     */
+    modelWebsiteUrl: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeviceDto
+     */
+    iconUrl: string;
+    /**
+     * 
+     * @type {RfProtocol}
+     * @memberof DeviceDto
+     */
+    protocol: RfProtocol;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeviceDto
+     */
+    manufacturerId: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeviceDto
+     */
+    manufacturerName: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeviceDto
+     */
+    manufacturerWebsiteUrl: string;
+    /**
+     * 
      * @type {Date}
      * @memberof DeviceDto
      */
@@ -39,6 +106,16 @@ export interface DeviceDto {
 export function instanceOfDeviceDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
+    isInstance = isInstance && "name" in value;
+    isInstance = isInstance && "modelId" in value;
+    isInstance = isInstance && "modelName" in value;
+    isInstance = isInstance && "modelNumber" in value;
+    isInstance = isInstance && "modelWebsiteUrl" in value;
+    isInstance = isInstance && "iconUrl" in value;
+    isInstance = isInstance && "protocol" in value;
+    isInstance = isInstance && "manufacturerId" in value;
+    isInstance = isInstance && "manufacturerName" in value;
+    isInstance = isInstance && "manufacturerWebsiteUrl" in value;
     isInstance = isInstance && "registeredAt" in value;
 
     return isInstance;
@@ -55,6 +132,16 @@ export function DeviceDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     return {
         
         'id': json['id'],
+        'name': json['name'],
+        'modelId': json['modelId'],
+        'modelName': json['modelName'],
+        'modelNumber': json['modelNumber'],
+        'modelWebsiteUrl': json['modelWebsiteUrl'],
+        'iconUrl': json['iconUrl'],
+        'protocol': RfProtocolFromJSON(json['protocol']),
+        'manufacturerId': json['manufacturerId'],
+        'manufacturerName': json['manufacturerName'],
+        'manufacturerWebsiteUrl': json['manufacturerWebsiteUrl'],
         'registeredAt': (new Date(json['registeredAt'])),
     };
 }
@@ -69,6 +156,16 @@ export function DeviceDtoToJSON(value?: DeviceDto | null): any {
     return {
         
         'id': value.id,
+        'name': value.name,
+        'modelId': value.modelId,
+        'modelName': value.modelName,
+        'modelNumber': value.modelNumber,
+        'modelWebsiteUrl': value.modelWebsiteUrl,
+        'iconUrl': value.iconUrl,
+        'protocol': RfProtocolToJSON(value.protocol),
+        'manufacturerId': value.manufacturerId,
+        'manufacturerName': value.manufacturerName,
+        'manufacturerWebsiteUrl': value.manufacturerWebsiteUrl,
         'registeredAt': (value.registeredAt.toISOString()),
     };
 }

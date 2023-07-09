@@ -23,6 +23,7 @@ export * from './ProviderDataDto';
 export * from './RecoveryConfirm';
 export * from './RecoveryRequest';
 export * from './RequestAccountPasswordResetRequest';
+export * from './RfProtocol';
 export * from './SignInRequest';
 export * from './SocialsConfig';
 export * from './UpdateAccountEmailRequest';

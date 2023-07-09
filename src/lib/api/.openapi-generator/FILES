@@ -32,6 +32,7 @@ models/ProviderDataDto.ts
 models/RecoveryConfirm.ts
 models/RecoveryRequest.ts
 models/RequestAccountPasswordResetRequest.ts
+models/RfProtocol.ts
 models/SignInRequest.ts
 models/SocialsConfig.ts
 models/UpdateAccountEmailRequest.ts
