@@ -25,6 +25,11 @@
       icon: 'fa-user',
       href: '/users',
     },
+    {
+      title: 'Control',
+      icon: 'fa-gamepad',
+      href: '/control',
+    }
   ];
   const TrailingTiles: { title: string; icon: string; href: string }[] = [
     {
