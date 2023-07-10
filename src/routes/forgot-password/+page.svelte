@@ -1,9 +1,13 @@
 <script lang="ts">
+  import { handleError } from '../../hooks.client';
   import type { Snapshot } from './$types';
-  import { focusTrap } from '@skeletonlabs/skeleton';
-  import { enhance } from '$app/forms';
+  import { focusTrap, modalStore } from '@skeletonlabs/skeleton';
+  import { goto } from '$app/navigation';
   import TextInput from '$components/TextInput.svelte';
   import Turnstile from '$components/Turnstile.svelte';
+  import { accountApi } from '$lib/fetchSingleton';
+  import { createSuccessToast, handleFetchError } from '$lib/helpers';
+  import { validateEmail } from '$lib/validators';
 
   export const snapshot: Snapshot = {
     capture: () => email,
@@ -11,9 +15,46 @@
   };
 
   let email = '';
-  let turnstileToken: string | null = null;
+  let turnstileResponse: string | null = null;
+  let submitting = false;
 
-  let disabled = true;
+  async function handleSubmit() {
+    if (!turnstileResponse) return;
+
+    submitting = true;
+    try {
+      await accountApi.requestAccountPasswordReset({
+        email,
+        turnstileResponse,
+      });
+
+      modalStore.trigger({
+        type: 'alert',
+        title: 'Success',
+        body: 'If an account with that email exists, a email has been sent to it with instructions on how to reset your password.',
+        response: () => {
+          goto('/login');
+        },
+        buttonTextCancel: 'OK',
+      });
+    } catch (error) {
+      const response = await handleFetchError(error);
+      if (!response) return;
+
+      const fields = response.apiFields;
+      if (fields) {
+        if (fields.email) {
+          emailError = { valid: false, message: fields.username[0] };
+        }
+      }
+    } finally {
+      submitting = false;
+    }
+  }
+
+  $: emailError = validateEmail(email);
+
+  $: disabled = !emailError.valid || !turnstileResponse || submitting;
 </script>
 
 <svelte:head>
@@ -24,16 +65,8 @@
 <div class="card mx-auto my-8 w-1/2 max-w-xl p-4">
   <form
     class="flex flex-col space-y-4"
-    method="post"
+    on:submit|preventDefault={handleSubmit}
     use:focusTrap={true}
-    use:enhance={() => {
-      disabled = true;
-
-      return async ({ update }) => {
-        await update();
-        disabled = false;
-      };
-    }}
   >
     <!-- Title -->
     <h2>Forgot Password</h2>
@@ -47,7 +80,7 @@
     />
 
     <!-- Turnstile -->
-    <Turnstile action="forgot-password" bind:response={turnstileToken} />
+    <Turnstile action="forgot-password" bind:response={turnstileResponse} />
 
     <!-- Submit -->
     <button type="submit" class="btn variant-filled w-1/2 self-center" {disabled}>
