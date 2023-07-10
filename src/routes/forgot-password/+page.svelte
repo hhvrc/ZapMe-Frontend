@@ -1,12 +1,11 @@
 <script lang="ts">
-  import { handleError } from '../../hooks.client';
   import type { Snapshot } from './$types';
   import { focusTrap, modalStore } from '@skeletonlabs/skeleton';
   import { goto } from '$app/navigation';
   import TextInput from '$components/TextInput.svelte';
   import Turnstile from '$components/Turnstile.svelte';
   import { accountApi } from '$lib/fetchSingleton';
-  import { createSuccessToast, handleFetchError } from '$lib/helpers';
+  import { handleFetchError } from '$lib/helpers';
   import { validateEmail } from '$lib/validators';
 
   export const snapshot: Snapshot = {
@@ -30,7 +29,7 @@
 
       modalStore.trigger({
         type: 'alert',
-        title: 'Success',
+        title: 'Password Reset Requested',
         body: 'If an account with that email exists, a email has been sent to it with instructions on how to reset your password.',
         response: () => {
           goto('/login');
@@ -84,8 +83,7 @@
 
     <!-- Submit -->
     <button type="submit" class="btn variant-filled w-1/2 self-center" {disabled}>
-      <span class="hidden md:inline-block">🚀</span>
-      <span>Request Password Reset</span>
+      Request Password Reset
     </button>
   </form>
 </div>

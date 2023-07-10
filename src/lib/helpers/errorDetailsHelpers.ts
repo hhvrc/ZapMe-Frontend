@@ -1,10 +1,22 @@
-import { createErrorToast } from './toastHelpers';
 import { goto } from '$app/navigation';
 import { SessionTokenStore } from '$lib/stores';
 import { isErrorDetails, isFetchError, isRequiredError, isResponseError } from '$lib/typeGuards';
 import { BuildRedirectURL, GetRedirectURL } from '$lib/utils/redirects';
 import type { ApiErrorResponse } from '$types';
 import { getReasonPhrase } from 'http-status-codes';
+import { browser } from '$app/environment';
+import { toastStore } from '@skeletonlabs/skeleton';
+
+function createErrorToast(message: string, timeout = 10000) {
+  if (!browser) return;
+  toastStore.trigger({
+    message,
+    autohide: true,
+    timeout,
+    background: 'variant-filled-error',
+  });
+}
+
 
 export async function handleFetchError(
   error: unknown,

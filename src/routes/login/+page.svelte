@@ -78,8 +78,7 @@
 
     <!-- Submit -->
     <button type="submit" class="btn variant-filled w-1/2 self-center" {disabled}>
-      <span class="hidden md:inline-block">🚀</span>
-      <span>Login</span>
+      Login
     </button>
 
     <a href="/register" class="text-center"> Don't have an account? Register here. </a>

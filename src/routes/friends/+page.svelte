@@ -10,10 +10,20 @@
   <title>ZapMe - Friends</title>
 </svelte:head>
 
-<div class="bg-surface-100-800-token">
-  <dl class="list-dl">
-    {#each friendIds as userId (userId)}
-      <UserListEntryFetcher {userId} />
-    {/each}
-  </dl>
+<div class="card responsive-card p-4">
+  <div class="flex flex-row justify-between items-center">
+    <h1>Friends</h1>
+    <button class="btn-primary btn variant-filled-surface">Add</button>
+  </div>
+  <hr class="my-2"/>
+  {#if friendIds.length > 0}
+    <p>{friendIds.length} friends</p>
+    <dl class="list-dl">
+      {#each friendIds as userId (userId)}
+        <UserListEntryFetcher {userId} />
+      {/each}
+    </dl>
+  {:else}
+    <p>You have no friends yet.</p>
+  {/if}
 </div>

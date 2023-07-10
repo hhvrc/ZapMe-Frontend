@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Snapshot } from './$types';
-  import { focusTrap } from '@skeletonlabs/skeleton';
+  import { focusTrap, modalStore, toastStore } from '@skeletonlabs/skeleton';
   import { browser } from '$app/environment';
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
@@ -10,7 +10,6 @@
   import Turnstile from '$components/Turnstile.svelte';
   import type { ProviderDataDto } from '$lib/api';
   import { accountApi, singleSignOnApi } from '$lib/fetchSingleton';
-  import { createErrorToast, createSuccessToast } from '$lib/helpers';
   import { handleFetchError } from '$lib/helpers/errorDetailsHelpers';
   import { ApiConfigStore, SessionTokenStore } from '$lib/stores';
   import {
@@ -55,10 +54,12 @@
           ssoData = response;
           username = ssoData.userName;
           email = ssoData.email;
-          createErrorToast(
-            `Your ${ssoData.providerName} account is not linked to a ZapMe account. Create or log in to your ZapMe account to link it.`,
-            15000
-          );
+          toastStore.trigger({
+            message: `Your ${ssoData.providerName} account is linked to a ZapMe account. Please complete the registration process.`,
+            autohide: true,
+            timeout: 15000,
+            background: 'bg-primary-500',
+          });
         })
         .catch((error) => {
           handleFetchError(error);
@@ -84,12 +85,24 @@
         ssoToken,
       });
 
-      createSuccessToast(
-        'Account created successfully.' +
-          (result.emailVerificationRequired
-            ? ' Please check your email to verify your account.'
-            : '')
-      );
+      if (result.emailVerificationRequired) {
+        modalStore.trigger({
+          type: 'alert',
+          title: 'Verify your email address',
+          body: 'Almost done! Please check your email for a verification link.',
+          response: () => {
+            goto('/login');
+          },
+          buttonTextCancel: 'Got it',
+        });
+      } else {
+        toastStore.trigger({
+          message: 'Account created successfully.',
+          autohide: true,
+          timeout: 20_000,
+          background: 'variant-filled-success',
+        });
+      }
 
       const session = result.session;
       if (session) {
@@ -207,8 +220,7 @@
 
     <!-- Submit -->
     <button type="submit" class="btn variant-filled w-1/2 self-center" {disabled}>
-      <span class="hidden md:inline-block">🚀</span>
-      <span>Register</span>
+      Register
     </button>
   </form>
 </div>
