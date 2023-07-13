@@ -2,6 +2,7 @@ import { ClientUserMessage, ClientUserPayload } from './serialization/fbs/client
 import { ClientHeartbeat } from './serialization/fbs/common';
 import { ServerMessage } from './serialization/fbs/server';
 import WebSocketPayloadHandlers from './webSocketHandlers';
+import { browser } from '$app/environment';
 import { PUBLIC_BACKEND_WEBSOCKET_URL } from '$env/static/public';
 import { SessionTokenStore } from '$lib/stores';
 import { isArrayBuffer } from '$lib/typeGuards';
@@ -118,6 +119,7 @@ export class WebSocketClient {
   public Connect() {
     const connectionState = this.ConnectionState;
     if (
+      !browser ||
       connectionState === ConnectionState.CONNECTING ||
       connectionState === ConnectionState.CONNECTED
     ) {
