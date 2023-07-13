@@ -10,12 +10,12 @@
   <title>ZapMe - Friends</title>
 </svelte:head>
 
-<div class="card responsive-card p-4">
-  <div class="flex flex-row justify-between items-center">
+<div class="responsive-card card p-4">
+  <div class="flex flex-row items-center justify-between">
     <h1>Friends</h1>
     <button class="btn-primary btn variant-filled-surface">Add</button>
   </div>
-  <hr class="my-2"/>
+  <hr class="my-2" />
   {#if friendIds.length > 0}
     <p>{friendIds.length} friends</p>
     <dl class="list-dl">

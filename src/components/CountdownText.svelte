@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+  import { createEventDispatcher, onMount } from 'svelte';
 
   const dispatch = createEventDispatcher();
 
@@ -13,11 +13,12 @@
     timer = setInterval(() => {
       nowUtcEpoc = Date.now();
     }, 250);
-  });
-  onDestroy(() => {
-    if (timer) {
-      clearInterval(timer);
-    }
+
+    return () => {
+      if (timer) {
+        clearInterval(timer);
+      }
+    };
   });
 
   let seconds: number;
@@ -29,9 +30,10 @@
     let diffMs = expiresAtUtcEpoc - nowUtcEpoc;
     if (diffMs <= 0 && timer) {
       clearInterval(timer);
+      timer = null;
+
       dispatch('expired');
 
-      timer = null;
       nowUtcEpoc = expiresAtUtcEpoc;
       diffMs = 0;
     }

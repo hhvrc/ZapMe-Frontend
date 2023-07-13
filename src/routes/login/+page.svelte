@@ -77,9 +77,7 @@
     </label>
 
     <!-- Submit -->
-    <button type="submit" class="btn variant-filled w-1/2 self-center" {disabled}>
-      Login
-    </button>
+    <button type="submit" class="btn variant-filled w-1/2 self-center" {disabled}> Login </button>
 
     <a href="/register" class="text-center"> Don't have an account? Register here. </a>
 
