@@ -2,12 +2,13 @@ import { default as cfAdapter } from '@sveltejs/adapter-cloudflare';
 import preprocess from 'svelte-preprocess';
 
 export default {
-  preprocess: [
-    preprocess({
-      postcss: true,
-      sourceMap: true,
-    }),
-  ],
+  compilerOptions: {
+    enableSourcemap: true,
+  },
+  preprocess: preprocess({
+    postcss: true,
+    sourceMap: true,
+  }),
   kit: {
     adapter: cfAdapter({
       routes: {
