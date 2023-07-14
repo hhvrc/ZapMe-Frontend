@@ -1,5 +1,6 @@
 import { BrowserTracing, Replay } from '@sentry/browser';
 import { captureException as SentryCaptureException, init as SentryInit } from '@sentry/svelte';
+import type { HandleServerError } from '@sveltejs/kit';
 import {
   PUBLIC_SENTRY_DSN,
   PUBLIC_SENTRY_ENABLED,
@@ -10,7 +11,7 @@ import {
 
 const sentryEnabled = PUBLIC_SENTRY_ENABLED === 'true';
 
-let errorHandler: any;
+let errorHandler: HandleServerError;
 if (sentryEnabled) {
   // Initialize Sentry for error and performance monitoring
   SentryInit({
@@ -28,7 +29,14 @@ if (sentryEnabled) {
     // If you don't want to use Session Replay, just remove the line below:
     integrations: [new BrowserTracing(), new Replay()],
   });
-  errorHandler = SentryCaptureException;
+  errorHandler = ({ error, event }) => {
+    const eventId = SentryCaptureException(error, { extra: { event } });
+
+    return {
+      message: 'An error occurred',
+      eventId,
+    };
+  };
 } else {
   console.log('Sentry disabled in dev mode');
   errorHandler = (e) => {
