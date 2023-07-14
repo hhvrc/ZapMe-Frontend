@@ -2,7 +2,7 @@
 </script>
 
 <div
-  class="modal w-modal block h-auto space-y-4 p-4 shadow-xl bg-surface-100-800-token rounded-container-token"
+  class="modal bg-surface-100-800-token w-modal block h-auto space-y-4 p-4 shadow-xl rounded-container-token"
 >
   <header class="modal-header grid grid-cols-[1fr_1fr_auto] text-2xl font-bold">
     Select a GIF

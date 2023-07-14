@@ -53,7 +53,7 @@
         <svelte:fragment slot="content">
           <div class="flex items-center justify-evenly gap-2">
             <svg
-              class="inline fill-token"
+              class="fill-token inline"
               width="60px"
               height="60px"
               xmlns="http://www.w3.org/2000/svg"
@@ -68,7 +68,7 @@
               />
             </svg>
             <svg
-              class="inline fill-token"
+              class="fill-token inline"
               width="60px"
               height="60px"
               xmlns="http://www.w3.org/2000/svg"
@@ -80,7 +80,7 @@
               />
             </svg>
             <svg
-              class="inline fill-token"
+              class="fill-token inline"
               width="80px"
               height="80px"
               xmlns="http://www.w3.org/2000/svg"
@@ -97,7 +97,7 @@
               />
             </svg>
             <svg
-              class="inline fill-token"
+              class="fill-token inline"
               width="80px"
               height="80px"
               xmlns="http://www.w3.org/2000/svg"

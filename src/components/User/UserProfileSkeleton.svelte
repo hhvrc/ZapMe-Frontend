@@ -67,7 +67,7 @@
     <StatusIndicator
       onlineStatus={user.status}
       scale="large"
-      class="absolute bottom-0 right-0 rounded-full border-4 bg-surface-100-800-token border-surface-100-800-token"
+      class="bg-surface-100-800-token border-surface-100-800-token absolute bottom-0 right-0 rounded-full border-4"
     />
   </div>
 
@@ -75,7 +75,7 @@
     <slot name="header" />
   </div>
 </div>
-<div class="m-4 mt-1 overflow-hidden rounded-lg px-2 bg-surface-50-900-token">
+<div class="bg-surface-50-900-token m-4 mt-1 overflow-hidden rounded-lg px-2">
   <slot />
 </div>
 

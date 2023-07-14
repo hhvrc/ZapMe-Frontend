@@ -3,7 +3,7 @@
   <div id="avatar" class="bg-surface-100-800-token border-surface-100-800-token">
     <div id="banner" class="placeholder animate-pulse" />
     <div
-      class="placeholder !absolute bottom-0 right-0 !h-6 !w-6 animate-pulse rounded-full border-4 border-surface-100-800-token"
+      class="placeholder border-surface-100-800-token !absolute bottom-0 right-0 !h-6 !w-6 animate-pulse rounded-full border-4"
     />
   </div>
   <div class="h-full w-full overflow-hidden">
