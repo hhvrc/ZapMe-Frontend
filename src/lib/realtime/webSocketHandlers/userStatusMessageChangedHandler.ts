@@ -7,11 +7,12 @@ export const handleUserStatusMessageChanged: WebSocketMessageHandler = (cli, msg
   msg.payload(payload);
 
   const userId = payload.userId();
+  if (!userId) return;
 
   console.log(`User ${userId} changed status message`);
 
   UsersStore.updateUserById(userId, (usr) => {
-    usr.relation = UserRelationType.none;
+    usr.statusText = payload.statusMessage() ?? '';
     return usr;
   });
 };

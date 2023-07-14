@@ -7,11 +7,25 @@ export const handleUserRelationDetailsUpdated: WebSocketMessageHandler = (cli, m
   msg.payload(payload);
 
   const userId = payload.userId();
+  if (!userId) return;
 
   console.log(`User ${userId} changed relation details`);
 
   UsersStore.updateUserById(userId, (usr) => {
-    usr.relation = UserRelationType.none;
+    usr.isFavorite = payload.isFavorite();
+
+    usr.isMuted = payload.isMuted();
+
+    const nickname = payload.nickname();
+    if (nickname) {
+      usr.nickName = nickname;
+    }
+
+    const notes = payload.notes();
+    if (notes) {
+      usr.notes = notes;
+    }
+
     return usr;
   });
 };

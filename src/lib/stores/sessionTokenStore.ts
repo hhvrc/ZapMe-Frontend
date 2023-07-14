@@ -1,6 +1,6 @@
 import { browser } from '$app/environment';
 import type { AuthenticationResponse } from '$lib/api';
-import type { FastReadWritable } from '$lib/types';
+import type { FastReadWritable } from '$types';
 import jwt_decode from 'jwt-decode';
 import { writable, type Updater } from 'svelte/store';
 
